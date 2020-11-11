@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeOfLife", "TreeOfLife\TreeOfLife.csproj", "{66CA1E98-A11F-4B17-B862-6758334711E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66CA1E98-A11F-4B17-B862-6758334711E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CA1E98-A11F-4B17-B862-6758334711E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CA1E98-A11F-4B17-B862-6758334711E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66CA1E98-A11F-4B17-B862-6758334711E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86DBCA69-FC64-44FA-91E8-03582584A8C0}
+	EndGlobalSection
+EndGlobal
