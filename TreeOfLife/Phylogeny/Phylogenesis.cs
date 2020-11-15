@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -15,13 +15,138 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace TreeOfLife
 {
-    // 系统发生树。
-    internal static class PhylogeneticTree
+    // 系统发生学。
+    internal static class Phylogenesis
     {
-        private static Taxon _Root = new Taxon() { Category = TaxonomicCategory.Unranked }; // 假设作为的系统发生树的根的生物分类单元。
+        private static PhylogeneticTree _PhylogeneticTree = null;
 
-        public static Taxon Root => _Root;
+        private static string _FileName = null;
+
+        //
+
+        public static Taxon Root
+        {
+            get
+            {
+                if (_PhylogeneticTree is null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                //
+
+                return _PhylogeneticTree.Root;
+            }
+        }
+
+        public static string FileName => _FileName;
+
+        //
+
+        // 新建文件。
+        public static bool New()
+        {
+            _PhylogeneticTree = new PhylogeneticTree();
+            _FileName = null;
+
+            return true;
+        }
+
+        private static int _CheckFileVersion(string fileName)
+        {
+            return 1;
+        }
+
+        // 打开文件。
+        public static bool Open(string fileName)
+        {
+            _FileName = fileName;
+
+            try
+            {
+                if (_CheckFileVersion(_FileName) == 1)
+                {
+                    string jsonText = File.ReadAllText(fileName);
+
+                    JsonSerializerOptions options = new JsonSerializerOptions();
+                    options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+
+                    PhylogeneticUnwindV1 unwindObject = JsonSerializer.Deserialize<PhylogeneticUnwindV1>(jsonText, options);
+
+                    _PhylogeneticTree = unwindObject.ToPhylogeneticTree();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                _PhylogeneticTree = new PhylogeneticTree();
+                _FileName = null;
+
+#if DEBUG
+                throw;
+#else
+                return false;
+#endif
+            }
+        }
+
+        // 保存文件。
+        public static bool Save()
+        {
+            return SaveAs(_FileName);
+        }
+
+        // 另存为文件。
+        public static bool SaveAs(string fileName)
+        {
+            _FileName = fileName;
+
+            try
+            {
+                PhylogeneticUnwindV1 unwindObject = _PhylogeneticTree.Unwind();
+
+                JsonSerializerOptions options = new JsonSerializerOptions();
+                options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                options.WriteIndented = true;
+
+                string jsonText = JsonSerializer.Serialize(unwindObject, options);
+
+                File.WriteAllText(fileName, jsonText);
+
+                return true;
+            }
+            catch
+            {
+#if DEBUG
+                throw;
+#else
+                return false;
+#endif
+            }
+        }
+
+        // 关闭文件。
+        public static bool Close()
+        {
+            if (Save() && New())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

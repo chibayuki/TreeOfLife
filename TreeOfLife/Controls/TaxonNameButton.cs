@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -64,18 +64,28 @@ namespace TreeOfLife
 
         private void Panel_Main_Paint(object sender, PaintEventArgs e)
         {
-            Color borderColor = _BorderColor;
+            Color borderColor = _CategoryNameBackColor;
 
-            e.Graphics.DrawLine(new Pen(borderColor, 1F), new Point(_CategoryNameWidth, 0), new Point(_CategoryNameWidth, Panel_Main.Height));
             e.Graphics.DrawRectangle(new Pen(borderColor, 1F), new Rectangle(0, 0, Panel_Main.Width - 1, Panel_Main.Height - 1));
+        }
+
+        private void Label_CategoryName_Click(object sender, EventArgs e)
+        {
+            base.OnClick(e);
+        }
+
+        private void Label_TaxonName_Click(object sender, EventArgs e)
+        {
+            base.OnClick(e);
         }
 
         private void _SizeChanged()
         {
-            Label_CategoryName.Size = new Size(_CategoryNameWidth - 1, Label_TaxonName.Height = Panel_Main.Height - 2);
+            Label_CategoryName.Size = new Size(_CategoryNameWidth - 1, Panel_Main.Height - 2);
             Label_CategoryName.Location = new Point(1, 1);
-            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 2, Label_TaxonName.Height = Panel_Main.Height - 2);
-            Label_TaxonName.Location = new Point(Label_CategoryName.Right + 1, 1);
+
+            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 2, Panel_Main.Height - 2);
+            Label_TaxonName.Location = new Point(Label_CategoryName.Right, 1);
         }
 
         private void _FontChanged()
@@ -148,8 +158,6 @@ namespace TreeOfLife
         private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_DarkTheme ? 60 : 40) : 50).ToColor();
 
         private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToColor();
-
-        private Color _BorderColor => _CategoryNameBackColor;
 
         public Taxon Taxon
         {

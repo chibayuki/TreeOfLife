@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -43,6 +43,7 @@ namespace TreeOfLife
 
                 _NameLabel.Text = _Name;
                 _NameLabel.TextAlign = ContentAlignment.MiddleCenter;
+                _NameLabel.AutoEllipsis = true;
                 _NameLabel.Location = new Point(0, 0);
             }
 
@@ -95,12 +96,20 @@ namespace TreeOfLife
 
             public List<TaxonNameButton> Buttons => _Buttons;
 
-            public void UpdateFont(Font font)
+            public void UpdateFont(Font groupName, Font anyCategory, Font basicPrimaryCategory, Font anyCategoryBellowGenus, Font basicPrimaryCategoryBellowGenus)
             {
-                _NameLabel.Font = font;
+                _NameLabel.Font = groupName;
 
                 for (int i = 0; i < _Buttons.Count; i++)
                 {
+                    Taxon taxon = _Buttons[i].Taxon;
+
+                    TaxonomicCategory category = taxon.Category;
+                    bool basicPrimary = category.IsBasicPrimaryCategory();
+                    bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+
+                    Font font = (bellowGenus ? (basicPrimary ? basicPrimaryCategoryBellowGenus : anyCategoryBellowGenus) : (basicPrimary ? basicPrimaryCategory : anyCategory));
+
                     _Buttons[i].Font = font;
                 }
             }
@@ -213,9 +222,20 @@ namespace TreeOfLife
 
         private void _UpdateGroupFont()
         {
+            FontFamily family = this.Font.FontFamily;
+            float emSize = this.Font.Size;
+            GraphicsUnit unit = GraphicsUnit.Point;
+            byte gdiCharSet = (byte)134;
+
+            Font groupName = new Font(family, emSize, FontStyle.Regular, unit, gdiCharSet);
+            Font anyCategory = new Font(family, emSize, FontStyle.Regular, unit, gdiCharSet);
+            Font basicPrimaryCategory = new Font(family, emSize, FontStyle.Bold, unit, gdiCharSet);
+            Font anyCategoryBellowGenus = new Font(family, emSize, FontStyle.Italic, unit, gdiCharSet);
+            Font basicPrimaryCategoryBellowGenus = new Font(family, emSize, FontStyle.Bold | FontStyle.Italic, unit, gdiCharSet);
+
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].UpdateFont(this.Font);
+                _Groups[i].UpdateFont(groupName, anyCategory, basicPrimaryCategory, anyCategoryBellowGenus, basicPrimaryCategoryBellowGenus);
             }
         }
 
@@ -459,6 +479,19 @@ namespace TreeOfLife
             //
 
             _Groups[groupIndex].Buttons.RemoveAt(buttonIndex);
+        }
+
+        // 删除所有组与按钮。
+        public void Clear()
+        {
+            if (!_Editing)
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Groups.Clear();
         }
 
         // 开始编辑。

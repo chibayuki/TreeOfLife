@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -32,6 +32,8 @@ namespace TreeOfLife
         private string _ChineseName = string.Empty; // 中文名。
         private List<string> _Synonym = new List<string>(); // 异名、别名、旧名等。
         private List<string> _Tag = new List<string>(); // 标签。
+        private string _Comment = string.Empty; // 注释。
+        private List<string> _Url = new List<string>(); // 链接。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
         private TaxonType _TaxonType = TaxonType.Monophyly; // 类型。
@@ -42,10 +44,8 @@ namespace TreeOfLife
         private Taxon _Parent = null; // 父类群（祖先）。
         private List<Taxon> _Children = new List<Taxon>(); // 子类群（后代）。
 
-        private string _Comment = string.Empty; // 注释。
-        private List<string> _Url = new List<string>(); // 链接。
-
         private int _Level = 0; // 当前类群与顶级类群的距离。
+        private int _Index = -1; // 当前类群在姊妹类群中的次序。
 
         //
 
@@ -57,104 +57,61 @@ namespace TreeOfLife
 
         public string BotanicalName
         {
-            get
-            {
-                return _BotanicalName;
-            }
-
-            set
-            {
-                _BotanicalName = value;
-            }
+            get => _BotanicalName;
+            set => _BotanicalName = value;
         }
 
         public string ChineseName
         {
-            get
-            {
-                return _ChineseName;
-            }
-
-            set
-            {
-                _ChineseName = value;
-            }
+            get => _ChineseName;
+            set => _ChineseName = value;
         }
 
         public List<string> Synonym => _Synonym;
 
         public List<string> Tag => _Tag;
 
-        public TaxonomicCategory Category
+        public string Comment
         {
-            get
-            {
-                return _Category;
-            }
-
-            set
-            {
-                _Category = value;
-            }
+            get => _Comment;
+            set => _Comment = value;
         }
 
-        public TaxonType TaxonType
-        {
-            get
-            {
-                return _TaxonType;
-            }
+        private List<string> Url => _Url;
 
-            set
-            {
-                _TaxonType = value;
-            }
+        public TaxonomicCategory Category
+        {
+            get => _Category;
+            set => _Category = value;
+        }
+
+        private TaxonType TaxonType
+        {
+            get => _TaxonType;
+            set => _TaxonType = value;
         }
 
         public bool IsExtinct
         {
-            get
-            {
-                return _IsExtinct;
-            }
-
-            set
-            {
-                _IsExtinct = value;
-            }
+            get => _IsExtinct;
+            set => _IsExtinct = value;
         }
 
         public bool InDoubt
         {
-            get
-            {
-                return _InDoubt;
-            }
-
-            set
-            {
-                _InDoubt = value;
-            }
+            get => _InDoubt;
+            set => _InDoubt = value;
         }
 
         public Taxon Parent => _Parent;
 
         public IReadOnlyList<Taxon> Children => _Children;
 
-        public string Comment
-        {
-            get
-            {
-                return _Comment;
-            }
+        // 获取当前类群与顶级类群的距离。
+        public int Level => _Level;
 
-            set
-            {
-                _Comment = value;
-            }
-        }
-
-        public List<string> Url => _Url;
+        // 获取当前类群在姊妹类群中的次序。
+        public int Index => _Index;
 
         //
 
@@ -178,25 +135,6 @@ namespace TreeOfLife
 
         // 判断当前类群是否为顶级类群。
         public bool IsRoot => (_Parent is null);
-
-        // 获取当前类群与顶级类群的距离。
-        public int Level => _Level;
-
-        // 获取当前类群在父类群的所有子类群中的次序。
-        public int Index
-        {
-            get
-            {
-                if (_Parent is null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _Parent._Children.IndexOf(this);
-                }
-            }
-        }
 
         //
 
@@ -262,6 +200,22 @@ namespace TreeOfLife
             }
         }
 
+        // 修复当前类群、姊妹类群的次序。
+        public void RepairIndex()
+        {
+            if (_Parent is null)
+            {
+                _Index = -1;
+            }
+            else
+            {
+                for (int i = 0; i < _Parent._Children.Count; i++)
+                {
+                    _Parent._Children[i]._Index = i;
+                }
+            }
+        }
+
         // 递归地修复子类群的继承关系。
         public void RepairInheritance()
         {
@@ -293,6 +247,7 @@ namespace TreeOfLife
             _Parent._Children.Add(this);
 
             RepairLevel();
+            RepairIndex();
         }
 
         // 变更父类群。
@@ -314,6 +269,7 @@ namespace TreeOfLife
             _Parent._Children.Insert(index, this);
 
             RepairLevel();
+            RepairIndex();
         }
 
         // 添加一个上层父类群。
@@ -327,6 +283,9 @@ namespace TreeOfLife
             _Parent = parent;
 
             parent.RepairLevel();
+
+            parent._Index = _Index;
+            _Index = 0;
 
             return parent;
         }
@@ -343,24 +302,42 @@ namespace TreeOfLife
 
             parent.RepairLevel();
 
+            parent._Index = 0;
+
             return parent;
         }
 
         // 移动一个子类群。
         public void MoveChild(int oldIndex, int newIndex)
         {
+            if (_Children.Count <= 0 || (oldIndex < 0 || oldIndex >= _Children.Count) || (newIndex < 0 || newIndex >= _Children.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
             if (oldIndex != newIndex)
             {
                 Taxon child = _Children[oldIndex];
 
                 _Children.RemoveAt(oldIndex);
                 _Children.Insert(newIndex, child);
+
+                child.RepairIndex();
             }
         }
 
         // 交换两个子类群。
         public void SwapChild(int index1, int index2)
         {
+            if (_Children.Count <= 0 || (index1 < 0 || index1 >= _Children.Count) || (index2 < 0 || index2 >= _Children.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
             if (index1 != index2)
             {
                 Taxon child1 = _Children[index1];
@@ -368,6 +345,9 @@ namespace TreeOfLife
 
                 _Children[index2] = child1;
                 _Children[index1] = child2;
+
+                child1._Index = index2;
+                child2._Index = index1;
             }
         }
 
@@ -380,6 +360,7 @@ namespace TreeOfLife
 
             child._Parent = this;
             child._Level = _Level + 1;
+            child._Index = _Children.Count - 1;
 
             return child;
         }
@@ -394,6 +375,8 @@ namespace TreeOfLife
             child._Parent = this;
             child._Level = _Level + 1;
 
+            child.RepairIndex();
+
             return child;
         }
 
@@ -403,6 +386,9 @@ namespace TreeOfLife
             if (!(_Parent is null))
             {
                 _Parent._Children.Remove(this);
+
+                RepairIndex();
+
                 _Parent = null;
             }
         }

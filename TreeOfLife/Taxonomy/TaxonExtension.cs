@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -249,6 +249,56 @@ namespace TreeOfLife
         public static TaxonomicCategory GetInheritedBasicCategory(this Taxon taxon)
         {
             return taxon.GetInheritedCategory().BasicCategory();
+        }
+
+        // 获取继承的主要分类阶元。
+        public static TaxonomicCategory GetInheritedPrimaryCategory(this Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.Category.IsPrimaryCategory())
+            {
+                return taxon.Category;
+            }
+            else
+            {
+                Taxon nearestPrimaryCategoryParent = null;
+                Taxon parent = taxon.Parent;
+
+                while (!(parent is null))
+                {
+                    if (parent.Category.IsPrimaryCategory())
+                    {
+                        nearestPrimaryCategoryParent = parent;
+
+                        break;
+                    }
+                    else
+                    {
+                        parent = parent.Parent;
+                    }
+                }
+
+                if (nearestPrimaryCategoryParent is null)
+                {
+                    return taxon.Root.Category;
+                }
+                else
+                {
+                    return nearestPrimaryCategoryParent.Category;
+                }
+            }
+        }
+
+        // 获取继承的基本主要分类阶元。
+        public static TaxonomicCategory GetInheritedBasicPrimaryCategory(this Taxon taxon)
+        {
+            return taxon.GetInheritedPrimaryCategory().BasicCategory();
         }
 
         //

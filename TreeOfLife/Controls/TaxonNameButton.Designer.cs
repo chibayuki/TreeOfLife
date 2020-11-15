@@ -48,6 +48,7 @@
             // 
             // Label_TaxonName
             // 
+            this.Label_TaxonName.AutoEllipsis = true;
             this.Label_TaxonName.BackColor = System.Drawing.Color.Transparent;
             this.Label_TaxonName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Label_TaxonName.ForeColor = System.Drawing.Color.White;
@@ -58,9 +59,11 @@
             this.Label_TaxonName.TabIndex = 0;
             this.Label_TaxonName.Text = "TN";
             this.Label_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_TaxonName.Click += new System.EventHandler(this.Label_TaxonName_Click);
             // 
             // Label_CategoryName
             // 
+            this.Label_CategoryName.AutoEllipsis = true;
             this.Label_CategoryName.BackColor = System.Drawing.Color.Transparent;
             this.Label_CategoryName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Label_CategoryName.ForeColor = System.Drawing.Color.White;
@@ -71,6 +74,7 @@
             this.Label_CategoryName.TabIndex = 0;
             this.Label_CategoryName.Text = "CN";
             this.Label_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_CategoryName.Click += new System.EventHandler(this.Label_CategoryName_Click);
             // 
             // TaxonNameButton
             // 

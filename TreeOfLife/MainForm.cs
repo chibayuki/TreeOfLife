@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -26,7 +26,7 @@ using Theme = Com.WinForm.Theme;
 
 namespace TreeOfLife
 {
-    public partial class MainForm : Form
+    internal partial class MainForm : Form
     {
         #region 窗口定义
 
@@ -103,9 +103,16 @@ namespace TreeOfLife
 
             //
 
-            Taxon root = PhylogeneticTree.Root;
+            const string fileName = @".\Phylogenesis.json";
 
-            Taxon t = root.AddChild();
+            DateTime dt = DateTime.Now;
+            Phylogenesis.Open(fileName);
+            //Phylogenesis.New();
+            Me.Caption = (DateTime.Now - dt).TotalMilliseconds + " ms";
+
+            Taxon root = Phylogenesis.Root;
+
+            /*Taxon t = root.AddChild();
             t.ParseCurrent("露卡 LUCA");
 
             t = t.AddChild();
@@ -232,13 +239,26 @@ namespace TreeOfLife
             t.ParseCurrent("支 Pantherapsida");
 
             t = t.AddChild();
-            t.ParseCurrent("楔齿龙超科 Sphenacodontoidea");
+            t.ParseCurrent("楔齿龙超科 Sphenacodontoidea");*/
 
-            Taxon Therapsida = t.AddChild();
-            Therapsida.ParseCurrent("兽孔目 Therapsida");
+            Taxon Therapsida;
+
+            /*Therapsida = t.AddChild();
+            Therapsida.ParseCurrent("兽孔目 Therapsida");*/
+
+            Therapsida = root;
+            while (Therapsida.Children.Count > 0)
+            {
+                Therapsida = Therapsida.Children[0];
+
+                if (Therapsida.ChineseName == "兽孔目")
+                {
+                    break;
+                }
+            }
 
             List<Taxon> parents;
-            parents = Therapsida.GetSummaryParents();
+            parents = Therapsida.GetSummaryParents(false);
             //parents = t.GetParents(TaxonParentFilterCondition.AnyTaxon(true));
             parents.Reverse();
             parents.Add(Therapsida);
@@ -291,7 +311,7 @@ namespace TreeOfLife
                 "†珍稀兽属 Raranimus",
                 "†巴莫鳄亚目 Biarmosuchia",
                 "真兽孔类 Eutherapsida");*/
-            Therapsida.ParseChildren(
+            /*Therapsida.ParseChildren(
                 "?†四角兽属 Tetraceratops",
                 "†珍稀兽属 Raranimus",
                 "†巴莫鳄亚目 Biarmosuchia",
@@ -299,7 +319,7 @@ namespace TreeOfLife
                 "†异齿亚目 Anomodontia",
                 "†丽齿兽亚目 Gorgonopsia",
                 "†兽头亚目 Therocephalia",
-                "犬齿兽亚目 Cynodontia");
+                "犬齿兽亚目 Cynodontia");*/
             taxonNameButtonGroup_Children.StartEditing();
             foreach (var item in Therapsida.GetNamedChildren())
             {
@@ -315,6 +335,8 @@ namespace TreeOfLife
             taxonNameButtonGroup_Children.Width = taxonNameButtonGroup_Parents.Width;
             taxonNameButtonGroup_Children.AutoSize = true;
             taxonNameButtonGroup_Children.FinishEditing();
+
+            Phylogenesis.SaveAs(fileName);
 
             Action<string, TaxonNameButton[]> setTaxonNameButton = (taxonName, taxonNameButtons) =>
             {

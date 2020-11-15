@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.112.1000.M2.201110-2050
+Version 1.0.200.1000.M3.201111-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -92,7 +92,7 @@ namespace TreeOfLife
         //
 
         // 获取父类群摘要。
-        public static List<Taxon> GetSummaryParents(this Taxon taxon)
+        public static List<Taxon> GetSummaryParents(this Taxon taxon, bool editMode)
         {
             if (taxon is null)
             {
@@ -109,7 +109,7 @@ namespace TreeOfLife
                 if (taxon.Category.IsPrimaryCategory())
                 {
                     result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
                         recursiveInsteadOfLoop: false,
                         TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(taxon.Category, allowEquals: false)));
                 }
@@ -117,7 +117,7 @@ namespace TreeOfLife
                 else
                 {
                     result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
                         recursiveInsteadOfLoop: false,
                         TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
                 }
@@ -132,7 +132,7 @@ namespace TreeOfLife
                         result.AddRange(parent.GetParents(
                             TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
                             recursiveInsteadOfLoop: true,
-                            TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: false)));
+                            TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: true)));
                     }
                     // 如果已经上溯到界，继续上溯到最高级别
                     else
@@ -147,7 +147,7 @@ namespace TreeOfLife
                 else
                 {
                     result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
                         recursiveInsteadOfLoop: false,
                         TaxonParentFilterTerminationCondition.UntilRoot()));
                 }
