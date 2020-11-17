@@ -105,259 +105,82 @@ namespace TreeOfLife
 
             const string fileName = @".\Phylogenesis.json";
 
-            DateTime dt = DateTime.Now;
-            Phylogenesis.Open(fileName);
-            //Phylogenesis.New();
-            Me.Caption = (DateTime.Now - dt).TotalMilliseconds + " ms";
-
-            Taxon root = Phylogenesis.Root;
-
-            /*Taxon t = root.AddChild();
-            t.ParseCurrent("露卡 LUCA");
-
-            t = t.AddChild();
-            t.ParseCurrent("新壁总域 Neomura");
-
-            t = t.AddChild();
-            t.ParseCurrent("真核域 Eukaryota");
-
-            t = t.AddChild();
-            t.ParseCurrent("单鞭毛生物 Unikonta");
-
-            t = t.AddChild();
-            t.ParseCurrent("后鞭毛生物 Opisthokonta");
-
-            t = t.AddChild();
-            t.ParseCurrent("动物总界 Holozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("蜷丝动物 Filozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("聚胞动物 Apoikozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("动物界 Animalia");
-
-            t = t.AddChild();
-            t.ParseCurrent("真后生动物亚界 Eumetazoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("副同源异形基因动物 ParaHoxozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("浮浪幼虫样动物 Planulozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("两侧对称动物 Bilateria");
-
-            t = t.AddChild();
-            t.ParseCurrent("肾管动物 Nephrozoa");
-
-            t = t.AddChild();
-            t.ParseCurrent("后口动物总门 Deuterostomia");
-
-            t = t.AddChild();
-            t.ParseCurrent("脊索动物门 Chordata");
-
-            t = t.AddChild();
-            t.ParseCurrent("嗅球类 Olfactores");
-
-            t = t.AddChild();
-            t.ParseCurrent("有头动物 Craniata");
-
-            t = t.AddChild();
-            t.ParseCurrent("脊椎动物亚门 Vertebrata");
-
-            t = t.AddChild();
-            t.ParseCurrent("有颌下门 Gnathostomata");
-
-            t = t.AddChild();
-            t.ParseCurrent("真有颌小门 Eugnathostomata");
-
-            t = t.AddChild();
-            t.ParseCurrent("真口类 Teleostomi");
-
-            t = t.AddChild();
-            t.ParseCurrent("硬骨鱼高纲 Osteichthyes");
-
-            t = t.AddChild();
-            t.ParseCurrent("肉鳍鱼总纲 Sarcopterygii");
-
-            t = t.AddChild();
-            t.ParseCurrent("扇鳍类 Rhipidistia");
-
-            t = t.AddChild();
-            t.ParseCurrent("肺鱼四足纲 Dipnotetrapodomorpha");
-
-            t = t.AddChild();
-            t.ParseCurrent("四足形亚纲 Tetrapodomorpha");
-
-            t = t.AddChild();
-            t.ParseCurrent("骨鳞鱼总目 Osteolepidida");
-
-            t = t.AddChild();
-            t.ParseCurrent("始四足类 Eotetrapodiformes");
-
-            t = t.AddChild();
-            t.ParseCurrent("希望螈类 Elpistostegalia");
-
-            t = t.AddChild();
-            t.ParseCurrent("坚头类 Stegocephalia");
-
-            t = t.AddChild();
-            t.ParseCurrent("四足总纲 Tetrapoda");
-
-            t = t.AddChild();
-            t.ParseCurrent("爬行形类 Reptiliomorpha");
-
-            t = t.AddChild();
-            t.ParseCurrent("羊膜动物 Amniota");
-
-            t = t.AddChild();
-            t.ParseCurrent("合弓纲 Synapsida");
-
-            t = t.AddChild();
-            t.ParseCurrent("盘龙目 Pelycosauria");
-
-            t = t.AddChild();
-            t.ParseCurrent("真盘龙亚目 Eupelycosauria");
-
-            t = t.AddChild();
-            t.ParseCurrent("支 Metopophora");
-
-            t = t.AddChild();
-            t.ParseCurrent("支 Haptodontiformes");
-
-            t = t.AddChild();
-            t.ParseCurrent("楔齿龙形态类 Sphenacomorpha");
-
-            t = t.AddChild();
-            t.ParseCurrent("楔齿龙类 Sphenacodontia");
-
-            t = t.AddChild();
-            t.ParseCurrent("支 Pantherapsida");
-
-            t = t.AddChild();
-            t.ParseCurrent("楔齿龙超科 Sphenacodontoidea");*/
-
-            Taxon Therapsida;
-
-            /*Therapsida = t.AddChild();
-            Therapsida.ParseCurrent("兽孔目 Therapsida");*/
-
-            Therapsida = root;
-            while (Therapsida.Children.Count > 0)
+            if (Phylogenesis.Open(fileName))
             {
-                Therapsida = Therapsida.Children[0];
-
-                if (Therapsida.ChineseName == "兽孔目")
+                Taxon Therapsida = Phylogenesis.Root;
+                while (Therapsida.Children.Count > 0)
                 {
-                    break;
-                }
-            }
+                    Therapsida = Therapsida.Children[0];
 
-            List<Taxon> parents;
-            parents = Therapsida.GetSummaryParents(false);
-            //parents = t.GetParents(TaxonParentFilterCondition.AnyTaxon(true));
-            parents.Reverse();
-            parents.Add(Therapsida);
-
-            taxonNameButtonGroup_Parents.StartEditing();
-            taxonNameButtonGroup_Parents.IsDarkTheme = (Me.Theme == Theme.DarkGray || Me.Theme == Theme.Black);
-            int index = 0;
-            int gIndex = 0;
-            TaxonomicCategory currentCategory = TaxonomicCategory.Unranked;
-            while (index < parents.Count)
-            {
-                Taxon _t = parents[index];
-
-                if (index == 0)
-                {
-                    currentCategory = _t.Category.BasicCategory();
-
-                    taxonNameButtonGroup_Parents.AddGroup(((currentCategory.IsPrimaryCategory() || currentCategory.IsSecondaryCategory()) ? currentCategory.Name() : string.Empty), _t.GetThemeColor());
-                }
-                else
-                {
-                    TaxonomicCategory basicCategory = _t.GetInheritedBasicCategory();
-
-                    if (currentCategory != basicCategory)
+                    if (Therapsida.ChineseName == "兽孔目")
                     {
-                        currentCategory = basicCategory;
-
-                        taxonNameButtonGroup_Parents.AddGroup(currentCategory.Name(), _t.GetThemeColor());
-
-                        gIndex++;
+                        break;
                     }
                 }
 
-                TaxonNameButton button = new TaxonNameButton() { Taxon = _t };
+                List<Taxon> parents;
+                parents = Therapsida.GetSummaryParents(false);
+                parents.Reverse();
+                parents.Add(Therapsida);
 
-                if (index == parents.Count - 1)
+                taxonNameButtonGroup_Parents.StartEditing();
+                taxonNameButtonGroup_Parents.IsDarkTheme = (Me.Theme == Theme.DarkGray || Me.Theme == Theme.Black);
+                int groupIndex = 0;
+                TaxonomicCategory currentCategory = TaxonomicCategory.Unranked;
+                for (int i = 0; i < parents.Count; i++)
                 {
-                    button.Checked = true;
+                    Taxon taxon = parents[i];
+
+                    if (i == 0)
+                    {
+                        currentCategory = taxon.Category.BasicCategory();
+
+                        taxonNameButtonGroup_Parents.AddGroup(((currentCategory.IsPrimaryCategory() || currentCategory.IsSecondaryCategory()) ? currentCategory.Name() : string.Empty), taxon.GetThemeColor());
+                    }
+                    else
+                    {
+                        TaxonomicCategory basicCategory = taxon.GetInheritedBasicCategory();
+
+                        if (currentCategory != basicCategory)
+                        {
+                            currentCategory = basicCategory;
+
+                            taxonNameButtonGroup_Parents.AddGroup(currentCategory.Name(), taxon.GetThemeColor());
+
+                            groupIndex++;
+                        }
+                    }
+
+                    TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
+
+                    if (i == parents.Count - 1)
+                    {
+                        button.Checked = true;
+                    }
+
+                    taxonNameButtonGroup_Parents.AddButton(button, groupIndex);
                 }
+                taxonNameButtonGroup_Parents.AutoSize = true;
+                taxonNameButtonGroup_Parents.FinishEditing();
 
-                taxonNameButtonGroup_Parents.AddButton(button, gIndex);
-
-                index++;
-            }
-            taxonNameButtonGroup_Parents.AutoSize = true;
-            taxonNameButtonGroup_Parents.FinishEditing();
-
-            /*Therapsida.ParseChildren(
-                "?†四角兽属 Tetraceratops",
-                "†珍稀兽属 Raranimus",
-                "†巴莫鳄亚目 Biarmosuchia",
-                "真兽孔类 Eutherapsida");*/
-            /*Therapsida.ParseChildren(
-                "?†四角兽属 Tetraceratops",
-                "†珍稀兽属 Raranimus",
-                "†巴莫鳄亚目 Biarmosuchia",
-                "†恐头兽亚目 Dinocephalia",
-                "†异齿亚目 Anomodontia",
-                "†丽齿兽亚目 Gorgonopsia",
-                "†兽头亚目 Therocephalia",
-                "犬齿兽亚目 Cynodontia");*/
-            taxonNameButtonGroup_Children.StartEditing();
-            foreach (var item in Therapsida.GetNamedChildren())
-            {
-                ColorX color = item.GetThemeColor();
-
-                taxonNameButtonGroup_Children.AddGroup(string.Empty, color);
-
-                TaxonNameButton button = new TaxonNameButton() { Taxon = item };
-
-                taxonNameButtonGroup_Children.AddButton(button, item.Index);
-            }
-            taxonNameButtonGroup_Children.Location = new Point(taxonNameButtonGroup_Parents.Left, taxonNameButtonGroup_Parents.Bottom + 20);
-            taxonNameButtonGroup_Children.Width = taxonNameButtonGroup_Parents.Width;
-            taxonNameButtonGroup_Children.AutoSize = true;
-            taxonNameButtonGroup_Children.FinishEditing();
-
-            Phylogenesis.SaveAs(fileName);
-
-            Action<string, TaxonNameButton[]> setTaxonNameButton = (taxonName, taxonNameButtons) =>
-            {
-                Taxon taxon = new Taxon();
-                taxon.ParseCurrent(taxonName);
-
-                foreach (TaxonNameButton button in taxonNameButtons)
+                taxonNameButtonGroup_Children.StartEditing();
+                foreach (var item in Therapsida.GetNamedChildren())
                 {
-                    button.Taxon = taxon;
-                    button.IsDarkTheme = (Me.Theme == Theme.DarkGray || Me.Theme == Theme.Black);
-                    button.ThemeColor = taxon.GetThemeColor();
+                    ColorX color = item.GetThemeColor();
+
+                    taxonNameButtonGroup_Children.AddGroup(string.Empty, color);
+
+                    TaxonNameButton button = new TaxonNameButton() { Taxon = item };
+
+                    taxonNameButtonGroup_Children.AddButton(button, item.Index);
                 }
-            };
-            setTaxonNameButton("真核域 Eukaryota", new TaxonNameButton[] { taxonNameButtonA1, taxonNameButtonB1 });
-            setTaxonNameButton("动物界 Animalia", new TaxonNameButton[] { taxonNameButtonA2, taxonNameButtonB2 });
-            setTaxonNameButton("脊索动物门 Chordata", new TaxonNameButton[] { taxonNameButtonA3, taxonNameButtonB3 });
-            setTaxonNameButton("哺乳纲 Mammalia", new TaxonNameButton[] { taxonNameButtonA4, taxonNameButtonB4 });
-            setTaxonNameButton("食肉目 Carnivora", new TaxonNameButton[] { taxonNameButtonA5, taxonNameButtonB5 });
-            setTaxonNameButton("犬科 Canidae", new TaxonNameButton[] { taxonNameButtonA6, taxonNameButtonB6 });
-            setTaxonNameButton("犬属 Canis", new TaxonNameButton[] { taxonNameButtonA7, taxonNameButtonB7 });
-            setTaxonNameButton("犬亚种 Familiaris", new TaxonNameButton[] { taxonNameButtonA8, taxonNameButtonB8 });
+                taxonNameButtonGroup_Children.Location = new Point(taxonNameButtonGroup_Parents.Left, taxonNameButtonGroup_Parents.Bottom + 20);
+                taxonNameButtonGroup_Children.Width = taxonNameButtonGroup_Parents.Width;
+                taxonNameButtonGroup_Children.AutoSize = true;
+                taxonNameButtonGroup_Children.FinishEditing();
+
+                Phylogenesis.SaveAs(fileName);
+            }
         }
 
         private void Me_Closed(object sender, EventArgs e)

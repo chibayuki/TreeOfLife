@@ -130,14 +130,14 @@ namespace TreeOfLife
             {
                 if (_Buttons.Count > 0)
                 {
-                    _GroupPanel.Size = new Size(groupWidth, _Buttons.Count * buttonHeight + (_Buttons.Count - 1) * (buttonPadding.Top + buttonPadding.Bottom));
+                    _GroupPanel.Size = new Size(groupWidth, _Buttons.Count * buttonHeight + (_Buttons.Count - 1) * buttonPadding.Vertical);
                     _NameLabel.Size = new Size(groupNameWidth, _GroupPanel.Height);
 
                     for (int i = 0; i < _Buttons.Count; i++)
                     {
                         _Buttons[i].CategoryNameWidth = categoryNameWidth;
-                        _Buttons[i].Size = new Size(_GroupPanel.Width - _NameLabel.Right - (buttonPadding.Left + buttonPadding.Right), buttonHeight);
-                        _Buttons[i].Location = new Point(_NameLabel.Right + buttonPadding.Left, (i > 0 ? _Buttons[i - 1].Bottom + (buttonPadding.Top + buttonPadding.Bottom) : 0));
+                        _Buttons[i].Size = new Size(_GroupPanel.Width - _NameLabel.Right - buttonPadding.Horizontal, buttonHeight);
+                        _Buttons[i].Location = new Point(_NameLabel.Right + buttonPadding.Left, (i > 0 ? _Buttons[i - 1].Bottom + buttonPadding.Vertical : 0));
                     }
                 }
                 else
@@ -264,12 +264,12 @@ namespace TreeOfLife
         {
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].UpdateLayout(this.Width - (_GroupPadding.Left + _GroupPadding.Right), _GroupNameWidth, _CategoryNameWidth, _ButtonHeight, _ButtonPadding);
+                _Groups[i].UpdateLayout(this.Width - _GroupPadding.Horizontal, _GroupNameWidth, _CategoryNameWidth, _ButtonHeight, _ButtonPadding);
             }
 
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, (i > 0 ? _Groups[i - 1].GroupPanel.Bottom + (_GroupPadding.Top + _GroupPadding.Bottom) : 0));
+                _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, (i > 0 ? _Groups[i - 1].GroupPanel.Bottom + _GroupPadding.Vertical : 0));
             }
 
             if (this.AutoSize)

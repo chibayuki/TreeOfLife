@@ -289,8 +289,8 @@ namespace TreeOfLife
 
         private TaxonomicCategory _Category; // 分类阶元。
 
-        private bool _IsExtinct; // 已灭绝。
-        private bool _InDoubt; // 分类地位存疑。
+        private int _IsExtinct; // 已灭绝。
+        private int _InDoubt; // 分类地位存疑。
 
         private List<int> _ParentsIndex;
         private int _Index; // 当前类群在姊妹类群中的次序。
@@ -346,14 +346,14 @@ namespace TreeOfLife
         }
 
         [JsonPropertyName("EX")]
-        public bool IsExtinct
+        public int IsExtinct
         {
             get => _IsExtinct;
             set => _IsExtinct = value;
         }
 
         [JsonPropertyName("Doubt")]
-        public bool InDoubt
+        public int InDoubt
         {
             get => _InDoubt;
             set => _InDoubt = value;
@@ -384,8 +384,8 @@ namespace TreeOfLife
 
                 Category = _ConvertCategory(_Category),
 
-                IsExtinct = _IsExtinct,
-                InDoubt = _InDoubt,
+                IsExtinct = Convert.ToBoolean(_IsExtinct),
+                InDoubt = Convert.ToBoolean(_InDoubt),
 
                 Comment = _Comment
             };
@@ -415,8 +415,8 @@ namespace TreeOfLife
 
                 _Category = _ConvertCategory(taxon.Category),
 
-                _IsExtinct = taxon.IsExtinct,
-                _InDoubt = taxon.InDoubt,
+                _IsExtinct = Convert.ToInt32(taxon.IsExtinct),
+                _InDoubt = Convert.ToInt32(taxon.InDoubt),
 
                 _ParentsIndex = new List<int>(taxon.Level),
                 _Index = taxon.Index
@@ -450,10 +450,10 @@ namespace TreeOfLife
 
         //
 
-        [JsonPropertyName("FileVersion")]
+        [JsonPropertyName(Phylogenesis.FileVersionJsonPropertyName)]
         public int FileVersion => 1;
 
-        [JsonPropertyName("AppVersion")]
+        [JsonPropertyName(Phylogenesis.AppVersionJsonPropertyName)]
         public string AppVersion => System.Windows.Forms.Application.ProductVersion;
 
         [JsonPropertyName("Taxons")]

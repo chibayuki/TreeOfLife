@@ -138,50 +138,6 @@ namespace TreeOfLife
 
         //
 
-        public override bool Equals(object obj)
-        {
-            return object.ReferenceEquals(this, obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (_InDoubt)
-            {
-                sb.Append('?');
-            }
-
-            if (_IsExtinct)
-            {
-                sb.Append('†');
-            }
-
-            if (!string.IsNullOrWhiteSpace(_ChineseName))
-            {
-                sb.Append(_ChineseName);
-            }
-            else
-            {
-                sb.Append(_Category.Name());
-            }
-
-            if (!string.IsNullOrWhiteSpace(_BotanicalName))
-            {
-                sb.Append(' ');
-                sb.Append(_BotanicalName);
-            }
-
-            return sb.ToString();
-        }
-
-        //
-
         // 递归地修复当前类群、子类群与顶级类群的距离。
         public void RepairLevel()
         {

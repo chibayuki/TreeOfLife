@@ -96,44 +96,8 @@ namespace TreeOfLife
 
         private void _TaxonChanged()
         {
-            if (_Taxon is null || _Taxon.IsAnonymous())
-            {
-                Label_CategoryName.Text = string.Empty;
-                Label_TaxonName.Text = string.Empty;
-            }
-            else
-            {
-                Label_CategoryName.Text = TaxonomicCategoryChineseName.GetCategoryName(_Taxon.Category);
-
-                StringBuilder taxonName = new StringBuilder();
-
-                if (_Taxon.InDoubt)
-                {
-                    taxonName.Append('?');
-                }
-
-                if (_Taxon.IsExtinct)
-                {
-                    taxonName.Append('†');
-                }
-
-                if (!string.IsNullOrWhiteSpace(_Taxon.ChineseName))
-                {
-                    taxonName.Append(_Taxon.ChineseName);
-
-                    if (!string.IsNullOrWhiteSpace(_Taxon.BotanicalName))
-                    {
-                        taxonName.Append(' ');
-                        taxonName.Append(_Taxon.BotanicalName);
-                    }
-                }
-                else if (!string.IsNullOrWhiteSpace(_Taxon.BotanicalName))
-                {
-                    taxonName.Append(_Taxon.BotanicalName);
-                }
-
-                Label_TaxonName.Text = taxonName.ToString();
-            }
+            Label_CategoryName.Text = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
+            Label_TaxonName.Text = _Taxon.ShortName();
 
             Label_CategoryName.ForeColor = _CategoryNameForeColor;
             Label_CategoryName.BackColor = _CategoryNameBackColor;
@@ -159,6 +123,7 @@ namespace TreeOfLife
 
         private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToColor();
 
+        [Browsable(false)]
         public Taxon Taxon
         {
             get
@@ -204,6 +169,7 @@ namespace TreeOfLife
             }
         }
 
+        [Browsable(false)]
         public ColorX ThemeColor
         {
             get

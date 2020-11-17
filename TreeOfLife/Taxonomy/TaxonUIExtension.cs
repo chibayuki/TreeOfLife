@@ -89,8 +89,6 @@ namespace TreeOfLife
             }
         }
 
-        //
-
         // 获取父类群摘要。
         public static List<Taxon> GetSummaryParents(this Taxon taxon, bool editMode)
         {

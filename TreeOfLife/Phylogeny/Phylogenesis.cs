@@ -24,6 +24,11 @@ namespace TreeOfLife
     // 系统发生学。
     internal static class Phylogenesis
     {
+        public const string FileVersionJsonPropertyName = "FileVersion";
+        public const string AppVersionJsonPropertyName = "AppVersion";
+
+        //
+
         private static PhylogeneticTree _PhylogeneticTree = null;
 
         private static string _FileName = null;
@@ -60,7 +65,18 @@ namespace TreeOfLife
 
         private static int _CheckFileVersion(string fileName)
         {
-            return 1;
+            int fileVersion = 0;
+
+            string jsonText = File.ReadAllText(fileName);
+
+            using (JsonDocument document = JsonDocument.Parse(jsonText))
+            {
+                JsonElement element = document.RootElement.GetProperty(FileVersionJsonPropertyName);
+
+                fileVersion = element.GetInt32();
+            }
+
+            return fileVersion;
         }
 
         // 打开文件。
@@ -70,7 +86,9 @@ namespace TreeOfLife
 
             try
             {
-                if (_CheckFileVersion(_FileName) == 1)
+                int fileVersion = _CheckFileVersion(_FileName);
+
+                if (fileVersion == 1)
                 {
                     string jsonText = File.ReadAllText(fileName);
 

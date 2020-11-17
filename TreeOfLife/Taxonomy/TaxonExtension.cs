@@ -41,6 +41,102 @@ namespace TreeOfLife
 
         //
 
+        // 获取类群的短名称。
+        public static string ShortName(this Taxon taxon, char separator = ' ')
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.IsAnonymous())
+            {
+                return "(未命名)";
+            }
+            else
+            {
+                StringBuilder taxonName = new StringBuilder();
+
+                if (taxon.InDoubt)
+                {
+                    taxonName.Append('?');
+                }
+
+                if (taxon.IsExtinct)
+                {
+                    taxonName.Append('†');
+                }
+
+                if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
+                {
+                    taxonName.Append(taxon.ChineseName);
+
+                    if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                    {
+                        taxonName.Append(separator);
+                        taxonName.Append(taxon.BotanicalName);
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                {
+                    taxonName.Append(taxon.BotanicalName);
+                }
+
+                return taxonName.ToString();
+            }
+        }
+
+        // 获取类群的长名称。
+        public static string LongName(this Taxon taxon, char separator = ' ')
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.IsAnonymous())
+            {
+                return "(未命名)";
+            }
+            else
+            {
+                StringBuilder taxonName = new StringBuilder();
+
+                if (taxon.InDoubt)
+                {
+                    taxonName.Append('?');
+                }
+
+                if (taxon.IsExtinct)
+                {
+                    taxonName.Append('†');
+                }
+
+                if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
+                {
+                    taxonName.Append(taxon.ChineseName);
+                }
+                else
+                {
+                    taxonName.Append(taxon.Category.Name());
+                }
+
+                if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                {
+                    taxonName.Append(separator);
+                    taxonName.Append(taxon.BotanicalName);
+                }
+
+                return taxonName.ToString();
+            }
+        }
+
+        //
+
         // 识别一个名称，并应用到当前类群。
         public static void ParseCurrent(this Taxon taxon, string name)
         {
