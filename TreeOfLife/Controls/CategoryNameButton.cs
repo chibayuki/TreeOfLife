@@ -23,56 +23,47 @@ using ColorX = Com.ColorX;
 
 namespace TreeOfLife
 {
-    internal partial class TaxonNameButton : UserControl
+    internal partial class CategoryNameButton : UserControl
     {
-        private Taxon _Taxon = null; // 类群。
+        private TaxonomicCategory? _Category = null; // 分类阶元。
+        private string _CategoryName = string.Empty; // 名称。
 
         private bool _Checked = false; // 是否处于已选择状态。
-
-        private int _CategoryNameWidth = 50; // 分类阶元名称宽度。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _DarkTheme = false; // 是否为暗色主题。
 
         //
 
-        public TaxonNameButton()
+        public CategoryNameButton()
         {
             InitializeComponent();
 
             //
 
             this.Load += TaxonNameButton_Load;
-            this.SizeChanged += TaxonNameButton_SizeChanged;
+            this.AutoSizeChanged += CategoryNameButton_AutoSizeChanged;
             this.FontChanged += TaxonNameButton_FontChanged;
-            Panel_Main.Paint += Panel_Main_Paint;
         }
 
         //
 
         private void TaxonNameButton_Load(object sender, EventArgs e)
         {
-            _UpdateFont();
+            _FontChanged();
             _UpdateColor();
-            _SizeChanged();
-            _UpdateTaxonInfo();
+            _UpdateCategoryInfo();
+            _AutoSizeChanged();
         }
 
-        private void TaxonNameButton_SizeChanged(object sender, EventArgs e)
+        private void CategoryNameButton_AutoSizeChanged(object sender, EventArgs e)
         {
-            _SizeChanged();
+            _AutoSizeChanged();
         }
 
         private void TaxonNameButton_FontChanged(object sender, EventArgs e)
         {
-            _UpdateFont();
-        }
-
-        private void Panel_Main_Paint(object sender, PaintEventArgs e)
-        {
-            Color borderColor = _CategoryNameBackColor;
-
-            e.Graphics.DrawRectangle(new Pen(borderColor, 1F), new Rectangle(0, 0, Panel_Main.Width - 1, Panel_Main.Height - 1));
+            _FontChanged();
         }
 
         private void Label_CategoryName_Click(object sender, EventArgs e)
@@ -87,34 +78,43 @@ namespace TreeOfLife
 
         //
 
-        private void _SizeChanged()
+        private void _AutoSizeChanged()
         {
-            Label_CategoryName.Size = new Size(_CategoryNameWidth - 1, Panel_Main.Height - 2);
-            Label_CategoryName.Location = new Point(1, 1);
+            if (this.AutoSize)
+            {
+                Label_CategoryName.Dock = DockStyle.None;
+                Label_CategoryName.AutoSize = true;
+                Label_CategoryName.MinimumSize = this.MinimumSize;
+                Label_CategoryName.MaximumSize = this.MaximumSize;
 
-            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 2, Panel_Main.Height - 2);
-            Label_TaxonName.Location = new Point(Label_CategoryName.Right, 1);
+                _AutoSize();
+            }
+            else
+            {
+                Label_CategoryName.AutoSize = false;
+                Label_CategoryName.Dock = DockStyle.Fill;
+            }
         }
 
-        private void _UpdateFont()
+        private void _AutoSize()
+        {
+            this.Size = Label_CategoryName.Size;
+        }
+
+        private void _FontChanged()
         {
             Label_CategoryName.Font = this.Font;
-            Label_TaxonName.Font = this.Font;
         }
 
         private void _UpdateColor()
         {
             Label_CategoryName.ForeColor = _CategoryNameForeColor;
             Label_CategoryName.BackColor = _CategoryNameBackColor;
-
-            Label_TaxonName.ForeColor = _TaxonNameForeColor;
-            Label_TaxonName.BackColor = _TaxonNameBackColor;
         }
 
-        private void _UpdateTaxonInfo()
+        private void _UpdateCategoryInfo()
         {
-            Label_CategoryName.Text = (_Taxon is null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
-            Label_TaxonName.Text = (_Taxon is null ? string.Empty : _Taxon.ShortName());
+            Label_CategoryName.Text = _CategoryName;
         }
 
         //
@@ -123,25 +123,41 @@ namespace TreeOfLife
 
         private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToColor();
 
-        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_DarkTheme ? 60 : 40) : 50).ToColor();
-
-        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToColor();
-
         //
 
-        [Browsable(false)]
-        public Taxon Taxon
+        public string CategoryName
         {
             get
             {
-                return _Taxon;
+                return _CategoryName;
             }
 
             set
             {
-                _Taxon = value;
+                _CategoryName = value;
 
-                _UpdateTaxonInfo();
+                _UpdateCategoryInfo();
+            }
+        }
+
+        [Browsable(false)]
+        public TaxonomicCategory? Category
+        {
+            get
+            {
+                return _Category;
+            }
+
+            set
+            {
+                _Category = value;
+
+                if (_Category.HasValue)
+                {
+                    _CategoryName = _Category.Value.Name();
+
+                    _UpdateCategoryInfo();
+                }
             }
         }
 
@@ -157,21 +173,6 @@ namespace TreeOfLife
                 _Checked = value;
 
                 _UpdateColor();
-            }
-        }
-
-        public int CategoryNameWidth
-        {
-            get
-            {
-                return _CategoryNameWidth;
-            }
-
-            set
-            {
-                _CategoryNameWidth = value;
-
-                _SizeChanged();
             }
         }
 

@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.200.1000.M3.201111-0000
+Version 1.0.305.1000.M4.201120-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -32,7 +32,7 @@ namespace TreeOfLife
         private string _ChineseName = string.Empty; // 中文名。
         private List<string> _Synonym = new List<string>(); // 异名、别名、旧名等。
         private List<string> _Tag = new List<string>(); // 标签。
-        private string _Comment = string.Empty; // 注释。
+        private string _Description = string.Empty; // 描述。
         private List<string> _Url = new List<string>(); // 链接。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
@@ -71,10 +71,10 @@ namespace TreeOfLife
 
         public List<string> Tag => _Tag;
 
-        public string Comment
+        public string Description
         {
-            get => _Comment;
-            set => _Comment = value;
+            get => _Description;
+            set => _Description = value;
         }
 
         private List<string> Url => _Url;

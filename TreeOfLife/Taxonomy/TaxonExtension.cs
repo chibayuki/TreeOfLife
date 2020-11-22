@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.200.1000.M3.201111-0000
+Version 1.0.306.1000.M4.201121-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -140,6 +140,8 @@ namespace TreeOfLife
         // 识别一个名称，并应用到当前类群。
         public static void ParseCurrent(this Taxon taxon, string name)
         {
+            name = name.Trim();
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 List<char> chars = new List<char>(name);
@@ -158,19 +160,6 @@ namespace TreeOfLife
                         taxon.IsExtinct = true;
 
                         chars.RemoveAll((ch) => ch == '†');
-                    }
-                }
-
-                if (chars.Count > 0)
-                {
-                    while (chars.Count > 0 && char.IsWhiteSpace(chars[0]))
-                    {
-                        chars.RemoveAt(0);
-                    }
-
-                    while (chars.Count > 0 && char.IsWhiteSpace(chars[chars.Count - 1]))
-                    {
-                        chars.RemoveAt(chars.Count - 1);
                     }
                 }
 

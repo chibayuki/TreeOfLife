@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.200.1000.M3.201111-0000
+Version 1.0.306.1000.M4.201121-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -159,6 +159,8 @@ namespace TreeOfLife
             }
         }
 
+        //
+
         private List<_Group> _Groups = new List<_Group>();
 
         private int _GroupNameWidth = 30; // 组名称宽度。
@@ -170,9 +172,13 @@ namespace TreeOfLife
 
         private bool _Editing = false; // 是否正在编辑。
 
+        //
+
         public TaxonNameButtonGroup()
         {
             InitializeComponent();
+
+            //
 
             this.Load += TaxonNameGroup_Load;
             this.SizeChanged += TaxonNameGroup_SizeChanged;
@@ -180,19 +186,21 @@ namespace TreeOfLife
             this.FontChanged += TaxonNameGroup_FontChanged;
         }
 
+        //
+
         private void TaxonNameGroup_Load(object sender, EventArgs e)
         {
-            _UpdateGroupFont();
-            _UpdateGroupColor();
-            _UpdateGroupControls();
-            _UpdateGroupLayout();
+            _UpdateFont();
+            _UpdateColor();
+            _UpdateControls();
+            _UpdateLayout();
         }
 
         private void TaxonNameGroup_SizeChanged(object sender, EventArgs e)
         {
             if (!_Editing)
             {
-                _UpdateGroupLayout();
+                _UpdateLayout();
             }
         }
 
@@ -208,9 +216,11 @@ namespace TreeOfLife
         {
             if (!_Editing)
             {
-                _UpdateGroupFont();
+                _UpdateFont();
             }
         }
+
+        //
 
         private void _AutoSizeChanged()
         {
@@ -220,7 +230,12 @@ namespace TreeOfLife
             }
         }
 
-        private void _UpdateGroupFont()
+        private void _AutoSize()
+        {
+            this.Height = (_Groups.Count > 0 ? _Groups[_Groups.Count - 1].GroupPanel.Bottom : 0);
+        }
+
+        private void _UpdateFont()
         {
             FontFamily family = this.Font.FontFamily;
             float emSize = this.Font.Size;
@@ -239,7 +254,7 @@ namespace TreeOfLife
             }
         }
 
-        private void _UpdateGroupColor()
+        private void _UpdateColor()
         {
             for (int i = 0; i < _Groups.Count; i++)
             {
@@ -248,7 +263,7 @@ namespace TreeOfLife
             }
         }
 
-        private void _UpdateGroupControls()
+        private void _UpdateControls()
         {
             Panel_Main.Controls.Clear();
 
@@ -260,7 +275,7 @@ namespace TreeOfLife
             }
         }
 
-        private void _UpdateGroupLayout()
+        private void _UpdateLayout()
         {
             for (int i = 0; i < _Groups.Count; i++)
             {
@@ -269,8 +284,10 @@ namespace TreeOfLife
 
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, (i > 0 ? _Groups[i - 1].GroupPanel.Bottom + _GroupPadding.Vertical : 0));
+                _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, (i > 0 && _Groups[i].GroupPanel.Height > 0 ? _Groups[i - 1].GroupPanel.Bottom + _GroupPadding.Vertical : 0));
             }
+
+            //
 
             if (this.AutoSize)
             {
@@ -278,10 +295,7 @@ namespace TreeOfLife
             }
         }
 
-        private void _AutoSize()
-        {
-            this.Height = (_Groups.Count > 0 ? _Groups[_Groups.Count - 1].GroupPanel.Bottom : 0);
-        }
+        //
 
         public int GroupNameWidth
         {
@@ -296,7 +310,7 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupLayout();
+                    _UpdateLayout();
                 }
             }
         }
@@ -314,7 +328,7 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupLayout();
+                    _UpdateLayout();
                 }
             }
         }
@@ -332,7 +346,7 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupLayout();
+                    _UpdateLayout();
                 }
             }
         }
@@ -350,7 +364,7 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupLayout();
+                    _UpdateLayout();
                 }
             }
         }
@@ -368,7 +382,7 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupLayout();
+                    _UpdateLayout();
                 }
             }
         }
@@ -386,10 +400,12 @@ namespace TreeOfLife
 
                 if (!_Editing)
                 {
-                    _UpdateGroupColor();
+                    _UpdateColor();
                 }
             }
         }
+
+        //
 
         // 获取组数目。
         public int GroupCount()
@@ -510,10 +526,10 @@ namespace TreeOfLife
             {
                 Panel_Main.Visible = false;
 
-                _UpdateGroupFont();
-                _UpdateGroupColor();
-                _UpdateGroupControls();
-                _UpdateGroupLayout();
+                _UpdateFont();
+                _UpdateColor();
+                _UpdateControls();
+                _UpdateLayout();
 
                 Panel_Main.Visible = true;
 

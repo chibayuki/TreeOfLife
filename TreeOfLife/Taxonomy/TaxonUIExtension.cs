@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.200.1000.M3.201111-0000
+Version 1.0.306.1000.M4.201121-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -24,18 +24,9 @@ namespace TreeOfLife
     // 生物分类单元（类群）的UI相关扩展方法。
     internal static class TaxonUIExtension
     {
-        // 获取主题颜色。
-        public static ColorX GetThemeColor(this Taxon taxon)
+        // 获取分类阶元的主题颜色。
+        public static ColorX GetThemeColor(this TaxonomicCategory category)
         {
-            if (taxon is null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            //
-
-            TaxonomicCategory category = taxon.GetInheritedCategory();
-
             if (category.IsPrimaryCategory())
             {
                 double hue = 0;
@@ -89,6 +80,19 @@ namespace TreeOfLife
             }
         }
 
+        // 获取类群的主题颜色。
+        public static ColorX GetThemeColor(this Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            return taxon.GetInheritedCategory().GetThemeColor();
+        }
+
         // 获取父类群摘要。
         public static List<Taxon> GetSummaryParents(this Taxon taxon, bool editMode)
         {
@@ -103,51 +107,71 @@ namespace TreeOfLife
 
             if (!taxon.IsRoot)
             {
-                // 如果当前类群是主要分类阶元，上溯到高于该级别的主要分类阶元为止
-                if (taxon.Category.IsPrimaryCategory())
+                if (editMode)
                 {
+                    // 上溯到任何主要分类阶元为止
                     result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
-                        recursiveInsteadOfLoop: false,
-                        TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(taxon.Category, allowEquals: false)));
-                }
-                // 如果当前类群不是主要分类阶元，上溯到任何主要分类阶元为止
-                else
-                {
-                    result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
+                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
                         recursiveInsteadOfLoop: false,
                         TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
-                }
 
-                if (result.Count > 0)
-                {
-                    Taxon parent = result[result.Count - 1];
-
-                    // 如果还未上溯到界，继续上溯到界为止，并且忽略演化支与更低的主要分类阶元
-                    if (parent.Category < TaxonomicCategory.Kingdom)
+                    // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
+                    if (result.Count <= 0)
                     {
-                        result.AddRange(parent.GetParents(
-                            TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
-                            recursiveInsteadOfLoop: true,
-                            TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: true)));
-                    }
-                    // 如果已经上溯到界，继续上溯到最高级别
-                    else
-                    {
-                        result.AddRange(parent.GetParents(
-                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                        result.AddRange(taxon.GetParents(
+                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
                             recursiveInsteadOfLoop: false,
                             TaxonParentFilterTerminationCondition.UntilRoot()));
                     }
                 }
-                // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
                 else
                 {
-                    result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: editMode, allowUnranked: true, allowClade: true),
-                        recursiveInsteadOfLoop: false,
-                        TaxonParentFilterTerminationCondition.UntilRoot()));
+                    // 如果当前类群是主要分类阶元，上溯到高于该级别的主要分类阶元为止
+                    if (taxon.Category.IsPrimaryCategory())
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                            recursiveInsteadOfLoop: false,
+                            TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(taxon.Category, allowEquals: false)));
+                    }
+                    // 如果当前类群不是主要分类阶元，上溯到任何主要分类阶元为止
+                    else
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                            recursiveInsteadOfLoop: false,
+                            TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
+                    }
+
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[result.Count - 1];
+
+                        // 如果还未上溯到界，继续上溯到界为止，并且忽略演化支与更低的主要分类阶元
+                        if (parent.Category < TaxonomicCategory.Kingdom)
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
+                                recursiveInsteadOfLoop: true,
+                                TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: true)));
+                        }
+                        // 如果已经上溯到界，继续上溯到最高级别
+                        else
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                                recursiveInsteadOfLoop: false,
+                                TaxonParentFilterTerminationCondition.UntilRoot()));
+                        }
+                    }
+                    // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
+                    else
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
+                            recursiveInsteadOfLoop: false,
+                            TaxonParentFilterTerminationCondition.UntilRoot()));
+                    }
                 }
             }
 

@@ -57,6 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CategoryNameButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CategoryNameButton.Designer.cs">
+      <DependentUpon>CategoryNameButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CategorySelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CategorySelector.Designer.cs">
+      <DependentUpon>CategorySelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +98,12 @@
     <Compile Include="Taxonomy\TaxonomicCategoryExtension.cs" />
     <Compile Include="Taxonomy\TaxonParentExtension.cs" />
     <Compile Include="Taxonomy\TaxonUIExtension.cs" />
+    <EmbeddedResource Include="Controls\CategoryNameButton.resx">
+      <DependentUpon>CategoryNameButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CategorySelector.resx">
+      <DependentUpon>CategorySelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
