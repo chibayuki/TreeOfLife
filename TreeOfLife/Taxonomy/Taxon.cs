@@ -172,16 +172,6 @@ namespace TreeOfLife
             }
         }
 
-        // 递归地修复子类群的继承关系。
-        public void RepairInheritance()
-        {
-            foreach (Taxon child in _Children)
-            {
-                child._Parent = this;
-                child.RepairInheritance();
-            }
-        }
-
         //
 
         // 变更父类群。

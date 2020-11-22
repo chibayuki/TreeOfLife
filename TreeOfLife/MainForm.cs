@@ -28,6 +28,8 @@ namespace TreeOfLife
 {
     internal partial class MainForm : Form
     {
+        private bool _IsDarkTheme;
+
         #region 窗口定义
 
         private FormManager Me;
@@ -159,9 +161,28 @@ namespace TreeOfLife
 
             //
 
+            _IsDarkTheme = (Me.Theme == Theme.DarkGray || Me.Theme == Theme.Black);
+
+            //
+
             Panel_TaxonInfo.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
             //
+
+            Label_ViewMode_Synonym.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Synonym.BackColor = Me.RecommendColors.Background.ToColor();
+
+            Label_ViewMode_Synonym_Value.ForeColor = Me.RecommendColors.Text.ToColor();
+
+            Label_ViewMode_Tag.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Tag.BackColor = Me.RecommendColors.Background.ToColor();
+
+            Label_ViewMode_Tag_Value.ForeColor = Me.RecommendColors.Text.ToColor();
+
+            Label_ViewMode_Desc.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Desc.BackColor = Me.RecommendColors.Background.ToColor();
+
+            Label_ViewMode_Desc_Value.ForeColor = Me.RecommendColors.Text.ToColor();
 
             Label_ViewMode_Parent.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_ViewMode_Parent.BackColor = Me.RecommendColors.Background.ToColor();
@@ -190,7 +211,8 @@ namespace TreeOfLife
             Label_EditMode_State.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_State.BackColor = Me.RecommendColors.Background.ToColor();
 
-            CheckBox_EditMode_EX.ForeColor = CheckBox_EditMode_Doubt.ForeColor = Me.RecommendColors.Text.ToColor();
+            CheckBox_EditMode_EX.ForeColor = Me.RecommendColors.Text.ToColor();
+            CheckBox_EditMode_Doubt.ForeColor = Me.RecommendColors.Text.ToColor();
 
             Label_EditMode_Category.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_Category.BackColor = Me.RecommendColors.Background.ToColor();
@@ -241,8 +263,6 @@ namespace TreeOfLife
         #endregion
 
         #region 类群信息页面
-
-        private bool _IsDarkTheme => (Me.Theme == Theme.DarkGray || Me.Theme == Theme.Black);
 
         private const string _FileName = @".\Phylogenesis.json";
 
@@ -362,7 +382,7 @@ namespace TreeOfLife
             }
             else
             {
-                _UpdateViewModeTitle();
+                _UpdateViewModeInfo();
                 _UpdateViewModeParents();
                 _UpdateViewModeChildren();
 
@@ -372,8 +392,8 @@ namespace TreeOfLife
 
         #region 查看模式
 
-        // 查看模式更新标题栏。
-        private void _UpdateViewModeTitle()
+        // 更新所有信息。
+        private void _UpdateViewModeInfo()
         {
             if (!_CurrentTaxon.IsRoot)
             {
@@ -387,10 +407,43 @@ namespace TreeOfLife
 
                 Label_ViewMode_TaxonName.ForeColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToColor();
                 Label_ViewMode_TaxonName.BackColor = taxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToColor();
+
+                //
+
+                if (_CurrentTaxon.Synonym.Count > 0)
+                {
+                    StringBuilder synonym = new StringBuilder();
+
+                    foreach (var item in _CurrentTaxon.Synonym)
+                    {
+                        synonym.AppendLine(item);
+                    }
+
+                    Label_ViewMode_Synonym_Value.Text = synonym.ToString();
+                }
+
+                //
+
+                if (_CurrentTaxon.Tag.Count > 0)
+                {
+                    StringBuilder tag = new StringBuilder();
+
+                    foreach (var item in _CurrentTaxon.Tag)
+                    {
+                        tag.Append(item);
+                        tag.Append("  ");
+                    }
+
+                    Label_ViewMode_Tag_Value.Text = tag.ToString();
+                }
+
+                //
+
+                Label_ViewMode_Desc_Value.Text = _CurrentTaxon.Description;
             }
         }
 
-        // 查看模式更新父类群。
+        // 更新父类群。
         private void _UpdateViewModeParents()
         {
             if (_CurrentTaxon.IsRoot)
@@ -418,10 +471,10 @@ namespace TreeOfLife
             }
         }
 
-        // 查看模式更新子类群。
+        // 更新子类群。
         private void _UpdateViewModeChildren()
         {
-            var children = _CurrentTaxon.GetNamedChildren();
+            var children = _CurrentTaxon.GetNamedChildren(true);
 
             if (children.Count > 0)
             {
@@ -429,15 +482,27 @@ namespace TreeOfLife
             }
         }
 
-        // 查看模式更新布局。
+        // 更新布局。
         private void _UpdateViewModeLayout()
         {
             Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
 
-            Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
-            Panel_ViewMode_Parent.Top = Panel_ViewMode_Title.Bottom;
+            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonym.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
+            Panel_ViewMode_Synonym.Top = Panel_ViewMode_Title.Bottom;
+            Label_ViewMode_Synonym.Height = Label_ViewMode_Synonym_Value.Height;
 
-            Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count > 0 ? TaxonNameButtonGroup_ViewMode_Children.Bottom : 0);
+            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tag.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
+            Panel_ViewMode_Tag.Top = Panel_ViewMode_Synonym.Bottom;
+            Label_ViewMode_Tag.Height = Label_ViewMode_Tag_Value.Height;
+
+            Panel_ViewMode_Desc.Height = (string.IsNullOrWhiteSpace(_CurrentTaxon.Description) ? 0 : Label_ViewMode_Desc_Value.Bottom);
+            Panel_ViewMode_Desc.Top = Panel_ViewMode_Tag.Bottom;
+            Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
+
+            Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
+            Panel_ViewMode_Parent.Top = Panel_ViewMode_Desc.Bottom;
+
+            Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
             Panel_ViewMode_Children.Top = Panel_ViewMode_Parent.Bottom;
 
             Button_EnterEditMode.Top = Panel_ViewMode_Children.Bottom + 25;
@@ -452,7 +517,7 @@ namespace TreeOfLife
 
         #region 编辑模式
 
-        // 编辑模式更新信息。
+        // 更新所有信息。
         private void _UpdateEditModeInfo()
         {
             TextBox_EditMode_Name.Text = _CurrentTaxon.BotanicalName;
@@ -467,7 +532,7 @@ namespace TreeOfLife
             TextBox_EditMode_ParseChildren.Text = string.Empty;
         }
 
-        // 编辑模式更新父类群。
+        // 更新父类群。
         private void _UpdateEditModeParents()
         {
             if (_CurrentTaxon.IsRoot)
@@ -493,7 +558,7 @@ namespace TreeOfLife
             }
         }
 
-        // 编辑模式更新子类群。
+        // 更新子类群。
         private void _UpdateEditModeChildren()
         {
             var children = _CurrentTaxon.Children;
@@ -504,7 +569,7 @@ namespace TreeOfLife
             }
         }
 
-        // 编辑模式更新布局。
+        // 更新布局。
         private void _UpdateEditModeLayout()
         {
             Panel_EditMode_TaxonName.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_ChsName.Bottom);
@@ -533,13 +598,13 @@ namespace TreeOfLife
             Panel_EditMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_EditMode_Parent.Bottom);
             Panel_EditMode_Parent.Top = Panel_EditMode_ParseChildren.Bottom;
 
-            Panel_EditMode_Children.Height = (_CurrentTaxon.Children.Count > 0 ? TaxonNameButtonGroup_EditMode_Children.Bottom : 0);
+            Panel_EditMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_EditMode_Children.Bottom);
             Panel_EditMode_Children.Top = Panel_EditMode_Parent.Bottom;
 
             Button_EnterViewMode.Top = Panel_EditMode_Children.Bottom + 25;
         }
 
-        // 编辑模式添加订阅事件。
+        // 添加订阅事件。
         private void _AddEditModeEvents()
         {
             TextBox_EditMode_Name.TextChanged += TextBox_EditMode_Name_TextChanged;
@@ -554,7 +619,7 @@ namespace TreeOfLife
             Button_EditMode_ParseChildren.Click += Button_EditMode_ParseChildren_Click;
         }
 
-        // 编辑模式删除订阅事件。
+        // 删除订阅事件。
         private void _RemoveEditModeEvents()
         {
             TextBox_EditMode_Name.TextChanged -= TextBox_EditMode_Name_TextChanged;
@@ -622,11 +687,15 @@ namespace TreeOfLife
         private void Button_EditMode_ParseCurrent_Click(object sender, EventArgs e)
         {
             _CurrentTaxon.ParseCurrent(TextBox_EditMode_ParseCurrent.Text);
+
+            TextBox_EditMode_ParseCurrent.Clear();
         }
 
         private void Button_EditMode_ParseChildren_Click(object sender, EventArgs e)
         {
             _CurrentTaxon.ParseChildren(TextBox_EditMode_ParseChildren.Lines);
+
+            TextBox_EditMode_ParseChildren.Clear();
 
             //
 

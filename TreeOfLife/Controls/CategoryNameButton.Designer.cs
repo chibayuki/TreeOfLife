@@ -50,13 +50,11 @@
             this.Label_CategoryName.BackColor = System.Drawing.Color.Transparent;
             this.Label_CategoryName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Label_CategoryName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_CategoryName.ForeColor = System.Drawing.Color.White;
             this.Label_CategoryName.Location = new System.Drawing.Point(0, 0);
             this.Label_CategoryName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label_CategoryName.Name = "Label_CategoryName";
             this.Label_CategoryName.Size = new System.Drawing.Size(150, 150);
             this.Label_CategoryName.TabIndex = 0;
-            this.Label_CategoryName.Text = "CN";
             this.Label_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Label_CategoryName.Click += new System.EventHandler(this.Label_CategoryName_Click);
             // 
