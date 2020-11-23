@@ -284,7 +284,14 @@ namespace TreeOfLife
 
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, (i > 0 && _Groups[i].GroupPanel.Height > 0 ? _Groups[i - 1].GroupPanel.Bottom + _GroupPadding.Vertical : 0));
+                if (i > 0)
+                {
+                    _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, _Groups[i - 1].GroupPanel.Bottom + (_Groups[i].GroupPanel.Height > 0 ? _GroupPadding.Vertical : 0));
+                }
+                else
+                {
+                    _Groups[i].GroupPanel.Location = new Point(_GroupPadding.Left, 0);
+                }
             }
 
             //

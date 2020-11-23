@@ -80,11 +80,7 @@ namespace TreeOfLife
                         _Buttons[i].AutoSize = false;
                         _Buttons[i].AutoSize = true;
 
-                        if (i == 0)
-                        {
-                            _Buttons[i].Location = new Point(0, 0);
-                        }
-                        else
+                        if (i > 0)
                         {
                             if (_Buttons[i - 1].Right + buttonPadding.Vertical + _Buttons[i].Width > groupWidth)
                             {
@@ -94,6 +90,10 @@ namespace TreeOfLife
                             {
                                 _Buttons[i].Location = new Point(_Buttons[i - 1].Right + buttonPadding.Horizontal, _Buttons[i - 1].Top);
                             }
+                        }
+                        else
+                        {
+                            _Buttons[i].Location = new Point(0, 0);
                         }
                     }
 

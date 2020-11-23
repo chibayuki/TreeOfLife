@@ -82,6 +82,7 @@ namespace TreeOfLife
 
             Me.Loading += Me_Loading;
             Me.Loaded += Me_Loaded;
+            Me.Closing += Me_Closing;
             Me.Closed += Me_Closed;
             Me.Resize += Me_Resize;
             Me.SizeChanged += Me_SizeChanged;
@@ -126,7 +127,7 @@ namespace TreeOfLife
             Taxon taxon = Phylogenesis.Root;
             while (taxon.Children.Count > 0)
             {
-                if (taxon.ChineseName == "兽孔目")
+                if (taxon.ChineseName == "合弓纲")
                 {
                     break;
                 }
@@ -138,6 +139,11 @@ namespace TreeOfLife
             //
 
             Panel_Main.Visible = true;
+        }
+
+        private void Me_Closing(object sender, EventArgs e)
+        {
+            Phylogenesis.Save();
         }
 
         private void Me_Closed(object sender, EventArgs e)
@@ -356,7 +362,7 @@ namespace TreeOfLife
                 TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
                 button.Click += (s, e) => _SetCurrentTaxon(taxon);
 
-                control.AddButton(button, taxon.Index);
+                control.AddButton(button, i);
             }
 
             control.FinishEditing();
@@ -487,25 +493,25 @@ namespace TreeOfLife
         {
             Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
 
-            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonym.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
-            Panel_ViewMode_Synonym.Top = Panel_ViewMode_Title.Bottom;
-            Label_ViewMode_Synonym.Height = Label_ViewMode_Synonym_Value.Height;
-
-            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tag.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
-            Panel_ViewMode_Tag.Top = Panel_ViewMode_Synonym.Bottom;
             Label_ViewMode_Tag.Height = Label_ViewMode_Tag_Value.Height;
-
-            Panel_ViewMode_Desc.Height = (string.IsNullOrWhiteSpace(_CurrentTaxon.Description) ? 0 : Label_ViewMode_Desc_Value.Bottom);
-            Panel_ViewMode_Desc.Top = Panel_ViewMode_Tag.Bottom;
-            Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
+            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tag.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
+            Panel_ViewMode_Tag.Top = Panel_ViewMode_Title.Bottom;
 
             Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
-            Panel_ViewMode_Parent.Top = Panel_ViewMode_Desc.Bottom;
+            Panel_ViewMode_Parent.Top = Panel_ViewMode_Tag.Bottom;
 
             Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
             Panel_ViewMode_Children.Top = Panel_ViewMode_Parent.Bottom;
 
-            Button_EnterEditMode.Top = Panel_ViewMode_Children.Bottom + 25;
+            Label_ViewMode_Synonym.Height = Label_ViewMode_Synonym_Value.Height;
+            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonym.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
+            Panel_ViewMode_Synonym.Top = Panel_ViewMode_Children.Bottom;
+
+            Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
+            Panel_ViewMode_Desc.Height = (string.IsNullOrWhiteSpace(_CurrentTaxon.Description) ? 0 : Label_ViewMode_Desc_Value.Bottom);
+            Panel_ViewMode_Desc.Top = Panel_ViewMode_Synonym.Bottom;
+
+            Button_EnterEditMode.Top = Panel_ViewMode_Desc.Bottom + 25;
         }
 
         private void Button_EnterEditMode_Click(object sender, EventArgs e)
@@ -577,9 +583,9 @@ namespace TreeOfLife
             Panel_EditMode_State.Height = (_CurrentTaxon.IsRoot ? 0 : CheckBox_EditMode_Doubt.Bottom);
             Panel_EditMode_State.Top = Panel_EditMode_TaxonName.Bottom;
 
+            Label_EditMode_Category.Height = CategorySelector_EditMode_Category.Height;
             Panel_EditMode_Category.Height = (_CurrentTaxon.IsRoot ? 0 : CategorySelector_EditMode_Category.Bottom);
             Panel_EditMode_Category.Top = Panel_EditMode_State.Bottom;
-            Label_EditMode_Category.Height = CategorySelector_EditMode_Category.Height;
 
             Panel_EditMode_Synonym.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Synonym.Bottom);
             Panel_EditMode_Synonym.Top = Panel_EditMode_Category.Bottom;

@@ -30,13 +30,29 @@
         {
             this.Panel_Main = new System.Windows.Forms.Panel();
             this.Panel_TaxonInfo = new System.Windows.Forms.Panel();
+            this.Panel_TaxonInfo_ViewMode = new System.Windows.Forms.Panel();
+            this.Panel_ViewMode_Desc = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_Desc_Value = new System.Windows.Forms.Label();
+            this.Label_ViewMode_Desc = new System.Windows.Forms.Label();
+            this.Panel_ViewMode_Tag = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_Tag_Value = new System.Windows.Forms.Label();
+            this.Label_ViewMode_Tag = new System.Windows.Forms.Label();
+            this.Panel_ViewMode_Synonym = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_Synonym_Value = new System.Windows.Forms.Label();
+            this.Label_ViewMode_Synonym = new System.Windows.Forms.Label();
+            this.Button_EnterEditMode = new System.Windows.Forms.Button();
+            this.Panel_ViewMode_Children = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_Children = new System.Windows.Forms.Label();
+            this.Panel_ViewMode_Parent = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_Parent = new System.Windows.Forms.Label();
+            this.Panel_ViewMode_Title = new System.Windows.Forms.Panel();
+            this.Label_ViewMode_CategoryName = new System.Windows.Forms.Label();
+            this.Label_ViewMode_TaxonName = new System.Windows.Forms.Label();
             this.Panel_TaxonInfo_EditMode = new System.Windows.Forms.Panel();
             this.Panel_EditMode_Children = new System.Windows.Forms.Panel();
             this.Label_EditMode_Children = new System.Windows.Forms.Label();
-            this.TaxonNameButtonGroup_EditMode_Children = new TreeOfLife.TaxonNameButtonGroup();
             this.Panel_EditMode_Parent = new System.Windows.Forms.Panel();
             this.Label_EditMode_Parent = new System.Windows.Forms.Label();
-            this.TaxonNameButtonGroup_EditMode_Parent = new TreeOfLife.TaxonNameButtonGroup();
             this.Panel_EditMode_ParseChildren = new System.Windows.Forms.Panel();
             this.Button_EditMode_ParseChildren = new System.Windows.Forms.Button();
             this.TextBox_EditMode_ParseChildren = new System.Windows.Forms.TextBox();
@@ -55,7 +71,6 @@
             this.TextBox_EditMode_Synonym = new System.Windows.Forms.TextBox();
             this.Label_EditMode_Synonym = new System.Windows.Forms.Label();
             this.Panel_EditMode_Category = new System.Windows.Forms.Panel();
-            this.CategorySelector_EditMode_Category = new TreeOfLife.CategorySelector();
             this.Label_EditMode_Category = new System.Windows.Forms.Label();
             this.Panel_EditMode_State = new System.Windows.Forms.Panel();
             this.Label_EditMode_State = new System.Windows.Forms.Label();
@@ -67,28 +82,20 @@
             this.TextBox_EditMode_Name = new System.Windows.Forms.TextBox();
             this.Label_EditMode_Name = new System.Windows.Forms.Label();
             this.Button_EnterViewMode = new System.Windows.Forms.Button();
-            this.Panel_TaxonInfo_ViewMode = new System.Windows.Forms.Panel();
-            this.Panel_ViewMode_Desc = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_Desc_Value = new System.Windows.Forms.Label();
-            this.Label_ViewMode_Desc = new System.Windows.Forms.Label();
-            this.Panel_ViewMode_Tag = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_Tag_Value = new System.Windows.Forms.Label();
-            this.Label_ViewMode_Tag = new System.Windows.Forms.Label();
-            this.Panel_ViewMode_Synonym = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_Synonym_Value = new System.Windows.Forms.Label();
-            this.Label_ViewMode_Synonym = new System.Windows.Forms.Label();
-            this.Button_EnterEditMode = new System.Windows.Forms.Button();
-            this.Panel_ViewMode_Children = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_Children = new System.Windows.Forms.Label();
             this.TaxonNameButtonGroup_ViewMode_Children = new TreeOfLife.TaxonNameButtonGroup();
-            this.Panel_ViewMode_Parent = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_Parent = new System.Windows.Forms.Label();
             this.TaxonNameButtonGroup_ViewMode_Parent = new TreeOfLife.TaxonNameButtonGroup();
-            this.Panel_ViewMode_Title = new System.Windows.Forms.Panel();
-            this.Label_ViewMode_CategoryName = new System.Windows.Forms.Label();
-            this.Label_ViewMode_TaxonName = new System.Windows.Forms.Label();
+            this.TaxonNameButtonGroup_EditMode_Children = new TreeOfLife.TaxonNameButtonGroup();
+            this.TaxonNameButtonGroup_EditMode_Parent = new TreeOfLife.TaxonNameButtonGroup();
+            this.CategorySelector_EditMode_Category = new TreeOfLife.CategorySelector();
             this.Panel_Main.SuspendLayout();
             this.Panel_TaxonInfo.SuspendLayout();
+            this.Panel_TaxonInfo_ViewMode.SuspendLayout();
+            this.Panel_ViewMode_Desc.SuspendLayout();
+            this.Panel_ViewMode_Tag.SuspendLayout();
+            this.Panel_ViewMode_Synonym.SuspendLayout();
+            this.Panel_ViewMode_Children.SuspendLayout();
+            this.Panel_ViewMode_Parent.SuspendLayout();
+            this.Panel_ViewMode_Title.SuspendLayout();
             this.Panel_TaxonInfo_EditMode.SuspendLayout();
             this.Panel_EditMode_Children.SuspendLayout();
             this.Panel_EditMode_Parent.SuspendLayout();
@@ -100,13 +107,6 @@
             this.Panel_EditMode_Category.SuspendLayout();
             this.Panel_EditMode_State.SuspendLayout();
             this.Panel_EditMode_TaxonName.SuspendLayout();
-            this.Panel_TaxonInfo_ViewMode.SuspendLayout();
-            this.Panel_ViewMode_Desc.SuspendLayout();
-            this.Panel_ViewMode_Tag.SuspendLayout();
-            this.Panel_ViewMode_Synonym.SuspendLayout();
-            this.Panel_ViewMode_Children.SuspendLayout();
-            this.Panel_ViewMode_Parent.SuspendLayout();
-            this.Panel_ViewMode_Title.SuspendLayout();
             this.SuspendLayout();
             // 
             // Panel_Main
@@ -130,6 +130,207 @@
             this.Panel_TaxonInfo.Name = "Panel_TaxonInfo";
             this.Panel_TaxonInfo.Size = new System.Drawing.Size(400, 450);
             this.Panel_TaxonInfo.TabIndex = 0;
+            // 
+            // Panel_TaxonInfo_ViewMode
+            // 
+            this.Panel_TaxonInfo_ViewMode.AutoScroll = true;
+            this.Panel_TaxonInfo_ViewMode.AutoScrollMargin = new System.Drawing.Size(0, 25);
+            this.Panel_TaxonInfo_ViewMode.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Desc);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Tag);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Synonym);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Button_EnterEditMode);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Children);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Parent);
+            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Title);
+            this.Panel_TaxonInfo_ViewMode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_TaxonInfo_ViewMode.Location = new System.Drawing.Point(0, 0);
+            this.Panel_TaxonInfo_ViewMode.Name = "Panel_TaxonInfo_ViewMode";
+            this.Panel_TaxonInfo_ViewMode.Size = new System.Drawing.Size(400, 450);
+            this.Panel_TaxonInfo_ViewMode.TabIndex = 0;
+            // 
+            // Panel_ViewMode_Desc
+            // 
+            this.Panel_ViewMode_Desc.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_ViewMode_Desc.Controls.Add(this.Label_ViewMode_Desc_Value);
+            this.Panel_ViewMode_Desc.Controls.Add(this.Label_ViewMode_Desc);
+            this.Panel_ViewMode_Desc.Location = new System.Drawing.Point(25, 175);
+            this.Panel_ViewMode_Desc.Name = "Panel_ViewMode_Desc";
+            this.Panel_ViewMode_Desc.Size = new System.Drawing.Size(350, 50);
+            this.Panel_ViewMode_Desc.TabIndex = 0;
+            // 
+            // Label_ViewMode_Desc_Value
+            // 
+            this.Label_ViewMode_Desc_Value.AutoSize = true;
+            this.Label_ViewMode_Desc_Value.BackColor = System.Drawing.Color.Transparent;
+            this.Label_ViewMode_Desc_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Desc_Value.Location = new System.Drawing.Point(25, 25);
+            this.Label_ViewMode_Desc_Value.MaximumSize = new System.Drawing.Size(300, 0);
+            this.Label_ViewMode_Desc_Value.MinimumSize = new System.Drawing.Size(300, 25);
+            this.Label_ViewMode_Desc_Value.Name = "Label_ViewMode_Desc_Value";
+            this.Label_ViewMode_Desc_Value.Size = new System.Drawing.Size(300, 25);
+            this.Label_ViewMode_Desc_Value.TabIndex = 0;
+            // 
+            // Label_ViewMode_Desc
+            // 
+            this.Label_ViewMode_Desc.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_Desc.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Desc.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_Desc.Name = "Label_ViewMode_Desc";
+            this.Label_ViewMode_Desc.Size = new System.Drawing.Size(8, 25);
+            this.Label_ViewMode_Desc.TabIndex = 0;
+            this.Label_ViewMode_Desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Panel_ViewMode_Tag
+            // 
+            this.Panel_ViewMode_Tag.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_ViewMode_Tag.Controls.Add(this.Label_ViewMode_Tag_Value);
+            this.Panel_ViewMode_Tag.Controls.Add(this.Label_ViewMode_Tag);
+            this.Panel_ViewMode_Tag.Location = new System.Drawing.Point(25, 125);
+            this.Panel_ViewMode_Tag.Name = "Panel_ViewMode_Tag";
+            this.Panel_ViewMode_Tag.Size = new System.Drawing.Size(350, 50);
+            this.Panel_ViewMode_Tag.TabIndex = 0;
+            // 
+            // Label_ViewMode_Tag_Value
+            // 
+            this.Label_ViewMode_Tag_Value.AutoSize = true;
+            this.Label_ViewMode_Tag_Value.BackColor = System.Drawing.Color.Transparent;
+            this.Label_ViewMode_Tag_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Tag_Value.Location = new System.Drawing.Point(80, 25);
+            this.Label_ViewMode_Tag_Value.MaximumSize = new System.Drawing.Size(270, 0);
+            this.Label_ViewMode_Tag_Value.MinimumSize = new System.Drawing.Size(270, 25);
+            this.Label_ViewMode_Tag_Value.Name = "Label_ViewMode_Tag_Value";
+            this.Label_ViewMode_Tag_Value.Size = new System.Drawing.Size(270, 25);
+            this.Label_ViewMode_Tag_Value.TabIndex = 0;
+            // 
+            // Label_ViewMode_Tag
+            // 
+            this.Label_ViewMode_Tag.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_Tag.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Tag.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_Tag.Name = "Label_ViewMode_Tag";
+            this.Label_ViewMode_Tag.Size = new System.Drawing.Size(70, 25);
+            this.Label_ViewMode_Tag.TabIndex = 0;
+            this.Label_ViewMode_Tag.Text = "标签";
+            this.Label_ViewMode_Tag.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Panel_ViewMode_Synonym
+            // 
+            this.Panel_ViewMode_Synonym.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_ViewMode_Synonym.Controls.Add(this.Label_ViewMode_Synonym_Value);
+            this.Panel_ViewMode_Synonym.Controls.Add(this.Label_ViewMode_Synonym);
+            this.Panel_ViewMode_Synonym.Location = new System.Drawing.Point(25, 75);
+            this.Panel_ViewMode_Synonym.Name = "Panel_ViewMode_Synonym";
+            this.Panel_ViewMode_Synonym.Size = new System.Drawing.Size(350, 50);
+            this.Panel_ViewMode_Synonym.TabIndex = 0;
+            // 
+            // Label_ViewMode_Synonym_Value
+            // 
+            this.Label_ViewMode_Synonym_Value.AutoSize = true;
+            this.Label_ViewMode_Synonym_Value.BackColor = System.Drawing.Color.Transparent;
+            this.Label_ViewMode_Synonym_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Synonym_Value.Location = new System.Drawing.Point(80, 25);
+            this.Label_ViewMode_Synonym_Value.MaximumSize = new System.Drawing.Size(270, 0);
+            this.Label_ViewMode_Synonym_Value.MinimumSize = new System.Drawing.Size(270, 25);
+            this.Label_ViewMode_Synonym_Value.Name = "Label_ViewMode_Synonym_Value";
+            this.Label_ViewMode_Synonym_Value.Size = new System.Drawing.Size(270, 25);
+            this.Label_ViewMode_Synonym_Value.TabIndex = 0;
+            // 
+            // Label_ViewMode_Synonym
+            // 
+            this.Label_ViewMode_Synonym.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_Synonym.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Synonym.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_Synonym.Name = "Label_ViewMode_Synonym";
+            this.Label_ViewMode_Synonym.Size = new System.Drawing.Size(70, 25);
+            this.Label_ViewMode_Synonym.TabIndex = 0;
+            this.Label_ViewMode_Synonym.Text = "别名";
+            this.Label_ViewMode_Synonym.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Button_EnterEditMode
+            // 
+            this.Button_EnterEditMode.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Button_EnterEditMode.Location = new System.Drawing.Point(285, 450);
+            this.Button_EnterEditMode.Name = "Button_EnterEditMode";
+            this.Button_EnterEditMode.Size = new System.Drawing.Size(90, 30);
+            this.Button_EnterEditMode.TabIndex = 0;
+            this.Button_EnterEditMode.TabStop = false;
+            this.Button_EnterEditMode.Text = "编辑";
+            this.Button_EnterEditMode.UseVisualStyleBackColor = true;
+            this.Button_EnterEditMode.Click += new System.EventHandler(this.Button_EnterEditMode_Click);
+            // 
+            // Panel_ViewMode_Children
+            // 
+            this.Panel_ViewMode_Children.Controls.Add(this.Label_ViewMode_Children);
+            this.Panel_ViewMode_Children.Controls.Add(this.TaxonNameButtonGroup_ViewMode_Children);
+            this.Panel_ViewMode_Children.Location = new System.Drawing.Point(25, 325);
+            this.Panel_ViewMode_Children.Name = "Panel_ViewMode_Children";
+            this.Panel_ViewMode_Children.Size = new System.Drawing.Size(350, 100);
+            this.Panel_ViewMode_Children.TabIndex = 0;
+            // 
+            // Label_ViewMode_Children
+            // 
+            this.Label_ViewMode_Children.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_Children.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Children.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_Children.Name = "Label_ViewMode_Children";
+            this.Label_ViewMode_Children.Size = new System.Drawing.Size(350, 25);
+            this.Label_ViewMode_Children.TabIndex = 0;
+            this.Label_ViewMode_Children.Text = "下属类群";
+            this.Label_ViewMode_Children.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Panel_ViewMode_Parent
+            // 
+            this.Panel_ViewMode_Parent.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_ViewMode_Parent.Controls.Add(this.Label_ViewMode_Parent);
+            this.Panel_ViewMode_Parent.Controls.Add(this.TaxonNameButtonGroup_ViewMode_Parent);
+            this.Panel_ViewMode_Parent.Location = new System.Drawing.Point(25, 225);
+            this.Panel_ViewMode_Parent.Name = "Panel_ViewMode_Parent";
+            this.Panel_ViewMode_Parent.Size = new System.Drawing.Size(350, 100);
+            this.Panel_ViewMode_Parent.TabIndex = 0;
+            // 
+            // Label_ViewMode_Parent
+            // 
+            this.Label_ViewMode_Parent.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_Parent.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_Parent.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_Parent.Name = "Label_ViewMode_Parent";
+            this.Label_ViewMode_Parent.Size = new System.Drawing.Size(350, 25);
+            this.Label_ViewMode_Parent.TabIndex = 0;
+            this.Label_ViewMode_Parent.Text = "科学分类";
+            this.Label_ViewMode_Parent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Panel_ViewMode_Title
+            // 
+            this.Panel_ViewMode_Title.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_ViewMode_Title.Controls.Add(this.Label_ViewMode_CategoryName);
+            this.Panel_ViewMode_Title.Controls.Add(this.Label_ViewMode_TaxonName);
+            this.Panel_ViewMode_Title.Location = new System.Drawing.Point(25, 0);
+            this.Panel_ViewMode_Title.Name = "Panel_ViewMode_Title";
+            this.Panel_ViewMode_Title.Size = new System.Drawing.Size(350, 75);
+            this.Panel_ViewMode_Title.TabIndex = 0;
+            // 
+            // Label_ViewMode_CategoryName
+            // 
+            this.Label_ViewMode_CategoryName.BackColor = System.Drawing.Color.DimGray;
+            this.Label_ViewMode_CategoryName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_CategoryName.ForeColor = System.Drawing.Color.White;
+            this.Label_ViewMode_CategoryName.Location = new System.Drawing.Point(0, 25);
+            this.Label_ViewMode_CategoryName.Name = "Label_ViewMode_CategoryName";
+            this.Label_ViewMode_CategoryName.Size = new System.Drawing.Size(80, 50);
+            this.Label_ViewMode_CategoryName.TabIndex = 0;
+            this.Label_ViewMode_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Label_ViewMode_TaxonName
+            // 
+            this.Label_ViewMode_TaxonName.AutoEllipsis = true;
+            this.Label_ViewMode_TaxonName.BackColor = System.Drawing.Color.Silver;
+            this.Label_ViewMode_TaxonName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_ViewMode_TaxonName.Location = new System.Drawing.Point(80, 25);
+            this.Label_ViewMode_TaxonName.Name = "Label_ViewMode_TaxonName";
+            this.Label_ViewMode_TaxonName.Size = new System.Drawing.Size(270, 50);
+            this.Label_ViewMode_TaxonName.TabIndex = 0;
+            this.Label_ViewMode_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Panel_TaxonInfo_EditMode
             // 
@@ -174,23 +375,6 @@
             this.Label_EditMode_Children.Text = "下级类群";
             this.Label_EditMode_Children.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TaxonNameButtonGroup_EditMode_Children
-            // 
-            this.TaxonNameButtonGroup_EditMode_Children.BackColor = System.Drawing.Color.Transparent;
-            this.TaxonNameButtonGroup_EditMode_Children.ButtonHeight = 22;
-            this.TaxonNameButtonGroup_EditMode_Children.ButtonPadding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.TaxonNameButtonGroup_EditMode_Children.CategoryNameWidth = 50;
-            this.TaxonNameButtonGroup_EditMode_Children.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TaxonNameButtonGroup_EditMode_Children.GroupNameWidth = 0;
-            this.TaxonNameButtonGroup_EditMode_Children.GroupPadding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.TaxonNameButtonGroup_EditMode_Children.IsDarkTheme = false;
-            this.TaxonNameButtonGroup_EditMode_Children.Location = new System.Drawing.Point(0, 60);
-            this.TaxonNameButtonGroup_EditMode_Children.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TaxonNameButtonGroup_EditMode_Children.Name = "TaxonNameButtonGroup_EditMode_Children";
-            this.TaxonNameButtonGroup_EditMode_Children.Size = new System.Drawing.Size(350, 40);
-            this.TaxonNameButtonGroup_EditMode_Children.TabIndex = 0;
-            this.TaxonNameButtonGroup_EditMode_Children.TabStop = false;
-            // 
             // Panel_EditMode_Parent
             // 
             this.Panel_EditMode_Parent.BackColor = System.Drawing.Color.Transparent;
@@ -211,23 +395,6 @@
             this.Label_EditMode_Parent.TabIndex = 0;
             this.Label_EditMode_Parent.Text = "上级类群";
             this.Label_EditMode_Parent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // TaxonNameButtonGroup_EditMode_Parent
-            // 
-            this.TaxonNameButtonGroup_EditMode_Parent.BackColor = System.Drawing.Color.Transparent;
-            this.TaxonNameButtonGroup_EditMode_Parent.ButtonHeight = 22;
-            this.TaxonNameButtonGroup_EditMode_Parent.ButtonPadding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.TaxonNameButtonGroup_EditMode_Parent.CategoryNameWidth = 50;
-            this.TaxonNameButtonGroup_EditMode_Parent.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TaxonNameButtonGroup_EditMode_Parent.GroupNameWidth = 30;
-            this.TaxonNameButtonGroup_EditMode_Parent.GroupPadding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.TaxonNameButtonGroup_EditMode_Parent.IsDarkTheme = false;
-            this.TaxonNameButtonGroup_EditMode_Parent.Location = new System.Drawing.Point(0, 60);
-            this.TaxonNameButtonGroup_EditMode_Parent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TaxonNameButtonGroup_EditMode_Parent.Name = "TaxonNameButtonGroup_EditMode_Parent";
-            this.TaxonNameButtonGroup_EditMode_Parent.Size = new System.Drawing.Size(350, 40);
-            this.TaxonNameButtonGroup_EditMode_Parent.TabIndex = 0;
-            this.TaxonNameButtonGroup_EditMode_Parent.TabStop = false;
             // 
             // Panel_EditMode_ParseChildren
             // 
@@ -424,23 +591,6 @@
             this.Panel_EditMode_Category.Size = new System.Drawing.Size(350, 75);
             this.Panel_EditMode_Category.TabIndex = 0;
             // 
-            // CategorySelector_EditMode_Category
-            // 
-            this.CategorySelector_EditMode_Category.AutoSize = true;
-            this.CategorySelector_EditMode_Category.BackColor = System.Drawing.Color.Transparent;
-            this.CategorySelector_EditMode_Category.ButtonPadding = new System.Windows.Forms.Padding(1);
-            this.CategorySelector_EditMode_Category.Category = TreeOfLife.TaxonomicCategory.Unranked;
-            this.CategorySelector_EditMode_Category.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CategorySelector_EditMode_Category.GroupPadding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-            this.CategorySelector_EditMode_Category.IsDarkTheme = false;
-            this.CategorySelector_EditMode_Category.Location = new System.Drawing.Point(80, 25);
-            this.CategorySelector_EditMode_Category.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.CategorySelector_EditMode_Category.MinButtonSize = new System.Drawing.Size(30, 22);
-            this.CategorySelector_EditMode_Category.Name = "CategorySelector_EditMode_Category";
-            this.CategorySelector_EditMode_Category.Size = new System.Drawing.Size(270, 46);
-            this.CategorySelector_EditMode_Category.TabIndex = 0;
-            this.CategorySelector_EditMode_Category.TabStop = false;
-            // 
             // Label_EditMode_Category
             // 
             this.Label_EditMode_Category.BackColor = System.Drawing.Color.Silver;
@@ -566,155 +716,6 @@
             this.Button_EnterViewMode.UseVisualStyleBackColor = true;
             this.Button_EnterViewMode.Click += new System.EventHandler(this.Button_EnterViewMode_Click);
             // 
-            // Panel_TaxonInfo_ViewMode
-            // 
-            this.Panel_TaxonInfo_ViewMode.AutoScroll = true;
-            this.Panel_TaxonInfo_ViewMode.AutoScrollMargin = new System.Drawing.Size(0, 25);
-            this.Panel_TaxonInfo_ViewMode.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Desc);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Tag);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Synonym);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Button_EnterEditMode);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Children);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Parent);
-            this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Title);
-            this.Panel_TaxonInfo_ViewMode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_TaxonInfo_ViewMode.Location = new System.Drawing.Point(0, 0);
-            this.Panel_TaxonInfo_ViewMode.Name = "Panel_TaxonInfo_ViewMode";
-            this.Panel_TaxonInfo_ViewMode.Size = new System.Drawing.Size(400, 450);
-            this.Panel_TaxonInfo_ViewMode.TabIndex = 0;
-            // 
-            // Panel_ViewMode_Desc
-            // 
-            this.Panel_ViewMode_Desc.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_ViewMode_Desc.Controls.Add(this.Label_ViewMode_Desc_Value);
-            this.Panel_ViewMode_Desc.Controls.Add(this.Label_ViewMode_Desc);
-            this.Panel_ViewMode_Desc.Location = new System.Drawing.Point(25, 175);
-            this.Panel_ViewMode_Desc.Name = "Panel_ViewMode_Desc";
-            this.Panel_ViewMode_Desc.Size = new System.Drawing.Size(350, 50);
-            this.Panel_ViewMode_Desc.TabIndex = 0;
-            // 
-            // Label_ViewMode_Desc_Value
-            // 
-            this.Label_ViewMode_Desc_Value.AutoSize = true;
-            this.Label_ViewMode_Desc_Value.BackColor = System.Drawing.Color.Transparent;
-            this.Label_ViewMode_Desc_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Desc_Value.Location = new System.Drawing.Point(80, 25);
-            this.Label_ViewMode_Desc_Value.MaximumSize = new System.Drawing.Size(270, 0);
-            this.Label_ViewMode_Desc_Value.MinimumSize = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Desc_Value.Name = "Label_ViewMode_Desc_Value";
-            this.Label_ViewMode_Desc_Value.Size = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Desc_Value.TabIndex = 0;
-            // 
-            // Label_ViewMode_Desc
-            // 
-            this.Label_ViewMode_Desc.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_Desc.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Desc.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_Desc.Name = "Label_ViewMode_Desc";
-            this.Label_ViewMode_Desc.Size = new System.Drawing.Size(70, 25);
-            this.Label_ViewMode_Desc.TabIndex = 0;
-            this.Label_ViewMode_Desc.Text = "描述";
-            this.Label_ViewMode_Desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Panel_ViewMode_Tag
-            // 
-            this.Panel_ViewMode_Tag.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_ViewMode_Tag.Controls.Add(this.Label_ViewMode_Tag_Value);
-            this.Panel_ViewMode_Tag.Controls.Add(this.Label_ViewMode_Tag);
-            this.Panel_ViewMode_Tag.Location = new System.Drawing.Point(25, 125);
-            this.Panel_ViewMode_Tag.Name = "Panel_ViewMode_Tag";
-            this.Panel_ViewMode_Tag.Size = new System.Drawing.Size(350, 50);
-            this.Panel_ViewMode_Tag.TabIndex = 0;
-            // 
-            // Label_ViewMode_Tag_Value
-            // 
-            this.Label_ViewMode_Tag_Value.AutoSize = true;
-            this.Label_ViewMode_Tag_Value.BackColor = System.Drawing.Color.Transparent;
-            this.Label_ViewMode_Tag_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Tag_Value.Location = new System.Drawing.Point(80, 25);
-            this.Label_ViewMode_Tag_Value.MaximumSize = new System.Drawing.Size(270, 0);
-            this.Label_ViewMode_Tag_Value.MinimumSize = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Tag_Value.Name = "Label_ViewMode_Tag_Value";
-            this.Label_ViewMode_Tag_Value.Size = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Tag_Value.TabIndex = 0;
-            // 
-            // Label_ViewMode_Tag
-            // 
-            this.Label_ViewMode_Tag.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_Tag.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Tag.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_Tag.Name = "Label_ViewMode_Tag";
-            this.Label_ViewMode_Tag.Size = new System.Drawing.Size(70, 25);
-            this.Label_ViewMode_Tag.TabIndex = 0;
-            this.Label_ViewMode_Tag.Text = "标签";
-            this.Label_ViewMode_Tag.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Panel_ViewMode_Synonym
-            // 
-            this.Panel_ViewMode_Synonym.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_ViewMode_Synonym.Controls.Add(this.Label_ViewMode_Synonym_Value);
-            this.Panel_ViewMode_Synonym.Controls.Add(this.Label_ViewMode_Synonym);
-            this.Panel_ViewMode_Synonym.Location = new System.Drawing.Point(25, 75);
-            this.Panel_ViewMode_Synonym.Name = "Panel_ViewMode_Synonym";
-            this.Panel_ViewMode_Synonym.Size = new System.Drawing.Size(350, 50);
-            this.Panel_ViewMode_Synonym.TabIndex = 0;
-            // 
-            // Label_ViewMode_Synonym_Value
-            // 
-            this.Label_ViewMode_Synonym_Value.AutoSize = true;
-            this.Label_ViewMode_Synonym_Value.BackColor = System.Drawing.Color.Transparent;
-            this.Label_ViewMode_Synonym_Value.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Synonym_Value.Location = new System.Drawing.Point(80, 25);
-            this.Label_ViewMode_Synonym_Value.MaximumSize = new System.Drawing.Size(270, 0);
-            this.Label_ViewMode_Synonym_Value.MinimumSize = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Synonym_Value.Name = "Label_ViewMode_Synonym_Value";
-            this.Label_ViewMode_Synonym_Value.Size = new System.Drawing.Size(270, 25);
-            this.Label_ViewMode_Synonym_Value.TabIndex = 0;
-            // 
-            // Label_ViewMode_Synonym
-            // 
-            this.Label_ViewMode_Synonym.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_Synonym.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Synonym.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_Synonym.Name = "Label_ViewMode_Synonym";
-            this.Label_ViewMode_Synonym.Size = new System.Drawing.Size(70, 25);
-            this.Label_ViewMode_Synonym.TabIndex = 0;
-            this.Label_ViewMode_Synonym.Text = "别名";
-            this.Label_ViewMode_Synonym.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Button_EnterEditMode
-            // 
-            this.Button_EnterEditMode.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Button_EnterEditMode.Location = new System.Drawing.Point(285, 450);
-            this.Button_EnterEditMode.Name = "Button_EnterEditMode";
-            this.Button_EnterEditMode.Size = new System.Drawing.Size(90, 30);
-            this.Button_EnterEditMode.TabIndex = 0;
-            this.Button_EnterEditMode.TabStop = false;
-            this.Button_EnterEditMode.Text = "编辑";
-            this.Button_EnterEditMode.UseVisualStyleBackColor = true;
-            this.Button_EnterEditMode.Click += new System.EventHandler(this.Button_EnterEditMode_Click);
-            // 
-            // Panel_ViewMode_Children
-            // 
-            this.Panel_ViewMode_Children.Controls.Add(this.Label_ViewMode_Children);
-            this.Panel_ViewMode_Children.Controls.Add(this.TaxonNameButtonGroup_ViewMode_Children);
-            this.Panel_ViewMode_Children.Location = new System.Drawing.Point(25, 325);
-            this.Panel_ViewMode_Children.Name = "Panel_ViewMode_Children";
-            this.Panel_ViewMode_Children.Size = new System.Drawing.Size(350, 100);
-            this.Panel_ViewMode_Children.TabIndex = 0;
-            // 
-            // Label_ViewMode_Children
-            // 
-            this.Label_ViewMode_Children.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_Children.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Children.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_Children.Name = "Label_ViewMode_Children";
-            this.Label_ViewMode_Children.Size = new System.Drawing.Size(350, 25);
-            this.Label_ViewMode_Children.TabIndex = 0;
-            this.Label_ViewMode_Children.Text = "下属类群";
-            this.Label_ViewMode_Children.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // TaxonNameButtonGroup_ViewMode_Children
             // 
             this.TaxonNameButtonGroup_ViewMode_Children.BackColor = System.Drawing.Color.Transparent;
@@ -731,27 +732,6 @@
             this.TaxonNameButtonGroup_ViewMode_Children.Size = new System.Drawing.Size(350, 40);
             this.TaxonNameButtonGroup_ViewMode_Children.TabIndex = 0;
             this.TaxonNameButtonGroup_ViewMode_Children.TabStop = false;
-            // 
-            // Panel_ViewMode_Parent
-            // 
-            this.Panel_ViewMode_Parent.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_ViewMode_Parent.Controls.Add(this.Label_ViewMode_Parent);
-            this.Panel_ViewMode_Parent.Controls.Add(this.TaxonNameButtonGroup_ViewMode_Parent);
-            this.Panel_ViewMode_Parent.Location = new System.Drawing.Point(25, 225);
-            this.Panel_ViewMode_Parent.Name = "Panel_ViewMode_Parent";
-            this.Panel_ViewMode_Parent.Size = new System.Drawing.Size(350, 100);
-            this.Panel_ViewMode_Parent.TabIndex = 0;
-            // 
-            // Label_ViewMode_Parent
-            // 
-            this.Label_ViewMode_Parent.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_Parent.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_Parent.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_Parent.Name = "Label_ViewMode_Parent";
-            this.Label_ViewMode_Parent.Size = new System.Drawing.Size(350, 25);
-            this.Label_ViewMode_Parent.TabIndex = 0;
-            this.Label_ViewMode_Parent.Text = "科学分类";
-            this.Label_ViewMode_Parent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TaxonNameButtonGroup_ViewMode_Parent
             // 
@@ -770,37 +750,56 @@
             this.TaxonNameButtonGroup_ViewMode_Parent.TabIndex = 0;
             this.TaxonNameButtonGroup_ViewMode_Parent.TabStop = false;
             // 
-            // Panel_ViewMode_Title
+            // TaxonNameButtonGroup_EditMode_Children
             // 
-            this.Panel_ViewMode_Title.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_ViewMode_Title.Controls.Add(this.Label_ViewMode_CategoryName);
-            this.Panel_ViewMode_Title.Controls.Add(this.Label_ViewMode_TaxonName);
-            this.Panel_ViewMode_Title.Location = new System.Drawing.Point(25, 0);
-            this.Panel_ViewMode_Title.Name = "Panel_ViewMode_Title";
-            this.Panel_ViewMode_Title.Size = new System.Drawing.Size(350, 75);
-            this.Panel_ViewMode_Title.TabIndex = 0;
+            this.TaxonNameButtonGroup_EditMode_Children.BackColor = System.Drawing.Color.Transparent;
+            this.TaxonNameButtonGroup_EditMode_Children.ButtonHeight = 22;
+            this.TaxonNameButtonGroup_EditMode_Children.ButtonPadding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.TaxonNameButtonGroup_EditMode_Children.CategoryNameWidth = 50;
+            this.TaxonNameButtonGroup_EditMode_Children.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TaxonNameButtonGroup_EditMode_Children.GroupNameWidth = 0;
+            this.TaxonNameButtonGroup_EditMode_Children.GroupPadding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.TaxonNameButtonGroup_EditMode_Children.IsDarkTheme = false;
+            this.TaxonNameButtonGroup_EditMode_Children.Location = new System.Drawing.Point(0, 60);
+            this.TaxonNameButtonGroup_EditMode_Children.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TaxonNameButtonGroup_EditMode_Children.Name = "TaxonNameButtonGroup_EditMode_Children";
+            this.TaxonNameButtonGroup_EditMode_Children.Size = new System.Drawing.Size(350, 40);
+            this.TaxonNameButtonGroup_EditMode_Children.TabIndex = 0;
+            this.TaxonNameButtonGroup_EditMode_Children.TabStop = false;
             // 
-            // Label_ViewMode_CategoryName
+            // TaxonNameButtonGroup_EditMode_Parent
             // 
-            this.Label_ViewMode_CategoryName.BackColor = System.Drawing.Color.DimGray;
-            this.Label_ViewMode_CategoryName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_CategoryName.ForeColor = System.Drawing.Color.White;
-            this.Label_ViewMode_CategoryName.Location = new System.Drawing.Point(0, 25);
-            this.Label_ViewMode_CategoryName.Name = "Label_ViewMode_CategoryName";
-            this.Label_ViewMode_CategoryName.Size = new System.Drawing.Size(80, 50);
-            this.Label_ViewMode_CategoryName.TabIndex = 0;
-            this.Label_ViewMode_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TaxonNameButtonGroup_EditMode_Parent.BackColor = System.Drawing.Color.Transparent;
+            this.TaxonNameButtonGroup_EditMode_Parent.ButtonHeight = 22;
+            this.TaxonNameButtonGroup_EditMode_Parent.ButtonPadding = new System.Windows.Forms.Padding(4, 1, 0, 1);
+            this.TaxonNameButtonGroup_EditMode_Parent.CategoryNameWidth = 50;
+            this.TaxonNameButtonGroup_EditMode_Parent.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TaxonNameButtonGroup_EditMode_Parent.GroupNameWidth = 30;
+            this.TaxonNameButtonGroup_EditMode_Parent.GroupPadding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.TaxonNameButtonGroup_EditMode_Parent.IsDarkTheme = false;
+            this.TaxonNameButtonGroup_EditMode_Parent.Location = new System.Drawing.Point(0, 60);
+            this.TaxonNameButtonGroup_EditMode_Parent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TaxonNameButtonGroup_EditMode_Parent.Name = "TaxonNameButtonGroup_EditMode_Parent";
+            this.TaxonNameButtonGroup_EditMode_Parent.Size = new System.Drawing.Size(350, 40);
+            this.TaxonNameButtonGroup_EditMode_Parent.TabIndex = 0;
+            this.TaxonNameButtonGroup_EditMode_Parent.TabStop = false;
             // 
-            // Label_ViewMode_TaxonName
+            // CategorySelector_EditMode_Category
             // 
-            this.Label_ViewMode_TaxonName.AutoEllipsis = true;
-            this.Label_ViewMode_TaxonName.BackColor = System.Drawing.Color.Silver;
-            this.Label_ViewMode_TaxonName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_ViewMode_TaxonName.Location = new System.Drawing.Point(80, 25);
-            this.Label_ViewMode_TaxonName.Name = "Label_ViewMode_TaxonName";
-            this.Label_ViewMode_TaxonName.Size = new System.Drawing.Size(270, 50);
-            this.Label_ViewMode_TaxonName.TabIndex = 0;
-            this.Label_ViewMode_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.CategorySelector_EditMode_Category.AutoSize = true;
+            this.CategorySelector_EditMode_Category.BackColor = System.Drawing.Color.Transparent;
+            this.CategorySelector_EditMode_Category.ButtonPadding = new System.Windows.Forms.Padding(1);
+            this.CategorySelector_EditMode_Category.Category = TreeOfLife.TaxonomicCategory.Unranked;
+            this.CategorySelector_EditMode_Category.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CategorySelector_EditMode_Category.GroupPadding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.CategorySelector_EditMode_Category.IsDarkTheme = false;
+            this.CategorySelector_EditMode_Category.Location = new System.Drawing.Point(80, 25);
+            this.CategorySelector_EditMode_Category.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CategorySelector_EditMode_Category.MinButtonSize = new System.Drawing.Size(30, 22);
+            this.CategorySelector_EditMode_Category.Name = "CategorySelector_EditMode_Category";
+            this.CategorySelector_EditMode_Category.Size = new System.Drawing.Size(270, 46);
+            this.CategorySelector_EditMode_Category.TabIndex = 0;
+            this.CategorySelector_EditMode_Category.TabStop = false;
             // 
             // MainForm
             // 
@@ -811,6 +810,16 @@
             this.Name = "MainForm";
             this.Panel_Main.ResumeLayout(false);
             this.Panel_TaxonInfo.ResumeLayout(false);
+            this.Panel_TaxonInfo_ViewMode.ResumeLayout(false);
+            this.Panel_ViewMode_Desc.ResumeLayout(false);
+            this.Panel_ViewMode_Desc.PerformLayout();
+            this.Panel_ViewMode_Tag.ResumeLayout(false);
+            this.Panel_ViewMode_Tag.PerformLayout();
+            this.Panel_ViewMode_Synonym.ResumeLayout(false);
+            this.Panel_ViewMode_Synonym.PerformLayout();
+            this.Panel_ViewMode_Children.ResumeLayout(false);
+            this.Panel_ViewMode_Parent.ResumeLayout(false);
+            this.Panel_ViewMode_Title.ResumeLayout(false);
             this.Panel_TaxonInfo_EditMode.ResumeLayout(false);
             this.Panel_EditMode_Children.ResumeLayout(false);
             this.Panel_EditMode_Parent.ResumeLayout(false);
@@ -830,16 +839,6 @@
             this.Panel_EditMode_State.PerformLayout();
             this.Panel_EditMode_TaxonName.ResumeLayout(false);
             this.Panel_EditMode_TaxonName.PerformLayout();
-            this.Panel_TaxonInfo_ViewMode.ResumeLayout(false);
-            this.Panel_ViewMode_Desc.ResumeLayout(false);
-            this.Panel_ViewMode_Desc.PerformLayout();
-            this.Panel_ViewMode_Tag.ResumeLayout(false);
-            this.Panel_ViewMode_Tag.PerformLayout();
-            this.Panel_ViewMode_Synonym.ResumeLayout(false);
-            this.Panel_ViewMode_Synonym.PerformLayout();
-            this.Panel_ViewMode_Children.ResumeLayout(false);
-            this.Panel_ViewMode_Parent.ResumeLayout(false);
-            this.Panel_ViewMode_Title.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

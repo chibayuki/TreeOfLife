@@ -155,8 +155,8 @@ namespace TreeOfLife
                                 recursiveInsteadOfLoop: true,
                                 TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: true)));
                         }
-                        // 如果已经上溯到界，继续上溯到最高级别
-                        else
+                        // 如果已经上溯到界以上，继续上溯到最高级别
+                        else if (parent.Category > TaxonomicCategory.Kingdom)
                         {
                             result.AddRange(parent.GetParents(
                                 TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
