@@ -30,6 +30,8 @@ namespace TreeOfLife
     {
         private bool _IsDarkTheme;
 
+        private const string _FileName = @".\Phylogenesis.json";
+
         #region 窗口定义
 
         private FormManager Me;
@@ -269,8 +271,6 @@ namespace TreeOfLife
         #endregion
 
         #region 类群信息页面
-
-        private const string _FileName = @".\Phylogenesis.json";
 
         private bool _EditMode = false; // 是否为编辑模式。
 
@@ -699,9 +699,16 @@ namespace TreeOfLife
 
         private void Button_EditMode_ParseChildren_Click(object sender, EventArgs e)
         {
-            _CurrentTaxon.ParseChildren(TextBox_EditMode_ParseChildren.Lines);
+            if (string.IsNullOrEmpty(TextBox_EditMode_ParseChildren.Text))
+            {
+                _CurrentTaxon.AddChild();
+            }
+            else
+            {
+                _CurrentTaxon.ParseChildren(TextBox_EditMode_ParseChildren.Lines);
 
-            TextBox_EditMode_ParseChildren.Clear();
+                TextBox_EditMode_ParseChildren.Clear();
+            }
 
             //
 

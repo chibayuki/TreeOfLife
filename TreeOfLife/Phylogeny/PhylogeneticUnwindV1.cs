@@ -292,8 +292,8 @@ namespace TreeOfLife
         private int _IsExtinct; // 已灭绝。
         private int _InDoubt; // 分类地位存疑。
 
-        private List<int> _ParentsIndex;
-        private int _Index; // 当前类群在姊妹类群中的次序。
+        private List<int> _ParentsIndex = new List<int>();
+        private int _Index = -1; // 当前类群在姊妹类群中的次序。
 
         //
 
@@ -359,18 +359,62 @@ namespace TreeOfLife
             set => _InDoubt = value;
         }
 
-        [JsonPropertyName("Inherit")]
-        public List<int> ParentsIndex
-        {
-            get => _ParentsIndex;
-            set => _ParentsIndex = value;
-        }
+        [JsonIgnore]
+        public List<int> ParentsIndex => _ParentsIndex;
+
+        [JsonIgnore]
+        public int Index => _Index;
 
         [JsonPropertyName("ID")]
-        public int Index
+        public string ID
         {
-            get => _Index;
-            set => _Index = value;
+            get
+            {
+                int count = _ParentsIndex.Count;
+
+                if (count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        sb.Append(_ParentsIndex[i].ToString());
+                        sb.Append('-');
+                    }
+
+                    sb.Append(_Index.ToString());
+
+                    return sb.ToString();
+                }
+                else
+                {
+                    return _Index.ToString();
+                }
+            }
+
+            set
+            {
+                string[] id = value.Split('-');
+
+                int count = id.Length;
+
+                if (count > 1)
+                {
+                    _ParentsIndex = new List<int>(count - 1);
+
+                    for (int i = 0; i < count - 1; i++)
+                    {
+                        _ParentsIndex.Add(int.Parse(id[i]));
+                    }
+
+                    _Index = int.Parse(id[count - 1]);
+                }
+                else if (count == 1)
+                {
+                    _ParentsIndex = new List<int>();
+                    _Index = int.Parse(id[0]);
+                }
+            }
         }
 
         //
