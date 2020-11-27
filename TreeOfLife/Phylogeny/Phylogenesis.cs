@@ -25,7 +25,6 @@ namespace TreeOfLife
     internal static class Phylogenesis
     {
         public const string FileVersionJsonPropertyName = "FileVersion";
-        public const string AppVersionJsonPropertyName = "AppVersion";
 
         //
 
@@ -99,7 +98,7 @@ namespace TreeOfLife
 
                             PhylogeneticUnwindV1 unwindObject = JsonSerializer.Deserialize<PhylogeneticUnwindV1>(jsonText, options);
 
-                            _PhylogeneticTree = unwindObject.ToPhylogeneticTree();
+                            _PhylogeneticTree = unwindObject.Rebuild();
 
                             return true;
                         }

@@ -30,10 +30,10 @@ namespace TreeOfLife
     {
         private string _BotanicalName = string.Empty; // 学名。
         private string _ChineseName = string.Empty; // 中文名。
-        private List<string> _Synonym = new List<string>(); // 异名、别名、旧名等。
-        private List<string> _Tag = new List<string>(); // 标签。
+        private List<string> _Synonyms = new List<string>(); // 异名、别名、旧名等。
+        private List<string> _Tags = new List<string>(); // 标签。
         private string _Description = string.Empty; // 描述。
-        private List<string> _Url = new List<string>(); // 链接。
+        private List<string> _Urls = new List<string>(); // 链接。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
         private TaxonType _TaxonType = TaxonType.Monophyly; // 类型。
@@ -67,9 +67,9 @@ namespace TreeOfLife
             set => _ChineseName = value;
         }
 
-        public List<string> Synonym => _Synonym;
+        public List<string> Synonyms => _Synonyms;
 
-        public List<string> Tag => _Tag;
+        public List<string> Tags => _Tags;
 
         public string Description
         {
@@ -77,7 +77,7 @@ namespace TreeOfLife
             set => _Description = value;
         }
 
-        private List<string> Url => _Url;
+        private List<string> Urls => _Urls;
 
         public TaxonomicCategory Category
         {

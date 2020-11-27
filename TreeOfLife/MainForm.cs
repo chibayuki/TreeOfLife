@@ -416,11 +416,11 @@ namespace TreeOfLife
 
                 //
 
-                if (_CurrentTaxon.Synonym.Count > 0)
+                if (_CurrentTaxon.Synonyms.Count > 0)
                 {
                     StringBuilder synonym = new StringBuilder();
 
-                    foreach (var item in _CurrentTaxon.Synonym)
+                    foreach (var item in _CurrentTaxon.Synonyms)
                     {
                         synonym.AppendLine(item);
                     }
@@ -430,11 +430,11 @@ namespace TreeOfLife
 
                 //
 
-                if (_CurrentTaxon.Tag.Count > 0)
+                if (_CurrentTaxon.Tags.Count > 0)
                 {
                     StringBuilder tag = new StringBuilder();
 
-                    foreach (var item in _CurrentTaxon.Tag)
+                    foreach (var item in _CurrentTaxon.Tags)
                     {
                         tag.Append(item);
                         tag.Append("  ");
@@ -494,7 +494,7 @@ namespace TreeOfLife
             Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
 
             Label_ViewMode_Tag.Height = Label_ViewMode_Tag_Value.Height;
-            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tag.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
+            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
             Panel_ViewMode_Tag.Top = Panel_ViewMode_Title.Bottom;
 
             Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
@@ -504,7 +504,7 @@ namespace TreeOfLife
             Panel_ViewMode_Children.Top = Panel_ViewMode_Parent.Bottom;
 
             Label_ViewMode_Synonym.Height = Label_ViewMode_Synonym_Value.Height;
-            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonym.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
+            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
             Panel_ViewMode_Synonym.Top = Panel_ViewMode_Children.Bottom;
 
             Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
@@ -531,8 +531,8 @@ namespace TreeOfLife
             CheckBox_EditMode_EX.Checked = _CurrentTaxon.IsExtinct;
             CheckBox_EditMode_Doubt.Checked = _CurrentTaxon.InDoubt;
             CategorySelector_EditMode_Category.Category = _CurrentTaxon.Category;
-            TextBox_EditMode_Synonym.Lines = _CurrentTaxon.Synonym.ToArray();
-            TextBox_EditMode_Tag.Lines = _CurrentTaxon.Tag.ToArray();
+            TextBox_EditMode_Synonym.Lines = _CurrentTaxon.Synonyms.ToArray();
+            TextBox_EditMode_Tag.Lines = _CurrentTaxon.Tags.ToArray();
             TextBox_EditMode_Desc.Text = _CurrentTaxon.Description;
             TextBox_EditMode_ParseCurrent.Text = string.Empty;
             TextBox_EditMode_ParseChildren.Text = string.Empty;
@@ -667,21 +667,21 @@ namespace TreeOfLife
 
         private void TextBox_EditMode_Synonym_TextChanged(object sender, EventArgs e)
         {
-            _CurrentTaxon.Synonym.Clear();
+            _CurrentTaxon.Synonyms.Clear();
 
             foreach (string synonym in TextBox_EditMode_Synonym.Lines)
             {
-                _CurrentTaxon.Synonym.Add(synonym.Trim());
+                _CurrentTaxon.Synonyms.Add(synonym.Trim());
             }
         }
 
         private void TextBox_EditMode_Tag_TextChanged(object sender, EventArgs e)
         {
-            _CurrentTaxon.Tag.Clear();
+            _CurrentTaxon.Tags.Clear();
 
             foreach (string tag in TextBox_EditMode_Tag.Lines)
             {
-                _CurrentTaxon.Tag.Add(tag.Trim());
+                _CurrentTaxon.Tags.Add(tag.Trim());
             }
         }
 

@@ -283,8 +283,8 @@ namespace TreeOfLife
 
         private string _BotanicalName; // 学名。
         private string _ChineseName; // 中文名。
-        private List<string> _Synonym; // 异名、别名、旧名等。
-        private List<string> _Tag; // 标签。
+        private List<string> _Synonyms; // 异名、别名、旧名等。
+        private List<string> _Tags; // 标签。
         private string _Description; // 描述。
 
         private TaxonomicCategory _Category; // 分类阶元。
@@ -292,8 +292,10 @@ namespace TreeOfLife
         private int _IsExtinct; // 已灭绝。
         private int _InDoubt; // 分类地位存疑。
 
-        private List<int> _ParentsIndex = new List<int>();
+        private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
+
+        private List<int> _ParentsIndex = new List<int>();
 
         //
 
@@ -317,18 +319,18 @@ namespace TreeOfLife
             set => _ChineseName = value;
         }
 
-        [JsonPropertyName("Synonym")]
-        public List<string> Synonym
+        [JsonPropertyName("Synonyms")]
+        public List<string> Synonyms
         {
-            get => _Synonym;
-            set => _Synonym = value;
+            get => _Synonyms;
+            set => _Synonyms = value;
         }
 
-        [JsonPropertyName("Tag")]
-        public List<string> Tag
+        [JsonPropertyName("Tags")]
+        public List<string> Tags
         {
-            get => _Tag;
-            set => _Tag = value;
+            get => _Tags;
+            set => _Tags = value;
         }
 
         [JsonPropertyName("Desc")]
@@ -360,10 +362,13 @@ namespace TreeOfLife
         }
 
         [JsonIgnore]
-        public List<int> ParentsIndex => _ParentsIndex;
+        public int Level => _Level;
 
         [JsonIgnore]
         public int Index => _Index;
+
+        [JsonIgnore]
+        public IReadOnlyList<int> ParentsIndex => _ParentsIndex;
 
         [JsonPropertyName("ID")]
         public string ID
@@ -374,17 +379,17 @@ namespace TreeOfLife
 
                 if (count > 0)
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder id = new StringBuilder();
 
                     for (int i = 0; i < count; i++)
                     {
-                        sb.Append(_ParentsIndex[i].ToString());
-                        sb.Append('-');
+                        id.Append(_ParentsIndex[i].ToString());
+                        id.Append('-');
                     }
 
-                    sb.Append(_Index.ToString());
+                    id.Append(_Index.ToString());
 
-                    return sb.ToString();
+                    return id.ToString();
                 }
                 else
                 {
@@ -425,17 +430,16 @@ namespace TreeOfLife
             {
                 BotanicalName = _BotanicalName,
                 ChineseName = _ChineseName,
+                Description = _Description,
 
                 Category = _ConvertCategory(_Category),
 
                 IsExtinct = Convert.ToBoolean(_IsExtinct),
-                InDoubt = Convert.ToBoolean(_InDoubt),
-
-                Description = _Description
+                InDoubt = Convert.ToBoolean(_InDoubt)
             };
 
-            taxon.Synonym.AddRange(_Synonym);
-            taxon.Tag.AddRange(_Tag);
+            taxon.Synonyms.AddRange(_Synonyms);
+            taxon.Tags.AddRange(_Tags);
 
             return taxon;
         }
@@ -453,8 +457,8 @@ namespace TreeOfLife
             {
                 _BotanicalName = taxon.BotanicalName,
                 _ChineseName = taxon.ChineseName,
-                _Synonym = new List<string>(taxon.Synonym),
-                _Tag = new List<string>(taxon.Tag),
+                _Synonyms = new List<string>(taxon.Synonyms),
+                _Tags = new List<string>(taxon.Tags),
                 _Description = taxon.Description,
 
                 _Category = _ConvertCategory(taxon.Category),
@@ -462,8 +466,10 @@ namespace TreeOfLife
                 _IsExtinct = Convert.ToInt32(taxon.IsExtinct),
                 _InDoubt = Convert.ToInt32(taxon.InDoubt),
 
-                _ParentsIndex = new List<int>(taxon.Level),
-                _Index = taxon.Index
+                _Level = taxon.Level,
+                _Index = taxon.Index,
+
+                _ParentsIndex = new List<int>(taxon.Level)
             };
 
             Taxon parent = taxon.Parent;
@@ -497,9 +503,6 @@ namespace TreeOfLife
         [JsonPropertyName(Phylogenesis.FileVersionJsonPropertyName)]
         public int FileVersion => 1;
 
-        [JsonPropertyName(Phylogenesis.AppVersionJsonPropertyName)]
-        public string AppVersion => System.Windows.Forms.Application.ProductVersion;
-
         [JsonPropertyName("Taxons")]
         public List<PhylogeneticUnwindV1Atom> Atoms
         {
@@ -509,7 +512,7 @@ namespace TreeOfLife
 
         //
 
-        private static Taxon _GetTaxonOfTree(PhylogeneticTree tree, List<int> index)
+        private static Taxon _GetTaxonOfTree(PhylogeneticTree tree, IReadOnlyList<int> index)
         {
             if (tree is null || index is null)
             {
@@ -531,11 +534,12 @@ namespace TreeOfLife
             return taxon;
         }
 
-        public PhylogeneticTree ToPhylogeneticTree()
+        // 重建系统发生树。
+        public PhylogeneticTree Rebuild()
         {
             PhylogeneticTree tree = new PhylogeneticTree();
 
-            var atoms = _Atoms.OrderBy(atom => atom.ParentsIndex.Count).ThenBy(atom => atom.Index);
+            var atoms = _Atoms.OrderBy(atom => atom.Level).ThenBy(atom => atom.Index);
 
             foreach (PhylogeneticUnwindV1Atom atom in atoms)
             {
