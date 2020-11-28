@@ -19,7 +19,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using ColorManipulation = Com.ColorManipulation;
+using System.IO;
+
 using ColorX = Com.ColorX;
 using FormManager = Com.WinForm.FormManager;
 using Theme = Com.WinForm.Theme;
@@ -29,8 +30,6 @@ namespace TreeOfLife
     internal partial class MainForm : Form
     {
         private bool _IsDarkTheme;
-
-        private const string _FileName = @".\Phylogenesis.json";
 
         #region 窗口定义
 
@@ -90,6 +89,13 @@ namespace TreeOfLife
             Me.SizeChanged += Me_SizeChanged;
             Me.ThemeChanged += Me_ThemeChanged;
             Me.ThemeColorChanged += Me_ThemeChanged;
+
+            Me.CloseVerification = _CloseVerification;
+
+            ToolStripMenuItem_Open.Click += ToolStripMenuItem_Open_Click;
+            ToolStripMenuItem_Save.Click += ToolStripMenuItem_Save_Click;
+            ToolStripMenuItem_SaveAs.Click += ToolStripMenuItem_SaveAs_Click;
+            ToolStripMenuItem_Close.Click += ToolStripMenuItem_Close_Click;
         }
 
         #endregion
@@ -98,7 +104,7 @@ namespace TreeOfLife
 
         private void Me_Loading(object sender, EventArgs e)
         {
-            Phylogenesis.Open(_FileName);
+            Phylogenesis.New();
         }
 
         private void Me_Loaded(object sender, EventArgs e)
@@ -112,6 +118,9 @@ namespace TreeOfLife
 
             //
 
+            TagGroup_Synonyms.AutoSize = true;
+            TagGroup_ViewMode_Tags.AutoSize = true;
+
             TaxonNameButtonGroup_ViewMode_Parent.AutoSize = true;
             TaxonNameButtonGroup_ViewMode_Children.AutoSize = true;
 
@@ -124,19 +133,8 @@ namespace TreeOfLife
 
             //
 
-            //_SetCurrentTaxon(Phylogenesis.Root);
-
-            Taxon taxon = Phylogenesis.Root;
-            while (taxon.Children.Count > 0)
-            {
-                if (taxon.ChineseName == "合弓纲")
-                {
-                    break;
-                }
-
-                taxon = taxon.Children[0];
-            }
-            _SetCurrentTaxon(taxon);
+            _SetCurrentTaxon(Phylogenesis.Root);
+            _SetMode(false);
 
             //
 
@@ -145,7 +143,7 @@ namespace TreeOfLife
 
         private void Me_Closing(object sender, EventArgs e)
         {
-            Phylogenesis.Save();
+
         }
 
         private void Me_Closed(object sender, EventArgs e)
@@ -180,12 +178,12 @@ namespace TreeOfLife
             Label_ViewMode_Synonym.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_ViewMode_Synonym.BackColor = Me.RecommendColors.Background.ToColor();
 
-            Label_ViewMode_Synonym_Value.ForeColor = Me.RecommendColors.Text.ToColor();
+            TagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
 
             Label_ViewMode_Tag.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_ViewMode_Tag.BackColor = Me.RecommendColors.Background.ToColor();
 
-            Label_ViewMode_Tag_Value.ForeColor = Me.RecommendColors.Text.ToColor();
+            TagGroup_ViewMode_Tags.IsDarkTheme = _IsDarkTheme;
 
             Label_ViewMode_Desc.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_ViewMode_Desc.BackColor = Me.RecommendColors.Background.ToColor();
@@ -277,14 +275,17 @@ namespace TreeOfLife
         // 进入/退出编辑模式。
         private void _SetMode(bool editMode)
         {
-            _EditMode = editMode;
+            if (_EditMode != editMode)
+            {
+                _EditMode = editMode;
 
-            Panel_TaxonInfo_EditMode.Visible = _EditMode;
-            Panel_TaxonInfo_ViewMode.Visible = !_EditMode;
+                Panel_TaxonInfo_EditMode.Visible = _EditMode;
+                Panel_TaxonInfo_ViewMode.Visible = !_EditMode;
 
-            //
+                //
 
-            _UpdateCurrentTaxonInfo();
+                _UpdateCurrentTaxonInfo();
+            }
         }
 
         private Taxon _CurrentTaxon = null; // 当前选择的类群。
@@ -403,10 +404,12 @@ namespace TreeOfLife
         {
             if (!_CurrentTaxon.IsRoot)
             {
+                ColorX taxonColor = _CurrentTaxon.GetThemeColor();
+
+                //
+
                 Label_ViewMode_CategoryName.Text = (_CurrentTaxon.IsAnonymous() ? string.Empty : _CurrentTaxon.Category.Name());
                 Label_ViewMode_TaxonName.Text = _CurrentTaxon.ShortName('\n');
-
-                ColorX taxonColor = _CurrentTaxon.GetThemeColor();
 
                 Label_ViewMode_CategoryName.ForeColor = (_IsDarkTheme ? Color.Black : Color.White);
                 Label_ViewMode_CategoryName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
@@ -416,32 +419,13 @@ namespace TreeOfLife
 
                 //
 
-                if (_CurrentTaxon.Synonyms.Count > 0)
-                {
-                    StringBuilder synonym = new StringBuilder();
-
-                    foreach (var item in _CurrentTaxon.Synonyms)
-                    {
-                        synonym.AppendLine(item);
-                    }
-
-                    Label_ViewMode_Synonym_Value.Text = synonym.ToString();
-                }
+                TagGroup_Synonyms.ThemeColor = taxonColor;
+                TagGroup_Synonyms.Tags = _CurrentTaxon.Synonyms.ToArray();
 
                 //
 
-                if (_CurrentTaxon.Tags.Count > 0)
-                {
-                    StringBuilder tag = new StringBuilder();
-
-                    foreach (var item in _CurrentTaxon.Tags)
-                    {
-                        tag.Append(item);
-                        tag.Append("  ");
-                    }
-
-                    Label_ViewMode_Tag_Value.Text = tag.ToString();
-                }
+                TagGroup_ViewMode_Tags.ThemeColor = taxonColor;
+                TagGroup_ViewMode_Tags.Tags = _CurrentTaxon.Tags.ToArray();
 
                 //
 
@@ -493,8 +477,8 @@ namespace TreeOfLife
         {
             Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
 
-            Label_ViewMode_Tag.Height = Label_ViewMode_Tag_Value.Height;
-            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : Label_ViewMode_Tag_Value.Bottom);
+            Label_ViewMode_Tag.Height = TagGroup_ViewMode_Tags.Height;
+            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : TagGroup_ViewMode_Tags.Bottom);
             Panel_ViewMode_Tag.Top = Panel_ViewMode_Title.Bottom;
 
             Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
@@ -503,8 +487,7 @@ namespace TreeOfLife
             Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
             Panel_ViewMode_Children.Top = Panel_ViewMode_Parent.Bottom;
 
-            Label_ViewMode_Synonym.Height = Label_ViewMode_Synonym_Value.Height;
-            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : Label_ViewMode_Synonym_Value.Bottom);
+            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : TagGroup_Synonyms.Bottom);
             Panel_ViewMode_Synonym.Top = Panel_ViewMode_Children.Bottom;
 
             Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
@@ -722,6 +705,153 @@ namespace TreeOfLife
         }
 
         #endregion
+
+        #endregion
+
+        #region 文件
+
+        private bool _Open()
+        {
+            bool result = true;
+
+            try
+            {
+                DialogResult dr = OpenFileDialog_Open.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    result = Phylogenesis.Open(OpenFileDialog_Open.FileName);
+                }
+
+                if (result)
+                {
+                    _SetCurrentTaxon(Phylogenesis.Root);
+                    _SetMode(false);
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        private bool _Save()
+        {
+            bool result = true;
+
+            try
+            {
+                if (File.Exists(Phylogenesis.FileName))
+                {
+                    result = Phylogenesis.Save();
+                }
+                else
+                {
+                    DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+
+                    if (dr == DialogResult.OK)
+                    {
+                        result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+                    }
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        private bool _SaveAs()
+        {
+            bool result = true;
+
+            try
+            {
+                DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        private bool _Close()
+        {
+            bool result = true;
+
+            try
+            {
+                result = Phylogenesis.Close();
+
+                if (result)
+                {
+                    _SetCurrentTaxon(Phylogenesis.Root);
+                    _SetMode(false);
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        private bool _CloseVerification(EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("是否保存?", Application.ProductName, MessageBoxButtons.YesNoCancel);
+
+            switch (dr)
+            {
+                case DialogResult.Cancel: return false;
+                case DialogResult.Yes: if (!_Save()) MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK); return true;
+                case DialogResult.No: return true;
+                default: return false;
+            }
+        }
+
+        private void ToolStripMenuItem_Open_Click(object sender, EventArgs e)
+        {
+            if (!_Open())
+            {
+                MessageBox.Show("打开失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
+
+        private void ToolStripMenuItem_Save_Click(object sender, EventArgs e)
+        {
+            if (!_Save())
+            {
+                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
+
+        private void ToolStripMenuItem_SaveAs_Click(object sender, EventArgs e)
+        {
+            if (!_SaveAs())
+            {
+                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
+
+        private void ToolStripMenuItem_Close_Click(object sender, EventArgs e)
+        {
+            if (!_Close())
+            {
+                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
 
         #endregion
     }

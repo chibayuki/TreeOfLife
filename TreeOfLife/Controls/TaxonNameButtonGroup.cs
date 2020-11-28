@@ -100,9 +100,9 @@ namespace TreeOfLife
             {
                 _NameLabel.Font = groupName;
 
-                for (int i = 0; i < _Buttons.Count; i++)
+                foreach (var button in _Buttons)
                 {
-                    Taxon taxon = _Buttons[i].Taxon;
+                    Taxon taxon = button.Taxon;
 
                     TaxonomicCategory category = taxon.Category;
                     bool basicPrimary = category.IsBasicPrimaryCategory();
@@ -110,7 +110,7 @@ namespace TreeOfLife
 
                     Font font = (bellowGenus ? (basicPrimary ? basicPrimaryCategoryBellowGenus : anyCategoryBellowGenus) : (basicPrimary ? basicPrimaryCategory : anyCategory));
 
-                    _Buttons[i].Font = font;
+                    button.Font = font;
                 }
             }
 
@@ -119,10 +119,10 @@ namespace TreeOfLife
                 _NameLabel.ForeColor = (_DarkTheme ? Color.Black : Color.White);
                 _NameLabel.BackColor = _ThemeColor.AtLightness_LAB(50).ToColor();
 
-                for (int i = 0; i < _Buttons.Count; i++)
+                foreach (var button in _Buttons)
                 {
-                    _Buttons[i].IsDarkTheme = _DarkTheme;
-                    _Buttons[i].ThemeColor = _ThemeColor;
+                    button.IsDarkTheme = _DarkTheme;
+                    button.ThemeColor = _ThemeColor;
                 }
             }
 
@@ -152,9 +152,9 @@ namespace TreeOfLife
 
                 _GroupPanel.Controls.Add(_NameLabel);
 
-                for (int i = 0; i < _Buttons.Count; i++)
+                foreach (var button in _Buttons)
                 {
-                    _GroupPanel.Controls.Add(_Buttons[i]);
+                    _GroupPanel.Controls.Add(button);
                 }
             }
         }
@@ -248,18 +248,18 @@ namespace TreeOfLife
             Font anyCategoryBellowGenus = new Font(family, emSize, FontStyle.Italic, unit, gdiCharSet);
             Font basicPrimaryCategoryBellowGenus = new Font(family, emSize, FontStyle.Bold | FontStyle.Italic, unit, gdiCharSet);
 
-            for (int i = 0; i < _Groups.Count; i++)
+            foreach (var group in _Groups)
             {
-                _Groups[i].UpdateFont(groupName, anyCategory, basicPrimaryCategory, anyCategoryBellowGenus, basicPrimaryCategoryBellowGenus);
+                group.UpdateFont(groupName, anyCategory, basicPrimaryCategory, anyCategoryBellowGenus, basicPrimaryCategoryBellowGenus);
             }
         }
 
         private void _UpdateColor()
         {
-            for (int i = 0; i < _Groups.Count; i++)
+            foreach (var group in _Groups)
             {
-                _Groups[i].IsDarkTheme = _DarkTheme;
-                _Groups[i].UpdateColor();
+                group.IsDarkTheme = _DarkTheme;
+                group.UpdateColor();
             }
         }
 
@@ -267,19 +267,19 @@ namespace TreeOfLife
         {
             Panel_Main.Controls.Clear();
 
-            for (int i = 0; i < _Groups.Count; i++)
+            foreach (var group in _Groups)
             {
-                _Groups[i].UpdateControls();
+                group.UpdateControls();
 
-                Panel_Main.Controls.Add(_Groups[i].GroupPanel);
+                Panel_Main.Controls.Add(group.GroupPanel);
             }
         }
 
         private void _UpdateLayout()
         {
-            for (int i = 0; i < _Groups.Count; i++)
+            foreach (var group in _Groups)
             {
-                _Groups[i].UpdateLayout(this.Width - _GroupPadding.Horizontal, _GroupNameWidth, _CategoryNameWidth, _ButtonHeight, _ButtonPadding);
+                group.UpdateLayout(this.Width - _GroupPadding.Horizontal, _GroupNameWidth, _CategoryNameWidth, _ButtonHeight, _ButtonPadding);
             }
 
             for (int i = 0; i < _Groups.Count; i++)

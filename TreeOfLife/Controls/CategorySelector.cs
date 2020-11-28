@@ -56,17 +56,17 @@ namespace TreeOfLife
 
             public void UpdateFont(Font font)
             {
-                for (int i = 0; i < _Buttons.Count; i++)
+                foreach (var button in _Buttons)
                 {
-                    _Buttons[i].Font = font;
+                    button.Font = font;
                 }
             }
 
             public void UpdateColor()
             {
-                for (int i = 0; i < _Buttons.Count; i++)
+                foreach (var button in _Buttons)
                 {
-                    _Buttons[i].IsDarkTheme = _DarkTheme;
+                    button.IsDarkTheme = _DarkTheme;
                 }
             }
 
@@ -123,7 +123,7 @@ namespace TreeOfLife
         private _Group _Level3Group = null;
 
         private Size _MinButtonSize = new Size(30, 22); // 按钮最小大小。
-        private Padding _ButtonPadding = new Padding(1, 1, 1, 1); // 按钮外边距。
+        private Padding _ButtonPadding = new Padding(2, 2, 2, 2); // 按钮外边距。
         private Padding _GroupPadding = new Padding(0, 4, 0, 4); // 组外边距。
 
         private bool _DarkTheme = false; // 是否为暗色主题。
@@ -145,6 +145,7 @@ namespace TreeOfLife
             //
 
             this.Load += CategorySelector_Load;
+            this.SizeChanged += CategorySelector_SizeChanged;
             this.AutoSizeChanged += CategorySelector_AutoSizeChanged;
             this.FontChanged += CategorySelector_FontChanged;
             Panel_Main.Paint += Panel_Main_Paint;
@@ -495,7 +496,13 @@ namespace TreeOfLife
 
         private void CategorySelector_Load(object sender, EventArgs e)
         {
+            _UpdateFont();
             _UpdateCategory();
+            _UpdateLayout();
+        }
+
+        private void CategorySelector_SizeChanged(object sender, EventArgs e)
+        {
             _UpdateLayout();
         }
 
