@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.306.1000.M4.201121-0000
+Version 1.0.322.1000.M4.201128-1620
 
 This file is part of "生命树" (TreeOfLife)
 

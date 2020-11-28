@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.305.1000.M4.201120-0000
+Version 1.0.322.1000.M4.201128-1620
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -83,10 +83,6 @@ namespace TreeOfLife
 
             Me.Loading += Me_Loading;
             Me.Loaded += Me_Loaded;
-            Me.Closing += Me_Closing;
-            Me.Closed += Me_Closed;
-            Me.Resize += Me_Resize;
-            Me.SizeChanged += Me_SizeChanged;
             Me.ThemeChanged += Me_ThemeChanged;
             Me.ThemeColorChanged += Me_ThemeChanged;
 
@@ -121,10 +117,10 @@ namespace TreeOfLife
             TagGroup_Synonyms.AutoSize = true;
             TagGroup_ViewMode_Tags.AutoSize = true;
 
-            TaxonNameButtonGroup_ViewMode_Parent.AutoSize = true;
+            TaxonNameButtonGroup_ViewMode_Parents.AutoSize = true;
             TaxonNameButtonGroup_ViewMode_Children.AutoSize = true;
 
-            TaxonNameButtonGroup_EditMode_Parent.AutoSize = true;
+            TaxonNameButtonGroup_EditMode_Parents.AutoSize = true;
             TaxonNameButtonGroup_EditMode_Children.AutoSize = true;
 
             //
@@ -141,26 +137,6 @@ namespace TreeOfLife
             Panel_Main.Visible = true;
         }
 
-        private void Me_Closing(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Me_Closed(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Me_Resize(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Me_SizeChanged(object sender, EventArgs e)
-        {
-            Me.OnResize();
-        }
-
         private void Me_ThemeChanged(object sender, EventArgs e)
         {
             this.BackColor = Me.RecommendColors.FormBackground.ToColor();
@@ -175,13 +151,13 @@ namespace TreeOfLife
 
             //
 
-            Label_ViewMode_Synonym.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_ViewMode_Synonym.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_ViewMode_Synonyms.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Synonyms.BackColor = Me.RecommendColors.Background.ToColor();
 
             TagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
 
-            Label_ViewMode_Tag.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_ViewMode_Tag.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_ViewMode_Tags.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Tags.BackColor = Me.RecommendColors.Background.ToColor();
 
             TagGroup_ViewMode_Tags.IsDarkTheme = _IsDarkTheme;
 
@@ -190,10 +166,10 @@ namespace TreeOfLife
 
             Label_ViewMode_Desc_Value.ForeColor = Me.RecommendColors.Text.ToColor();
 
-            Label_ViewMode_Parent.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_ViewMode_Parent.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_ViewMode_Parents.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_ViewMode_Parents.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TaxonNameButtonGroup_ViewMode_Parent.IsDarkTheme = _IsDarkTheme;
+            TaxonNameButtonGroup_ViewMode_Parents.IsDarkTheme = _IsDarkTheme;
 
             Label_ViewMode_Children.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_ViewMode_Children.BackColor = Me.RecommendColors.Background.ToColor();
@@ -225,17 +201,17 @@ namespace TreeOfLife
 
             CategorySelector_EditMode_Category.IsDarkTheme = _IsDarkTheme;
 
-            Label_EditMode_Synonym.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_EditMode_Synonym.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_EditMode_Synonyms.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_EditMode_Synonyms.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TextBox_EditMode_Synonym.ForeColor = Me.RecommendColors.Text.ToColor();
-            TextBox_EditMode_Synonym.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            TextBox_EditMode_Synonyms.ForeColor = Me.RecommendColors.Text.ToColor();
+            TextBox_EditMode_Synonyms.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
-            Label_EditMode_Tag.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_EditMode_Tag.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_EditMode_Tags.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_EditMode_Tags.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TextBox_EditMode_Tag.ForeColor = Me.RecommendColors.Text.ToColor();
-            TextBox_EditMode_Tag.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            TextBox_EditMode_Tags.ForeColor = Me.RecommendColors.Text.ToColor();
+            TextBox_EditMode_Tags.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
             Label_EditMode_Desc.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_Desc.BackColor = Me.RecommendColors.Background.ToColor();
@@ -255,10 +231,10 @@ namespace TreeOfLife
             TextBox_EditMode_ParseChildren.ForeColor = Me.RecommendColors.Text.ToColor();
             TextBox_EditMode_ParseChildren.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
-            Label_EditMode_Parent.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_EditMode_Parent.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_EditMode_Parents.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_EditMode_Parents.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TaxonNameButtonGroup_EditMode_Parent.IsDarkTheme = _IsDarkTheme;
+            TaxonNameButtonGroup_EditMode_Parents.IsDarkTheme = _IsDarkTheme;
 
             Label_EditMode_Children.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_Children.BackColor = Me.RecommendColors.Background.ToColor();
@@ -438,9 +414,9 @@ namespace TreeOfLife
         {
             if (_CurrentTaxon.IsRoot)
             {
-                TaxonNameButtonGroup_ViewMode_Parent.StartEditing();
-                TaxonNameButtonGroup_ViewMode_Parent.Clear();
-                TaxonNameButtonGroup_ViewMode_Parent.FinishEditing();
+                TaxonNameButtonGroup_ViewMode_Parents.StartEditing();
+                TaxonNameButtonGroup_ViewMode_Parents.Clear();
+                TaxonNameButtonGroup_ViewMode_Parents.FinishEditing();
             }
             else
             {
@@ -457,7 +433,7 @@ namespace TreeOfLife
 
                 parents.Add(_CurrentTaxon);
 
-                _UpdateParents(parents, TaxonNameButtonGroup_ViewMode_Parent);
+                _UpdateParents(parents, TaxonNameButtonGroup_ViewMode_Parents);
             }
         }
 
@@ -477,22 +453,22 @@ namespace TreeOfLife
         {
             Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
 
-            Label_ViewMode_Tag.Height = TagGroup_ViewMode_Tags.Height;
-            Panel_ViewMode_Tag.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : TagGroup_ViewMode_Tags.Bottom);
-            Panel_ViewMode_Tag.Top = Panel_ViewMode_Title.Bottom;
+            Label_ViewMode_Tags.Height = TagGroup_ViewMode_Tags.Height;
+            Panel_ViewMode_Tags.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : TagGroup_ViewMode_Tags.Bottom);
+            Panel_ViewMode_Tags.Top = Panel_ViewMode_Title.Bottom;
 
-            Panel_ViewMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parent.Bottom);
-            Panel_ViewMode_Parent.Top = Panel_ViewMode_Tag.Bottom;
+            Panel_ViewMode_Parents.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parents.Bottom);
+            Panel_ViewMode_Parents.Top = Panel_ViewMode_Tags.Bottom;
 
             Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
-            Panel_ViewMode_Children.Top = Panel_ViewMode_Parent.Bottom;
+            Panel_ViewMode_Children.Top = Panel_ViewMode_Parents.Bottom;
 
-            Panel_ViewMode_Synonym.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : TagGroup_Synonyms.Bottom);
-            Panel_ViewMode_Synonym.Top = Panel_ViewMode_Children.Bottom;
+            Panel_ViewMode_Synonyms.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : TagGroup_Synonyms.Bottom);
+            Panel_ViewMode_Synonyms.Top = Panel_ViewMode_Children.Bottom;
 
             Label_ViewMode_Desc.Height = Label_ViewMode_Desc_Value.Height;
             Panel_ViewMode_Desc.Height = (string.IsNullOrWhiteSpace(_CurrentTaxon.Description) ? 0 : Label_ViewMode_Desc_Value.Bottom);
-            Panel_ViewMode_Desc.Top = Panel_ViewMode_Synonym.Bottom;
+            Panel_ViewMode_Desc.Top = Panel_ViewMode_Synonyms.Bottom;
 
             Button_EnterEditMode.Top = Panel_ViewMode_Desc.Bottom + 25;
         }
@@ -514,8 +490,8 @@ namespace TreeOfLife
             CheckBox_EditMode_EX.Checked = _CurrentTaxon.IsExtinct;
             CheckBox_EditMode_Doubt.Checked = _CurrentTaxon.InDoubt;
             CategorySelector_EditMode_Category.Category = _CurrentTaxon.Category;
-            TextBox_EditMode_Synonym.Lines = _CurrentTaxon.Synonyms.ToArray();
-            TextBox_EditMode_Tag.Lines = _CurrentTaxon.Tags.ToArray();
+            TextBox_EditMode_Synonyms.Lines = _CurrentTaxon.Synonyms.ToArray();
+            TextBox_EditMode_Tags.Lines = _CurrentTaxon.Tags.ToArray();
             TextBox_EditMode_Desc.Text = _CurrentTaxon.Description;
             TextBox_EditMode_ParseCurrent.Text = string.Empty;
             TextBox_EditMode_ParseChildren.Text = string.Empty;
@@ -526,9 +502,9 @@ namespace TreeOfLife
         {
             if (_CurrentTaxon.IsRoot)
             {
-                TaxonNameButtonGroup_EditMode_Parent.StartEditing();
-                TaxonNameButtonGroup_EditMode_Parent.Clear();
-                TaxonNameButtonGroup_EditMode_Parent.FinishEditing();
+                TaxonNameButtonGroup_EditMode_Parents.StartEditing();
+                TaxonNameButtonGroup_EditMode_Parents.Clear();
+                TaxonNameButtonGroup_EditMode_Parents.FinishEditing();
             }
             else
             {
@@ -543,7 +519,7 @@ namespace TreeOfLife
                     parents.Add(_CurrentTaxon.Parent);
                 }
 
-                _UpdateParents(parents, TaxonNameButtonGroup_EditMode_Parent);
+                _UpdateParents(parents, TaxonNameButtonGroup_EditMode_Parents);
             }
         }
 
@@ -570,25 +546,25 @@ namespace TreeOfLife
             Panel_EditMode_Category.Height = (_CurrentTaxon.IsRoot ? 0 : CategorySelector_EditMode_Category.Bottom);
             Panel_EditMode_Category.Top = Panel_EditMode_State.Bottom;
 
-            Panel_EditMode_Synonym.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Synonym.Bottom);
-            Panel_EditMode_Synonym.Top = Panel_EditMode_Category.Bottom;
+            Panel_EditMode_Synonyms.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Synonyms.Bottom);
+            Panel_EditMode_Synonyms.Top = Panel_EditMode_Category.Bottom;
 
-            Panel_EditMode_Tag.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Tag.Bottom);
-            Panel_EditMode_Tag.Top = Panel_EditMode_Synonym.Bottom;
+            Panel_EditMode_Tags.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Tags.Bottom);
+            Panel_EditMode_Tags.Top = Panel_EditMode_Synonyms.Bottom;
 
             Panel_EditMode_Desc.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Desc.Bottom);
-            Panel_EditMode_Desc.Top = Panel_EditMode_Tag.Bottom;
+            Panel_EditMode_Desc.Top = Panel_EditMode_Tags.Bottom;
 
             Panel_EditMode_ParseCurrent.Height = 0;// (_CurrentTaxon.IsRoot ? 0 : Button_EditMode_ParseCurrent.Bottom);
             Panel_EditMode_ParseCurrent.Top = Panel_EditMode_Desc.Bottom;
 
             Panel_EditMode_ParseChildren.Top = Panel_EditMode_ParseCurrent.Bottom;
 
-            Panel_EditMode_Parent.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_EditMode_Parent.Bottom);
-            Panel_EditMode_Parent.Top = Panel_EditMode_ParseChildren.Bottom;
+            Panel_EditMode_Parents.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_EditMode_Parents.Bottom);
+            Panel_EditMode_Parents.Top = Panel_EditMode_ParseChildren.Bottom;
 
             Panel_EditMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_EditMode_Children.Bottom);
-            Panel_EditMode_Children.Top = Panel_EditMode_Parent.Bottom;
+            Panel_EditMode_Children.Top = Panel_EditMode_Parents.Bottom;
 
             Button_EnterViewMode.Top = Panel_EditMode_Children.Bottom + 25;
         }
@@ -601,8 +577,8 @@ namespace TreeOfLife
             CheckBox_EditMode_EX.CheckedChanged += CheckBox_EditMode_EX_CheckedChanged;
             CheckBox_EditMode_Doubt.CheckedChanged += CheckBox_EditMode_Doubt_CheckedChanged;
             CategorySelector_EditMode_Category.Click += CategorySelector_EditMode_Category_Click;
-            TextBox_EditMode_Synonym.TextChanged += TextBox_EditMode_Synonym_TextChanged;
-            TextBox_EditMode_Tag.TextChanged += TextBox_EditMode_Tag_TextChanged;
+            TextBox_EditMode_Synonyms.TextChanged += TextBox_EditMode_Synonyms_TextChanged;
+            TextBox_EditMode_Tags.TextChanged += TextBox_EditMode_Tags_TextChanged;
             TextBox_EditMode_Desc.TextChanged += TextBox_EditMode_Desc_TextChanged;
             Button_EditMode_ParseCurrent.Click += Button_EditMode_ParseCurrent_Click;
             Button_EditMode_ParseChildren.Click += Button_EditMode_ParseChildren_Click;
@@ -616,8 +592,8 @@ namespace TreeOfLife
             CheckBox_EditMode_EX.CheckedChanged -= CheckBox_EditMode_EX_CheckedChanged;
             CheckBox_EditMode_Doubt.CheckedChanged -= CheckBox_EditMode_Doubt_CheckedChanged;
             CategorySelector_EditMode_Category.Click -= CategorySelector_EditMode_Category_Click;
-            TextBox_EditMode_Synonym.TextChanged -= TextBox_EditMode_Synonym_TextChanged;
-            TextBox_EditMode_Tag.TextChanged -= TextBox_EditMode_Tag_TextChanged;
+            TextBox_EditMode_Synonyms.TextChanged -= TextBox_EditMode_Synonyms_TextChanged;
+            TextBox_EditMode_Tags.TextChanged -= TextBox_EditMode_Tags_TextChanged;
             TextBox_EditMode_Desc.TextChanged -= TextBox_EditMode_Desc_TextChanged;
             Button_EditMode_ParseCurrent.Click -= Button_EditMode_ParseCurrent_Click;
             Button_EditMode_ParseChildren.Click -= Button_EditMode_ParseChildren_Click;
@@ -648,21 +624,21 @@ namespace TreeOfLife
             _CurrentTaxon.Category = CategorySelector_EditMode_Category.Category;
         }
 
-        private void TextBox_EditMode_Synonym_TextChanged(object sender, EventArgs e)
+        private void TextBox_EditMode_Synonyms_TextChanged(object sender, EventArgs e)
         {
             _CurrentTaxon.Synonyms.Clear();
 
-            foreach (string synonym in TextBox_EditMode_Synonym.Lines)
+            foreach (string synonym in TextBox_EditMode_Synonyms.Lines)
             {
                 _CurrentTaxon.Synonyms.Add(synonym.Trim());
             }
         }
 
-        private void TextBox_EditMode_Tag_TextChanged(object sender, EventArgs e)
+        private void TextBox_EditMode_Tags_TextChanged(object sender, EventArgs e)
         {
             _CurrentTaxon.Tags.Clear();
 
-            foreach (string tag in TextBox_EditMode_Tag.Lines)
+            foreach (string tag in TextBox_EditMode_Tags.Lines)
             {
                 _CurrentTaxon.Tags.Add(tag.Trim());
             }
