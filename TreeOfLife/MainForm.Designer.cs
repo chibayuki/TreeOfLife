@@ -42,10 +42,10 @@
             this.Label_ViewMode_Desc_Value = new System.Windows.Forms.Label();
             this.Label_ViewMode_Desc = new System.Windows.Forms.Label();
             this.Panel_ViewMode_Tags = new System.Windows.Forms.Panel();
-            this.TagGroup_ViewMode_Tags = new TreeOfLife.Controls.TagGroup();
+            this.TagGroup_ViewMode_Tags = new TreeOfLife.TagGroup();
             this.Label_ViewMode_Tags = new System.Windows.Forms.Label();
             this.Panel_ViewMode_Synonyms = new System.Windows.Forms.Panel();
-            this.TagGroup_Synonyms = new TreeOfLife.Controls.TagGroup();
+            this.TagGroup_Synonyms = new TreeOfLife.TagGroup();
             this.Label_ViewMode_Synonyms = new System.Windows.Forms.Label();
             this.Button_EnterEditMode = new System.Windows.Forms.Button();
             this.Panel_ViewMode_Children = new System.Windows.Forms.Panel();
@@ -968,8 +968,8 @@
         private System.Windows.Forms.Panel Panel_ViewMode_Desc;
         private System.Windows.Forms.Label Label_ViewMode_Desc;
         private System.Windows.Forms.Label Label_ViewMode_Desc_Value;
-        private Controls.TagGroup TagGroup_ViewMode_Tags;
-        private Controls.TagGroup TagGroup_Synonyms;
+        private TagGroup TagGroup_ViewMode_Tags;
+        private TagGroup TagGroup_Synonyms;
         private System.Windows.Forms.Panel Panel_PhylogeneticTree;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStrip_File;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Open;

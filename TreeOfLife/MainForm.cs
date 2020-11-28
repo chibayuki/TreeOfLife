@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.322.1000.M4.201128-1620
+Version 1.0.323.1000.M4.201128-1700
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -707,7 +707,11 @@ namespace TreeOfLife
             }
             catch
             {
+#if DEBUG
+                throw;
+#else
                 result = false;
+#endif
             }
 
             return result;
@@ -735,7 +739,11 @@ namespace TreeOfLife
             }
             catch
             {
+#if DEBUG
+                throw;
+#else
                 result = false;
+#endif
             }
 
             return result;
@@ -756,7 +764,11 @@ namespace TreeOfLife
             }
             catch
             {
+#if DEBUG
+                throw;
+#else
                 result = false;
+#endif
             }
 
             return result;
@@ -778,7 +790,11 @@ namespace TreeOfLife
             }
             catch
             {
+#if DEBUG
+                throw;
+#else
                 result = false;
+#endif
             }
 
             return result;
@@ -799,9 +815,12 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
-            if (!_Open())
+            if (_CloseVerification(e))
             {
-                MessageBox.Show("打开失败。", Application.ProductName, MessageBoxButtons.OK);
+                if (!_Open())
+                {
+                    MessageBox.Show("打开失败。", Application.ProductName, MessageBoxButtons.OK);
+                }
             }
         }
 
@@ -823,9 +842,12 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_Close_Click(object sender, EventArgs e)
         {
-            if (!_Close())
+            if (_CloseVerification(e))
             {
-                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+                if (!_Close())
+                {
+                    MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
+                }
             }
         }
 

@@ -131,7 +131,7 @@
     <EmbeddedResource Include="Controls\TaxonNameButton.resx">
       <DependentUpon>TaxonNameButton.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Phylogenesis.json">
+    <None Include="Organism.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">

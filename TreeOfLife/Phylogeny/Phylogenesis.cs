@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.322.1000.M4.201128-1620
+Version 1.0.323.1000.M4.201128-1700
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -81,6 +81,8 @@ namespace TreeOfLife
         // 打开文件。
         public static bool Open(string fileName)
         {
+            bool result = true;
+
             _FileName = fileName;
 
             try
@@ -100,10 +102,13 @@ namespace TreeOfLife
 
                             _PhylogeneticTree = unwindObject.Rebuild();
 
-                            return true;
+                            result = true;
                         }
+                        break;
 
-                    default: return false;
+                    default:
+                        result = false;
+                        break;
                 }
             }
             catch
@@ -114,9 +119,11 @@ namespace TreeOfLife
 #if DEBUG
                 throw;
 #else
-                return false;
+                result = false;
 #endif
             }
+
+            return result;
         }
 
         // 保存文件。
@@ -128,6 +135,8 @@ namespace TreeOfLife
         // 另存为文件。
         public static bool SaveAs(string fileName)
         {
+            bool result = true;
+
             _FileName = fileName;
 
             try
@@ -142,29 +151,24 @@ namespace TreeOfLife
 
                 File.WriteAllText(fileName, jsonText);
 
-                return true;
+                result = true;
             }
             catch
             {
 #if DEBUG
                 throw;
 #else
-                return false;
+                result = false;
 #endif
             }
+
+            return result;
         }
 
         // 关闭文件。
         public static bool Close()
         {
-            if (Save() && New())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return New();
         }
     }
 }

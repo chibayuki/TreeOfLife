@@ -1,5 +1,4 @@
-﻿
-namespace TreeOfLife.Controls
+﻿namespace TreeOfLife
 {
     partial class TagGroup
     {
