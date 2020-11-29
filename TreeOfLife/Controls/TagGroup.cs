@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.323.1000.M4.201128-1700
+Version 1.0.400.1000.M5.201129-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -25,7 +25,7 @@ namespace TreeOfLife
 {
     internal partial class TagGroup : UserControl
     {
-        List<Label> _Tags = new List<Label>();
+        List<Label> _TagLabels = new List<Label>();
 
         private Size _MinTagSize = new Size(32, 22); // 标签最小大小。
         private Padding _TagPadding = new Padding(2, 2, 2, 2); // 标签外边距。
@@ -83,12 +83,12 @@ namespace TreeOfLife
 
         private void _AutoSize()
         {
-            this.Height = (_Tags.Count <= 0 ? 0 : _Tags[_Tags.Count - 1].Bottom);
+            this.Height = (_TagLabels.Count <= 0 ? 0 : _TagLabels[_TagLabels.Count - 1].Bottom);
         }
 
         private void _UpdateFont()
         {
-            foreach (var tag in _Tags)
+            foreach (var tag in _TagLabels)
             {
                 tag.Font = this.Font;
             }
@@ -96,7 +96,7 @@ namespace TreeOfLife
 
         private void _UpdateColor()
         {
-            foreach (var tag in _Tags)
+            foreach (var tag in _TagLabels)
             {
                 tag.ForeColor = _TagForeColor;
                 tag.BackColor = _TagBackColor;
@@ -105,26 +105,26 @@ namespace TreeOfLife
 
         private void _UpdateLayout()
         {
-            if (_Tags.Count > 0)
+            if (_TagLabels.Count > 0)
             {
-                for (int i = 0; i < _Tags.Count; i++)
+                for (int i = 0; i < _TagLabels.Count; i++)
                 {
-                    _Tags[i].MinimumSize = _MinTagSize;
+                    _TagLabels[i].MinimumSize = _MinTagSize;
 
                     if (i > 0)
                     {
-                        if (_Tags[i - 1].Right + _TagPadding.Vertical + _Tags[i].Width > this.Width)
+                        if (_TagLabels[i - 1].Right + _TagPadding.Vertical + _TagLabels[i].Width > this.Width)
                         {
-                            _Tags[i].Location = new Point(0, _Tags[i - 1].Bottom + _TagPadding.Vertical);
+                            _TagLabels[i].Location = new Point(0, _TagLabels[i - 1].Bottom + _TagPadding.Vertical);
                         }
                         else
                         {
-                            _Tags[i].Location = new Point(_Tags[i - 1].Right + _TagPadding.Horizontal, _Tags[i - 1].Top);
+                            _TagLabels[i].Location = new Point(_TagLabels[i - 1].Right + _TagPadding.Horizontal, _TagLabels[i - 1].Top);
                         }
                     }
                     else
                     {
-                        _Tags[i].Location = new Point(0, 0);
+                        _TagLabels[i].Location = new Point(0, 0);
                     }
                 }
             }
@@ -215,19 +215,19 @@ namespace TreeOfLife
 
                 Panel_Main.Controls.Clear();
 
-                _Tags = new List<Label>(value.Length);
+                _TagLabels = new List<Label>(value.Length);
 
-                for (int i = 0; i < value.Length; i++)
+                foreach (var tag in value)
                 {
-                    Label tag = new Label();
-                    tag.MinimumSize = _MinTagSize;
-                    tag.AutoSize = true;
-                    tag.TextAlign = ContentAlignment.MiddleCenter;
-                    tag.Text = value[i];
+                    Label tagLabel = new Label();
+                    tagLabel.MinimumSize = _MinTagSize;
+                    tagLabel.AutoSize = true;
+                    tagLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    tagLabel.Text = tag;
 
-                    _Tags.Add(tag);
+                    _TagLabels.Add(tagLabel);
 
-                    Panel_Main.Controls.Add(tag);
+                    Panel_Main.Controls.Add(tagLabel);
                 }
 
                 _UpdateFont();

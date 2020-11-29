@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.323.1000.M4.201128-1700
+Version 1.0.400.1000.M5.201129-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -44,6 +44,8 @@ namespace TreeOfLife
             this.Load += TaxonNameButton_Load;
             this.AutoSizeChanged += CategoryNameButton_AutoSizeChanged;
             this.FontChanged += TaxonNameButton_FontChanged;
+
+            Label_CategoryName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
         }
 
         //
@@ -64,16 +66,6 @@ namespace TreeOfLife
         private void TaxonNameButton_FontChanged(object sender, EventArgs e)
         {
             _FontChanged();
-        }
-
-        private void Label_CategoryName_Click(object sender, EventArgs e)
-        {
-            base.OnClick(e);
-        }
-
-        private void Label_TaxonName_Click(object sender, EventArgs e)
-        {
-            base.OnClick(e);
         }
 
         //

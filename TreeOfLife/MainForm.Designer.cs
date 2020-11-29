@@ -31,11 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.Panel_Main = new System.Windows.Forms.Panel();
             this.Panel_PhylogeneticTree = new System.Windows.Forms.Panel();
+            this.TextBox_PhylogeneticTree = new System.Windows.Forms.TextBox();
             this.ContextMenuStrip_File = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ToolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Save = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.Panel_TaxonInfo = new System.Windows.Forms.Panel();
             this.Panel_TaxonInfo_ViewMode = new System.Windows.Forms.Panel();
             this.Panel_ViewMode_Desc = new System.Windows.Forms.Panel();
@@ -96,7 +97,15 @@
             this.Button_EnterViewMode = new System.Windows.Forms.Button();
             this.OpenFileDialog_Open = new System.Windows.Forms.OpenFileDialog();
             this.SaveFileDialog_SaveAs = new System.Windows.Forms.SaveFileDialog();
+            this.ContextMenuStrip_Children = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem_Children_MoveTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Children_MoveUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Children_MoveDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Children_MoveBottom = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripMenuItem_Children_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.Panel_Main.SuspendLayout();
+            this.Panel_PhylogeneticTree.SuspendLayout();
             this.ContextMenuStrip_File.SuspendLayout();
             this.Panel_TaxonInfo.SuspendLayout();
             this.Panel_TaxonInfo_ViewMode.SuspendLayout();
@@ -117,6 +126,7 @@
             this.Panel_EditMode_Category.SuspendLayout();
             this.Panel_EditMode_State.SuspendLayout();
             this.Panel_EditMode_TaxonName.SuspendLayout();
+            this.ContextMenuStrip_Children.SuspendLayout();
             this.SuspendLayout();
             // 
             // Panel_Main
@@ -134,46 +144,61 @@
             // Panel_PhylogeneticTree
             // 
             this.Panel_PhylogeneticTree.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_PhylogeneticTree.ContextMenuStrip = this.ContextMenuStrip_File;
+            this.Panel_PhylogeneticTree.Controls.Add(this.TextBox_PhylogeneticTree);
             this.Panel_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
             this.Panel_PhylogeneticTree.Name = "Panel_PhylogeneticTree";
             this.Panel_PhylogeneticTree.Size = new System.Drawing.Size(400, 450);
             this.Panel_PhylogeneticTree.TabIndex = 0;
             // 
+            // TextBox_PhylogeneticTree
+            // 
+            this.TextBox_PhylogeneticTree.ContextMenuStrip = this.ContextMenuStrip_File;
+            this.TextBox_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_PhylogeneticTree.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TextBox_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
+            this.TextBox_PhylogeneticTree.Multiline = true;
+            this.TextBox_PhylogeneticTree.Name = "TextBox_PhylogeneticTree";
+            this.TextBox_PhylogeneticTree.ReadOnly = true;
+            this.TextBox_PhylogeneticTree.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBox_PhylogeneticTree.Size = new System.Drawing.Size(400, 450);
+            this.TextBox_PhylogeneticTree.TabIndex = 0;
+            this.TextBox_PhylogeneticTree.TabStop = false;
+            this.TextBox_PhylogeneticTree.WordWrap = false;
+            // 
             // ContextMenuStrip_File
             // 
             this.ContextMenuStrip_File.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_Open,
-            this.ToolStripMenuItem_Save,
-            this.ToolStripMenuItem_SaveAs,
-            this.ToolStripMenuItem_Close});
+            this.ToolStripMenuItem_File_Open,
+            this.ToolStripMenuItem_File_Save,
+            this.ToolStripMenuItem_File_SaveAs,
+            this.ToolStripMenuItem_File_Close});
             this.ContextMenuStrip_File.Name = "ContextMenuStrip_File";
             this.ContextMenuStrip_File.Size = new System.Drawing.Size(122, 92);
             // 
-            // ToolStripMenuItem_Open
+            // ToolStripMenuItem_File_Open
             // 
-            this.ToolStripMenuItem_Open.Name = "ToolStripMenuItem_Open";
-            this.ToolStripMenuItem_Open.Size = new System.Drawing.Size(121, 22);
-            this.ToolStripMenuItem_Open.Text = "打开...";
+            this.ToolStripMenuItem_File_Open.Name = "ToolStripMenuItem_File_Open";
+            this.ToolStripMenuItem_File_Open.Size = new System.Drawing.Size(121, 22);
+            this.ToolStripMenuItem_File_Open.Text = "打开...";
             // 
-            // ToolStripMenuItem_Save
+            // ToolStripMenuItem_File_Save
             // 
-            this.ToolStripMenuItem_Save.Name = "ToolStripMenuItem_Save";
-            this.ToolStripMenuItem_Save.Size = new System.Drawing.Size(121, 22);
-            this.ToolStripMenuItem_Save.Text = "保存";
+            this.ToolStripMenuItem_File_Save.Name = "ToolStripMenuItem_File_Save";
+            this.ToolStripMenuItem_File_Save.Size = new System.Drawing.Size(121, 22);
+            this.ToolStripMenuItem_File_Save.Text = "保存";
             // 
-            // ToolStripMenuItem_SaveAs
+            // ToolStripMenuItem_File_SaveAs
             // 
-            this.ToolStripMenuItem_SaveAs.Name = "ToolStripMenuItem_SaveAs";
-            this.ToolStripMenuItem_SaveAs.Size = new System.Drawing.Size(121, 22);
-            this.ToolStripMenuItem_SaveAs.Text = "另存为...";
+            this.ToolStripMenuItem_File_SaveAs.Name = "ToolStripMenuItem_File_SaveAs";
+            this.ToolStripMenuItem_File_SaveAs.Size = new System.Drawing.Size(121, 22);
+            this.ToolStripMenuItem_File_SaveAs.Text = "另存为...";
             // 
-            // ToolStripMenuItem_Close
+            // ToolStripMenuItem_File_Close
             // 
-            this.ToolStripMenuItem_Close.Name = "ToolStripMenuItem_Close";
-            this.ToolStripMenuItem_Close.Size = new System.Drawing.Size(121, 22);
-            this.ToolStripMenuItem_Close.Text = "关闭";
+            this.ToolStripMenuItem_File_Close.Name = "ToolStripMenuItem_File_Close";
+            this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(121, 22);
+            this.ToolStripMenuItem_File_Close.Text = "关闭";
             // 
             // Panel_TaxonInfo
             // 
@@ -868,6 +893,55 @@
             this.SaveFileDialog_SaveAs.FileName = "未命名";
             this.SaveFileDialog_SaveAs.Filter = "Json 文件|*.json";
             // 
+            // ContextMenuStrip_Children
+            // 
+            this.ContextMenuStrip_Children.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_Children_MoveTop,
+            this.ToolStripMenuItem_Children_MoveUp,
+            this.ToolStripMenuItem_Children_MoveDown,
+            this.ToolStripMenuItem_Children_MoveBottom,
+            this.toolStripSeparator1,
+            this.ToolStripMenuItem_Children_Delete});
+            this.ContextMenuStrip_Children.Name = "ContextMenuStrip_Children";
+            this.ContextMenuStrip_Children.Size = new System.Drawing.Size(181, 142);
+            // 
+            // ToolStripMenuItem_Children_MoveTop
+            // 
+            this.ToolStripMenuItem_Children_MoveTop.Name = "ToolStripMenuItem_Children_MoveTop";
+            this.ToolStripMenuItem_Children_MoveTop.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Children_MoveTop.Text = "移至最上";
+            this.ToolStripMenuItem_Children_MoveTop.Visible = false;
+            // 
+            // ToolStripMenuItem_Children_MoveUp
+            // 
+            this.ToolStripMenuItem_Children_MoveUp.Name = "ToolStripMenuItem_Children_MoveUp";
+            this.ToolStripMenuItem_Children_MoveUp.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Children_MoveUp.Text = "上移";
+            // 
+            // ToolStripMenuItem_Children_MoveDown
+            // 
+            this.ToolStripMenuItem_Children_MoveDown.Name = "ToolStripMenuItem_Children_MoveDown";
+            this.ToolStripMenuItem_Children_MoveDown.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Children_MoveDown.Text = "下移";
+            // 
+            // ToolStripMenuItem_Children_MoveBottom
+            // 
+            this.ToolStripMenuItem_Children_MoveBottom.Name = "ToolStripMenuItem_Children_MoveBottom";
+            this.ToolStripMenuItem_Children_MoveBottom.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Children_MoveBottom.Text = "移至最下";
+            this.ToolStripMenuItem_Children_MoveBottom.Visible = false;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // ToolStripMenuItem_Children_Delete
+            // 
+            this.ToolStripMenuItem_Children_Delete.Name = "ToolStripMenuItem_Children_Delete";
+            this.ToolStripMenuItem_Children_Delete.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem_Children_Delete.Text = "删除";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -876,6 +950,8 @@
             this.Controls.Add(this.Panel_Main);
             this.Name = "MainForm";
             this.Panel_Main.ResumeLayout(false);
+            this.Panel_PhylogeneticTree.ResumeLayout(false);
+            this.Panel_PhylogeneticTree.PerformLayout();
             this.ContextMenuStrip_File.ResumeLayout(false);
             this.Panel_TaxonInfo.ResumeLayout(false);
             this.Panel_TaxonInfo_ViewMode.ResumeLayout(false);
@@ -905,6 +981,7 @@
             this.Panel_EditMode_State.PerformLayout();
             this.Panel_EditMode_TaxonName.ResumeLayout(false);
             this.Panel_EditMode_TaxonName.PerformLayout();
+            this.ContextMenuStrip_Children.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -972,12 +1049,20 @@
         private TagGroup TagGroup_Synonyms;
         private System.Windows.Forms.Panel Panel_PhylogeneticTree;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStrip_File;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Open;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Save;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_SaveAs;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Close;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Open;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Save;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_SaveAs;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_File_Close;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog_Open;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog_SaveAs;
+        private System.Windows.Forms.TextBox TextBox_PhylogeneticTree;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuStrip_Children;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveTop;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveUp;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveDown;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveBottom;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_Delete;
     }
 }
 

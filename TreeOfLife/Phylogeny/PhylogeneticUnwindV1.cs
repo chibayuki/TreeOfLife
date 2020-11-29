@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.323.1000.M4.201128-1700
+Version 1.0.400.1000.M5.201129-0000
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -375,15 +375,13 @@ namespace TreeOfLife
         {
             get
             {
-                int count = _ParentsIndex.Count;
-
-                if (count > 0)
+                if (_Level > 1)
                 {
                     StringBuilder id = new StringBuilder();
 
-                    for (int i = 0; i < count; i++)
+                    foreach (var parentIndex in _ParentsIndex)
                     {
-                        id.Append(_ParentsIndex[i].ToString());
+                        id.Append(parentIndex.ToString());
                         id.Append('-');
                     }
 
@@ -401,22 +399,20 @@ namespace TreeOfLife
             {
                 string[] id = value.Split('-');
 
-                int count = id.Length;
+                _Level = id.Length;
 
-                _Level = count;
-
-                if (count > 1)
+                if (_Level > 1)
                 {
-                    _ParentsIndex = new List<int>(count - 1);
+                    _ParentsIndex = new List<int>(_Level - 1);
 
-                    for (int i = 0; i < count - 1; i++)
+                    for (int i = 0; i < _Level - 1; i++)
                     {
                         _ParentsIndex.Add(int.Parse(id[i]));
                     }
 
-                    _Index = int.Parse(id[count - 1]);
+                    _Index = int.Parse(id[_Level - 1]);
                 }
-                else if (count == 1)
+                else if (_Level == 1)
                 {
                     _ParentsIndex = new List<int>();
                     _Index = int.Parse(id[0]);
@@ -525,12 +521,9 @@ namespace TreeOfLife
 
             Taxon taxon = tree.Root;
 
-            if (index.Count > 0)
+            foreach (var id in index)
             {
-                for (int i = 0; i < index.Count; i++)
-                {
-                    taxon = taxon.Children[index[i]];
-                }
+                taxon = taxon.Children[id];
             }
 
             return taxon;

@@ -57,7 +57,6 @@
             this.Label_TaxonName.Size = new System.Drawing.Size(100, 150);
             this.Label_TaxonName.TabIndex = 0;
             this.Label_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_TaxonName.Click += new System.EventHandler(this.Label_TaxonName_Click);
             // 
             // Label_CategoryName
             // 
@@ -70,7 +69,6 @@
             this.Label_CategoryName.Size = new System.Drawing.Size(50, 150);
             this.Label_CategoryName.TabIndex = 0;
             this.Label_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CategoryName.Click += new System.EventHandler(this.Label_CategoryName_Click);
             // 
             // TaxonNameButton
             // 

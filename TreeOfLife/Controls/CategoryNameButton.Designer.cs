@@ -56,7 +56,6 @@
             this.Label_CategoryName.Size = new System.Drawing.Size(150, 150);
             this.Label_CategoryName.TabIndex = 0;
             this.Label_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CategoryName.Click += new System.EventHandler(this.Label_CategoryName_Click);
             // 
             // CategoryNameButton
             // 
