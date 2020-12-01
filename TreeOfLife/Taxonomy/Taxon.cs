@@ -39,7 +39,7 @@ namespace TreeOfLife
         private TaxonType _TaxonType = TaxonType.Monophyly; // 类型。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _InDoubt = false; // 分类地位存疑。
+        private bool _Unsure = false; // 存疑。
 
         private Taxon _Parent = null; // 父类群（祖先）。
         private List<Taxon> _Children = new List<Taxon>(); // 子类群（后代）。
@@ -97,10 +97,10 @@ namespace TreeOfLife
             set => _IsExtinct = value;
         }
 
-        public bool InDoubt
+        public bool Unsure
         {
-            get => _InDoubt;
-            set => _InDoubt = value;
+            get => _Unsure;
+            set => _Unsure = value;
         }
 
         public Taxon Parent => _Parent;
@@ -139,7 +139,7 @@ namespace TreeOfLife
         //
 
         // 递归地修复当前类群、子类群与顶级类群的距离。
-        public void RepairLevel()
+        private void _RepairLevel()
         {
             if (_Parent is null)
             {
@@ -152,27 +152,48 @@ namespace TreeOfLife
 
             foreach (Taxon child in _Children)
             {
-                child.RepairLevel();
+                child._RepairLevel();
             }
         }
 
-        // 修复当前类群、姊妹类群的次序。
-        public void RepairIndex()
+        // 修复子类群的次序。
+        private void _RepairIndex()
         {
-            if (_Parent is null)
+            for (int i = 0; i < _Children.Count; i++)
             {
-                _Index = -1;
-            }
-            else
-            {
-                for (int i = 0; i < _Parent._Children.Count; i++)
-                {
-                    _Parent._Children[i]._Index = i;
-                }
+                _Children[i]._Index = i;
             }
         }
 
-        //
+        // 原子地附属到父类群。
+        private void _AtomAttachParent(Taxon taxon)
+        {
+            if (!(taxon is null))
+            {
+                _Parent = taxon;
+                _Parent._Children.Add(this);
+            }
+        }
+
+        // 原子地附属到父类群。
+        private void _AtomAttachParent(Taxon taxon, int index)
+        {
+            if (!(taxon is null))
+            {
+                _Parent = taxon;
+                _Parent._Children.Insert(index, this);
+            }
+        }
+
+        // 原子地脱离父类群。
+        private void _AtomDetachParent()
+        {
+            if (!(_Parent is null))
+            {
+                _Parent._Children.Remove(this);
+                _Parent = null;
+            }
+        }
 
         // 变更父类群。
         public void SetParent(Taxon taxon)
@@ -182,18 +203,39 @@ namespace TreeOfLife
                 throw new ArgumentNullException();
             }
 
+            if (taxon == this)
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                Taxon t = taxon;
+
+                while (!(t is null))
+                {
+                    if (t == this)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    t = t._Parent;
+                }
+            }
+
             //
 
             if (!(_Parent is null))
             {
-                _Parent._Children.Remove(this);
+                Taxon parent = _Parent;
+
+                _AtomDetachParent();
+                parent._RepairIndex();
             }
 
-            _Parent = taxon;
-            _Parent._Children.Add(this);
+            _AtomAttachParent(taxon);
+            taxon._RepairIndex();
 
-            RepairLevel();
-            RepairIndex();
+            _RepairLevel();
         }
 
         // 变更父类群。
@@ -204,53 +246,82 @@ namespace TreeOfLife
                 throw new ArgumentNullException();
             }
 
+            if (taxon == this)
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                Taxon t = taxon;
+
+                while (!(t is null))
+                {
+                    if (t == this)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    t = t._Parent;
+                }
+            }
+
             //
 
             if (!(_Parent is null))
             {
-                _Parent._Children.Remove(this);
+                Taxon parent = _Parent;
+
+                _AtomDetachParent();
+                parent._RepairIndex();
             }
 
-            _Parent = taxon;
-            _Parent._Children.Insert(index, this);
+            _AtomAttachParent(taxon, index);
+            taxon._RepairIndex();
 
-            RepairLevel();
-            RepairIndex();
+            _RepairLevel();
         }
 
         // 添加一个上层父类群。
         public Taxon AddParentUplevel()
         {
-            Taxon parent = new Taxon();
+            Taxon taxon = new Taxon();
 
-            parent._Parent = _Parent;
+            if (!(_Parent is null))
+            {
+                Taxon parent = _Parent;
+                int index = _Index;
 
-            _Parent._Children[_Parent._Children.IndexOf(this)] = parent;
-            _Parent = parent;
+                _AtomDetachParent();
+                taxon._AtomAttachParent(parent, index);
+                parent._RepairIndex();
+            }
 
-            parent.RepairLevel();
+            _AtomAttachParent(taxon);
+            taxon._RepairIndex();
+            taxon._RepairLevel();
 
-            parent._Index = _Index;
-            _Index = 0;
-
-            return parent;
+            return taxon;
         }
 
         // 添加一个下层父类群。
         public Taxon AddParentDownlevel()
         {
-            Taxon parent = new Taxon();
+            Taxon taxon = new Taxon();
 
-            parent._Parent = this;
+            foreach (var child in _Children)
+            {
+                child._AtomAttachParent(taxon);
+            }
 
-            _Parent._Children = _Children;
-            _Children = new List<Taxon>() { parent };
+            _Children.Clear();
 
-            parent.RepairLevel();
+            taxon._AtomAttachParent(this);
+            _RepairIndex();
 
-            parent._Index = 0;
+            taxon._RepairIndex();
+            taxon._RepairLevel();
 
-            return parent;
+            return taxon;
         }
 
         // 移动一个子类群。
@@ -270,7 +341,7 @@ namespace TreeOfLife
                 _Children.RemoveAt(oldIndex);
                 _Children.Insert(newIndex, child);
 
-                child.RepairIndex();
+                _RepairIndex();
             }
         }
 
@@ -302,11 +373,10 @@ namespace TreeOfLife
         {
             Taxon child = new Taxon();
 
-            _Children.Add(child);
+            child._AtomAttachParent(this);
 
-            child._Parent = this;
-            child._Level = _Level + 1;
-            child._Index = _Children.Count - 1;
+            _RepairIndex();
+            child._RepairLevel();
 
             return child;
         }
@@ -316,26 +386,41 @@ namespace TreeOfLife
         {
             Taxon child = new Taxon();
 
-            _Children.Insert(index, child);
+            child._AtomAttachParent(this, index);
 
-            child._Parent = this;
-            child._Level = _Level + 1;
-
-            child.RepairIndex();
+            _RepairIndex();
+            child._RepairLevel();
 
             return child;
         }
 
-        // 删除当前类群。
-        public void RemoveCurrent()
+        // 删除当前类群（并且删除/保留所有子类群）。
+        public void RemoveCurrent(bool removeChildren)
         {
             if (!(_Parent is null))
             {
-                _Parent._Children.Remove(this);
+                Taxon parent = _Parent;
 
-                RepairIndex();
+                if (removeChildren)
+                {
+                    _AtomDetachParent();
+                }
+                else
+                {
+                    int index = _Index;
 
-                _Parent = null;
+                    _AtomDetachParent();
+
+                    for (int i = 0; i < _Children.Count; i++)
+                    {
+                        _Children[i]._AtomAttachParent(parent, index + i);
+                        _Children[i]._RepairLevel();
+                    }
+                }
+
+                _Children.Clear();
+
+                parent._RepairIndex();
             }
         }
     }

@@ -15,6 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace TreeOfLife
@@ -289,8 +291,8 @@ namespace TreeOfLife
 
         private TaxonomicCategory _Category; // 分类阶元。
 
-        private int _IsExtinct; // 已灭绝。
-        private int _InDoubt; // 分类地位存疑。
+        private bool _IsExtinct = false; // 已灭绝。
+        private bool _Unsure = false; // 存疑。
 
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
@@ -350,15 +352,15 @@ namespace TreeOfLife
         [JsonPropertyName("EX")]
         public int IsExtinct
         {
-            get => _IsExtinct;
-            set => _IsExtinct = value;
+            get => Convert.ToInt32(_IsExtinct);
+            set => _IsExtinct = Convert.ToBoolean(value);
         }
 
-        [JsonPropertyName("Doubt")]
-        public int InDoubt
+        [JsonPropertyName("Unsure")]
+        public int Unsure
         {
-            get => _InDoubt;
-            set => _InDoubt = value;
+            get => Convert.ToInt32(_Unsure);
+            set => _Unsure = Convert.ToBoolean(value);
         }
 
         [JsonIgnore]
@@ -432,8 +434,8 @@ namespace TreeOfLife
 
                 Category = _ConvertCategory(_Category),
 
-                IsExtinct = Convert.ToBoolean(_IsExtinct),
-                InDoubt = Convert.ToBoolean(_InDoubt)
+                IsExtinct = _IsExtinct,
+                Unsure = _Unsure
             };
 
             taxon.Synonyms.AddRange(_Synonyms);
@@ -461,8 +463,8 @@ namespace TreeOfLife
 
                 _Category = _ConvertCategory(taxon.Category),
 
-                _IsExtinct = Convert.ToInt32(taxon.IsExtinct),
-                _InDoubt = Convert.ToInt32(taxon.InDoubt),
+                _IsExtinct = taxon.IsExtinct,
+                _Unsure = taxon.Unsure,
 
                 _Level = taxon.Level,
                 _Index = taxon.Index,
@@ -497,9 +499,6 @@ namespace TreeOfLife
         }
 
         //
-
-        [JsonPropertyName(Phylogenesis.FileVersionJsonPropertyName)]
-        public int FileVersion => 1;
 
         [JsonPropertyName("Taxons")]
         public List<PhylogeneticUnwindV1Atom> Atoms
@@ -542,6 +541,33 @@ namespace TreeOfLife
             }
 
             return tree;
+        }
+
+        // 序列化。
+        public void Serialize(string workingDirectory)
+        {
+            string dataFile = Path.Combine(workingDirectory, "data");
+
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            options.WriteIndented = true;
+
+            string jsonText = JsonSerializer.Serialize(this, options);
+
+            File.WriteAllText(dataFile, jsonText);
+        }
+
+        // 反序列化。
+        public static PhylogeneticUnwindV1 Deserialize(string workingDirectory)
+        {
+            string dataFile = Path.Combine(workingDirectory, "data");
+
+            string jsonText = File.ReadAllText(dataFile);
+
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+
+            return JsonSerializer.Deserialize<PhylogeneticUnwindV1>(jsonText, options);
         }
     }
 }

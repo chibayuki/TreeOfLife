@@ -59,7 +59,7 @@ namespace TreeOfLife
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.InDoubt)
+                if (taxon.Unsure)
                 {
                     taxonName.Append('?');
                 }
@@ -106,7 +106,7 @@ namespace TreeOfLife
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.InDoubt)
+                if (taxon.Unsure)
                 {
                     taxonName.Append('?');
                 }
@@ -148,7 +148,7 @@ namespace TreeOfLife
 
                 if (chars.Contains('?'))
                 {
-                    taxon.InDoubt = true;
+                    taxon.Unsure = true;
 
                     chars.RemoveAll((ch) => ch == '?');
                 }

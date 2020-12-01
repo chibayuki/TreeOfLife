@@ -83,6 +83,7 @@ namespace TreeOfLife
 
             Me.Loading += Me_Loading;
             Me.Loaded += Me_Loaded;
+            Me.Closing += Me_Closing;
             Me.ThemeChanged += Me_ThemeChanged;
             Me.ThemeColorChanged += Me_ThemeChanged;
 
@@ -93,16 +94,22 @@ namespace TreeOfLife
             ToolStripMenuItem_File_SaveAs.Click += ToolStripMenuItem_File_SaveAs_Click;
             ToolStripMenuItem_File_Close.Click += ToolStripMenuItem_File_Close_Click;
 
+            ToolStripMenuItem_Parents_Select.Click += ToolStripMenuItem_Parents_Select_Click;
+
+            ToolStripMenuItem_Children_Select.Click += ToolStripMenuItem_Children_Select_Click;
+            ToolStripMenuItem_Children_SetParent.Click += ToolStripMenuItem_Children_SetParent_Click;
             ToolStripMenuItem_Children_MoveTop.Click += ToolStripMenuItem_Children_MoveTop_Click;
             ToolStripMenuItem_Children_MoveUp.Click += ToolStripMenuItem_Children_MoveUp_Click;
             ToolStripMenuItem_Children_MoveDown.Click += ToolStripMenuItem_Children_MoveDown_Click;
             ToolStripMenuItem_Children_MoveBottom.Click += ToolStripMenuItem_Children_MoveBottom_Click;
             ToolStripMenuItem_Children_Delete.Click += ToolStripMenuItem_Children_Delete_Click;
+            ToolStripMenuItem_Children_DeleteAll.Click += ToolStripMenuItem_Children_DeleteAll_Click;
 
             CategorySelector_EditMode_Category.SizeChanged += (_s, _e) => _UpdateEditModeLayout();
 
-            Button_EditMode_ParseCurrent.Click += Button_EditMode_ParseCurrent_Click;
-            Button_EditMode_ParseChildren.Click += Button_EditMode_ParseChildren_Click;
+            Button_EditMode_AddParentUplevel.Click += Button_EditMode_AddParentUplevel_Click;
+            Button_EditMode_AddParentDownlevel.Click += Button_EditMode_AddParentDownlevel_Click;
+            Button_EditMode_AddChildren.Click += Button_EditMode_AddChildren_Click;
         }
 
         #endregion
@@ -138,6 +145,11 @@ namespace TreeOfLife
             //
 
             Panel_Main.Visible = true;
+        }
+
+        private void Me_Closing(object sender, EventArgs e)
+        {
+            Phylogenesis.Close();
         }
 
         private void Me_ThemeChanged(object sender, EventArgs e)
@@ -197,7 +209,7 @@ namespace TreeOfLife
             Label_EditMode_State.BackColor = Me.RecommendColors.Background.ToColor();
 
             CheckBox_EditMode_EX.ForeColor = Me.RecommendColors.Text.ToColor();
-            CheckBox_EditMode_Doubt.ForeColor = Me.RecommendColors.Text.ToColor();
+            CheckBox_EditMode_Unsure.ForeColor = Me.RecommendColors.Text.ToColor();
 
             Label_EditMode_Category.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_Category.BackColor = Me.RecommendColors.Background.ToColor();
@@ -222,17 +234,17 @@ namespace TreeOfLife
             TextBox_EditMode_Desc.ForeColor = Me.RecommendColors.Text.ToColor();
             TextBox_EditMode_Desc.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
-            Label_EditMode_ParseCurrent.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_EditMode_ParseCurrent.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_EditMode_AddParent.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_EditMode_AddParent.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TextBox_EditMode_ParseCurrent.ForeColor = Me.RecommendColors.Text.ToColor();
-            TextBox_EditMode_ParseCurrent.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            TextBox_EditMode_AddParent.ForeColor = Me.RecommendColors.Text.ToColor();
+            TextBox_EditMode_AddParent.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
-            Label_EditMode_ParseChildren.ForeColor = Me.RecommendColors.Text.ToColor();
-            Label_EditMode_ParseChildren.BackColor = Me.RecommendColors.Background.ToColor();
+            Label_EditMode_AddChildren.ForeColor = Me.RecommendColors.Text.ToColor();
+            Label_EditMode_AddChildren.BackColor = Me.RecommendColors.Background.ToColor();
 
-            TextBox_EditMode_ParseChildren.ForeColor = Me.RecommendColors.Text.ToColor();
-            TextBox_EditMode_ParseChildren.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            TextBox_EditMode_AddChildren.ForeColor = Me.RecommendColors.Text.ToColor();
+            TextBox_EditMode_AddChildren.BackColor = Me.RecommendColors.Background_DEC.ToColor();
 
             Label_EditMode_Parents.ForeColor = Me.RecommendColors.Text.ToColor();
             Label_EditMode_Parents.BackColor = Me.RecommendColors.Background.ToColor();
@@ -326,6 +338,16 @@ namespace TreeOfLife
                 if (editMode)
                 {
                     button.Click += (s, e) => { _ApplyEditModeInfo(); _SetCurrentTaxon(taxon); };
+
+                    button.MouseClick += (s, e) =>
+                    {
+                        if (e.Button == MouseButtons.Right)
+                        {
+                            _RightButtonParent = button.Taxon;
+
+                            ContextMenuStrip_Parents.Show(Cursor.Position);
+                        }
+                    };
                 }
                 else
                 {
@@ -366,7 +388,7 @@ namespace TreeOfLife
                     {
                         if (e.Button == MouseButtons.Right)
                         {
-                            _SelectedChild = button.Taxon;
+                            _RightButtonChild = button.Taxon;
 
                             ContextMenuStrip_Children.Show(Cursor.Position);
                         }
@@ -417,6 +439,8 @@ namespace TreeOfLife
 
                 Label_ViewMode_CategoryName.Text = (_CurrentTaxon.IsAnonymous() ? string.Empty : _CurrentTaxon.Category.Name());
                 Label_ViewMode_TaxonName.Text = _CurrentTaxon.ShortName('\n');
+
+                Panel_ViewMode_TaxonName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
 
                 Label_ViewMode_CategoryName.ForeColor = (_IsDarkTheme ? Color.Black : Color.White);
                 Label_ViewMode_CategoryName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
@@ -482,7 +506,7 @@ namespace TreeOfLife
         // 更新布局。
         private void _UpdateViewModeLayout()
         {
-            Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Label_ViewMode_TaxonName.Bottom);
+            Panel_ViewMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Panel_ViewMode_TaxonName.Bottom);
 
             Label_ViewMode_Tags.Height = TagGroup_ViewMode_Tags.Height;
             Panel_ViewMode_Tags.Height = (_CurrentTaxon.Tags.Count <= 0 ? 0 : TagGroup_ViewMode_Tags.Bottom);
@@ -521,13 +545,13 @@ namespace TreeOfLife
             TextBox_EditMode_Name.Text = _CurrentTaxon.BotanicalName;
             TextBox_EditMode_ChsName.Text = _CurrentTaxon.ChineseName;
             CheckBox_EditMode_EX.Checked = _CurrentTaxon.IsExtinct;
-            CheckBox_EditMode_Doubt.Checked = _CurrentTaxon.InDoubt;
+            CheckBox_EditMode_Unsure.Checked = _CurrentTaxon.Unsure;
             CategorySelector_EditMode_Category.Category = _CurrentTaxon.Category;
             TextBox_EditMode_Synonyms.Lines = _CurrentTaxon.Synonyms.ToArray();
             TextBox_EditMode_Tags.Lines = _CurrentTaxon.Tags.ToArray();
             TextBox_EditMode_Desc.Text = _CurrentTaxon.Description;
-            TextBox_EditMode_ParseCurrent.Text = string.Empty;
-            TextBox_EditMode_ParseChildren.Text = string.Empty;
+            TextBox_EditMode_AddParent.Text = string.Empty;
+            TextBox_EditMode_AddChildren.Text = string.Empty;
         }
 
         // 更新父类群。
@@ -572,7 +596,7 @@ namespace TreeOfLife
         {
             Panel_EditMode_TaxonName.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_ChsName.Bottom);
 
-            Panel_EditMode_State.Height = (_CurrentTaxon.IsRoot ? 0 : CheckBox_EditMode_Doubt.Bottom);
+            Panel_EditMode_State.Height = (_CurrentTaxon.IsRoot ? 0 : CheckBox_EditMode_Unsure.Bottom);
             Panel_EditMode_State.Top = Panel_EditMode_TaxonName.Bottom;
 
             Label_EditMode_Category.Height = CategorySelector_EditMode_Category.Height;
@@ -588,18 +612,18 @@ namespace TreeOfLife
             Panel_EditMode_Desc.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_Desc.Bottom);
             Panel_EditMode_Desc.Top = Panel_EditMode_Tags.Bottom;
 
-            Panel_EditMode_ParseCurrent.Height = 0;// (_CurrentTaxon.IsRoot ? 0 : Button_EditMode_ParseCurrent.Bottom);
-            Panel_EditMode_ParseCurrent.Top = Panel_EditMode_Desc.Bottom;
-
-            Panel_EditMode_ParseChildren.Top = Panel_EditMode_ParseCurrent.Bottom;
-
             Panel_EditMode_Parents.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_EditMode_Parents.Bottom);
-            Panel_EditMode_Parents.Top = Panel_EditMode_ParseChildren.Bottom;
+            Panel_EditMode_Parents.Top = Panel_EditMode_Desc.Bottom;
+
+            Panel_EditMode_AddParent.Height = (_CurrentTaxon.IsRoot ? 0 : Button_EditMode_AddParentDownlevel.Bottom);
+            Panel_EditMode_AddParent.Top = Panel_EditMode_Parents.Bottom;
 
             Panel_EditMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_EditMode_Children.Bottom);
-            Panel_EditMode_Children.Top = Panel_EditMode_Parents.Bottom;
+            Panel_EditMode_Children.Top = Panel_EditMode_AddParent.Bottom;
 
-            Button_EnterViewMode.Top = Panel_EditMode_Children.Bottom + 25;
+            Panel_EditMode_AddChildren.Top = Panel_EditMode_Children.Bottom;
+
+            Button_EnterViewMode.Top = Panel_EditMode_AddChildren.Bottom + 25;
         }
 
         // 应用所有信息。
@@ -608,7 +632,7 @@ namespace TreeOfLife
             _CurrentTaxon.BotanicalName = TextBox_EditMode_Name.Text.Trim();
             _CurrentTaxon.ChineseName = TextBox_EditMode_ChsName.Text.Trim();
             _CurrentTaxon.IsExtinct = CheckBox_EditMode_EX.Checked;
-            _CurrentTaxon.InDoubt = CheckBox_EditMode_Doubt.Checked;
+            _CurrentTaxon.Unsure = CheckBox_EditMode_Unsure.Checked;
             _CurrentTaxon.Category = CategorySelector_EditMode_Category.Category;
 
             _CurrentTaxon.Synonyms.Clear();
@@ -630,24 +654,51 @@ namespace TreeOfLife
 
         //
 
-        private void Button_EditMode_ParseCurrent_Click(object sender, EventArgs e)
+        private void Button_EditMode_AddParentUplevel_Click(object sender, EventArgs e)
         {
-            _CurrentTaxon.ParseCurrent(TextBox_EditMode_ParseCurrent.Text);
+            Taxon parent = _CurrentTaxon.AddParentUplevel();
 
-            TextBox_EditMode_ParseCurrent.Clear();
+            if (!string.IsNullOrEmpty(TextBox_EditMode_AddParent.Text))
+            {
+                parent.ParseCurrent(TextBox_EditMode_AddParent.Text);
+
+                TextBox_EditMode_AddParent.Clear();
+            }
+
+            //
+
+            _UpdateEditModeParents();
+            _UpdateEditModeLayout();
         }
 
-        private void Button_EditMode_ParseChildren_Click(object sender, EventArgs e)
+        private void Button_EditMode_AddParentDownlevel_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBox_EditMode_ParseChildren.Text))
+            Taxon parent = _CurrentTaxon.AddParentDownlevel();
+
+            if (!string.IsNullOrEmpty(TextBox_EditMode_AddParent.Text))
+            {
+                parent.ParseCurrent(TextBox_EditMode_AddParent.Text);
+
+                TextBox_EditMode_AddParent.Clear();
+            }
+
+            //
+
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
+        }
+
+        private void Button_EditMode_AddChildren_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(TextBox_EditMode_AddChildren.Text))
             {
                 _CurrentTaxon.AddChild();
             }
             else
             {
-                _CurrentTaxon.ParseChildren(TextBox_EditMode_ParseChildren.Lines);
+                _CurrentTaxon.ParseChildren(TextBox_EditMode_AddChildren.Lines);
 
-                TextBox_EditMode_ParseChildren.Clear();
+                TextBox_EditMode_AddChildren.Clear();
             }
 
             //
@@ -658,18 +709,56 @@ namespace TreeOfLife
 
         //
 
-        private Taxon _SelectedChild = null;
+        private Taxon _RightButtonParent = null;
+
+        private void ToolStripMenuItem_Parents_Select_Click(object sender, EventArgs e)
+        {
+            _SelectedParent = _RightButtonParent;
+        }
+
+        //
+
+        private Taxon _SelectedParent = null;
+
+        private Taxon _RightButtonChild = null;
+
+        private void ToolStripMenuItem_Children_Select_Click(object sender, EventArgs e)
+        {
+            _SelectedParent = _RightButtonChild;
+        }
+
+        private void ToolStripMenuItem_Children_SetParent_Click(object sender, EventArgs e)
+        {
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && !(_SelectedParent is null) && _RightButtonChild != _SelectedParent)
+            {
+                _RightButtonChild.SetParent(_SelectedParent);
+
+                //
+
+                _UpdateEditModeParents();
+                _UpdateEditModeChildren();
+                _UpdateEditModeLayout();
+            }
+        }
 
         private void ToolStripMenuItem_Children_MoveTop_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index > 0)
+            {
+                _RightButtonChild.Parent.MoveChild(_RightButtonChild.Index, 0);
+
+                //
+
+                _UpdateEditModeChildren();
+                _UpdateEditModeLayout();
+            }
         }
 
         private void ToolStripMenuItem_Children_MoveUp_Click(object sender, EventArgs e)
         {
-            if (!(_SelectedChild is null) && !_SelectedChild.IsRoot && _SelectedChild.Index > 0)
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index > 0)
             {
-                _SelectedChild.Parent.SwapChild(_SelectedChild.Index, _SelectedChild.Index - 1);
+                _RightButtonChild.Parent.SwapChild(_RightButtonChild.Index, _RightButtonChild.Index - 1);
 
                 //
 
@@ -680,9 +769,9 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_Children_MoveDown_Click(object sender, EventArgs e)
         {
-            if (!(_SelectedChild is null) && !_SelectedChild.IsRoot && _SelectedChild.Index < _SelectedChild.Parent.Children.Count)
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index < _RightButtonChild.Parent.Children.Count - 1)
             {
-                _SelectedChild.Parent.SwapChild(_SelectedChild.Index, _SelectedChild.Index + 1);
+                _RightButtonChild.Parent.SwapChild(_RightButtonChild.Index, _RightButtonChild.Index + 1);
 
                 //
 
@@ -693,14 +782,49 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_Children_MoveBottom_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index < _RightButtonChild.Parent.Children.Count - 1)
+            {
+                _RightButtonChild.Parent.MoveChild(_RightButtonChild.Index, _RightButtonChild.Parent.Children.Count - 1);
+
+                //
+
+                _UpdateEditModeChildren();
+                _UpdateEditModeLayout();
+            }
         }
 
         private void ToolStripMenuItem_Children_Delete_Click(object sender, EventArgs e)
         {
-            if (!(_SelectedChild is null) && !_SelectedChild.IsRoot)
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot)
             {
-                _SelectedChild.RemoveCurrent();
+                _RightButtonChild.RemoveCurrent(false);
+
+                if (_SelectedParent == _RightButtonChild)
+                {
+                    _SelectedParent = null;
+                }
+
+                _RightButtonChild = null;
+
+                //
+
+                _UpdateEditModeChildren();
+                _UpdateEditModeLayout();
+            }
+        }
+
+        private void ToolStripMenuItem_Children_DeleteAll_Click(object sender, EventArgs e)
+        {
+            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot)
+            {
+                _RightButtonChild.RemoveCurrent(true);
+
+                if (_SelectedParent == _RightButtonChild)
+                {
+                    _SelectedParent = null;
+                }
+
+                _RightButtonChild = null;
 
                 //
 
@@ -721,7 +845,7 @@ namespace TreeOfLife
 
         #endregion
 
-        #region 系统发生树
+        #region 系统发生树（临时）
 
         private void _RecursiveFillStringBuilder(StringBuilder sb, Taxon taxon)
         {
@@ -734,9 +858,46 @@ namespace TreeOfLife
 
             foreach (var child in taxon.Children)
             {
-                sb.Append('—', child.Level);
-                sb.Append(">  ");
-                sb.AppendLine(child.LongName());
+                char[] ch = new char[child.Level * 2];
+
+                for (int i = 0; i < ch.Length; i++)
+                {
+                    ch[i] = '　';
+                }
+
+                int chIndex = ch.Length - 2;
+
+                if (child.Index < child.Parent.Children.Count - 1)
+                {
+                    ch[chIndex] = '├';
+                }
+                else
+                {
+                    ch[chIndex] = '└';
+                }
+
+                chIndex -= 2;
+
+                Taxon t = child.Parent;
+
+                while (!(t.Parent is null))
+                {
+                    if (t.Index < t.Parent.Children.Count - 1)
+                    {
+                        ch[chIndex] = '│';
+                    }
+
+                    chIndex -= 2;
+                    t = t.Parent;
+                }
+
+                sb.Append(ch);
+                sb.Append(child.LongName());
+                sb.Append("    [level=");
+                sb.Append(child.Level);
+                sb.Append(", index=");
+                sb.Append(child.Index);
+                sb.AppendLine("]");
 
                 _RecursiveFillStringBuilder(sb, child);
             }
@@ -796,7 +957,10 @@ namespace TreeOfLife
 
             try
             {
-                _ApplyEditModeInfo();
+                if (_EditMode)
+                {
+                    _ApplyEditModeInfo();
+                }
 
                 if (File.Exists(Phylogenesis.FileName))
                 {
@@ -834,7 +998,10 @@ namespace TreeOfLife
 
                 if (dr == DialogResult.OK)
                 {
-                    _ApplyEditModeInfo();
+                    if (_EditMode)
+                    {
+                        _ApplyEditModeInfo();
+                    }
 
                     result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
                 }

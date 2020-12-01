@@ -46,8 +46,6 @@ namespace TreeOfLife
             this.SizeChanged += TaxonNameButton_SizeChanged;
             this.FontChanged += TaxonNameButton_FontChanged;
 
-            Panel_Main.Paint += Panel_Main_Paint;
-
             Label_CategoryName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
             Label_TaxonName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
         }
@@ -72,13 +70,6 @@ namespace TreeOfLife
             _UpdateFont();
         }
 
-        private void Panel_Main_Paint(object sender, PaintEventArgs e)
-        {
-            Color borderColor = _CategoryNameBackColor;
-
-            e.Graphics.DrawRectangle(new Pen(borderColor, 1F), new Rectangle(0, 0, Panel_Main.Width - 1, Panel_Main.Height - 1));
-        }
-
         //
 
         private void _SizeChanged()
@@ -98,6 +89,8 @@ namespace TreeOfLife
 
         private void _UpdateColor()
         {
+            Panel_Main.BackColor = _CategoryNameBackColor;
+
             Label_CategoryName.ForeColor = _CategoryNameForeColor;
             Label_CategoryName.BackColor = _CategoryNameBackColor;
 

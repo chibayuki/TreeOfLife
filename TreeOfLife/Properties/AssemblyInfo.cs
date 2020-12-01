@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("生命树")]
+[assembly: AssemblyTitle("Tree of Life")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("生命树")]
+[assembly: AssemblyProduct("Tree of Life")]
 [assembly: AssemblyCopyright("Copyright © 2020 chibayuki@foxmail.com")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
