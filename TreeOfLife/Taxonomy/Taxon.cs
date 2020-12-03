@@ -33,7 +33,6 @@ namespace TreeOfLife
         private List<string> _Synonyms = new List<string>(); // 异名、别名、旧名等。
         private List<string> _Tags = new List<string>(); // 标签。
         private string _Description = string.Empty; // 描述。
-        private List<string> _Urls = new List<string>(); // 链接。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
         private TaxonType _TaxonType = TaxonType.Monophyly; // 类型。
@@ -76,8 +75,6 @@ namespace TreeOfLife
             get => _Description;
             set => _Description = value;
         }
-
-        private List<string> Urls => _Urls;
 
         public TaxonomicCategory Category
         {
@@ -135,6 +132,49 @@ namespace TreeOfLife
 
         // 判断当前类群是否为顶级类群。
         public bool IsRoot => (_Parent is null);
+
+        // 判断当前类群是否继承自指定类群。
+        public bool InheritFrom(Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (this == taxon)
+            {
+                return true;
+            }
+            else if (_Parent is null)
+            {
+                return false;
+            }
+            else
+            {
+                if (_Level <= taxon._Level)
+                {
+                    return false;
+                }
+                else
+                {
+                    Taxon t = this;
+
+                    while (!(t is null) && t._Level >= taxon._Level)
+                    {
+                        if (t == taxon)
+                        {
+                            return true;
+                        }
+
+                        t = t._Parent;
+                    }
+
+                    return false;
+                }
+            }
+        }
 
         //
 
@@ -203,23 +243,9 @@ namespace TreeOfLife
                 throw new ArgumentNullException();
             }
 
-            if (taxon == this)
+            if (taxon.InheritFrom(this))
             {
                 throw new InvalidOperationException();
-            }
-            else
-            {
-                Taxon t = taxon;
-
-                while (!(t is null))
-                {
-                    if (t == this)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    t = t._Parent;
-                }
             }
 
             //
@@ -246,23 +272,9 @@ namespace TreeOfLife
                 throw new ArgumentNullException();
             }
 
-            if (taxon == this)
+            if (taxon.InheritFrom(this))
             {
                 throw new InvalidOperationException();
-            }
-            else
-            {
-                Taxon t = taxon;
-
-                while (!(t is null))
-                {
-                    if (t == this)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    t = t._Parent;
-                }
             }
 
             //
@@ -401,7 +413,7 @@ namespace TreeOfLife
             {
                 Taxon parent = _Parent;
 
-                if (removeChildren)
+                if (removeChildren || _Children.Count <= 0)
                 {
                     _AtomDetachParent();
                 }

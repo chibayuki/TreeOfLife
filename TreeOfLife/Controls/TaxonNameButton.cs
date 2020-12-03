@@ -77,7 +77,7 @@ namespace TreeOfLife
             Label_CategoryName.Size = new Size(_CategoryNameWidth - 1, Panel_Main.Height - 2);
             Label_CategoryName.Location = new Point(1, 1);
 
-            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 2, Panel_Main.Height - 2);
+            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 1, Panel_Main.Height - 2);
             Label_TaxonName.Location = new Point(Label_CategoryName.Right, 1);
         }
 

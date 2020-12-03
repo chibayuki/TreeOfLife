@@ -81,13 +81,11 @@ namespace TreeOfLife
             Me.Theme = Theme.White;
             Me.ThemeColor = Color.FromArgb(128, 128, 128);
 
-            Me.Loading += Me_Loading;
             Me.Loaded += Me_Loaded;
-            Me.Closing += Me_Closing;
             Me.ThemeChanged += Me_ThemeChanged;
             Me.ThemeColorChanged += Me_ThemeChanged;
 
-            Me.CloseVerification = _CloseVerification;
+            Me.CloseVerification = Me_CloseVerification;
 
             ToolStripMenuItem_File_Open.Click += ToolStripMenuItem_File_Open_Click;
             ToolStripMenuItem_File_Save.Click += ToolStripMenuItem_File_Save_Click;
@@ -116,11 +114,6 @@ namespace TreeOfLife
 
         #region 窗口事件回调
 
-        private void Me_Loading(object sender, EventArgs e)
-        {
-            Phylogenesis.New();
-        }
-
         private void Me_Loaded(object sender, EventArgs e)
         {
             Me.OnThemeChanged();
@@ -145,11 +138,6 @@ namespace TreeOfLife
             //
 
             Panel_Main.Visible = true;
-        }
-
-        private void Me_Closing(object sender, EventArgs e)
-        {
-            Phylogenesis.Close();
         }
 
         private void Me_ThemeChanged(object sender, EventArgs e)
@@ -257,6 +245,11 @@ namespace TreeOfLife
             TaxonNameButtonGroup_EditMode_Children.IsDarkTheme = _IsDarkTheme;
         }
 
+        private bool Me_CloseVerification(EventArgs e)
+        {
+            return _TrySaveAndClose();
+        }
+
         #endregion
 
         #region 类群信息页面
@@ -343,9 +336,7 @@ namespace TreeOfLife
                     {
                         if (e.Button == MouseButtons.Right)
                         {
-                            _RightButtonParent = button.Taxon;
-
-                            ContextMenuStrip_Parents.Show(Cursor.Position);
+                            _ShowMenuItem_Parents(button.Taxon);
                         }
                     };
                 }
@@ -388,9 +379,7 @@ namespace TreeOfLife
                     {
                         if (e.Button == MouseButtons.Right)
                         {
-                            _RightButtonChild = button.Taxon;
-
-                            ContextMenuStrip_Children.Show(Cursor.Position);
+                            _ShowMenuItem_Children(button.Taxon);
                         }
                     };
                 }
@@ -709,128 +698,152 @@ namespace TreeOfLife
 
         //
 
-        private Taxon _RightButtonParent = null;
+        private Taxon _RightButtonTaxon = null;
+        private Taxon _SelectedTaxon = null;
+
+        private void _ShowMenuItem_Parents(Taxon rightButtonTaxon)
+        {
+            _RightButtonTaxon = rightButtonTaxon;
+
+            if (!(_RightButtonTaxon is null))
+            {
+                ContextMenuStrip_Parents.Show(Cursor.Position);
+            }
+        }
 
         private void ToolStripMenuItem_Parents_Select_Click(object sender, EventArgs e)
         {
-            _SelectedParent = _RightButtonParent;
+            _SelectedTaxon = _RightButtonTaxon;
         }
 
-        //
+        private void _ShowMenuItem_Children(Taxon rightButtonTaxon)
+        {
+            _RightButtonTaxon = rightButtonTaxon;
 
-        private Taxon _SelectedParent = null;
+            if (!(_RightButtonTaxon is null))
+            {
+                ToolStripMenuItem_Children_SetParent.Enabled = (!(_SelectedTaxon is null) && !_SelectedTaxon.InheritFrom(_RightButtonTaxon));
+                ToolStripMenuItem_Children_MoveTop.Enabled = ToolStripMenuItem_Children_MoveUp.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index > 0);
+                ToolStripMenuItem_Children_MoveBottom.Enabled = ToolStripMenuItem_Children_MoveDown.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index < _RightButtonTaxon.Parent.Children.Count - 1);
+                ToolStripMenuItem_Children_Delete.Enabled = (_RightButtonTaxon.Children.Count > 0);
 
-        private Taxon _RightButtonChild = null;
+                if (ToolStripMenuItem_Children_SetParent.Enabled)
+                {
+                    if (_SelectedTaxon.IsAnonymous())
+                    {
+                        ToolStripMenuItem_Children_SetParent.Text = "继承选择的类群 (未命名)";
+                    }
+                    else
+                    {
+                        string taxonName = _SelectedTaxon.LongName();
+
+                        if (taxonName.Length > 16)
+                        {
+                            ToolStripMenuItem_Children_SetParent.Text = string.Concat("继承选择的类群 (", taxonName.Substring(0, 16), "...)");
+                        }
+                        else
+                        {
+                            ToolStripMenuItem_Children_SetParent.Text = string.Concat("继承选择的类群 (", taxonName, ")");
+                        }
+                    }
+                }
+                else
+                {
+                    ToolStripMenuItem_Children_SetParent.Text = "继承选择的类群";
+                }
+
+                ContextMenuStrip_Children.Show(Cursor.Position);
+            }
+        }
 
         private void ToolStripMenuItem_Children_Select_Click(object sender, EventArgs e)
         {
-            _SelectedParent = _RightButtonChild;
+            _SelectedTaxon = _RightButtonTaxon;
         }
 
         private void ToolStripMenuItem_Children_SetParent_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && !(_SelectedParent is null) && _RightButtonChild != _SelectedParent)
-            {
-                _RightButtonChild.SetParent(_SelectedParent);
+            _RightButtonTaxon.SetParent(_SelectedTaxon);
 
-                //
+            //
 
-                _UpdateEditModeParents();
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
-            }
+            _UpdateEditModeParents();
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_MoveTop_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index > 0)
-            {
-                _RightButtonChild.Parent.MoveChild(_RightButtonChild.Index, 0);
+            _RightButtonTaxon.Parent.MoveChild(_RightButtonTaxon.Index, 0);
 
-                //
+            //
 
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
-            }
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_MoveUp_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index > 0)
-            {
-                _RightButtonChild.Parent.SwapChild(_RightButtonChild.Index, _RightButtonChild.Index - 1);
+            _RightButtonTaxon.Parent.SwapChild(_RightButtonTaxon.Index, _RightButtonTaxon.Index - 1);
 
-                //
+            //
 
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
-            }
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_MoveDown_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index < _RightButtonChild.Parent.Children.Count - 1)
-            {
-                _RightButtonChild.Parent.SwapChild(_RightButtonChild.Index, _RightButtonChild.Index + 1);
+            _RightButtonTaxon.Parent.SwapChild(_RightButtonTaxon.Index, _RightButtonTaxon.Index + 1);
 
-                //
+            //
 
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
-            }
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_MoveBottom_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot && _RightButtonChild.Index < _RightButtonChild.Parent.Children.Count - 1)
-            {
-                _RightButtonChild.Parent.MoveChild(_RightButtonChild.Index, _RightButtonChild.Parent.Children.Count - 1);
+            _RightButtonTaxon.Parent.MoveChild(_RightButtonTaxon.Index, _RightButtonTaxon.Parent.Children.Count - 1);
 
-                //
+            //
 
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
-            }
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_Delete_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot)
+            _RightButtonTaxon.RemoveCurrent(false);
+
+            if (_SelectedTaxon == _RightButtonTaxon)
             {
-                _RightButtonChild.RemoveCurrent(false);
-
-                if (_SelectedParent == _RightButtonChild)
-                {
-                    _SelectedParent = null;
-                }
-
-                _RightButtonChild = null;
-
-                //
-
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
+                _SelectedTaxon = null;
             }
+
+            _RightButtonTaxon = null;
+
+            //
+
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         private void ToolStripMenuItem_Children_DeleteAll_Click(object sender, EventArgs e)
         {
-            if (!(_RightButtonChild is null) && !_RightButtonChild.IsRoot)
+            _RightButtonTaxon.RemoveCurrent(true);
+
+            if (_SelectedTaxon == _RightButtonTaxon)
             {
-                _RightButtonChild.RemoveCurrent(true);
-
-                if (_SelectedParent == _RightButtonChild)
-                {
-                    _SelectedParent = null;
-                }
-
-                _RightButtonChild = null;
-
-                //
-
-                _UpdateEditModeChildren();
-                _UpdateEditModeLayout();
+                _SelectedTaxon = null;
             }
+
+            _RightButtonTaxon = null;
+
+            //
+
+            _UpdateEditModeChildren();
+            _UpdateEditModeLayout();
         }
 
         //
@@ -892,12 +905,7 @@ namespace TreeOfLife
                 }
 
                 sb.Append(ch);
-                sb.Append(child.LongName());
-                sb.Append("    [level=");
-                sb.Append(child.Level);
-                sb.Append(", index=");
-                sb.Append(child.Index);
-                sb.AppendLine("]");
+                sb.AppendLine(child.LongName());
 
                 _RecursiveFillStringBuilder(sb, child);
             }
@@ -923,29 +931,18 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            try
+            DialogResult dr = OpenFileDialog_Open.ShowDialog();
+
+            if (dr == DialogResult.OK)
             {
-                DialogResult dr = OpenFileDialog_Open.ShowDialog();
-
-                if (dr == DialogResult.OK)
-                {
-                    result = Phylogenesis.Open(OpenFileDialog_Open.FileName);
-                }
-
-                if (result)
-                {
-                    _SetCurrentTaxon(Phylogenesis.Root);
-                    _SetMode(false);
-                    _UpdatePhylogeneticTree();
-                }
+                result = Phylogenesis.Open(OpenFileDialog_Open.FileName);
             }
-            catch
+
+            if (result)
             {
-#if DEBUG
-                throw;
-#else
-                result = false;
-#endif
+                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetMode(false);
+                _UpdatePhylogeneticTree();
             }
 
             return result;
@@ -955,34 +952,23 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            try
+            if (_EditMode)
             {
-                if (_EditMode)
-                {
-                    _ApplyEditModeInfo();
-                }
-
-                if (File.Exists(Phylogenesis.FileName))
-                {
-                    result = Phylogenesis.Save();
-                }
-                else
-                {
-                    DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
-
-                    if (dr == DialogResult.OK)
-                    {
-                        result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
-                    }
-                }
+                _ApplyEditModeInfo();
             }
-            catch
+
+            if (File.Exists(Phylogenesis.FileName))
             {
-#if DEBUG
-                throw;
-#else
-                result = false;
-#endif
+                result = Phylogenesis.Save();
+            }
+            else
+            {
+                DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+                }
             }
 
             return result;
@@ -992,27 +978,16 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            try
-            {
-                DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+            DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
 
-                if (dr == DialogResult.OK)
+            if (dr == DialogResult.OK)
+            {
+                if (_EditMode)
                 {
-                    if (_EditMode)
-                    {
-                        _ApplyEditModeInfo();
-                    }
-
-                    result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+                    _ApplyEditModeInfo();
                 }
-            }
-            catch
-            {
-#if DEBUG
-                throw;
-#else
-                result = false;
-#endif
+
+                result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
             }
 
             return result;
@@ -1022,30 +997,19 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            try
-            {
-                result = Phylogenesis.Close();
+            result = Phylogenesis.Close();
 
-                if (result)
-                {
-                    _SetCurrentTaxon(Phylogenesis.Root);
-                    _SetMode(false);
-                    _UpdatePhylogeneticTree();
-                }
-            }
-            catch
+            if (result)
             {
-#if DEBUG
-                throw;
-#else
-                result = false;
-#endif
+                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetMode(false);
+                _UpdatePhylogeneticTree();
             }
 
             return result;
         }
 
-        private bool _CloseVerification(EventArgs e)
+        private bool _TrySaveAndClose()
         {
             if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
             {
@@ -1058,8 +1022,40 @@ namespace TreeOfLife
                 switch (dr)
                 {
                     case DialogResult.Cancel: return false;
-                    case DialogResult.Yes: if (!_Save()) MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK); return true;
-                    case DialogResult.No: return true;
+
+                    case DialogResult.Yes:
+                        if (_Save())
+                        {
+                            if (_Close())
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                            return false;
+                        }
+
+                    case DialogResult.No:
+                        if (_Close())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                            return false;
+                        }
+
                     default: return false;
                 }
             }
@@ -1067,7 +1063,7 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_File_Open_Click(object sender, EventArgs e)
         {
-            if (_CloseVerification(e))
+            if (_TrySaveAndClose())
             {
                 if (!_Open())
                 {
@@ -1094,12 +1090,9 @@ namespace TreeOfLife
 
         private void ToolStripMenuItem_File_Close_Click(object sender, EventArgs e)
         {
-            if (_CloseVerification(e))
+            if (!_TrySaveAndClose())
             {
-                if (!_Close())
-                {
-                    MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
-                }
+                MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
             }
         }
 

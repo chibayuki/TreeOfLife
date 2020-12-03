@@ -95,6 +95,7 @@
     <Compile Include="Controls\TaxonNameButton.Designer.cs">
       <DependentUpon>TaxonNameButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="Phylogeny\Package.cs" />
     <Compile Include="Phylogeny\Phylogenesis.cs" />
     <Compile Include="Phylogeny\PhylogeneticUnwindV1.cs" />
     <Compile Include="Phylogeny\PhylogeneticTree.cs" />

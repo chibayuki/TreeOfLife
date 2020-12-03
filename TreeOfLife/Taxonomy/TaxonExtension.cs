@@ -59,14 +59,19 @@ namespace TreeOfLife
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.Unsure)
+                if (taxon.Unsure || taxon.IsExtinct)
                 {
-                    taxonName.Append('?');
-                }
+                    if (taxon.Unsure)
+                    {
+                        taxonName.Append('?');
+                    }
 
-                if (taxon.IsExtinct)
-                {
-                    taxonName.Append('†');
+                    if (taxon.IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
                 }
 
                 if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
@@ -106,14 +111,19 @@ namespace TreeOfLife
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.Unsure)
+                if (taxon.Unsure || taxon.IsExtinct)
                 {
-                    taxonName.Append('?');
-                }
+                    if (taxon.Unsure)
+                    {
+                        taxonName.Append('?');
+                    }
 
-                if (taxon.IsExtinct)
-                {
-                    taxonName.Append('†');
+                    if (taxon.IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
                 }
 
                 if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
@@ -261,6 +271,10 @@ namespace TreeOfLife
                             taxon.Category = TaxonomicCategory.Clade;
                             taxon.ChineseName = chsPart;
                         }
+                    }
+                    else
+                    {
+                        taxon.Category = TaxonomicCategory.Clade;
                     }
                 }
             }

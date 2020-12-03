@@ -26,156 +26,28 @@ namespace TreeOfLife
     // 系统发生学。
     internal static class Phylogenesis
     {
-        private static PhylogeneticTree _PhylogeneticTree = null;
+        private static PhylogeneticTree _PhylogeneticTree = new PhylogeneticTree();
 
-        private static string _FileName = null;
-
-        private static string _TempDir = null; // 临时目录。
-        private static string _WorkingDir => Path.Combine(_TempDir, "workDir"); // 工作目录。
-        private static string _VersionInfoFile => Path.Combine(_WorkingDir, "_version"); // 版本信息文件。
-
-        // 版本信息。
-        private class _VersionInfo
-        {
-            private int _FileVersion = 1;
-
-            //
-
-            public _VersionInfo()
-            {
-            }
-
-            //
-
-            [JsonPropertyName("FileVersion")]
-            public int FileVersion
-            {
-                get => _FileVersion;
-                set => _FileVersion = value;
-            }
-        }
+        private static Package _Package = null;
 
         //
 
-        public static Taxon Root
-        {
-            get
-            {
-                if (_PhylogeneticTree is null)
-                {
-                    throw new InvalidOperationException();
-                }
+        public static Taxon Root => _PhylogeneticTree.Root;
 
-                //
+        public static bool IsEmpty => _PhylogeneticTree.Root.Children.Count <= 0;
 
-                return _PhylogeneticTree.Root;
-            }
-        }
-
-        public static bool IsEmpty
-        {
-            get
-            {
-                if (_PhylogeneticTree is null)
-                {
-                    throw new InvalidOperationException();
-                }
-
-                //
-
-                return _PhylogeneticTree.Root.Children.Count <= 0;
-            }
-        }
-
-        public static string FileName => _FileName;
-
-        //
-
-        // 解压文件。
-        private static void _Extract(string sourceArchiveFileName, string destinationDirectoryName)
-        {
-            if (!Directory.Exists(destinationDirectoryName))
-            {
-                Directory.CreateDirectory(destinationDirectoryName);
-            }
-
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
-        }
-
-        // 压缩文件。
-        private static void _Compress(string sourceDirectoryName, string destinationArchiveFileName)
-        {
-            string dir = Path.GetDirectoryName(destinationArchiveFileName);
-
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            string tmpFile = Path.Combine(dir, Path.GetRandomFileName() + ".tmp");
-
-            ZipFile.CreateFromDirectory(sourceDirectoryName, tmpFile, CompressionLevel.Optimal, false);
-
-            if (File.Exists(destinationArchiveFileName))
-            {
-                File.Delete(destinationArchiveFileName);
-            }
-
-            File.Move(tmpFile, destinationArchiveFileName);
-        }
-
-        // 检查文件版本。
-        private static int _ReadFileVersion(string fileName)
-        {
-            string jsonText = File.ReadAllText(fileName);
-
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-
-            _VersionInfo versionInfo = JsonSerializer.Deserialize<_VersionInfo>(jsonText, options);
-
-            return versionInfo.FileVersion;
-        }
-
-        // 写入文件版本。
-        private static void _WriteFileVersion(string fileName)
-        {
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.WriteIndented = true;
-
-            string jsonText = JsonSerializer.Serialize(new _VersionInfo(), options);
-
-            File.WriteAllText(fileName, jsonText);
-        }
+        public static string FileName => (_Package is null ? null : _Package.FileName);
 
         //
 
         // 新建文件。
         public static bool New()
         {
-            bool result = true;
-
             _PhylogeneticTree = new PhylogeneticTree();
 
-            _FileName = null;
+            _Package = null;
 
-            try
-            {
-                _TempDir = Path.Combine(Path.GetTempPath(), string.Concat(Application.ProductName, "_", Application.ProductVersion), Path.GetRandomFileName());
-            }
-            catch
-            {
-                _TempDir = null;
-
-#if DEBUG
-                throw;
-#else
-                result = false;
-#endif
-            }
-
-            return result;
+            return true;
         }
 
         // 打开文件。
@@ -183,20 +55,15 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            _FileName = fileName;
-
             try
             {
-                _TempDir = Path.Combine(Path.GetTempPath(), string.Concat(Application.ProductName, "_", Application.ProductVersion), Path.GetRandomFileName());
+                _Package = new Package(fileName);
+                _Package.Open();
 
-                _Extract(_FileName, _WorkingDir);
-
-                int fileVersion = _ReadFileVersion(_VersionInfoFile);
-
-                switch (fileVersion)
+                switch (_Package.VersionInfo.FileVersion)
                 {
                     case 1:
-                        _PhylogeneticTree = PhylogeneticUnwindV1.Deserialize(_WorkingDir).Rebuild();
+                        _PhylogeneticTree = PhylogeneticUnwindV1.Deserialize(_Package.WorkingDir).Rebuild();
                         break;
 
                     default:
@@ -208,8 +75,8 @@ namespace TreeOfLife
             {
                 _PhylogeneticTree = new PhylogeneticTree();
 
-                _FileName = null;
-                _TempDir = null;
+                _Package.Close();
+                _Package = null;
 
 #if DEBUG
                 throw;
@@ -224,7 +91,24 @@ namespace TreeOfLife
         // 保存文件。
         public static bool Save()
         {
-            return SaveAs(_FileName);
+            bool result = true;
+
+            try
+            {
+                _PhylogeneticTree.Unwind().Serialize(_Package.WorkingDir);
+
+                _Package.Save();
+            }
+            catch
+            {
+#if DEBUG
+                throw;
+#else
+                result = false;
+#endif
+            }
+
+            return result;
         }
 
         // 另存为文件。
@@ -232,13 +116,11 @@ namespace TreeOfLife
         {
             bool result = true;
 
-            _FileName = fileName;
-
             try
             {
-                _WriteFileVersion(_VersionInfoFile);
-                _PhylogeneticTree.Unwind().Serialize(_WorkingDir);
-                _Compress(_WorkingDir, _FileName);
+                _PhylogeneticTree.Unwind().Serialize(_Package.WorkingDir);
+
+                _Package.SaveAs(fileName);
             }
             catch
             {
@@ -259,9 +141,9 @@ namespace TreeOfLife
 
             try
             {
-                if (Directory.Exists(_TempDir))
+                if (!(_Package is null))
                 {
-                    Directory.Delete(_TempDir, true);
+                    _Package.Close();
                 }
 
                 result = New();

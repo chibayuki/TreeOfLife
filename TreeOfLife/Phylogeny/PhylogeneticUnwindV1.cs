@@ -543,26 +543,28 @@ namespace TreeOfLife
             return tree;
         }
 
+        // 数据文件。
+        private static string _GetDataFileName(string workingDirectory)
+        {
+            return Path.Combine(workingDirectory, "_data");
+        }
+
         // 序列化。
         public void Serialize(string workingDirectory)
         {
-            string dataFile = Path.Combine(workingDirectory, "data");
-
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             options.WriteIndented = true;
 
             string jsonText = JsonSerializer.Serialize(this, options);
 
-            File.WriteAllText(dataFile, jsonText);
+            File.WriteAllText(_GetDataFileName(workingDirectory), jsonText);
         }
 
         // 反序列化。
         public static PhylogeneticUnwindV1 Deserialize(string workingDirectory)
         {
-            string dataFile = Path.Combine(workingDirectory, "data");
-
-            string jsonText = File.ReadAllText(dataFile);
+            string jsonText = File.ReadAllText(_GetDataFileName(workingDirectory));
 
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));

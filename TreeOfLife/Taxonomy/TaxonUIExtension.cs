@@ -143,26 +143,15 @@ namespace TreeOfLife
                             TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
                     }
 
+                    // 如果上溯到任何主要分类阶元，继续上溯到最高级别，并且忽略演化支与更低的主要分类阶元
                     if (result.Count > 0)
                     {
                         Taxon parent = result[result.Count - 1];
 
-                        // 如果还未上溯到界，继续上溯到界为止，并且忽略演化支与更低的主要分类阶元
-                        if (parent.Category < TaxonomicCategory.Kingdom)
-                        {
-                            result.AddRange(parent.GetParents(
-                                TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
-                                recursiveInsteadOfLoop: true,
-                                TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(TaxonomicCategory.Kingdom, allowEquals: true)));
-                        }
-                        // 如果已经上溯到界以上，继续上溯到最高级别
-                        else if (parent.Category > TaxonomicCategory.Kingdom)
-                        {
-                            result.AddRange(parent.GetParents(
-                                TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
-                                recursiveInsteadOfLoop: false,
-                                TaxonParentFilterTerminationCondition.UntilRoot()));
-                        }
+                        result.AddRange(parent.GetParents(
+                           TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
+                           recursiveInsteadOfLoop: true,
+                           TaxonParentFilterTerminationCondition.UntilRoot()));
                     }
                     // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
                     else
