@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.323.1000.M4.201128-1700
+Version 1.0.415.1000.M5.201204-2200
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -17,14 +17,6 @@ using System.Threading.Tasks;
 
 namespace TreeOfLife
 {
-    // 生物分类单元的类型。
-    internal enum TaxonType
-    {
-        Monophyly, // 单系群。
-        Paraphyly, // 并系群。
-        Polyphyly // 多系群（复系群）。
-    }
-
     // 生物分类单元（类群）。
     internal class Taxon
     {
@@ -35,7 +27,6 @@ namespace TreeOfLife
         private string _Description = string.Empty; // 描述。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
-        private TaxonType _TaxonType = TaxonType.Monophyly; // 类型。
 
         private bool _IsExtinct = false; // 已灭绝。
         private bool _Unsure = false; // 存疑。
@@ -82,12 +73,6 @@ namespace TreeOfLife
             set => _Category = value;
         }
 
-        private TaxonType TaxonType
-        {
-            get => _TaxonType;
-            set => _TaxonType = value;
-        }
-
         public bool IsExtinct
         {
             get => _IsExtinct;
@@ -132,6 +117,9 @@ namespace TreeOfLife
 
         // 判断当前类群是否为顶级类群。
         public bool IsRoot => (_Parent is null);
+
+        // 判断当前类群是否为末端类群。
+        public bool IsFinal => (_Children.Count <= 0);
 
         // 判断当前类群是否继承自指定类群。
         public bool InheritFrom(Taxon taxon)

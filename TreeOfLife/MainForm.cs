@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.400.1000.M5.201129-0000
+Version 1.0.415.1000.M5.201204-2200
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -29,8 +29,6 @@ namespace TreeOfLife
 {
     internal partial class MainForm : Form
     {
-        private bool _IsDarkTheme;
-
         #region 窗口定义
 
         private FormManager Me;
@@ -139,6 +137,8 @@ namespace TreeOfLife
 
             Panel_Main.Visible = true;
         }
+
+        private bool _IsDarkTheme;
 
         private void Me_ThemeChanged(object sender, EventArgs e)
         {
@@ -504,7 +504,7 @@ namespace TreeOfLife
             Panel_ViewMode_Parents.Height = (_CurrentTaxon.IsRoot ? 0 : TaxonNameButtonGroup_ViewMode_Parents.Bottom);
             Panel_ViewMode_Parents.Top = Panel_ViewMode_Tags.Bottom;
 
-            Panel_ViewMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
+            Panel_ViewMode_Children.Height = (_CurrentTaxon.IsFinal ? 0 : TaxonNameButtonGroup_ViewMode_Children.Bottom);
             Panel_ViewMode_Children.Top = Panel_ViewMode_Parents.Bottom;
 
             Panel_ViewMode_Synonyms.Height = (_CurrentTaxon.Synonyms.Count <= 0 ? 0 : TagGroup_Synonyms.Bottom);
@@ -607,7 +607,7 @@ namespace TreeOfLife
             Panel_EditMode_AddParent.Height = (_CurrentTaxon.IsRoot ? 0 : Button_EditMode_AddParentDownlevel.Bottom);
             Panel_EditMode_AddParent.Top = Panel_EditMode_Parents.Bottom;
 
-            Panel_EditMode_Children.Height = (_CurrentTaxon.Children.Count <= 0 ? 0 : TaxonNameButtonGroup_EditMode_Children.Bottom);
+            Panel_EditMode_Children.Height = (_CurrentTaxon.IsFinal ? 0 : TaxonNameButtonGroup_EditMode_Children.Bottom);
             Panel_EditMode_Children.Top = Panel_EditMode_AddParent.Bottom;
 
             Panel_EditMode_AddChildren.Top = Panel_EditMode_Children.Bottom;
@@ -725,7 +725,7 @@ namespace TreeOfLife
                 ToolStripMenuItem_Children_SetParent.Enabled = (!(_SelectedTaxon is null) && !_SelectedTaxon.InheritFrom(_RightButtonTaxon));
                 ToolStripMenuItem_Children_MoveTop.Enabled = ToolStripMenuItem_Children_MoveUp.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index > 0);
                 ToolStripMenuItem_Children_MoveBottom.Enabled = ToolStripMenuItem_Children_MoveDown.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index < _RightButtonTaxon.Parent.Children.Count - 1);
-                ToolStripMenuItem_Children_Delete.Enabled = (_RightButtonTaxon.Children.Count > 0);
+                ToolStripMenuItem_Children_Delete.Enabled = !_RightButtonTaxon.IsFinal;
 
                 if (ToolStripMenuItem_Children_SetParent.Enabled)
                 {
@@ -905,7 +905,15 @@ namespace TreeOfLife
                 }
 
                 sb.Append(ch);
-                sb.AppendLine(child.LongName());
+
+                if (child.IsNamed())
+                {
+                    sb.AppendLine(child.LongName());
+                }
+                else
+                {
+                    sb.AppendLine("─");
+                }
 
                 _RecursiveFillStringBuilder(sb, child);
             }
@@ -925,7 +933,7 @@ namespace TreeOfLife
 
         #endregion
 
-        #region 文件
+        #region 文件（临时）
 
         private bool _Open()
         {

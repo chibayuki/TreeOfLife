@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 生命树 (TreeOfLife)
-Version 1.0.400.1000.M5.201129-0000
+Version 1.0.415.1000.M5.201204-2200
 
 This file is part of "生命树" (TreeOfLife)
 
@@ -34,7 +34,7 @@ namespace TreeOfLife
 
         public static Taxon Root => _PhylogeneticTree.Root;
 
-        public static bool IsEmpty => _PhylogeneticTree.Root.Children.Count <= 0;
+        public static bool IsEmpty => _PhylogeneticTree.Root.IsFinal;
 
         public static string FileName => (_Package is null ? null : _Package.FileName);
 
