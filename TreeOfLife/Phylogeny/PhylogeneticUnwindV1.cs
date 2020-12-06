@@ -22,7 +22,7 @@ using System.Text.Json.Serialization;
 namespace TreeOfLife
 {
     // 系统发生树展开后的原子数据结构。
-    internal class PhylogeneticUnwindV1Atom
+    public class PhylogeneticUnwindV1Atom
     {
         // 生物分类阶元。
         public enum TaxonomicCategory
@@ -446,7 +446,7 @@ namespace TreeOfLife
 
         public static PhylogeneticUnwindV1Atom FromTaxon(Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -488,7 +488,7 @@ namespace TreeOfLife
     }
 
     // 系统发生树的展开，用于序列化/反序列化。
-    internal class PhylogeneticUnwindV1
+    public class PhylogeneticUnwindV1
     {
         private List<PhylogeneticUnwindV1Atom> _Atoms = new List<PhylogeneticUnwindV1Atom>();
 
@@ -511,7 +511,7 @@ namespace TreeOfLife
 
         private static Taxon _GetTaxonOfTree(PhylogeneticTree tree, IReadOnlyList<int> index)
         {
-            if (tree is null || index is null)
+            if (tree == null || index == null)
             {
                 throw new ArgumentNullException();
             }

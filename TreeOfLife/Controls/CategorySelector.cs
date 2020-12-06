@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace TreeOfLife
 {
-    internal partial class CategorySelector : UserControl
+    public partial class CategorySelector : UserControl
     {
         private class _Group
         {
@@ -584,8 +584,8 @@ namespace TreeOfLife
             }
 
             Panel_Level1.Size = new Size(this.Width, _Level1Group.GroupPanel.Height);
-            Panel_Level2.Size = new Size(this.Width, (_CurrentLevel2Group is null ? 0 : _CurrentLevel2Group.GroupPanel.Height));
-            Panel_Level3.Size = new Size(this.Width, (_CurrentLevel3Group is null ? 0 : _CurrentLevel3Group.GroupPanel.Height));
+            Panel_Level2.Size = new Size(this.Width, (_CurrentLevel2Group == null ? 0 : _CurrentLevel2Group.GroupPanel.Height));
+            Panel_Level3.Size = new Size(this.Width, (_CurrentLevel3Group == null ? 0 : _CurrentLevel3Group.GroupPanel.Height));
 
             Panel_Level1.Top = 0;
             Panel_Level2.Top = Panel_Level1.Bottom + (Panel_Level2.Height > 0 ? _GroupPadding.Vertical : 0);
@@ -603,12 +603,12 @@ namespace TreeOfLife
         {
             using (Graphics graphics = Panel_Main.CreateGraphics())
             {
-                if (!(_CurrentLevel1Button is null) && !(_CurrentLevel2Group is null))
+                if (_CurrentLevel1Button != null && _CurrentLevel2Group != null)
                 {
                     graphics.DrawLine(new Pen(_CurrentLevel1Button.ThemeColor.ToColor(), 1F), new Point(0, Panel_Level1.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, Panel_Level1.Bottom + _GroupPadding.Bottom));
                 }
 
-                if (!(_CurrentLevel2Button is null) && !(_CurrentLevel3Group is null))
+                if (_CurrentLevel2Button != null && _CurrentLevel3Group != null)
                 {
                     graphics.DrawLine(new Pen(_CurrentLevel2Button.ThemeColor.ToColor(), 1F), new Point(0, Panel_Level2.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, Panel_Level2.Bottom + _GroupPadding.Bottom));
                 }
@@ -714,14 +714,14 @@ namespace TreeOfLife
 
             set
             {
-                if (!(_Level1Button is null))
+                if (_Level1Button != null)
                 {
                     _Level1Button.Checked = false;
                 }
 
                 _Level1Button = value;
 
-                if (!(_Level1Button is null))
+                if (_Level1Button != null)
                 {
                     _Level1Button.Checked = true;
                 }
@@ -741,14 +741,14 @@ namespace TreeOfLife
 
             set
             {
-                if (!(_Level2Group is null))
+                if (_Level2Group != null)
                 {
                     _Level2Group.GroupPanel.Visible = false;
                 }
 
                 _Level2Group = value;
 
-                if (!(_Level2Group is null))
+                if (_Level2Group != null)
                 {
                     _Level2Group.GroupPanel.Visible = true;
                 }
@@ -764,14 +764,14 @@ namespace TreeOfLife
 
             set
             {
-                if (!(_Level3Group is null))
+                if (_Level3Group != null)
                 {
                     _Level3Group.GroupPanel.Visible = false;
                 }
 
                 _Level3Group = value;
 
-                if (!(_Level3Group is null))
+                if (_Level3Group != null)
                 {
                     _Level3Group.GroupPanel.Visible = true;
                 }

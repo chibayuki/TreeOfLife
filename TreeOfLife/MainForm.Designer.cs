@@ -30,13 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.Panel_Main = new System.Windows.Forms.Panel();
-            this.Panel_PhylogeneticTree = new System.Windows.Forms.Panel();
-            this.TextBox_PhylogeneticTree = new System.Windows.Forms.TextBox();
-            this.ContextMenuStrip_File = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ToolStripMenuItem_File_Open = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_File_Save = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_File_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.Panel_TabPage = new System.Windows.Forms.Panel();
+            this.Panel_TabPage_Pages = new System.Windows.Forms.Panel();
             this.Panel_TaxonInfo = new System.Windows.Forms.Panel();
             this.Panel_TaxonInfo_ViewMode = new System.Windows.Forms.Panel();
             this.Panel_ViewMode_Desc = new System.Windows.Forms.Panel();
@@ -60,6 +55,10 @@
             this.Label_ViewMode_CategoryName = new System.Windows.Forms.Label();
             this.Label_ViewMode_TaxonName = new System.Windows.Forms.Label();
             this.Panel_TaxonInfo_EditMode = new System.Windows.Forms.Panel();
+            this.Panel_EditMode_Title = new System.Windows.Forms.Panel();
+            this.Panel_EditMode_TaxonName = new System.Windows.Forms.Panel();
+            this.Label_EditMode_CategoryName = new System.Windows.Forms.Label();
+            this.Label_EditMode_TaxonName = new System.Windows.Forms.Label();
             this.Panel_EditMode_Children = new System.Windows.Forms.Panel();
             this.Label_EditMode_Children = new System.Windows.Forms.Label();
             this.TaxonNameButtonGroup_EditMode_Children = new TreeOfLife.TaxonNameButtonGroup();
@@ -91,12 +90,27 @@
             this.Label_EditMode_State = new System.Windows.Forms.Label();
             this.CheckBox_EditMode_Unsure = new System.Windows.Forms.CheckBox();
             this.CheckBox_EditMode_EX = new System.Windows.Forms.CheckBox();
-            this.Panel_EditMode_TaxonName = new System.Windows.Forms.Panel();
+            this.Panel_EditMode_Name = new System.Windows.Forms.Panel();
             this.TextBox_EditMode_ChsName = new System.Windows.Forms.TextBox();
             this.Label_EditMode_ChsName = new System.Windows.Forms.Label();
             this.TextBox_EditMode_Name = new System.Windows.Forms.TextBox();
             this.Label_EditMode_Name = new System.Windows.Forms.Label();
             this.Button_EnterViewMode = new System.Windows.Forms.Button();
+            this.Panel_File = new System.Windows.Forms.Panel();
+            this.ContextMenuStrip_File = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem_File_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_File_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.Panel_Search = new System.Windows.Forms.Panel();
+            this.Panel_About = new System.Windows.Forms.Panel();
+            this.Panel_TabPage_Buttons = new System.Windows.Forms.Panel();
+            this.Button_TabPage_About = new System.Windows.Forms.Button();
+            this.Button_TabPage_Search = new System.Windows.Forms.Button();
+            this.Button_TabPage_TaxonInfo = new System.Windows.Forms.Button();
+            this.Button_TabPage_File = new System.Windows.Forms.Button();
+            this.Panel_PhylogeneticTree = new System.Windows.Forms.Panel();
+            this.TextBox_PhylogeneticTree = new System.Windows.Forms.TextBox();
             this.OpenFileDialog_Open = new System.Windows.Forms.OpenFileDialog();
             this.SaveFileDialog_SaveAs = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip_Children = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -108,13 +122,13 @@
             this.ToolStripMenuItem_Children_MoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_Children_MoveBottom = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ToolStripMenuItem_Children_Delete = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem_Children_DeleteAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_Children_DeleteWithinChildren = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMenuStrip_Parents = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItem_Parents_Select = new System.Windows.Forms.ToolStripMenuItem();
             this.Panel_Main.SuspendLayout();
-            this.Panel_PhylogeneticTree.SuspendLayout();
-            this.ContextMenuStrip_File.SuspendLayout();
+            this.Panel_TabPage.SuspendLayout();
+            this.Panel_TabPage_Pages.SuspendLayout();
             this.Panel_TaxonInfo.SuspendLayout();
             this.Panel_TaxonInfo_ViewMode.SuspendLayout();
             this.Panel_ViewMode_Desc.SuspendLayout();
@@ -125,6 +139,8 @@
             this.Panel_ViewMode_Title.SuspendLayout();
             this.Panel_ViewMode_TaxonName.SuspendLayout();
             this.Panel_TaxonInfo_EditMode.SuspendLayout();
+            this.Panel_EditMode_Title.SuspendLayout();
+            this.Panel_EditMode_TaxonName.SuspendLayout();
             this.Panel_EditMode_Children.SuspendLayout();
             this.Panel_EditMode_Parents.SuspendLayout();
             this.Panel_EditMode_AddChildren.SuspendLayout();
@@ -134,7 +150,10 @@
             this.Panel_EditMode_Synonyms.SuspendLayout();
             this.Panel_EditMode_Category.SuspendLayout();
             this.Panel_EditMode_State.SuspendLayout();
-            this.Panel_EditMode_TaxonName.SuspendLayout();
+            this.Panel_EditMode_Name.SuspendLayout();
+            this.ContextMenuStrip_File.SuspendLayout();
+            this.Panel_TabPage_Buttons.SuspendLayout();
+            this.Panel_PhylogeneticTree.SuspendLayout();
             this.ContextMenuStrip_Children.SuspendLayout();
             this.ContextMenuStrip_Parents.SuspendLayout();
             this.SuspendLayout();
@@ -143,97 +162,52 @@
             // 
             this.Panel_Main.BackColor = System.Drawing.Color.Transparent;
             this.Panel_Main.Controls.Add(this.Panel_PhylogeneticTree);
-            this.Panel_Main.Controls.Add(this.Panel_TaxonInfo);
+            this.Panel_Main.Controls.Add(this.Panel_TabPage);
             this.Panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel_Main.Location = new System.Drawing.Point(0, 0);
             this.Panel_Main.Name = "Panel_Main";
-            this.Panel_Main.Size = new System.Drawing.Size(800, 450);
+            this.Panel_Main.Size = new System.Drawing.Size(1200, 600);
             this.Panel_Main.TabIndex = 0;
             this.Panel_Main.Visible = false;
             // 
-            // Panel_PhylogeneticTree
+            // Panel_TabPage
             // 
-            this.Panel_PhylogeneticTree.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_PhylogeneticTree.Controls.Add(this.TextBox_PhylogeneticTree);
-            this.Panel_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
-            this.Panel_PhylogeneticTree.Name = "Panel_PhylogeneticTree";
-            this.Panel_PhylogeneticTree.Size = new System.Drawing.Size(400, 450);
-            this.Panel_PhylogeneticTree.TabIndex = 0;
+            this.Panel_TabPage.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_TabPage.Controls.Add(this.Panel_TabPage_Pages);
+            this.Panel_TabPage.Controls.Add(this.Panel_TabPage_Buttons);
+            this.Panel_TabPage.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Panel_TabPage.Location = new System.Drawing.Point(770, 0);
+            this.Panel_TabPage.Name = "Panel_TabPage";
+            this.Panel_TabPage.Size = new System.Drawing.Size(430, 600);
+            this.Panel_TabPage.TabIndex = 0;
             // 
-            // TextBox_PhylogeneticTree
+            // Panel_TabPage_Pages
             // 
-            this.TextBox_PhylogeneticTree.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextBox_PhylogeneticTree.ContextMenuStrip = this.ContextMenuStrip_File;
-            this.TextBox_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox_PhylogeneticTree.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBox_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
-            this.TextBox_PhylogeneticTree.Multiline = true;
-            this.TextBox_PhylogeneticTree.Name = "TextBox_PhylogeneticTree";
-            this.TextBox_PhylogeneticTree.ReadOnly = true;
-            this.TextBox_PhylogeneticTree.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBox_PhylogeneticTree.Size = new System.Drawing.Size(400, 450);
-            this.TextBox_PhylogeneticTree.TabIndex = 0;
-            this.TextBox_PhylogeneticTree.TabStop = false;
-            this.TextBox_PhylogeneticTree.WordWrap = false;
-            // 
-            // ContextMenuStrip_File
-            // 
-            this.ContextMenuStrip_File.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItem_File_Open,
-            this.ToolStripMenuItem_File_Save,
-            this.ToolStripMenuItem_File_SaveAs,
-            this.ToolStripMenuItem_File_Close});
-            this.ContextMenuStrip_File.Name = "ContextMenuStrip_File";
-            this.ContextMenuStrip_File.Size = new System.Drawing.Size(122, 116);
-            // 
-            // ToolStripMenuItem_File_Open
-            // 
-            this.ToolStripMenuItem_File_Open.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Open.Name = "ToolStripMenuItem_File_Open";
-            this.ToolStripMenuItem_File_Open.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Open.Size = new System.Drawing.Size(121, 24);
-            this.ToolStripMenuItem_File_Open.Text = "打开...";
-            // 
-            // ToolStripMenuItem_File_Save
-            // 
-            this.ToolStripMenuItem_File_Save.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Save.Name = "ToolStripMenuItem_File_Save";
-            this.ToolStripMenuItem_File_Save.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Save.Size = new System.Drawing.Size(121, 24);
-            this.ToolStripMenuItem_File_Save.Text = "保存";
-            // 
-            // ToolStripMenuItem_File_SaveAs
-            // 
-            this.ToolStripMenuItem_File_SaveAs.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_SaveAs.Name = "ToolStripMenuItem_File_SaveAs";
-            this.ToolStripMenuItem_File_SaveAs.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_SaveAs.Size = new System.Drawing.Size(121, 24);
-            this.ToolStripMenuItem_File_SaveAs.Text = "另存为...";
-            // 
-            // ToolStripMenuItem_File_Close
-            // 
-            this.ToolStripMenuItem_File_Close.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Close.Name = "ToolStripMenuItem_File_Close";
-            this.ToolStripMenuItem_File_Close.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(121, 24);
-            this.ToolStripMenuItem_File_Close.Text = "关闭";
+            this.Panel_TabPage_Pages.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_TabPage_Pages.Controls.Add(this.Panel_TaxonInfo);
+            this.Panel_TabPage_Pages.Controls.Add(this.Panel_File);
+            this.Panel_TabPage_Pages.Controls.Add(this.Panel_Search);
+            this.Panel_TabPage_Pages.Controls.Add(this.Panel_About);
+            this.Panel_TabPage_Pages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_TabPage_Pages.Location = new System.Drawing.Point(0, 0);
+            this.Panel_TabPage_Pages.Name = "Panel_TabPage_Pages";
+            this.Panel_TabPage_Pages.Size = new System.Drawing.Size(400, 600);
+            this.Panel_TabPage_Pages.TabIndex = 1;
             // 
             // Panel_TaxonInfo
             // 
+            this.Panel_TaxonInfo.AutoScroll = true;
             this.Panel_TaxonInfo.BackColor = System.Drawing.Color.Transparent;
             this.Panel_TaxonInfo.Controls.Add(this.Panel_TaxonInfo_ViewMode);
             this.Panel_TaxonInfo.Controls.Add(this.Panel_TaxonInfo_EditMode);
-            this.Panel_TaxonInfo.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Panel_TaxonInfo.Location = new System.Drawing.Point(400, 0);
+            this.Panel_TaxonInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_TaxonInfo.Location = new System.Drawing.Point(0, 0);
             this.Panel_TaxonInfo.Name = "Panel_TaxonInfo";
-            this.Panel_TaxonInfo.Size = new System.Drawing.Size(400, 450);
+            this.Panel_TaxonInfo.Size = new System.Drawing.Size(400, 600);
             this.Panel_TaxonInfo.TabIndex = 0;
             // 
             // Panel_TaxonInfo_ViewMode
             // 
-            this.Panel_TaxonInfo_ViewMode.AutoScroll = true;
-            this.Panel_TaxonInfo_ViewMode.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.Panel_TaxonInfo_ViewMode.BackColor = System.Drawing.Color.Transparent;
             this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Desc);
             this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Tags);
@@ -242,10 +216,9 @@
             this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Children);
             this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Parents);
             this.Panel_TaxonInfo_ViewMode.Controls.Add(this.Panel_ViewMode_Title);
-            this.Panel_TaxonInfo_ViewMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel_TaxonInfo_ViewMode.Location = new System.Drawing.Point(0, 0);
             this.Panel_TaxonInfo_ViewMode.Name = "Panel_TaxonInfo_ViewMode";
-            this.Panel_TaxonInfo_ViewMode.Size = new System.Drawing.Size(400, 450);
+            this.Panel_TaxonInfo_ViewMode.Size = new System.Drawing.Size(400, 600);
             this.Panel_TaxonInfo_ViewMode.TabIndex = 0;
             // 
             // Panel_ViewMode_Desc
@@ -478,9 +451,8 @@
             // 
             // Panel_TaxonInfo_EditMode
             // 
-            this.Panel_TaxonInfo_EditMode.AutoScroll = true;
-            this.Panel_TaxonInfo_EditMode.AutoScrollMargin = new System.Drawing.Size(0, 25);
             this.Panel_TaxonInfo_EditMode.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Title);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Children);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Parents);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_AddChildren);
@@ -490,20 +462,59 @@
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Synonyms);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Category);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_State);
-            this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_TaxonName);
+            this.Panel_TaxonInfo_EditMode.Controls.Add(this.Panel_EditMode_Name);
             this.Panel_TaxonInfo_EditMode.Controls.Add(this.Button_EnterViewMode);
-            this.Panel_TaxonInfo_EditMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel_TaxonInfo_EditMode.Location = new System.Drawing.Point(0, 0);
             this.Panel_TaxonInfo_EditMode.Name = "Panel_TaxonInfo_EditMode";
-            this.Panel_TaxonInfo_EditMode.Size = new System.Drawing.Size(400, 450);
+            this.Panel_TaxonInfo_EditMode.Size = new System.Drawing.Size(400, 600);
             this.Panel_TaxonInfo_EditMode.TabIndex = 0;
             this.Panel_TaxonInfo_EditMode.Visible = false;
+            // 
+            // Panel_EditMode_Title
+            // 
+            this.Panel_EditMode_Title.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_EditMode_Title.Controls.Add(this.Panel_EditMode_TaxonName);
+            this.Panel_EditMode_Title.Location = new System.Drawing.Point(25, 0);
+            this.Panel_EditMode_Title.Name = "Panel_EditMode_Title";
+            this.Panel_EditMode_Title.Size = new System.Drawing.Size(350, 75);
+            this.Panel_EditMode_Title.TabIndex = 0;
+            // 
+            // Panel_EditMode_TaxonName
+            // 
+            this.Panel_EditMode_TaxonName.Controls.Add(this.Label_EditMode_CategoryName);
+            this.Panel_EditMode_TaxonName.Controls.Add(this.Label_EditMode_TaxonName);
+            this.Panel_EditMode_TaxonName.Location = new System.Drawing.Point(0, 25);
+            this.Panel_EditMode_TaxonName.Name = "Panel_EditMode_TaxonName";
+            this.Panel_EditMode_TaxonName.Size = new System.Drawing.Size(350, 50);
+            this.Panel_EditMode_TaxonName.TabIndex = 0;
+            // 
+            // Label_EditMode_CategoryName
+            // 
+            this.Label_EditMode_CategoryName.BackColor = System.Drawing.Color.DimGray;
+            this.Label_EditMode_CategoryName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_EditMode_CategoryName.ForeColor = System.Drawing.Color.White;
+            this.Label_EditMode_CategoryName.Location = new System.Drawing.Point(1, 1);
+            this.Label_EditMode_CategoryName.Name = "Label_EditMode_CategoryName";
+            this.Label_EditMode_CategoryName.Size = new System.Drawing.Size(79, 48);
+            this.Label_EditMode_CategoryName.TabIndex = 0;
+            this.Label_EditMode_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Label_EditMode_TaxonName
+            // 
+            this.Label_EditMode_TaxonName.AutoEllipsis = true;
+            this.Label_EditMode_TaxonName.BackColor = System.Drawing.Color.Silver;
+            this.Label_EditMode_TaxonName.Font = new System.Drawing.Font("微软雅黑", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Label_EditMode_TaxonName.Location = new System.Drawing.Point(80, 1);
+            this.Label_EditMode_TaxonName.Name = "Label_EditMode_TaxonName";
+            this.Label_EditMode_TaxonName.Size = new System.Drawing.Size(269, 48);
+            this.Label_EditMode_TaxonName.TabIndex = 0;
+            this.Label_EditMode_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Panel_EditMode_Children
             // 
             this.Panel_EditMode_Children.Controls.Add(this.Label_EditMode_Children);
             this.Panel_EditMode_Children.Controls.Add(this.TaxonNameButtonGroup_EditMode_Children);
-            this.Panel_EditMode_Children.Location = new System.Drawing.Point(25, 750);
+            this.Panel_EditMode_Children.Location = new System.Drawing.Point(25, 825);
             this.Panel_EditMode_Children.Name = "Panel_EditMode_Children";
             this.Panel_EditMode_Children.Size = new System.Drawing.Size(350, 100);
             this.Panel_EditMode_Children.TabIndex = 0;
@@ -541,7 +552,7 @@
             this.Panel_EditMode_Parents.BackColor = System.Drawing.Color.Transparent;
             this.Panel_EditMode_Parents.Controls.Add(this.Label_EditMode_Parents);
             this.Panel_EditMode_Parents.Controls.Add(this.TaxonNameButtonGroup_EditMode_Parents);
-            this.Panel_EditMode_Parents.Location = new System.Drawing.Point(25, 560);
+            this.Panel_EditMode_Parents.Location = new System.Drawing.Point(25, 635);
             this.Panel_EditMode_Parents.Name = "Panel_EditMode_Parents";
             this.Panel_EditMode_Parents.Size = new System.Drawing.Size(350, 100);
             this.Panel_EditMode_Parents.TabIndex = 0;
@@ -580,7 +591,7 @@
             this.Panel_EditMode_AddChildren.Controls.Add(this.Button_EditMode_AddChildren);
             this.Panel_EditMode_AddChildren.Controls.Add(this.TextBox_EditMode_AddChildren);
             this.Panel_EditMode_AddChildren.Controls.Add(this.Label_EditMode_AddChildren);
-            this.Panel_EditMode_AddChildren.Location = new System.Drawing.Point(25, 850);
+            this.Panel_EditMode_AddChildren.Location = new System.Drawing.Point(25, 925);
             this.Panel_EditMode_AddChildren.Name = "Panel_EditMode_AddChildren";
             this.Panel_EditMode_AddChildren.Size = new System.Drawing.Size(350, 165);
             this.Panel_EditMode_AddChildren.TabIndex = 0;
@@ -626,7 +637,7 @@
             this.Panel_EditMode_AddParent.Controls.Add(this.Button_EditMode_AddParentUplevel);
             this.Panel_EditMode_AddParent.Controls.Add(this.TextBox_EditMode_AddParent);
             this.Panel_EditMode_AddParent.Controls.Add(this.Label_EditMode_AddParent);
-            this.Panel_EditMode_AddParent.Location = new System.Drawing.Point(25, 660);
+            this.Panel_EditMode_AddParent.Location = new System.Drawing.Point(25, 735);
             this.Panel_EditMode_AddParent.Name = "Panel_EditMode_AddParent";
             this.Panel_EditMode_AddParent.Size = new System.Drawing.Size(350, 90);
             this.Panel_EditMode_AddParent.TabIndex = 0;
@@ -678,7 +689,7 @@
             this.Panel_EditMode_Desc.BackColor = System.Drawing.Color.Transparent;
             this.Panel_EditMode_Desc.Controls.Add(this.TextBox_EditMode_Desc);
             this.Panel_EditMode_Desc.Controls.Add(this.Label_EditMode_Desc);
-            this.Panel_EditMode_Desc.Location = new System.Drawing.Point(25, 435);
+            this.Panel_EditMode_Desc.Location = new System.Drawing.Point(25, 510);
             this.Panel_EditMode_Desc.Name = "Panel_EditMode_Desc";
             this.Panel_EditMode_Desc.Size = new System.Drawing.Size(350, 125);
             this.Panel_EditMode_Desc.TabIndex = 0;
@@ -710,7 +721,7 @@
             this.Panel_EditMode_Tags.BackColor = System.Drawing.Color.Transparent;
             this.Panel_EditMode_Tags.Controls.Add(this.TextBox_EditMode_Tags);
             this.Panel_EditMode_Tags.Controls.Add(this.Label_EditMode_Tags);
-            this.Panel_EditMode_Tags.Location = new System.Drawing.Point(25, 310);
+            this.Panel_EditMode_Tags.Location = new System.Drawing.Point(25, 385);
             this.Panel_EditMode_Tags.Name = "Panel_EditMode_Tags";
             this.Panel_EditMode_Tags.Size = new System.Drawing.Size(350, 125);
             this.Panel_EditMode_Tags.TabIndex = 0;
@@ -743,7 +754,7 @@
             this.Panel_EditMode_Synonyms.BackColor = System.Drawing.Color.Transparent;
             this.Panel_EditMode_Synonyms.Controls.Add(this.TextBox_EditMode_Synonyms);
             this.Panel_EditMode_Synonyms.Controls.Add(this.Label_EditMode_Synonyms);
-            this.Panel_EditMode_Synonyms.Location = new System.Drawing.Point(25, 185);
+            this.Panel_EditMode_Synonyms.Location = new System.Drawing.Point(25, 260);
             this.Panel_EditMode_Synonyms.Name = "Panel_EditMode_Synonyms";
             this.Panel_EditMode_Synonyms.Size = new System.Drawing.Size(350, 125);
             this.Panel_EditMode_Synonyms.TabIndex = 0;
@@ -776,7 +787,7 @@
             this.Panel_EditMode_Category.BackColor = System.Drawing.Color.Transparent;
             this.Panel_EditMode_Category.Controls.Add(this.CategorySelector_EditMode_Category);
             this.Panel_EditMode_Category.Controls.Add(this.Label_EditMode_Category);
-            this.Panel_EditMode_Category.Location = new System.Drawing.Point(25, 135);
+            this.Panel_EditMode_Category.Location = new System.Drawing.Point(25, 210);
             this.Panel_EditMode_Category.Name = "Panel_EditMode_Category";
             this.Panel_EditMode_Category.Size = new System.Drawing.Size(350, 50);
             this.Panel_EditMode_Category.TabIndex = 0;
@@ -815,7 +826,7 @@
             this.Panel_EditMode_State.Controls.Add(this.Label_EditMode_State);
             this.Panel_EditMode_State.Controls.Add(this.CheckBox_EditMode_Unsure);
             this.Panel_EditMode_State.Controls.Add(this.CheckBox_EditMode_EX);
-            this.Panel_EditMode_State.Location = new System.Drawing.Point(25, 85);
+            this.Panel_EditMode_State.Location = new System.Drawing.Point(25, 160);
             this.Panel_EditMode_State.Name = "Panel_EditMode_State";
             this.Panel_EditMode_State.Size = new System.Drawing.Size(350, 50);
             this.Panel_EditMode_State.TabIndex = 0;
@@ -859,17 +870,17 @@
             this.CheckBox_EditMode_EX.Text = "灭绝";
             this.CheckBox_EditMode_EX.UseVisualStyleBackColor = false;
             // 
-            // Panel_EditMode_TaxonName
+            // Panel_EditMode_Name
             // 
-            this.Panel_EditMode_TaxonName.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_EditMode_TaxonName.Controls.Add(this.TextBox_EditMode_ChsName);
-            this.Panel_EditMode_TaxonName.Controls.Add(this.Label_EditMode_ChsName);
-            this.Panel_EditMode_TaxonName.Controls.Add(this.TextBox_EditMode_Name);
-            this.Panel_EditMode_TaxonName.Controls.Add(this.Label_EditMode_Name);
-            this.Panel_EditMode_TaxonName.Location = new System.Drawing.Point(25, 0);
-            this.Panel_EditMode_TaxonName.Name = "Panel_EditMode_TaxonName";
-            this.Panel_EditMode_TaxonName.Size = new System.Drawing.Size(350, 85);
-            this.Panel_EditMode_TaxonName.TabIndex = 0;
+            this.Panel_EditMode_Name.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_EditMode_Name.Controls.Add(this.TextBox_EditMode_ChsName);
+            this.Panel_EditMode_Name.Controls.Add(this.Label_EditMode_ChsName);
+            this.Panel_EditMode_Name.Controls.Add(this.TextBox_EditMode_Name);
+            this.Panel_EditMode_Name.Controls.Add(this.Label_EditMode_Name);
+            this.Panel_EditMode_Name.Location = new System.Drawing.Point(25, 75);
+            this.Panel_EditMode_Name.Name = "Panel_EditMode_Name";
+            this.Panel_EditMode_Name.Size = new System.Drawing.Size(350, 85);
+            this.Panel_EditMode_Name.TabIndex = 0;
             // 
             // TextBox_EditMode_ChsName
             // 
@@ -914,7 +925,7 @@
             // Button_EnterViewMode
             // 
             this.Button_EnterViewMode.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Button_EnterViewMode.Location = new System.Drawing.Point(285, 1040);
+            this.Button_EnterViewMode.Location = new System.Drawing.Point(285, 1115);
             this.Button_EnterViewMode.Name = "Button_EnterViewMode";
             this.Button_EnterViewMode.Size = new System.Drawing.Size(90, 30);
             this.Button_EnterViewMode.TabIndex = 0;
@@ -922,6 +933,162 @@
             this.Button_EnterViewMode.Text = "完成";
             this.Button_EnterViewMode.UseVisualStyleBackColor = true;
             this.Button_EnterViewMode.Click += new System.EventHandler(this.Button_EnterViewMode_Click);
+            // 
+            // Panel_File
+            // 
+            this.Panel_File.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_File.ContextMenuStrip = this.ContextMenuStrip_File;
+            this.Panel_File.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_File.Location = new System.Drawing.Point(0, 0);
+            this.Panel_File.Name = "Panel_File";
+            this.Panel_File.Size = new System.Drawing.Size(400, 600);
+            this.Panel_File.TabIndex = 0;
+            // 
+            // ContextMenuStrip_File
+            // 
+            this.ContextMenuStrip_File.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_File_Open,
+            this.ToolStripMenuItem_File_Save,
+            this.ToolStripMenuItem_File_SaveAs,
+            this.ToolStripMenuItem_File_Close});
+            this.ContextMenuStrip_File.Name = "ContextMenuStrip_File";
+            this.ContextMenuStrip_File.Size = new System.Drawing.Size(122, 116);
+            // 
+            // ToolStripMenuItem_File_Open
+            // 
+            this.ToolStripMenuItem_File_Open.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Open.Name = "ToolStripMenuItem_File_Open";
+            this.ToolStripMenuItem_File_Open.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Open.Size = new System.Drawing.Size(121, 24);
+            this.ToolStripMenuItem_File_Open.Text = "打开...";
+            // 
+            // ToolStripMenuItem_File_Save
+            // 
+            this.ToolStripMenuItem_File_Save.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Save.Name = "ToolStripMenuItem_File_Save";
+            this.ToolStripMenuItem_File_Save.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Save.Size = new System.Drawing.Size(121, 24);
+            this.ToolStripMenuItem_File_Save.Text = "保存";
+            // 
+            // ToolStripMenuItem_File_SaveAs
+            // 
+            this.ToolStripMenuItem_File_SaveAs.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_SaveAs.Name = "ToolStripMenuItem_File_SaveAs";
+            this.ToolStripMenuItem_File_SaveAs.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_SaveAs.Size = new System.Drawing.Size(121, 24);
+            this.ToolStripMenuItem_File_SaveAs.Text = "另存为...";
+            // 
+            // ToolStripMenuItem_File_Close
+            // 
+            this.ToolStripMenuItem_File_Close.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Close.Name = "ToolStripMenuItem_File_Close";
+            this.ToolStripMenuItem_File_Close.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_File_Close.Size = new System.Drawing.Size(121, 24);
+            this.ToolStripMenuItem_File_Close.Text = "关闭";
+            // 
+            // Panel_Search
+            // 
+            this.Panel_Search.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_Search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_Search.Location = new System.Drawing.Point(0, 0);
+            this.Panel_Search.Name = "Panel_Search";
+            this.Panel_Search.Size = new System.Drawing.Size(400, 600);
+            this.Panel_Search.TabIndex = 0;
+            // 
+            // Panel_About
+            // 
+            this.Panel_About.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_About.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_About.Location = new System.Drawing.Point(0, 0);
+            this.Panel_About.Name = "Panel_About";
+            this.Panel_About.Size = new System.Drawing.Size(400, 600);
+            this.Panel_About.TabIndex = 1;
+            // 
+            // Panel_TabPage_Buttons
+            // 
+            this.Panel_TabPage_Buttons.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_TabPage_Buttons.Controls.Add(this.Button_TabPage_About);
+            this.Panel_TabPage_Buttons.Controls.Add(this.Button_TabPage_Search);
+            this.Panel_TabPage_Buttons.Controls.Add(this.Button_TabPage_TaxonInfo);
+            this.Panel_TabPage_Buttons.Controls.Add(this.Button_TabPage_File);
+            this.Panel_TabPage_Buttons.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Panel_TabPage_Buttons.Location = new System.Drawing.Point(400, 0);
+            this.Panel_TabPage_Buttons.Name = "Panel_TabPage_Buttons";
+            this.Panel_TabPage_Buttons.Size = new System.Drawing.Size(30, 600);
+            this.Panel_TabPage_Buttons.TabIndex = 0;
+            // 
+            // Button_TabPage_About
+            // 
+            this.Button_TabPage_About.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Button_TabPage_About.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Button_TabPage_About.Location = new System.Drawing.Point(0, 210);
+            this.Button_TabPage_About.Name = "Button_TabPage_About";
+            this.Button_TabPage_About.Size = new System.Drawing.Size(30, 60);
+            this.Button_TabPage_About.TabIndex = 0;
+            this.Button_TabPage_About.TabStop = false;
+            this.Button_TabPage_About.Text = "关于";
+            this.Button_TabPage_About.UseVisualStyleBackColor = true;
+            // 
+            // Button_TabPage_Search
+            // 
+            this.Button_TabPage_Search.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Button_TabPage_Search.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Button_TabPage_Search.Location = new System.Drawing.Point(0, 150);
+            this.Button_TabPage_Search.Name = "Button_TabPage_Search";
+            this.Button_TabPage_Search.Size = new System.Drawing.Size(30, 60);
+            this.Button_TabPage_Search.TabIndex = 0;
+            this.Button_TabPage_Search.TabStop = false;
+            this.Button_TabPage_Search.Text = "搜索";
+            this.Button_TabPage_Search.UseVisualStyleBackColor = true;
+            // 
+            // Button_TabPage_TaxonInfo
+            // 
+            this.Button_TabPage_TaxonInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Button_TabPage_TaxonInfo.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Button_TabPage_TaxonInfo.Location = new System.Drawing.Point(0, 60);
+            this.Button_TabPage_TaxonInfo.Name = "Button_TabPage_TaxonInfo";
+            this.Button_TabPage_TaxonInfo.Size = new System.Drawing.Size(30, 90);
+            this.Button_TabPage_TaxonInfo.TabIndex = 0;
+            this.Button_TabPage_TaxonInfo.TabStop = false;
+            this.Button_TabPage_TaxonInfo.Text = "类群信息";
+            this.Button_TabPage_TaxonInfo.UseVisualStyleBackColor = true;
+            // 
+            // Button_TabPage_File
+            // 
+            this.Button_TabPage_File.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Button_TabPage_File.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Button_TabPage_File.Location = new System.Drawing.Point(0, 0);
+            this.Button_TabPage_File.Name = "Button_TabPage_File";
+            this.Button_TabPage_File.Size = new System.Drawing.Size(30, 60);
+            this.Button_TabPage_File.TabIndex = 0;
+            this.Button_TabPage_File.TabStop = false;
+            this.Button_TabPage_File.Text = "文件";
+            this.Button_TabPage_File.UseVisualStyleBackColor = true;
+            // 
+            // Panel_PhylogeneticTree
+            // 
+            this.Panel_PhylogeneticTree.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_PhylogeneticTree.Controls.Add(this.TextBox_PhylogeneticTree);
+            this.Panel_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
+            this.Panel_PhylogeneticTree.Name = "Panel_PhylogeneticTree";
+            this.Panel_PhylogeneticTree.Size = new System.Drawing.Size(1200, 600);
+            this.Panel_PhylogeneticTree.TabIndex = 0;
+            // 
+            // TextBox_PhylogeneticTree
+            // 
+            this.TextBox_PhylogeneticTree.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBox_PhylogeneticTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox_PhylogeneticTree.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBox_PhylogeneticTree.Location = new System.Drawing.Point(0, 0);
+            this.TextBox_PhylogeneticTree.Multiline = true;
+            this.TextBox_PhylogeneticTree.Name = "TextBox_PhylogeneticTree";
+            this.TextBox_PhylogeneticTree.ReadOnly = true;
+            this.TextBox_PhylogeneticTree.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBox_PhylogeneticTree.Size = new System.Drawing.Size(1200, 600);
+            this.TextBox_PhylogeneticTree.TabIndex = 0;
+            this.TextBox_PhylogeneticTree.TabStop = false;
+            this.TextBox_PhylogeneticTree.WordWrap = false;
             // 
             // OpenFileDialog_Open
             // 
@@ -943,8 +1110,8 @@
             this.ToolStripMenuItem_Children_MoveDown,
             this.ToolStripMenuItem_Children_MoveBottom,
             this.toolStripSeparator2,
-            this.ToolStripMenuItem_Children_Delete,
-            this.ToolStripMenuItem_Children_DeleteAll});
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren,
+            this.ToolStripMenuItem_Children_DeleteWithinChildren});
             this.ContextMenuStrip_Children.Name = "ContextMenuStrip_Children";
             this.ContextMenuStrip_Children.Size = new System.Drawing.Size(209, 248);
             // 
@@ -1010,21 +1177,21 @@
             this.toolStripSeparator2.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
             // 
-            // ToolStripMenuItem_Children_Delete
+            // ToolStripMenuItem_Children_DeleteWithoutChildren
             // 
-            this.ToolStripMenuItem_Children_Delete.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_Children_Delete.Name = "ToolStripMenuItem_Children_Delete";
-            this.ToolStripMenuItem_Children_Delete.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_Children_Delete.Size = new System.Drawing.Size(208, 24);
-            this.ToolStripMenuItem_Children_Delete.Text = "删除 (并且保留下级类群)";
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren.Name = "ToolStripMenuItem_Children_DeleteWithoutChildren";
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren.Size = new System.Drawing.Size(208, 24);
+            this.ToolStripMenuItem_Children_DeleteWithoutChildren.Text = "删除 (并且保留下级类群)";
             // 
-            // ToolStripMenuItem_Children_DeleteAll
+            // ToolStripMenuItem_Children_DeleteWithinChildren
             // 
-            this.ToolStripMenuItem_Children_DeleteAll.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_Children_DeleteAll.Name = "ToolStripMenuItem_Children_DeleteAll";
-            this.ToolStripMenuItem_Children_DeleteAll.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.ToolStripMenuItem_Children_DeleteAll.Size = new System.Drawing.Size(208, 24);
-            this.ToolStripMenuItem_Children_DeleteAll.Text = "删除 (并且删除下级类群)";
+            this.ToolStripMenuItem_Children_DeleteWithinChildren.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_Children_DeleteWithinChildren.Name = "ToolStripMenuItem_Children_DeleteWithinChildren";
+            this.ToolStripMenuItem_Children_DeleteWithinChildren.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.ToolStripMenuItem_Children_DeleteWithinChildren.Size = new System.Drawing.Size(208, 24);
+            this.ToolStripMenuItem_Children_DeleteWithinChildren.Text = "删除 (并且删除下级类群)";
             // 
             // ContextMenuStrip_Parents
             // 
@@ -1045,13 +1212,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 600);
             this.Controls.Add(this.Panel_Main);
             this.Name = "MainForm";
             this.Panel_Main.ResumeLayout(false);
-            this.Panel_PhylogeneticTree.ResumeLayout(false);
-            this.Panel_PhylogeneticTree.PerformLayout();
-            this.ContextMenuStrip_File.ResumeLayout(false);
+            this.Panel_TabPage.ResumeLayout(false);
+            this.Panel_TabPage_Pages.ResumeLayout(false);
             this.Panel_TaxonInfo.ResumeLayout(false);
             this.Panel_TaxonInfo_ViewMode.ResumeLayout(false);
             this.Panel_ViewMode_Desc.ResumeLayout(false);
@@ -1063,6 +1229,8 @@
             this.Panel_ViewMode_Title.ResumeLayout(false);
             this.Panel_ViewMode_TaxonName.ResumeLayout(false);
             this.Panel_TaxonInfo_EditMode.ResumeLayout(false);
+            this.Panel_EditMode_Title.ResumeLayout(false);
+            this.Panel_EditMode_TaxonName.ResumeLayout(false);
             this.Panel_EditMode_Children.ResumeLayout(false);
             this.Panel_EditMode_Parents.ResumeLayout(false);
             this.Panel_EditMode_AddChildren.ResumeLayout(false);
@@ -1079,8 +1247,12 @@
             this.Panel_EditMode_Category.PerformLayout();
             this.Panel_EditMode_State.ResumeLayout(false);
             this.Panel_EditMode_State.PerformLayout();
-            this.Panel_EditMode_TaxonName.ResumeLayout(false);
-            this.Panel_EditMode_TaxonName.PerformLayout();
+            this.Panel_EditMode_Name.ResumeLayout(false);
+            this.Panel_EditMode_Name.PerformLayout();
+            this.ContextMenuStrip_File.ResumeLayout(false);
+            this.Panel_TabPage_Buttons.ResumeLayout(false);
+            this.Panel_PhylogeneticTree.ResumeLayout(false);
+            this.Panel_PhylogeneticTree.PerformLayout();
             this.ContextMenuStrip_Children.ResumeLayout(false);
             this.ContextMenuStrip_Parents.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1104,7 +1276,7 @@
         private System.Windows.Forms.Label Label_ViewMode_Parents;
         private System.Windows.Forms.Button Button_EnterViewMode;
         private System.Windows.Forms.Button Button_EnterEditMode;
-        private System.Windows.Forms.Panel Panel_EditMode_TaxonName;
+        private System.Windows.Forms.Panel Panel_EditMode_Name;
         private System.Windows.Forms.Label Label_EditMode_Name;
         private System.Windows.Forms.TextBox TextBox_EditMode_Name;
         private System.Windows.Forms.TextBox TextBox_EditMode_ChsName;
@@ -1163,8 +1335,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveDown;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_MoveBottom;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_Delete;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_DeleteAll;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_DeleteWithoutChildren;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_DeleteWithinChildren;
         private System.Windows.Forms.Button Button_EditMode_AddParentDownlevel;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStrip_Parents;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Parents_Select;
@@ -1172,6 +1344,20 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_Children_SetParent;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Panel Panel_ViewMode_TaxonName;
+        private System.Windows.Forms.Panel Panel_EditMode_Title;
+        private System.Windows.Forms.Panel Panel_EditMode_TaxonName;
+        private System.Windows.Forms.Label Label_EditMode_CategoryName;
+        private System.Windows.Forms.Label Label_EditMode_TaxonName;
+        private System.Windows.Forms.Panel Panel_TabPage;
+        private System.Windows.Forms.Panel Panel_TabPage_Pages;
+        private System.Windows.Forms.Panel Panel_TabPage_Buttons;
+        private System.Windows.Forms.Button Button_TabPage_File;
+        private System.Windows.Forms.Button Button_TabPage_TaxonInfo;
+        private System.Windows.Forms.Button Button_TabPage_About;
+        private System.Windows.Forms.Button Button_TabPage_Search;
+        private System.Windows.Forms.Panel Panel_File;
+        private System.Windows.Forms.Panel Panel_Search;
+        private System.Windows.Forms.Panel Panel_About;
     }
 }
 

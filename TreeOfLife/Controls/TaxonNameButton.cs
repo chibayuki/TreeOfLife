@@ -23,7 +23,7 @@ using ColorX = Com.ColorX;
 
 namespace TreeOfLife
 {
-    internal partial class TaxonNameButton : UserControl
+    public partial class TaxonNameButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
 
@@ -100,8 +100,8 @@ namespace TreeOfLife
 
         private void _UpdateTaxonInfo()
         {
-            Label_CategoryName.Text = (_Taxon is null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
-            Label_TaxonName.Text = (_Taxon is null ? string.Empty : _Taxon.ShortName());
+            Label_CategoryName.Text = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
+            Label_TaxonName.Text = (_Taxon == null ? string.Empty : _Taxon.ShortName());
         }
 
         //

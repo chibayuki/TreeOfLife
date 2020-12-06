@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 生物分类单元（类群）的扩展方法。
-    internal static class TaxonExtension
+    public static class TaxonExtension
     {
         // 判断类群是否匿名。
         public static bool IsAnonymous(this Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -44,7 +44,7 @@ namespace TreeOfLife
         // 获取类群的短名称。
         public static string ShortName(this Taxon taxon, char separator = ' ')
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -96,7 +96,7 @@ namespace TreeOfLife
         // 获取类群的长名称。
         public static string LongName(this Taxon taxon, char separator = ' ')
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -283,7 +283,7 @@ namespace TreeOfLife
         // 识别若干个名称，并添加子类群。
         public static void ParseChildren(this Taxon taxon, params string[] names)
         {
-            if (names is null)
+            if (names == null)
             {
                 throw new ArgumentNullException();
             }
@@ -303,7 +303,7 @@ namespace TreeOfLife
         // 获取继承的分类阶元。
         public static TaxonomicCategory GetInheritedCategory(this Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -319,7 +319,7 @@ namespace TreeOfLife
                 Taxon nearestPrimaryOrSecondaryCategoryParent = null;
                 Taxon parent = taxon.Parent;
 
-                while (!(parent is null))
+                while (parent != null)
                 {
                     if (parent.Category.IsPrimaryCategory() || parent.Category.IsSecondaryCategory())
                     {
@@ -333,7 +333,7 @@ namespace TreeOfLife
                     }
                 }
 
-                if (nearestPrimaryOrSecondaryCategoryParent is null)
+                if (nearestPrimaryOrSecondaryCategoryParent == null)
                 {
                     return taxon.Root.Category;
                 }
@@ -353,7 +353,7 @@ namespace TreeOfLife
         // 获取继承的主要分类阶元。
         public static TaxonomicCategory GetInheritedPrimaryCategory(this Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -369,7 +369,7 @@ namespace TreeOfLife
                 Taxon nearestPrimaryCategoryParent = null;
                 Taxon parent = taxon.Parent;
 
-                while (!(parent is null))
+                while (parent != null)
                 {
                     if (parent.Category.IsPrimaryCategory())
                     {
@@ -383,7 +383,7 @@ namespace TreeOfLife
                     }
                 }
 
-                if (nearestPrimaryCategoryParent is null)
+                if (nearestPrimaryCategoryParent == null)
                 {
                     return taxon.Root.Category;
                 }
@@ -405,7 +405,7 @@ namespace TreeOfLife
         // 获取具名父类群。
         public static Taxon GetNamedParent(this Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -414,7 +414,7 @@ namespace TreeOfLife
 
             Taxon parent = taxon.Parent;
 
-            while (!(parent is null))
+            while (parent != null)
             {
                 if (parent.IsNamed())
                 {
@@ -432,7 +432,7 @@ namespace TreeOfLife
         // 获取具名子类群（并递归获取匿名子类群的所有的具名子类群）。
         public static List<Taxon> GetNamedChildren(this Taxon taxon, bool recursive = true)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }

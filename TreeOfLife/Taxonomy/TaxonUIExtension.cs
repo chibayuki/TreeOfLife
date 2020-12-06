@@ -22,7 +22,7 @@ using ColorX = Com.ColorX;
 namespace TreeOfLife
 {
     // 生物分类单元（类群）的UI相关扩展方法。
-    internal static class TaxonUIExtension
+    public static class TaxonUIExtension
     {
         // 获取分类阶元的主题颜色。
         public static ColorX GetThemeColor(this TaxonomicCategory category)
@@ -83,7 +83,7 @@ namespace TreeOfLife
         // 获取类群的主题颜色。
         public static ColorX GetThemeColor(this Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -96,7 +96,7 @@ namespace TreeOfLife
         // 获取父类群摘要。
         public static List<Taxon> GetSummaryParents(this Taxon taxon, bool editMode)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }

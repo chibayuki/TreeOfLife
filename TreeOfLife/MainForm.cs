@@ -19,15 +19,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using System.IO;
-
 using ColorX = Com.ColorX;
 using FormManager = Com.WinForm.FormManager;
 using Theme = Com.WinForm.Theme;
 
 namespace TreeOfLife
 {
-    internal partial class MainForm : Form
+    public partial class MainForm : Form
     {
         #region 窗口定义
 
@@ -85,6 +83,15 @@ namespace TreeOfLife
 
             Me.CloseVerification = Me_CloseVerification;
 
+            //
+
+            Button_TabPage_File.Click += (s, e) => _SelectTabPage(TabPages.File);
+            Button_TabPage_TaxonInfo.Click += (s, e) => _SelectTabPage(TabPages.TaxonInfo);
+            Button_TabPage_Search.Click += (s, e) => _SelectTabPage(TabPages.Search);
+            Button_TabPage_About.Click += (s, e) => _SelectTabPage(TabPages.About);
+
+            //
+
             ToolStripMenuItem_File_Open.Click += ToolStripMenuItem_File_Open_Click;
             ToolStripMenuItem_File_Save.Click += ToolStripMenuItem_File_Save_Click;
             ToolStripMenuItem_File_SaveAs.Click += ToolStripMenuItem_File_SaveAs_Click;
@@ -98,8 +105,8 @@ namespace TreeOfLife
             ToolStripMenuItem_Children_MoveUp.Click += ToolStripMenuItem_Children_MoveUp_Click;
             ToolStripMenuItem_Children_MoveDown.Click += ToolStripMenuItem_Children_MoveDown_Click;
             ToolStripMenuItem_Children_MoveBottom.Click += ToolStripMenuItem_Children_MoveBottom_Click;
-            ToolStripMenuItem_Children_Delete.Click += ToolStripMenuItem_Children_Delete_Click;
-            ToolStripMenuItem_Children_DeleteAll.Click += ToolStripMenuItem_Children_DeleteAll_Click;
+            ToolStripMenuItem_Children_DeleteWithoutChildren.Click += ToolStripMenuItem_Children_DeleteWithoutChildren_Click;
+            ToolStripMenuItem_Children_DeleteWithinChildren.Click += ToolStripMenuItem_Children_DeleteWithinChildren_Click;
 
             CategorySelector_EditMode_Category.SizeChanged += (_s, _e) => _UpdateEditModeLayout();
 
@@ -135,6 +142,10 @@ namespace TreeOfLife
 
             //
 
+            _SelectTabPage(TabPages.File);
+
+            //
+
             Panel_Main.Visible = true;
         }
 
@@ -150,7 +161,8 @@ namespace TreeOfLife
 
             //
 
-            Panel_TaxonInfo.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            Panel_TabPage_Pages.BackColor = Me.RecommendColors.Background_DEC.ToColor();
+            Panel_TabPage_Buttons.BackColor = Me.RecommendColors.Main.ToColor();
 
             //
 
@@ -252,7 +264,209 @@ namespace TreeOfLife
 
         #endregion
 
-        #region 类群信息页面
+        #region 选项卡
+
+        private enum TabPages
+        {
+            None = -1,
+            File,
+            TaxonInfo,
+            Search,
+            About
+        }
+
+        private TabPages _TabPages = TabPages.None;
+
+        private void _SelectTabPage(TabPages tabPage)
+        {
+            if (_TabPages != tabPage)
+            {
+                _TabPages = tabPage;
+
+                Panel_File.Visible = (_TabPages == TabPages.File);
+                Panel_TaxonInfo.Visible = (_TabPages == TabPages.TaxonInfo);
+                Panel_Search.Visible = (_TabPages == TabPages.Search);
+                Panel_About.Visible = (_TabPages == TabPages.About);
+            }
+        }
+
+        #endregion
+
+        #region 文件选项卡
+
+        private bool _Open()
+        {
+            bool result = true;
+
+            DialogResult dr = OpenFileDialog_Open.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                result = Phylogenesis.Open(OpenFileDialog_Open.FileName);
+            }
+
+            if (result)
+            {
+                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetMode(false);
+                _UpdatePhylogeneticTree();
+            }
+
+            return result;
+        }
+
+        private bool _Save()
+        {
+            bool result = true;
+
+            if (_EditMode)
+            {
+                _ApplyEditModeInfo();
+            }
+
+            if (!string.IsNullOrEmpty(Phylogenesis.FileName))
+            {
+                result = Phylogenesis.Save();
+            }
+            else
+            {
+                DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+                }
+            }
+
+            return result;
+        }
+
+        private bool _SaveAs()
+        {
+            bool result = true;
+
+            DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                if (_EditMode)
+                {
+                    _ApplyEditModeInfo();
+                }
+
+                result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
+            }
+
+            return result;
+        }
+
+        private bool _Close()
+        {
+            bool result = true;
+
+            result = Phylogenesis.Close();
+
+            if (result)
+            {
+                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetMode(false);
+                _UpdatePhylogeneticTree();
+            }
+
+            return result;
+        }
+
+        private bool _TrySaveAndClose()
+        {
+            if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
+            {
+                return true;
+            }
+            else
+            {
+                DialogResult dr = MessageBox.Show("是否保存?", Application.ProductName, MessageBoxButtons.YesNoCancel);
+
+                switch (dr)
+                {
+                    case DialogResult.Cancel: return false;
+
+                    case DialogResult.Yes:
+                        if (_Save())
+                        {
+                            if (_Close())
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                            return false;
+                        }
+
+                    case DialogResult.No:
+                        if (_Close())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
+
+                            return false;
+                        }
+
+                    default: return false;
+                }
+            }
+        }
+
+        private void ToolStripMenuItem_File_Open_Click(object sender, EventArgs e)
+        {
+            if (_TrySaveAndClose())
+            {
+                if (_Open())
+                {
+                    _SelectTabPage(TabPages.TaxonInfo);
+                }
+                else
+                {
+                    MessageBox.Show("打开失败。", Application.ProductName, MessageBoxButtons.OK);
+                }
+            }
+        }
+
+        private void ToolStripMenuItem_File_Save_Click(object sender, EventArgs e)
+        {
+            if (!_Save())
+            {
+                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
+
+        private void ToolStripMenuItem_File_SaveAs_Click(object sender, EventArgs e)
+        {
+            if (!_SaveAs())
+            {
+                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
+            }
+        }
+
+        private void ToolStripMenuItem_File_Close_Click(object sender, EventArgs e)
+        {
+            _TrySaveAndClose();
+        }
+
+        #endregion
+
+        #region 类群信息选项卡
 
         private bool _EditMode = false; // 是否为编辑模式。
 
@@ -399,11 +613,15 @@ namespace TreeOfLife
         {
             if (_EditMode)
             {
+                _EditModeRemoveEvent();
+
                 _UpdateEditModeInfo();
                 _UpdateEditModeParents();
                 _UpdateEditModeChildren();
 
                 _UpdateEditModeLayout();
+
+                _EditModeAddEvent();
             }
             else
             {
@@ -515,6 +733,8 @@ namespace TreeOfLife
             Panel_ViewMode_Desc.Top = Panel_ViewMode_Synonyms.Bottom;
 
             Button_EnterEditMode.Top = Panel_ViewMode_Desc.Bottom + 25;
+
+            Panel_TaxonInfo_ViewMode.Height = Button_EnterEditMode.Bottom + 25;
         }
 
         //
@@ -531,6 +751,21 @@ namespace TreeOfLife
         // 更新所有信息。
         private void _UpdateEditModeInfo()
         {
+            ColorX taxonColor = _CurrentTaxon.GetThemeColor();
+
+            Label_EditMode_CategoryName.Text = (_CurrentTaxon.IsAnonymous() ? string.Empty : _CurrentTaxon.Category.Name());
+            Label_EditMode_TaxonName.Text = _CurrentTaxon.ShortName('\n');
+
+            Panel_EditMode_TaxonName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
+
+            Label_EditMode_CategoryName.ForeColor = (_IsDarkTheme ? Color.Black : Color.White);
+            Label_EditMode_CategoryName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
+
+            Label_EditMode_TaxonName.ForeColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToColor();
+            Label_EditMode_TaxonName.BackColor = taxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToColor();
+
+            //
+
             TextBox_EditMode_Name.Text = _CurrentTaxon.BotanicalName;
             TextBox_EditMode_ChsName.Text = _CurrentTaxon.ChineseName;
             CheckBox_EditMode_EX.Checked = _CurrentTaxon.IsExtinct;
@@ -583,10 +818,13 @@ namespace TreeOfLife
         // 更新布局。
         private void _UpdateEditModeLayout()
         {
-            Panel_EditMode_TaxonName.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_ChsName.Bottom);
+            Panel_EditMode_Title.Height = (_CurrentTaxon.IsRoot ? 0 : Panel_EditMode_TaxonName.Bottom);
+
+            Panel_EditMode_Name.Height = (_CurrentTaxon.IsRoot ? 0 : TextBox_EditMode_ChsName.Bottom);
+            Panel_EditMode_Name.Top = Panel_EditMode_Title.Bottom;
 
             Panel_EditMode_State.Height = (_CurrentTaxon.IsRoot ? 0 : CheckBox_EditMode_Unsure.Bottom);
-            Panel_EditMode_State.Top = Panel_EditMode_TaxonName.Bottom;
+            Panel_EditMode_State.Top = Panel_EditMode_Name.Bottom;
 
             Label_EditMode_Category.Height = CategorySelector_EditMode_Category.Height;
             Panel_EditMode_Category.Height = (_CurrentTaxon.IsRoot ? 0 : CategorySelector_EditMode_Category.Bottom);
@@ -613,6 +851,8 @@ namespace TreeOfLife
             Panel_EditMode_AddChildren.Top = Panel_EditMode_Children.Bottom;
 
             Button_EnterViewMode.Top = Panel_EditMode_AddChildren.Bottom + 25;
+
+            Panel_TaxonInfo_EditMode.Height = Button_EnterViewMode.Bottom + 25;
         }
 
         // 应用所有信息。
@@ -639,6 +879,114 @@ namespace TreeOfLife
             }
 
             _CurrentTaxon.Description = TextBox_EditMode_Desc.Text.Trim();
+        }
+
+        // 编辑过程中更新标题信息。
+        private void _UpdateEditModeTitle()
+        {
+            TaxonomicCategory category = CategorySelector_EditMode_Category.Category;
+
+            ColorX taxonColor = (category.IsPrimaryCategory() || category.IsSecondaryCategory() ? category.GetThemeColor() : _CurrentTaxon.Parent.GetThemeColor());
+
+            string name = TextBox_EditMode_Name.Text.Trim();
+            string chsName = TextBox_EditMode_ChsName.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(chsName))
+            {
+                Label_EditMode_CategoryName.Text = string.Empty;
+                Label_EditMode_TaxonName.Text = "(未命名)";
+            }
+            else
+            {
+                Label_EditMode_CategoryName.Text = category.Name();
+
+                StringBuilder taxonName = new StringBuilder();
+
+                if (CheckBox_EditMode_Unsure.Checked || CheckBox_EditMode_EX.Checked)
+                {
+                    if (CheckBox_EditMode_Unsure.Checked)
+                    {
+                        taxonName.Append('?');
+                    }
+
+                    if (CheckBox_EditMode_EX.Checked)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
+                }
+
+                if (!string.IsNullOrWhiteSpace(chsName))
+                {
+                    taxonName.Append(chsName);
+
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        taxonName.Append('\n');
+                        taxonName.Append(name);
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(name))
+                {
+                    taxonName.Append(name);
+                }
+
+                Label_EditMode_TaxonName.Text = taxonName.ToString();
+            }
+
+            Panel_EditMode_TaxonName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
+
+            Label_EditMode_CategoryName.ForeColor = (_IsDarkTheme ? Color.Black : Color.White);
+            Label_EditMode_CategoryName.BackColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToColor();
+
+            Label_EditMode_TaxonName.ForeColor = taxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToColor();
+            Label_EditMode_TaxonName.BackColor = taxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToColor();
+        }
+
+        // 注册编辑过程中用于更新标题信息的事件。
+        private void _EditModeAddEvent()
+        {
+            TextBox_EditMode_Name.TextChanged += TextBox_EditMode_Name_TextChanged;
+            TextBox_EditMode_ChsName.TextChanged += TextBox_EditMode_ChsName_TextChanged;
+            CheckBox_EditMode_EX.CheckedChanged += CheckBox_EditMode_EX_CheckedChanged;
+            CheckBox_EditMode_Unsure.CheckedChanged += CheckBox_EditMode_Unsure_CheckedChanged;
+            CategorySelector_EditMode_Category.Click += CategorySelector_EditMode_Category_Click;
+        }
+
+        // 注册编辑过程中用于更新标题信息的事件。
+        private void _EditModeRemoveEvent()
+        {
+            TextBox_EditMode_Name.TextChanged -= TextBox_EditMode_Name_TextChanged;
+            TextBox_EditMode_ChsName.TextChanged -= TextBox_EditMode_ChsName_TextChanged;
+            CheckBox_EditMode_EX.CheckedChanged -= CheckBox_EditMode_EX_CheckedChanged;
+            CheckBox_EditMode_Unsure.CheckedChanged -= CheckBox_EditMode_Unsure_CheckedChanged;
+            CategorySelector_EditMode_Category.Click -= CategorySelector_EditMode_Category_Click;
+        }
+
+        private void CategorySelector_EditMode_Category_Click(object sender, EventArgs e)
+        {
+            _UpdateEditModeTitle();
+        }
+
+        private void CheckBox_EditMode_Unsure_CheckedChanged(object sender, EventArgs e)
+        {
+            _UpdateEditModeTitle();
+        }
+
+        private void CheckBox_EditMode_EX_CheckedChanged(object sender, EventArgs e)
+        {
+            _UpdateEditModeTitle();
+        }
+
+        private void TextBox_EditMode_ChsName_TextChanged(object sender, EventArgs e)
+        {
+            _UpdateEditModeTitle();
+        }
+
+        private void TextBox_EditMode_Name_TextChanged(object sender, EventArgs e)
+        {
+            _UpdateEditModeTitle();
         }
 
         //
@@ -705,7 +1053,7 @@ namespace TreeOfLife
         {
             _RightButtonTaxon = rightButtonTaxon;
 
-            if (!(_RightButtonTaxon is null))
+            if (_RightButtonTaxon != null)
             {
                 ContextMenuStrip_Parents.Show(Cursor.Position);
             }
@@ -720,12 +1068,11 @@ namespace TreeOfLife
         {
             _RightButtonTaxon = rightButtonTaxon;
 
-            if (!(_RightButtonTaxon is null))
+            if (_RightButtonTaxon != null)
             {
-                ToolStripMenuItem_Children_SetParent.Enabled = (!(_SelectedTaxon is null) && !_SelectedTaxon.InheritFrom(_RightButtonTaxon));
+                ToolStripMenuItem_Children_SetParent.Enabled = (_SelectedTaxon != null && _SelectedTaxon != _RightButtonTaxon.Parent && !_SelectedTaxon.InheritFrom(_RightButtonTaxon));
                 ToolStripMenuItem_Children_MoveTop.Enabled = ToolStripMenuItem_Children_MoveUp.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index > 0);
                 ToolStripMenuItem_Children_MoveBottom.Enabled = ToolStripMenuItem_Children_MoveDown.Enabled = (!_RightButtonTaxon.IsRoot && _RightButtonTaxon.Index < _RightButtonTaxon.Parent.Children.Count - 1);
-                ToolStripMenuItem_Children_Delete.Enabled = !_RightButtonTaxon.IsFinal;
 
                 if (ToolStripMenuItem_Children_SetParent.Enabled)
                 {
@@ -751,6 +1098,21 @@ namespace TreeOfLife
                 {
                     ToolStripMenuItem_Children_SetParent.Text = "继承选择的类群";
                 }
+
+                if (_RightButtonTaxon.IsFinal)
+                {
+                    ToolStripMenuItem_Children_DeleteWithoutChildren.Visible = false;
+
+                    ToolStripMenuItem_Children_DeleteWithinChildren.Text = "删除";
+                }
+                else
+                {
+                    ToolStripMenuItem_Children_DeleteWithoutChildren.Visible = true;
+
+                    ToolStripMenuItem_Children_DeleteWithinChildren.Text = "删除 (并且删除下级类群)";
+                }
+
+                //
 
                 ContextMenuStrip_Children.Show(Cursor.Position);
             }
@@ -812,7 +1174,7 @@ namespace TreeOfLife
             _UpdateEditModeLayout();
         }
 
-        private void ToolStripMenuItem_Children_Delete_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem_Children_DeleteWithoutChildren_Click(object sender, EventArgs e)
         {
             _RightButtonTaxon.RemoveCurrent(false);
 
@@ -829,7 +1191,7 @@ namespace TreeOfLife
             _UpdateEditModeLayout();
         }
 
-        private void ToolStripMenuItem_Children_DeleteAll_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem_Children_DeleteWithinChildren_Click(object sender, EventArgs e)
         {
             _RightButtonTaxon.RemoveCurrent(true);
 
@@ -862,7 +1224,7 @@ namespace TreeOfLife
 
         private void _RecursiveFillStringBuilder(StringBuilder sb, Taxon taxon)
         {
-            if (sb is null || taxon is null)
+            if (sb == null || taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -893,7 +1255,7 @@ namespace TreeOfLife
 
                 Taxon t = child.Parent;
 
-                while (!(t.Parent is null))
+                while (t.Parent != null)
                 {
                     if (t.Index < t.Parent.Children.Count - 1)
                     {
@@ -929,179 +1291,6 @@ namespace TreeOfLife
             _RecursiveFillStringBuilder(sb, Phylogenesis.Root);
 
             TextBox_PhylogeneticTree.Text = sb.ToString();
-        }
-
-        #endregion
-
-        #region 文件（临时）
-
-        private bool _Open()
-        {
-            bool result = true;
-
-            DialogResult dr = OpenFileDialog_Open.ShowDialog();
-
-            if (dr == DialogResult.OK)
-            {
-                result = Phylogenesis.Open(OpenFileDialog_Open.FileName);
-            }
-
-            if (result)
-            {
-                _SetCurrentTaxon(Phylogenesis.Root);
-                _SetMode(false);
-                _UpdatePhylogeneticTree();
-            }
-
-            return result;
-        }
-
-        private bool _Save()
-        {
-            bool result = true;
-
-            if (_EditMode)
-            {
-                _ApplyEditModeInfo();
-            }
-
-            if (File.Exists(Phylogenesis.FileName))
-            {
-                result = Phylogenesis.Save();
-            }
-            else
-            {
-                DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
-
-                if (dr == DialogResult.OK)
-                {
-                    result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
-                }
-            }
-
-            return result;
-        }
-
-        private bool _SaveAs()
-        {
-            bool result = true;
-
-            DialogResult dr = SaveFileDialog_SaveAs.ShowDialog();
-
-            if (dr == DialogResult.OK)
-            {
-                if (_EditMode)
-                {
-                    _ApplyEditModeInfo();
-                }
-
-                result = Phylogenesis.SaveAs(SaveFileDialog_SaveAs.FileName);
-            }
-
-            return result;
-        }
-
-        private bool _Close()
-        {
-            bool result = true;
-
-            result = Phylogenesis.Close();
-
-            if (result)
-            {
-                _SetCurrentTaxon(Phylogenesis.Root);
-                _SetMode(false);
-                _UpdatePhylogeneticTree();
-            }
-
-            return result;
-        }
-
-        private bool _TrySaveAndClose()
-        {
-            if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
-            {
-                return true;
-            }
-            else
-            {
-                DialogResult dr = MessageBox.Show("是否保存?", Application.ProductName, MessageBoxButtons.YesNoCancel);
-
-                switch (dr)
-                {
-                    case DialogResult.Cancel: return false;
-
-                    case DialogResult.Yes:
-                        if (_Save())
-                        {
-                            if (_Close())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
-
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
-
-                            return false;
-                        }
-
-                    case DialogResult.No:
-                        if (_Close())
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
-
-                            return false;
-                        }
-
-                    default: return false;
-                }
-            }
-        }
-
-        private void ToolStripMenuItem_File_Open_Click(object sender, EventArgs e)
-        {
-            if (_TrySaveAndClose())
-            {
-                if (!_Open())
-                {
-                    MessageBox.Show("打开失败。", Application.ProductName, MessageBoxButtons.OK);
-                }
-            }
-        }
-
-        private void ToolStripMenuItem_File_Save_Click(object sender, EventArgs e)
-        {
-            if (!_Save())
-            {
-                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
-            }
-        }
-
-        private void ToolStripMenuItem_File_SaveAs_Click(object sender, EventArgs e)
-        {
-            if (!_SaveAs())
-            {
-                MessageBox.Show("保存失败。", Application.ProductName, MessageBoxButtons.OK);
-            }
-        }
-
-        private void ToolStripMenuItem_File_Close_Click(object sender, EventArgs e)
-        {
-            if (!_TrySaveAndClose())
-            {
-                MessageBox.Show("关闭失败。", Application.ProductName, MessageBoxButtons.OK);
-            }
         }
 
         #endregion

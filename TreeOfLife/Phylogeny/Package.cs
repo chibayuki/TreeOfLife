@@ -19,14 +19,13 @@ using System.IO;
 using System.IO.Compression;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Windows.Forms;
 
 namespace TreeOfLife
 {
     // 版本信息。
-    internal class VersionInfo
+    public class VersionInfo
     {
-        private int _FileVersion = 1;
+        private int _FileVersion = 1; // 文件版本。
 
         //
 
@@ -49,9 +48,47 @@ namespace TreeOfLife
         }
     }
 
-    // 容器。
-    internal class Package
+    // 文件信息。
+    public class FileInfo
     {
+        private DateTime _CreationTime; // 创建时间。
+        private DateTime _ModificationTime; // 创建时间。
+
+        //
+
+        public FileInfo()
+        {
+        }
+
+        public FileInfo(DateTime creationTime)
+        {
+            _CreationTime = creationTime;
+        }
+
+        //
+
+        [JsonPropertyName("CreationTime")]
+        public DateTime CreationTime
+        {
+            get => _CreationTime;
+            set => _CreationTime = value;
+        }
+
+        [JsonPropertyName("ModificationTime")]
+        public DateTime ModificationTime
+        {
+            get => _ModificationTime;
+            set => _ModificationTime = value;
+        }
+    }
+
+    // 容器。
+    public class Package
+    {
+        private const int _LatestVersion = 1; // 最新的文件版本/展开版本。
+
+        //
+
         private bool _Opened = false; // 文件是否已经作为容器打开。
 
         private string _FileName = null; // 文件名。
@@ -59,15 +96,20 @@ namespace TreeOfLife
         private string _TempDir = null; // 临时目录。
         private string _PackageDir = null; // 容器目录。
         private string _VersionInfoFileName = null; // 版本信息文件。
+        private string _InfoDir = null; // 文件信息目录。
+        private string _FileInfoFileName = null; // 文件信息文件。
         private string _WorkingDir = null; // 工作目录。
 
         private VersionInfo _VersionInfo = null; // 版本信息。
+        private FileInfo _FileInfo = null; // 文件信息。
 
         private void _InitDirs()
         {
-            _TempDir = Path.Combine(Path.GetTempPath(), Application.ProductName, Application.ProductVersion, Path.GetRandomFileName());
+            _TempDir = Path.Combine(Path.GetTempPath(), "TreeOfLife", Path.GetRandomFileName());
             _PackageDir = Path.Combine(_TempDir, "package");
             _VersionInfoFileName = Path.Combine(_PackageDir, "_version");
+            _InfoDir = Path.Combine(_PackageDir, "info");
+            _FileInfoFileName = Path.Combine(_InfoDir, "_fileinfo");
             _WorkingDir = Path.Combine(_PackageDir, "data");
         }
 
@@ -76,6 +118,8 @@ namespace TreeOfLife
         public Package(string fileName)
         {
             _FileName = fileName;
+
+            _FileInfo = new FileInfo(DateTime.UtcNow);
         }
 
         //
@@ -87,6 +131,8 @@ namespace TreeOfLife
         public string WorkingDir => _WorkingDir;
 
         public VersionInfo VersionInfo => _VersionInfo;
+
+        public FileInfo FileInfo => _FileInfo;
 
         //
 
@@ -146,6 +192,29 @@ namespace TreeOfLife
             File.WriteAllText(fileName, jsonText);
         }
 
+        // 读取文件信息。
+        private static FileInfo _ReadFileInfo(string fileName)
+        {
+            string jsonText = File.ReadAllText(fileName);
+
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+
+            return JsonSerializer.Deserialize<FileInfo>(jsonText, options);
+        }
+
+        // 写入文件信息。
+        private static void _WriteFileInfo(string fileName, FileInfo fileInfo)
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            options.WriteIndented = true;
+
+            string jsonText = JsonSerializer.Serialize(fileInfo, options);
+
+            File.WriteAllText(fileName, jsonText);
+        }
+
         //
 
         // 打开。
@@ -163,7 +232,9 @@ namespace TreeOfLife
             _InitDirs();
 
             _Extract(_FileName, _PackageDir);
+
             _VersionInfo = _ReadVersionInfo(_VersionInfoFileName);
+            _FileInfo = _ReadFileInfo(_FileInfoFileName);
         }
 
         // 保存。
@@ -176,15 +247,29 @@ namespace TreeOfLife
                 _InitDirs();
             }
 
-            _VersionInfo = new VersionInfo();
+            _VersionInfo = new VersionInfo(_LatestVersion);
             _WriteVersionInfo(_VersionInfoFileName, _VersionInfo);
+
+            if (!Directory.Exists(_InfoDir))
+            {
+                Directory.CreateDirectory(_InfoDir);
+            }
+
+            _FileInfo.ModificationTime = DateTime.UtcNow;
+            _WriteFileInfo(_FileInfoFileName, _FileInfo);
+
             _Compress(_PackageDir, _FileName);
         }
 
         // 另存为。
         public void SaveAs(string fileName)
         {
-            _FileName = fileName;
+            if (_FileName != fileName)
+            {
+                _FileName = fileName;
+
+                _FileInfo.CreationTime = DateTime.UtcNow;
+            }
 
             if (!_Opened)
             {
@@ -193,8 +278,17 @@ namespace TreeOfLife
                 _InitDirs();
             }
 
-            _VersionInfo = new VersionInfo();
+            _VersionInfo = new VersionInfo(_LatestVersion);
             _WriteVersionInfo(_VersionInfoFileName, _VersionInfo);
+
+            if (!Directory.Exists(_InfoDir))
+            {
+                Directory.CreateDirectory(_InfoDir);
+            }
+
+            _FileInfo.ModificationTime = DateTime.UtcNow;
+            _WriteFileInfo(_FileInfoFileName, _FileInfo);
+
             _Compress(_PackageDir, _FileName);
         }
 
@@ -217,6 +311,8 @@ namespace TreeOfLife
                 _TempDir = null;
                 _PackageDir = null;
                 _VersionInfoFileName = null;
+                _InfoDir = null;
+                _FileInfoFileName = null;
                 _WorkingDir = null;
 
                 _VersionInfo = null;

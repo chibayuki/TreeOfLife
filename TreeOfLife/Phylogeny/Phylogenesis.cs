@@ -15,16 +15,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
-using System.IO.Compression;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Windows.Forms;
-
 namespace TreeOfLife
 {
     // 系统发生学。
-    internal static class Phylogenesis
+    public static class Phylogenesis
     {
         private static PhylogeneticTree _PhylogeneticTree = new PhylogeneticTree();
 
@@ -36,7 +30,7 @@ namespace TreeOfLife
 
         public static bool IsEmpty => _PhylogeneticTree.Root.IsFinal;
 
-        public static string FileName => (_Package is null ? null : _Package.FileName);
+        public static string FileName => (_Package?.FileName);
 
         //
 
@@ -141,10 +135,7 @@ namespace TreeOfLife
 
             try
             {
-                if (!(_Package is null))
-                {
-                    _Package.Close();
-                }
+                _Package?.Close();
 
                 result = New();
             }

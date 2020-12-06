@@ -23,7 +23,7 @@ using ColorX = Com.ColorX;
 
 namespace TreeOfLife
 {
-    internal partial class TaxonNameButtonGroup : UserControl
+    public partial class TaxonNameButtonGroup : UserControl
     {
         private class _Group
         {

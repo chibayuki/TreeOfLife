@@ -23,7 +23,7 @@ using ColorX = Com.ColorX;
 
 namespace TreeOfLife
 {
-    internal partial class TagGroup : UserControl
+    public partial class TagGroup : UserControl
     {
         List<Label> _TagLabels = new List<Label>();
 

@@ -23,7 +23,7 @@ using ColorX = Com.ColorX;
 
 namespace TreeOfLife
 {
-    internal partial class CategoryNameButton : UserControl
+    public partial class CategoryNameButton : UserControl
     {
         private TaxonomicCategory? _Category = null; // 分类阶元。
         private string _CategoryName = string.Empty; // 名称。

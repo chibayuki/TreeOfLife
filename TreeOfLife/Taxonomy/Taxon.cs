@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 生物分类单元（类群）。
-    internal class Taxon
+    public class Taxon
     {
         private string _BotanicalName = string.Empty; // 学名。
         private string _ChineseName = string.Empty; // 中文名。
@@ -31,8 +31,8 @@ namespace TreeOfLife
         private bool _IsExtinct = false; // 已灭绝。
         private bool _Unsure = false; // 存疑。
 
-        private Taxon _Parent = null; // 父类群（祖先）。
-        private List<Taxon> _Children = new List<Taxon>(); // 子类群（后代）。
+        private Taxon _Parent = null; // 父类群。
+        private List<Taxon> _Children = new List<Taxon>(); // 子类群。
 
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
@@ -105,7 +105,7 @@ namespace TreeOfLife
                 Taxon parent = this;
                 Taxon grandParent = parent.Parent;
 
-                while (!(grandParent is null))
+                while (grandParent != null)
                 {
                     parent = grandParent;
                     grandParent = parent.Parent;
@@ -116,7 +116,7 @@ namespace TreeOfLife
         }
 
         // 判断当前类群是否为顶级类群。
-        public bool IsRoot => (_Parent is null);
+        public bool IsRoot => (_Parent == null);
 
         // 判断当前类群是否为末端类群。
         public bool IsFinal => (_Children.Count <= 0);
@@ -124,7 +124,7 @@ namespace TreeOfLife
         // 判断当前类群是否继承自指定类群。
         public bool InheritFrom(Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
@@ -135,7 +135,7 @@ namespace TreeOfLife
             {
                 return true;
             }
-            else if (_Parent is null)
+            else if (_Parent == null)
             {
                 return false;
             }
@@ -149,7 +149,7 @@ namespace TreeOfLife
                 {
                     Taxon t = this;
 
-                    while (!(t is null) && t._Level >= taxon._Level)
+                    while (t != null && t._Level >= taxon._Level)
                     {
                         if (t == taxon)
                         {
@@ -169,7 +169,7 @@ namespace TreeOfLife
         // 递归地修复当前类群、子类群与顶级类群的距离。
         private void _RepairLevel()
         {
-            if (_Parent is null)
+            if (_Parent == null)
             {
                 _Level = 0;
             }
@@ -196,7 +196,7 @@ namespace TreeOfLife
         // 原子地附属到父类群。
         private void _AtomAttachParent(Taxon taxon)
         {
-            if (!(taxon is null))
+            if (taxon != null)
             {
                 _Parent = taxon;
                 _Parent._Children.Add(this);
@@ -206,7 +206,7 @@ namespace TreeOfLife
         // 原子地附属到父类群。
         private void _AtomAttachParent(Taxon taxon, int index)
         {
-            if (!(taxon is null))
+            if (taxon != null)
             {
                 _Parent = taxon;
                 _Parent._Children.Insert(index, this);
@@ -216,7 +216,7 @@ namespace TreeOfLife
         // 原子地脱离父类群。
         private void _AtomDetachParent()
         {
-            if (!(_Parent is null))
+            if (_Parent != null)
             {
                 _Parent._Children.Remove(this);
                 _Parent = null;
@@ -226,19 +226,19 @@ namespace TreeOfLife
         // 变更父类群。
         public void SetParent(Taxon taxon)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (taxon.InheritFrom(this))
+            if (taxon == _Parent || taxon.InheritFrom(this))
             {
                 throw new InvalidOperationException();
             }
 
             //
 
-            if (!(_Parent is null))
+            if (_Parent != null)
             {
                 Taxon parent = _Parent;
 
@@ -255,19 +255,19 @@ namespace TreeOfLife
         // 变更父类群。
         public void SetParent(Taxon taxon, int index)
         {
-            if (taxon is null)
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (taxon.InheritFrom(this))
+            if (taxon == _Parent || taxon.InheritFrom(this))
             {
                 throw new InvalidOperationException();
             }
 
             //
 
-            if (!(_Parent is null))
+            if (_Parent != null)
             {
                 Taxon parent = _Parent;
 
@@ -286,7 +286,7 @@ namespace TreeOfLife
         {
             Taxon taxon = new Taxon();
 
-            if (!(_Parent is null))
+            if (_Parent != null)
             {
                 Taxon parent = _Parent;
                 int index = _Index;
@@ -397,7 +397,7 @@ namespace TreeOfLife
         // 删除当前类群（并且删除/保留所有子类群）。
         public void RemoveCurrent(bool removeChildren)
         {
-            if (!(_Parent is null))
+            if (_Parent != null)
             {
                 Taxon parent = _Parent;
 

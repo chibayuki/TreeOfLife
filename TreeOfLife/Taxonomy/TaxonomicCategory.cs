@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 生物分类阶元。
-    internal enum TaxonomicCategory
+    public enum TaxonomicCategory
     {
         Unranked = 0, // 未分级。
 
@@ -115,7 +115,7 @@ namespace TreeOfLife
     }
 
     // 生物分类阶元的中文名称及相关方法。
-    internal static class TaxonomicCategoryChineseName
+    public static class TaxonomicCategoryChineseName
     {
         public const string Unranked = "未分级";
 
@@ -212,98 +212,99 @@ namespace TreeOfLife
 
         private static void _EnsureCategoryNameTable()
         {
-            if (_CategoryNameTable is null)
+            if (_CategoryNameTable == null)
             {
-                _CategoryNameTable = new Dictionary<TaxonomicCategory, string>();
+                _CategoryNameTable = new Dictionary<TaxonomicCategory, string>
+                {
+                    { TaxonomicCategory.Unranked, Unranked },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Unranked, Unranked);
+                    { TaxonomicCategory.Clade, Clade },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Clade, Clade);
+                    { TaxonomicCategory.Strain, Strain },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Strain, Strain);
+                    { TaxonomicCategory.Subform, Subform },
+                    { TaxonomicCategory.Form, Form },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Subform, Subform);
-                _CategoryNameTable.Add(TaxonomicCategory.Form, Form);
+                    { TaxonomicCategory.Subseries, Subseries },
+                    { TaxonomicCategory.Series, Series },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Subseries, Subseries);
-                _CategoryNameTable.Add(TaxonomicCategory.Series, Series);
+                    { TaxonomicCategory.Infradivision, Infradivision },
+                    { TaxonomicCategory.Subdivision, Subdivision },
+                    { TaxonomicCategory.Division, Division },
+                    { TaxonomicCategory.Superdivision, Superdivision },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infradivision, Infradivision);
-                _CategoryNameTable.Add(TaxonomicCategory.Subdivision, Subdivision);
-                _CategoryNameTable.Add(TaxonomicCategory.Division, Division);
-                _CategoryNameTable.Add(TaxonomicCategory.Superdivision, Superdivision);
+                    { TaxonomicCategory.Infrasection, Infrasection },
+                    { TaxonomicCategory.Subsection, Subsection },
+                    { TaxonomicCategory.Section, Section },
+                    { TaxonomicCategory.Supersection, Supersection },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infrasection, Infrasection);
-                _CategoryNameTable.Add(TaxonomicCategory.Subsection, Subsection);
-                _CategoryNameTable.Add(TaxonomicCategory.Section, Section);
-                _CategoryNameTable.Add(TaxonomicCategory.Supersection, Supersection);
+                    { TaxonomicCategory.Infracohort, Infracohort },
+                    { TaxonomicCategory.Subcohort, Subcohort },
+                    { TaxonomicCategory.Cohort, Cohort },
+                    { TaxonomicCategory.Supercohort, Supercohort },
+                    { TaxonomicCategory.Megacohort, Megacohort },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infracohort, Infracohort);
-                _CategoryNameTable.Add(TaxonomicCategory.Subcohort, Subcohort);
-                _CategoryNameTable.Add(TaxonomicCategory.Cohort, Cohort);
-                _CategoryNameTable.Add(TaxonomicCategory.Supercohort, Supercohort);
-                _CategoryNameTable.Add(TaxonomicCategory.Megacohort, Megacohort);
+                    { TaxonomicCategory.Infratribe, Infratribe },
+                    { TaxonomicCategory.Subtribe, Subtribe },
+                    { TaxonomicCategory.Tribe, Tribe },
+                    { TaxonomicCategory.Supertribe, Supertribe },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infratribe, Infratribe);
-                _CategoryNameTable.Add(TaxonomicCategory.Subtribe, Subtribe);
-                _CategoryNameTable.Add(TaxonomicCategory.Tribe, Tribe);
-                _CategoryNameTable.Add(TaxonomicCategory.Supertribe, Supertribe);
+                    { TaxonomicCategory.Subvariety, Subvariety },
+                    { TaxonomicCategory.Variety, Variety },
+                    { TaxonomicCategory.Subspecies, Subspecies },
+                    { TaxonomicCategory.Species, Species },
+                    { TaxonomicCategory.Superspecies, Superspecies },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Subvariety, Subvariety);
-                _CategoryNameTable.Add(TaxonomicCategory.Variety, Variety);
-                _CategoryNameTable.Add(TaxonomicCategory.Subspecies, Subspecies);
-                _CategoryNameTable.Add(TaxonomicCategory.Species, Species);
-                _CategoryNameTable.Add(TaxonomicCategory.Superspecies, Superspecies);
+                    { TaxonomicCategory.Infragenus, Infragenus },
+                    { TaxonomicCategory.Subgenus, Subgenus },
+                    { TaxonomicCategory.Genus, Genus },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infragenus, Infragenus);
-                _CategoryNameTable.Add(TaxonomicCategory.Subgenus, Subgenus);
-                _CategoryNameTable.Add(TaxonomicCategory.Genus, Genus);
+                    { TaxonomicCategory.Infrafamily, Infrafamily },
+                    { TaxonomicCategory.Subfamily, Subfamily },
+                    { TaxonomicCategory.Family, Family },
+                    { TaxonomicCategory.Epifamily, Epifamily },
+                    { TaxonomicCategory.Hyperfamily, Hyperfamily },
+                    { TaxonomicCategory.Grandfamily, Grandfamily },
+                    { TaxonomicCategory.Superfamily, Superfamily },
+                    { TaxonomicCategory.Megafamily, Megafamily },
+                    { TaxonomicCategory.Gigafamily, Gigafamily },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infrafamily, Infrafamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Subfamily, Subfamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Family, Family);
-                _CategoryNameTable.Add(TaxonomicCategory.Epifamily, Epifamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Hyperfamily, Hyperfamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Grandfamily, Grandfamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Superfamily, Superfamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Megafamily, Megafamily);
-                _CategoryNameTable.Add(TaxonomicCategory.Gigafamily, Gigafamily);
+                    { TaxonomicCategory.Parvorder, Parvorder },
+                    { TaxonomicCategory.Infraorder, Infraorder },
+                    { TaxonomicCategory.Suborder, Suborder },
+                    { TaxonomicCategory.Minorder, Minorder },
+                    { TaxonomicCategory.Hypoorder, Hypoorder },
+                    { TaxonomicCategory.Nanorder, Nanorder },
+                    { TaxonomicCategory.Order, Order },
+                    { TaxonomicCategory.Hyperorder, Hyperorder },
+                    { TaxonomicCategory.Grandorder, Grandorder },
+                    { TaxonomicCategory.Superorder, Superorder },
+                    { TaxonomicCategory.Megaorder, Megaorder },
+                    { TaxonomicCategory.Gigaorder, Gigaorder },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Parvorder, Parvorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Infraorder, Infraorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Suborder, Suborder);
-                _CategoryNameTable.Add(TaxonomicCategory.Minorder, Minorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Hypoorder, Hypoorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Nanorder, Nanorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Order, Order);
-                _CategoryNameTable.Add(TaxonomicCategory.Hyperorder, Hyperorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Grandorder, Grandorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Superorder, Superorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Megaorder, Megaorder);
-                _CategoryNameTable.Add(TaxonomicCategory.Gigaorder, Gigaorder);
+                    { TaxonomicCategory.Parvclass, Parvclass },
+                    { TaxonomicCategory.Infraclass, Infraclass },
+                    { TaxonomicCategory.Subclass, Subclass },
+                    { TaxonomicCategory.Class, Class },
+                    { TaxonomicCategory.Hyperclass, Hyperclass },
+                    { TaxonomicCategory.Grandclass, Grandclass },
+                    { TaxonomicCategory.Superclass, Superclass },
+                    { TaxonomicCategory.Megaclass, Megaclass },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Parvclass, Parvclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Infraclass, Infraclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Subclass, Subclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Class, Class);
-                _CategoryNameTable.Add(TaxonomicCategory.Hyperclass, Hyperclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Grandclass, Grandclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Superclass, Superclass);
-                _CategoryNameTable.Add(TaxonomicCategory.Megaclass, Megaclass);
+                    { TaxonomicCategory.Parvphylum, Parvphylum },
+                    { TaxonomicCategory.Infraphylum, Infraphylum },
+                    { TaxonomicCategory.Subphylum, Subphylum },
+                    { TaxonomicCategory.Phylum, Phylum },
+                    { TaxonomicCategory.Superphylum, Superphylum },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Parvphylum, Parvphylum);
-                _CategoryNameTable.Add(TaxonomicCategory.Infraphylum, Infraphylum);
-                _CategoryNameTable.Add(TaxonomicCategory.Subphylum, Subphylum);
-                _CategoryNameTable.Add(TaxonomicCategory.Phylum, Phylum);
-                _CategoryNameTable.Add(TaxonomicCategory.Superphylum, Superphylum);
+                    { TaxonomicCategory.Infrakingdom, Infrakingdom },
+                    { TaxonomicCategory.Subkingdom, Subkingdom },
+                    { TaxonomicCategory.Kingdom, Kingdom },
+                    { TaxonomicCategory.Superkingdom, Superkingdom },
 
-                _CategoryNameTable.Add(TaxonomicCategory.Infrakingdom, Infrakingdom);
-                _CategoryNameTable.Add(TaxonomicCategory.Subkingdom, Subkingdom);
-                _CategoryNameTable.Add(TaxonomicCategory.Kingdom, Kingdom);
-                _CategoryNameTable.Add(TaxonomicCategory.Superkingdom, Superkingdom);
-
-                _CategoryNameTable.Add(TaxonomicCategory.Domain, Domain);
-                _CategoryNameTable.Add(TaxonomicCategory.Superdomain, Superdomain);
+                    { TaxonomicCategory.Domain, Domain },
+                    { TaxonomicCategory.Superdomain, Superdomain }
+                };
             }
         }
 

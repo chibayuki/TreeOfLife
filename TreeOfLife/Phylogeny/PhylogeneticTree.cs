@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 系统发生树。
-    internal class PhylogeneticTree
+    public class PhylogeneticTree
     {
         private Taxon _Root; // 假设存在的顶级类群。
 
@@ -37,7 +37,7 @@ namespace TreeOfLife
 
         private void _RecursiveFillAtoms(List<PhylogeneticUnwindV1Atom> atoms, Taxon taxon)
         {
-            if (atoms is null || taxon is null)
+            if (atoms == null || taxon == null)
             {
                 throw new ArgumentNullException();
             }

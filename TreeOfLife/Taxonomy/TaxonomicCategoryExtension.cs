@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 生物分类阶元的扩展方法。
-    internal static class TaxonomicCategoryExtension
+    public static class TaxonomicCategoryExtension
     {
         public static string Name(this TaxonomicCategory category)
         {

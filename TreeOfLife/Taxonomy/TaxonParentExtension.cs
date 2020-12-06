@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife
 {
     // 生物分类单元（类群）的父类群筛选条件。
-    internal class TaxonParentFilterCondition
+    public class TaxonParentFilterCondition
     {
         private enum _FilterType
         {
@@ -49,7 +49,7 @@ namespace TreeOfLife
 
         public bool IsMatched(Taxon taxon, Taxon parent)
         {
-            if (taxon is null || parent is null)
+            if (taxon == null || parent == null)
             {
                 throw new ArgumentNullException();
             }
@@ -119,7 +119,7 @@ namespace TreeOfLife
     }
 
     // 生物分类单元（类群）的父类群筛选终止条件。
-    internal class TaxonParentFilterTerminationCondition
+    public class TaxonParentFilterTerminationCondition
     {
         private enum _UntilType
         {
@@ -148,7 +148,7 @@ namespace TreeOfLife
 
         public bool IsMatched(Taxon parent)
         {
-            if (parent is null)
+            if (parent == null)
             {
                 throw new ArgumentNullException();
             }
@@ -194,12 +194,12 @@ namespace TreeOfLife
     }
 
     // 生物分类单元（类群）的父类群相关扩展方法。
-    internal static class TaxonParentExtension
+    public static class TaxonParentExtension
     {
         // 获取最近的符合筛选条件的父类群。
         public static Taxon GetNearestParent(this Taxon taxon, TaxonParentFilterCondition filterCondition)
         {
-            if (taxon is null || filterCondition is null)
+            if (taxon == null || filterCondition == null)
             {
                 throw new ArgumentNullException();
             }
@@ -208,7 +208,7 @@ namespace TreeOfLife
 
             Taxon parent = taxon.Parent;
 
-            while (!(parent is null))
+            while (parent != null)
             {
                 if (filterCondition.IsMatched(taxon, parent))
                 {
@@ -226,7 +226,7 @@ namespace TreeOfLife
         // 获取所有符合筛选条件的父类群。
         public static List<Taxon> GetParents(this Taxon taxon, TaxonParentFilterCondition filterCondition, bool recursiveInsteadOfLoop = false, TaxonParentFilterTerminationCondition filterTerminationCondition = null)
         {
-            if (taxon is null || filterCondition is null)
+            if (taxon == null || filterCondition == null)
             {
                 throw new ArgumentNullException();
             }
@@ -239,7 +239,7 @@ namespace TreeOfLife
             {
                 bool terminationConditionExist = false;
 
-                if (filterTerminationCondition is null)
+                if (filterTerminationCondition == null)
                 {
                     terminationConditionExist = true;
                 }
@@ -247,7 +247,7 @@ namespace TreeOfLife
                 {
                     Taxon parent = taxon.Parent;
 
-                    while (!(parent is null))
+                    while (parent != null)
                     {
                         if (filterTerminationCondition.IsMatched(parent))
                         {
@@ -267,11 +267,11 @@ namespace TreeOfLife
                         Taxon current = taxon;
                         Taxon parent = current.GetNearestParent(filterCondition);
 
-                        while (!(parent is null))
+                        while (parent != null)
                         {
                             parents.Add(parent);
 
-                            if (!(filterTerminationCondition is null) && filterTerminationCondition.IsMatched(parent))
+                            if (filterTerminationCondition != null && filterTerminationCondition.IsMatched(parent))
                             {
                                 break;
                             }
@@ -285,14 +285,14 @@ namespace TreeOfLife
                         Taxon current = taxon;
                         Taxon parent = current.Parent;
 
-                        while (!(parent is null))
+                        while (parent != null)
                         {
                             if (filterCondition.IsMatched(taxon, parent))
                             {
                                 parents.Add(parent);
                             }
 
-                            if (!(filterTerminationCondition is null) && filterTerminationCondition.IsMatched(parent))
+                            if (filterTerminationCondition != null && filterTerminationCondition.IsMatched(parent))
                             {
                                 break;
                             }
