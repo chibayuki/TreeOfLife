@@ -1,93 +1,13 @@
-﻿namespace TreeOfLife
-{
-    partial class TaxonNameButton
-    {
-        /// <summary> 
-        /// 必需的设计器变量。
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary> 
-        /// 清理所有正在使用的资源。
-        /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region 组件设计器生成的代码
-
-        /// <summary> 
-        /// 设计器支持所需的方法 - 不要修改
-        /// 使用代码编辑器修改此方法的内容。
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.Panel_Main = new System.Windows.Forms.Panel();
-            this.Label_TaxonName = new System.Windows.Forms.Label();
-            this.Label_CategoryName = new System.Windows.Forms.Label();
-            this.Panel_Main.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // Panel_Main
-            // 
-            this.Panel_Main.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_Main.Controls.Add(this.Label_TaxonName);
-            this.Panel_Main.Controls.Add(this.Label_CategoryName);
-            this.Panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel_Main.Location = new System.Drawing.Point(0, 0);
-            this.Panel_Main.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Panel_Main.Name = "Panel_Main";
-            this.Panel_Main.Size = new System.Drawing.Size(150, 150);
-            this.Panel_Main.TabIndex = 0;
-            // 
-            // Label_TaxonName
-            // 
-            this.Label_TaxonName.AutoEllipsis = true;
-            this.Label_TaxonName.BackColor = System.Drawing.Color.Transparent;
-            this.Label_TaxonName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_TaxonName.Location = new System.Drawing.Point(50, 0);
-            this.Label_TaxonName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label_TaxonName.Name = "Label_TaxonName";
-            this.Label_TaxonName.Size = new System.Drawing.Size(100, 150);
-            this.Label_TaxonName.TabIndex = 0;
-            this.Label_TaxonName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_CategoryName
-            // 
-            this.Label_CategoryName.AutoEllipsis = true;
-            this.Label_CategoryName.BackColor = System.Drawing.Color.Transparent;
-            this.Label_CategoryName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Label_CategoryName.Location = new System.Drawing.Point(0, 0);
-            this.Label_CategoryName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Label_CategoryName.Name = "Label_CategoryName";
-            this.Label_CategoryName.Size = new System.Drawing.Size(50, 150);
-            this.Label_CategoryName.TabIndex = 0;
-            this.Label_CategoryName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // TaxonNameButton
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Controls.Add(this.Panel_Main);
-            this.Font = new System.Drawing.Font("微软雅黑", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "TaxonNameButton";
-            this.Panel_Main.ResumeLayout(false);
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
-
-        private System.Windows.Forms.Panel Panel_Main;
-        private System.Windows.Forms.Label Label_CategoryName;
-        private System.Windows.Forms.Label Label_TaxonName;
-    }
-}
+﻿<UserControl x:Class="TreeOfLife.Controls.TaxonNameButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="300">
+    <Grid>
+        <Label x:Name="label_CategoryName" Content="CategoryName" Margin="1,1,0,1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="99" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" />
+        <Label x:Name="label_TaxonName" Content="TaxonName" Margin="100,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" />
+    </Grid>
+</UserControl>

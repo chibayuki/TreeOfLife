@@ -1,12 +1,10 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
@@ -17,9 +15,9 @@ using System.Threading.Tasks;
 
 using System.Drawing;
 
-using ColorX = Com.ColorX;
+using ColorX = Com.Chromatics.ColorX;
 
-namespace TreeOfLife
+namespace TreeOfLife.Taxonomy.Extensions
 {
     // 生物分类单元（类群）的UI相关扩展方法。
     public static class TaxonUIExtension

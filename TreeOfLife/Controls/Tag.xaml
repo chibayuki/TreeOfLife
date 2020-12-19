@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TreeOfLife.Controls.TaxonNameButtonGroup"
+﻿<UserControl x:Class="TreeOfLife.Controls.Tag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel x:Name="stackPanel_Groups"/>
+        <Border x:Name="border" CornerRadius="3,3,3,3">
+            <Label x:Name="label_Tag" Content="Label" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="6,3,6,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Border>
+
     </Grid>
 </UserControl>

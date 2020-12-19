@@ -13,24 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TreeOfLife.Taxonomy;
-
-namespace TreeOfLife.Phylogeny
+namespace TreeOfLife.Packaging
 {
-    // 系统发生树。
-    public class PhylogeneticTree
+    // 包内容行为。
+    public interface IPackageContent
     {
-        private Taxon _Root; // 假设存在的顶级类群。
+        PackageVersion Version { get; }
 
-        //
+        void TranslateFrom(object data);
+        void TranslateTo(object data);
 
-        public PhylogeneticTree()
-        {
-            _Root = new Taxon() { Category = TaxonomicCategory.Unranked };
-        }
-
-        //
-
-        public Taxon Root => _Root;
+        void Serialize(string directory);
+        void Deserialize(string directory);
     }
 }

@@ -1,12 +1,10 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
@@ -15,7 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife
+using TreeOfLife.Packaging;
+using TreeOfLife.Taxonomy;
+
+namespace TreeOfLife.Phylogeny
 {
     // 系统发生学。
     public static class Phylogenesis
@@ -32,6 +33,10 @@ namespace TreeOfLife
 
         public static string FileName => (_Package?.FileName);
 
+        public static DateTime CreationTime => _Package.Info.CreationTime;
+
+        public static DateTime ModificationTime => _Package.Info.ModificationTime;
+
         //
 
         // 新建文件。
@@ -39,7 +44,7 @@ namespace TreeOfLife
         {
             _PhylogeneticTree = new PhylogeneticTree();
 
-            _Package = null;
+            _Package = Package.Create();
 
             return true;
         }
@@ -49,35 +54,29 @@ namespace TreeOfLife
         {
             bool result = true;
 
+#if !DEBUG
             try
+#endif
             {
-                _Package = new Package(fileName);
-                _Package.Open();
+                IPackageContent packageContent;
 
-                switch (_Package.VersionInfo.FileVersion)
-                {
-                    case 1:
-                        _PhylogeneticTree = PhylogeneticUnwindV1.Deserialize(_Package.WorkingDir).Rebuild();
-                        break;
+                _Package = Package.Open(fileName, out packageContent);
 
-                    default:
-                        result = false;
-                        break;
-                }
+                _PhylogeneticTree = new PhylogeneticTree();
+
+                packageContent.TranslateTo(_PhylogeneticTree);
             }
+#if !DEBUG
             catch
             {
                 _PhylogeneticTree = new PhylogeneticTree();
 
-                _Package.Close();
-                _Package = null;
+                _Package?.Close();
+                _Package = Package.Create();
 
-#if DEBUG
-                throw;
-#else
                 result = false;
-#endif
             }
+#endif
 
             return result;
         }
@@ -87,20 +86,22 @@ namespace TreeOfLife
         {
             bool result = true;
 
+#if !DEBUG
             try
+#endif
             {
-                _PhylogeneticTree.Unwind().Serialize(_Package.WorkingDir);
+                IPackageContent packageContent = PackageContentVersions.CreateLatestVersion();
 
-                _Package.Save();
+                packageContent.TranslateFrom(_PhylogeneticTree);
+
+                _Package.Save(packageContent);
             }
+#if !DEBUG
             catch
             {
-#if DEBUG
-                throw;
-#else
                 result = false;
-#endif
             }
+#endif
 
             return result;
         }
@@ -110,20 +111,22 @@ namespace TreeOfLife
         {
             bool result = true;
 
+#if !DEBUG
             try
-            {
-                _PhylogeneticTree.Unwind().Serialize(_Package.WorkingDir);
-
-                _Package.SaveAs(fileName);
-            }
-            catch
-            {
-#if DEBUG
-                throw;
-#else
-                result = false;
 #endif
+            {
+                IPackageContent packageContent = PackageContentVersions.CreateLatestVersion();
+
+                packageContent.TranslateFrom(_PhylogeneticTree);
+
+                _Package.SaveAs(packageContent, fileName);
             }
+#if !DEBUG
+         catch
+            {
+                result = false;
+            }
+#endif
 
             return result;
         }
@@ -133,20 +136,20 @@ namespace TreeOfLife
         {
             bool result = true;
 
+#if !DEBUG
             try
+#endif
             {
                 _Package?.Close();
 
                 result = New();
             }
-            catch
+#if !DEBUG
+           catch
             {
-#if DEBUG
-                throw;
-#else
                 result = false;
-#endif
             }
+#endif
 
             return result;
         }

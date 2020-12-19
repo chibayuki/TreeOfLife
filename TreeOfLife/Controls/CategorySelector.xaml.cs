@@ -1,38 +1,66 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace TreeOfLife
+using TreeOfLife.Taxonomy;
+using TreeOfLife.Taxonomy.Extensions;
+
+using ColorX = Com.Chromatics.ColorX;
+
+namespace TreeOfLife.Controls
 {
+    /// <summary>
+    /// CategorySelector.xaml 的交互逻辑
+    /// </summary>
     public partial class CategorySelector : UserControl
     {
         private class _Group
         {
             private bool _DarkTheme = false; // 是否为暗色主题。
 
-            private Panel _GroupPanel = new Panel();
+            private WrapPanel _GroupPanel = new WrapPanel();
             private List<CategoryNameButton> _Buttons = new List<CategoryNameButton>();
+
+            private void _UpdateHeight(object sender, EventArgs e)
+            {
+                if (_Buttons.Count > 0)
+                {
+                    CategoryNameButton lastButton = _Buttons[_Buttons.Count - 1];
+
+                    _GroupPanel.Height = lastButton.TranslatePoint(new Point(lastButton.Height, lastButton.Height), _GroupPanel).Y + lastButton.Margin.Bottom;
+                }
+                else
+                {
+                    _GroupPanel.Height = 0;
+                }
+            }
 
             public _Group(bool isDarkTheme)
             {
                 _DarkTheme = isDarkTheme;
+
+                _GroupPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _GroupPanel.VerticalAlignment = VerticalAlignment.Top;
             }
 
             public bool IsDarkTheme
@@ -50,15 +78,18 @@ namespace TreeOfLife
                 }
             }
 
-            public Panel GroupPanel => _GroupPanel;
+            public WrapPanel GroupPanel => _GroupPanel;
 
             public List<CategoryNameButton> Buttons => _Buttons;
 
-            public void UpdateFont(Font font)
+            public void UpdateFont(FontFamily fontFamily, double fontSize, FontStyle fontStyle, FontWeight fontWeight)
             {
                 foreach (var button in _Buttons)
                 {
-                    button.Font = font;
+                    button.FontFamily = fontFamily;
+                    button.FontSize = fontSize;
+                    button.FontStyle = fontStyle;
+                    button.FontWeight = fontWeight;
                 }
             }
 
@@ -70,38 +101,34 @@ namespace TreeOfLife
                 }
             }
 
-            public void UpdateLayout(int groupWidth, Size minButtonSize, Padding buttonPadding)
+            public void UpdateControls()
+            {
+                _GroupPanel.SizeChanged -= _UpdateHeight;
+
+                _GroupPanel.Children.Clear();
+
+                foreach (var button in _Buttons)
+                {
+                    _GroupPanel.Children.Add(button);
+                }
+
+                _GroupPanel.SizeChanged += _UpdateHeight;
+            }
+
+            public void UpdateLayout(Thickness groupPadding, Thickness buttonPadding)
             {
                 if (_Buttons.Count > 0)
                 {
-                    for (int i = 0; i < _Buttons.Count; i++)
+                    _GroupPanel.Margin = groupPadding;
+
+                    foreach (var button in _Buttons)
                     {
-                        _Buttons[i].MinimumSize = minButtonSize;
-                        _Buttons[i].AutoSize = false;
-                        _Buttons[i].AutoSize = true;
-
-                        if (i > 0)
-                        {
-                            if (_Buttons[i - 1].Right + buttonPadding.Vertical + _Buttons[i].Width > groupWidth)
-                            {
-                                _Buttons[i].Location = new Point(0, _Buttons[i - 1].Bottom + buttonPadding.Vertical);
-                            }
-                            else
-                            {
-                                _Buttons[i].Location = new Point(_Buttons[i - 1].Right + buttonPadding.Horizontal, _Buttons[i - 1].Top);
-                            }
-                        }
-                        else
-                        {
-                            _Buttons[i].Location = new Point(0, 0);
-                        }
+                        button.Margin = buttonPadding;
                     }
-
-                    _GroupPanel.Size = new Size(groupWidth, _Buttons[_Buttons.Count - 1].Bottom);
                 }
                 else
                 {
-                    _GroupPanel.Size = new Size(groupWidth, 0);
+                    _GroupPanel.Margin = new Thickness(0);
                 }
             }
         }
@@ -122,9 +149,8 @@ namespace TreeOfLife
         private _Group _Level2Group = null;
         private _Group _Level3Group = null;
 
-        private Size _MinButtonSize = new Size(30, 22); // 按钮最小大小。
-        private Padding _ButtonPadding = new Padding(2, 2, 2, 2); // 按钮外边距。
-        private Padding _GroupPadding = new Padding(0, 4, 0, 4); // 组外边距。
+        private Thickness _ButtonMargin = new Thickness(3); // 按钮外边距。
+        private Thickness _GroupMargin = new Thickness(0, 6, 0, 6); // 组外边距。
 
         private bool _DarkTheme = false; // 是否为暗色主题。
 
@@ -142,83 +168,72 @@ namespace TreeOfLife
             _InitLevel2();
             _InitLevel3();
 
-            //
+            this.SizeChanged += (s, e) => _UpdateLayout();
 
-            this.Load += CategorySelector_Load;
-            this.SizeChanged += CategorySelector_SizeChanged;
-            this.AutoSizeChanged += CategorySelector_AutoSizeChanged;
-            this.FontChanged += CategorySelector_FontChanged;
-            Panel_Main.Paint += Panel_Main_Paint;
+            this.Loaded += (s, e) =>
+            {
+                _UpdateFont();
+                _UpdateCategory();
+                _UpdateLayout();
+            };
         }
 
         private void _InitLevel1()
         {
             _Level1Group = new _Group(_DarkTheme);
 
-            _Level1Group.GroupPanel.Visible = true;
-            _Level1Group.GroupPanel.Location = new Point(0, 0);
+            _Level1Group.GroupPanel.Visibility = Visibility.Visible;
 
             _PrimaryButton = new CategoryNameButton()
             {
-                AutoSize = true,
-                MinimumSize = _MinButtonSize,
                 CategoryName = "主要级别",
-                ThemeColor = Color.FromArgb(128, 128, 128)
+                ThemeColor = ColorX.FromRGB(128, 128, 128)
             };
 
-            _PrimaryButton.Click += (s, e) => _UpdateCategoryAndOnClick(TaxonomicCategory.Domain);
+            _PrimaryButton.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory.Domain, e);
 
             _Level1Group.Buttons.Add(_PrimaryButton);
-            _Level1Group.GroupPanel.Controls.Add(_PrimaryButton);
 
             _SecondaryButton = new CategoryNameButton()
             {
-                AutoSize = true,
-                MinimumSize = _MinButtonSize,
                 CategoryName = "次要级别",
-                ThemeColor = Color.FromArgb(128, 128, 128)
+                ThemeColor = ColorX.FromRGB(128, 128, 128)
             };
 
-            _SecondaryButton.Click += (s, e) => _UpdateCategoryAndOnClick(TaxonomicCategory.Tribe);
+            _SecondaryButton.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory.Tribe, e);
 
             _Level1Group.Buttons.Add(_SecondaryButton);
-            _Level1Group.GroupPanel.Controls.Add(_SecondaryButton);
 
             _CladeButton = new CategoryNameButton()
             {
-                AutoSize = true,
-                MinimumSize = _MinButtonSize,
                 Category = TaxonomicCategory.Clade,
-                ThemeColor = Color.FromArgb(128, 128, 128)
+                ThemeColor = ColorX.FromRGB(128, 128, 128)
             };
 
-            _CladeButton.Click += (s, e) => _UpdateCategoryAndOnClick(TaxonomicCategory.Clade);
+            _CladeButton.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory.Clade, e);
 
             _Level1Group.Buttons.Add(_CladeButton);
-            _Level1Group.GroupPanel.Controls.Add(_CladeButton);
 
             _UnrankedButton = new CategoryNameButton()
             {
-                AutoSize = true,
-                MinimumSize = _MinButtonSize,
                 Category = TaxonomicCategory.Unranked,
-                ThemeColor = Color.FromArgb(128, 128, 128)
+                ThemeColor = ColorX.FromRGB(128, 128, 128)
             };
 
-            _UnrankedButton.Click += (s, e) => _UpdateCategoryAndOnClick(TaxonomicCategory.Unranked);
+            _UnrankedButton.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory.Unranked, e);
 
             _Level1Group.Buttons.Add(_UnrankedButton);
-            _Level1Group.GroupPanel.Controls.Add(_UnrankedButton);
 
-            Panel_Level1.Controls.Add(_Level1Group.GroupPanel);
+            _Level1Group.UpdateControls();
+
+            grid_Level1.Children.Add(_Level1Group.GroupPanel);
         }
 
         private void _InitLevel2()
         {
             _Group primaryGroup = new _Group(_DarkTheme);
 
-            primaryGroup.GroupPanel.Visible = false;
-            primaryGroup.GroupPanel.Location = new Point(0, 0);
+            primaryGroup.GroupPanel.Visibility = Visibility.Collapsed;
 
             TaxonomicCategory[] primaryCategories =
             {
@@ -236,28 +251,26 @@ namespace TreeOfLife
             {
                 CategoryNameButton button2 = new CategoryNameButton()
                 {
-                    AutoSize = true,
-                    MinimumSize = _MinButtonSize,
                     Category = category,
                     ThemeColor = category.GetThemeColor()
                 };
 
                 primaryGroup.Buttons.Add(button2);
-                primaryGroup.GroupPanel.Controls.Add(button2);
 
-                button2.Click += (s, e) => _UpdateCategoryAndOnClick(button2.Category.Value);
+                button2.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(button2.Category.Value, e);
             }
 
-            Panel_Level2.Controls.Add(primaryGroup.GroupPanel);
-
             _Level2Groups.Add(_PrimaryButton, primaryGroup);
+
+            primaryGroup.UpdateControls();
+
+            grid_Level2.Children.Add(primaryGroup.GroupPanel);
 
             //
 
             _Group secondaryGroup = new _Group(_DarkTheme);
 
-            secondaryGroup.GroupPanel.Visible = false;
-            secondaryGroup.GroupPanel.Location = new Point(0, 0);
+            secondaryGroup.GroupPanel.Visibility = Visibility.Collapsed;
 
             TaxonomicCategory[] secondaryCategories =
             {
@@ -274,21 +287,20 @@ namespace TreeOfLife
             {
                 CategoryNameButton button2 = new CategoryNameButton()
                 {
-                    AutoSize = true,
-                    MinimumSize = _MinButtonSize,
                     Category = category,
                     ThemeColor = category.GetThemeColor()
                 };
 
                 secondaryGroup.Buttons.Add(button2);
-                secondaryGroup.GroupPanel.Controls.Add(button2);
 
-                button2.Click += (s, e) => _UpdateCategoryAndOnClick(button2.Category.Value);
+                button2.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(button2.Category.Value, e);
             }
 
-            Panel_Level2.Controls.Add(secondaryGroup.GroupPanel);
-
             _Level2Groups.Add(_SecondaryButton, secondaryGroup);
+
+            secondaryGroup.UpdateControls();
+
+            grid_Level2.Children.Add(secondaryGroup.GroupPanel);
         }
 
         private void _InitLevel3()
@@ -299,8 +311,7 @@ namespace TreeOfLife
                 {
                     _Group group3 = new _Group(_DarkTheme);
 
-                    group3.GroupPanel.Visible = false;
-                    group3.GroupPanel.Location = new Point(0, 0);
+                    group3.GroupPanel.Visibility = Visibility.Collapsed;
 
                     TaxonomicCategory[] categories = null;
 
@@ -473,81 +484,38 @@ namespace TreeOfLife
                     {
                         CategoryNameButton button3 = new CategoryNameButton()
                         {
-                            AutoSize = true,
-                            MinimumSize = _MinButtonSize,
                             Category = category,
                             ThemeColor = category.GetThemeColor()
                         };
 
                         group3.Buttons.Add(button3);
-                        group3.GroupPanel.Controls.Add(button3);
 
-                        button3.Click += (s, e) => _UpdateCategoryAndOnClick(button3.Category.Value);
+                        button3.MouseLeftButtonUp += (s, e) => _UpdateCategoryAndOnMouseLeftButtonUp(button3.Category.Value, e);
                     }
 
-                    Panel_Level3.Controls.Add(group3.GroupPanel);
-
                     _Level3Groups.Add(button2, group3);
+
+                    group3.UpdateControls();
+
+                    grid_Level3.Children.Add(group3.GroupPanel);
                 }
             }
         }
 
         //
 
-        private void CategorySelector_Load(object sender, EventArgs e)
-        {
-            _UpdateFont();
-            _UpdateCategory();
-            _UpdateLayout();
-        }
-
-        private void CategorySelector_SizeChanged(object sender, EventArgs e)
-        {
-            _UpdateLayout();
-        }
-
-        private void CategorySelector_AutoSizeChanged(object sender, EventArgs e)
-        {
-            _AutoSizeChanged();
-        }
-
-        private void CategorySelector_FontChanged(object sender, EventArgs e)
-        {
-            _UpdateFont();
-        }
-
-        private void Panel_Main_Paint(object sender, PaintEventArgs e)
-        {
-            _UpdateGroupSeparatorLine();
-        }
-
-        //
-
-        private void _AutoSizeChanged()
-        {
-            if (this.AutoSize)
-            {
-                _AutoSize();
-            }
-        }
-
-        private void _AutoSize()
-        {
-            this.Height = Panel_Level3.Bottom;
-        }
-
         private void _UpdateFont()
         {
-            _Level1Group.UpdateFont(this.Font);
+            _Level1Group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
 
             foreach (var group in _Level2Groups.Values)
             {
-                group.UpdateFont(this.Font);
+                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
             }
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.UpdateFont(this.Font);
+                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
             }
         }
 
@@ -571,48 +539,33 @@ namespace TreeOfLife
 
         private void _UpdateLayout()
         {
-            _Level1Group.UpdateLayout(this.Width, _MinButtonSize, _ButtonPadding);
+            _Level1Group.UpdateLayout(_GroupMargin, _ButtonMargin);
 
             foreach (var group in _Level2Groups.Values)
             {
-                group.UpdateLayout(this.Width, _MinButtonSize, _ButtonPadding);
+                group.UpdateLayout(_GroupMargin, _ButtonMargin);
             }
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.UpdateLayout(this.Width, _MinButtonSize, _ButtonPadding);
-            }
-
-            Panel_Level1.Size = new Size(this.Width, _Level1Group.GroupPanel.Height);
-            Panel_Level2.Size = new Size(this.Width, (_CurrentLevel2Group == null ? 0 : _CurrentLevel2Group.GroupPanel.Height));
-            Panel_Level3.Size = new Size(this.Width, (_CurrentLevel3Group == null ? 0 : _CurrentLevel3Group.GroupPanel.Height));
-
-            Panel_Level1.Top = 0;
-            Panel_Level2.Top = Panel_Level1.Bottom + (Panel_Level2.Height > 0 ? _GroupPadding.Vertical : 0);
-            Panel_Level3.Top = Panel_Level2.Bottom + (Panel_Level3.Height > 0 ? _GroupPadding.Vertical : 0);
-
-            //
-
-            if (this.AutoSize)
-            {
-                _AutoSize();
+                group.UpdateLayout(_GroupMargin, _ButtonMargin);
             }
         }
 
         private void _UpdateGroupSeparatorLine()
         {
-            using (Graphics graphics = Panel_Main.CreateGraphics())
+            /*using (Graphics graphics = Panel_Main.CreateGraphics())
             {
                 if (_CurrentLevel1Button != null && _CurrentLevel2Group != null)
                 {
-                    graphics.DrawLine(new Pen(_CurrentLevel1Button.ThemeColor.ToColor(), 1F), new Point(0, Panel_Level1.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, Panel_Level1.Bottom + _GroupPadding.Bottom));
+                    graphics.DrawLine(new Pen(_CurrentLevel1Button.ThemeColor.ToColor(), 1F), new Point(0, grid_Level1.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, grid_Level1.Bottom + _GroupPadding.Bottom));
                 }
 
                 if (_CurrentLevel2Button != null && _CurrentLevel3Group != null)
                 {
-                    graphics.DrawLine(new Pen(_CurrentLevel2Button.ThemeColor.ToColor(), 1F), new Point(0, Panel_Level2.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, Panel_Level2.Bottom + _GroupPadding.Bottom));
+                    graphics.DrawLine(new Pen(_CurrentLevel2Button.ThemeColor.ToColor(), 1F), new Point(0, grid_Level2.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, grid_Level2.Bottom + _GroupPadding.Bottom));
                 }
-            }
+            }*/
         }
 
         private void _UpdateCategory()
@@ -691,7 +644,7 @@ namespace TreeOfLife
             _UpdateGroupSeparatorLine();
         }
 
-        private void _UpdateCategoryAndOnClick(TaxonomicCategory category)
+        private void _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory category, MouseButtonEventArgs e)
         {
             if (_Category != category)
             {
@@ -699,7 +652,7 @@ namespace TreeOfLife
 
                 _UpdateCategory();
 
-                base.OnClick(EventArgs.Empty);
+                base.OnMouseLeftButtonUp(e);
             }
         }
 
@@ -743,14 +696,14 @@ namespace TreeOfLife
             {
                 if (_Level2Group != null)
                 {
-                    _Level2Group.GroupPanel.Visible = false;
+                    _Level2Group.GroupPanel.Visibility = Visibility.Collapsed;
                 }
 
                 _Level2Group = value;
 
                 if (_Level2Group != null)
                 {
-                    _Level2Group.GroupPanel.Visible = true;
+                    _Level2Group.GroupPanel.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -766,60 +719,45 @@ namespace TreeOfLife
             {
                 if (_Level3Group != null)
                 {
-                    _Level3Group.GroupPanel.Visible = false;
+                    _Level3Group.GroupPanel.Visibility = Visibility.Collapsed;
                 }
 
                 _Level3Group = value;
 
                 if (_Level3Group != null)
                 {
-                    _Level3Group.GroupPanel.Visible = true;
+                    _Level3Group.GroupPanel.Visibility = Visibility.Visible;
                 }
             }
         }
 
         //
 
-        public Size MinButtonSize
+        public Thickness GroupMargin
         {
             get
             {
-                return _MinButtonSize;
+                return _GroupMargin;
             }
 
             set
             {
-                _MinButtonSize = value;
+                _GroupMargin = value;
 
                 _UpdateLayout();
             }
         }
 
-        public Padding ButtonPadding
+        public Thickness ButtonMargin
         {
             get
             {
-                return _ButtonPadding;
+                return _ButtonMargin;
             }
 
             set
             {
-                _ButtonPadding = value;
-
-                _UpdateLayout();
-            }
-        }
-
-        public Padding GroupPadding
-        {
-            get
-            {
-                return _GroupPadding;
-            }
-
-            set
-            {
-                _GroupPadding = value;
+                _ButtonMargin = value;
 
                 _UpdateLayout();
             }

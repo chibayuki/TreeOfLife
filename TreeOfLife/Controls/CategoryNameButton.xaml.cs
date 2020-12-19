@@ -1,28 +1,38 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-using ColorX = Com.ColorX;
+using TreeOfLife.Extensions;
+using TreeOfLife.Taxonomy;
+using TreeOfLife.Taxonomy.Extensions;
 
-namespace TreeOfLife
+using ColorX = Com.Chromatics.ColorX;
+
+namespace TreeOfLife.Controls
 {
+    /// <summary>
+    /// CategoryNameButton.xaml 的交互逻辑
+    /// </summary>
     public partial class CategoryNameButton : UserControl
     {
         private TaxonomicCategory? _Category = null; // 分类阶元。
@@ -41,79 +51,42 @@ namespace TreeOfLife
 
             //
 
-            this.Load += TaxonNameButton_Load;
-            this.AutoSizeChanged += CategoryNameButton_AutoSizeChanged;
-            this.FontChanged += TaxonNameButton_FontChanged;
+            this.Loaded += (s, e) =>
+            {
+                label_CategoryName.FontFamily = this.FontFamily;
+                label_CategoryName.FontSize = this.FontSize;
+                label_CategoryName.FontStyle = this.FontStyle;
+                label_CategoryName.FontWeight = this.FontWeight;
+                label_CategoryName.MinWidth = this.MinWidth;
+                label_CategoryName.MaxWidth = this.MaxWidth;
 
-            Label_CategoryName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
+                _UpdateColor();
+                _UpdateCategory();
+            };
+
+            label_CategoryName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
+            label_CategoryName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
+            label_CategoryName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
         }
 
         //
-
-        private void TaxonNameButton_Load(object sender, EventArgs e)
-        {
-            _FontChanged();
-            _UpdateColor();
-            _UpdateCategoryInfo();
-            _AutoSizeChanged();
-        }
-
-        private void CategoryNameButton_AutoSizeChanged(object sender, EventArgs e)
-        {
-            _AutoSizeChanged();
-        }
-
-        private void TaxonNameButton_FontChanged(object sender, EventArgs e)
-        {
-            _FontChanged();
-        }
-
-        //
-
-        private void _AutoSizeChanged()
-        {
-            if (this.AutoSize)
-            {
-                Label_CategoryName.Dock = DockStyle.None;
-                Label_CategoryName.AutoSize = true;
-                Label_CategoryName.MinimumSize = this.MinimumSize;
-                Label_CategoryName.MaximumSize = this.MaximumSize;
-
-                _AutoSize();
-            }
-            else
-            {
-                Label_CategoryName.AutoSize = false;
-                Label_CategoryName.Dock = DockStyle.Fill;
-            }
-        }
-
-        private void _AutoSize()
-        {
-            this.Size = Label_CategoryName.Size;
-        }
-
-        private void _FontChanged()
-        {
-            Label_CategoryName.Font = this.Font;
-        }
 
         private void _UpdateColor()
         {
-            Label_CategoryName.ForeColor = _CategoryNameForeColor;
-            Label_CategoryName.BackColor = _CategoryNameBackColor;
+            label_CategoryName.SetForeColor(_CategoryNameForeColor);
+            label_CategoryName.SetBackColor(_CategoryNameBackColor);
         }
 
-        private void _UpdateCategoryInfo()
+        private void _UpdateCategory()
         {
-            Label_CategoryName.Text = _CategoryName;
+            label_CategoryName.Content = _CategoryName;
         }
 
         //
 
-        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Color.Black : Color.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToColor());
+        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToWpfColor());
 
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToColor();
+        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToWpfColor();
 
         //
 
@@ -128,11 +101,10 @@ namespace TreeOfLife
             {
                 _CategoryName = value;
 
-                _UpdateCategoryInfo();
+                _UpdateCategory();
             }
         }
 
-        [Browsable(false)]
         public TaxonomicCategory? Category
         {
             get
@@ -148,7 +120,7 @@ namespace TreeOfLife
                 {
                     _CategoryName = _Category.Value.Name();
 
-                    _UpdateCategoryInfo();
+                    _UpdateCategory();
                 }
             }
         }
@@ -168,22 +140,6 @@ namespace TreeOfLife
             }
         }
 
-        [Browsable(false)]
-        public ColorX ThemeColor
-        {
-            get
-            {
-                return _ThemeColor;
-            }
-
-            set
-            {
-                _ThemeColor = value;
-
-                _UpdateColor();
-            }
-        }
-
         public bool IsDarkTheme
         {
             get
@@ -194,6 +150,21 @@ namespace TreeOfLife
             set
             {
                 _DarkTheme = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public ColorX ThemeColor
+        {
+            get
+            {
+                return _ThemeColor;
+            }
+
+            set
+            {
+                _ThemeColor = value;
 
                 _UpdateColor();
             }

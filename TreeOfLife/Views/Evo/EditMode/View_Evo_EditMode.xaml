@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="TreeOfLife.Views.Evo.EditMode.View_Evo_EditMode"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.Views.Evo.EditMode"
+             xmlns:Controls="clr-namespace:TreeOfLife.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Evo_EditMode/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="25,25,25,0">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.5"/>
+            </Grid.Effect>
+            <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Margin="1,1,0,1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="79" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
+            <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" Margin="80,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" />
+            <Button x:Name="button_Back" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_Name" Margin="0,25,0,0">
+                    <Label Content="学名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Label Content="中文名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="0,35,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="3,3,3,3" Text="{Binding Name}" />
+                    <TextBox HorizontalAlignment="Stretch" Margin="80,35,0,0" VerticalAlignment="Top" Height="25" Padding="3,3,3,3" Text="{Binding ChsName}" />
+                </Grid>
+                <Grid x:Name="grid_State" Margin="0,25,0,0">
+                    <Label Content="状态" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <CheckBox Content="灭绝" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" />
+                    <CheckBox Content="存疑" HorizontalAlignment="Right" Margin="0,0,80,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" IsChecked="{Binding Unsure}" />
+                </Grid>
+                <Grid x:Name="grid_Category" Margin="0,25,0,0">
+                    <Label Content="分级" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Controls:CategorySelector x:Name="categorySelector" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
+                    <Label Content="异名" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="85" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Text="{Binding Synonyms}" />
+                </Grid>
+                <Grid x:Name="grid_Tags" Margin="0,25,0,0">
+                    <Label Content="标签" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="85" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Text="{Binding Tags}" />
+                </Grid>
+                <Grid x:Name="grid_Desc" Margin="0,25,0,0">
+                    <Label Content="描述" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="85" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Text="{Binding Description}" />
+                </Grid>
+                <Grid x:Name="grid_Parents" Margin="0,25,0,0">
+                    <Label Content="上级类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Margin="0,35,0,0" />
+                </Grid>
+                <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
+                    <Label Content="插入&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox x:Name="textBox_Parent" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="3,3,3,3" />
+                    <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="25" Margin="80,35,0,0" />
+                    <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="25" Margin="0,35,0,0" />
+                </Grid>
+                <Grid x:Name="grid_Children" Margin="0,25,0,0">
+                    <Label Content="下级类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Margin="0,35,0,0" />
+                </Grid>
+                <Grid Margin="0,25,0,0">
+                    <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <TextBox x:Name="textBox_Children" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="85" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" />
+                    <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="25" Margin="0,95,0,0" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

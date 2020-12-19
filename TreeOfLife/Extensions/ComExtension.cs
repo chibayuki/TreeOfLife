@@ -13,24 +13,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TreeOfLife.Taxonomy;
+using System.Windows.Media;
 
-namespace TreeOfLife.Phylogeny
+using ColorX = Com.Chromatics.ColorX;
+
+namespace TreeOfLife.Extensions
 {
-    // 系统发生树。
-    public class PhylogeneticTree
+    // Com.dll 扩展（临时）
+    public static class ComExtension
     {
-        private Taxon _Root; // 假设存在的顶级类群。
-
-        //
-
-        public PhylogeneticTree()
+        public static Color ToWpfColor(this ColorX colorX)
         {
-            _Root = new Taxon() { Category = TaxonomicCategory.Unranked };
+            return Color.FromArgb((byte)(int)Math.Round(colorX.Alpha), (byte)(int)Math.Round(colorX.Red), (byte)(int)Math.Round(colorX.Green), (byte)(int)Math.Round(colorX.Blue));
         }
-
-        //
-
-        public Taxon Root => _Root;
     }
 }

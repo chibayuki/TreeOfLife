@@ -1,34 +1,39 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-using ColorX = Com.ColorX;
+using ColorX = Com.Chromatics.ColorX;
 
-namespace TreeOfLife
+namespace TreeOfLife.Controls
 {
+    /// <summary>
+    /// TagGroup.xaml 的交互逻辑
+    /// </summary>
     public partial class TagGroup : UserControl
     {
-        List<Label> _TagLabels = new List<Label>();
+        List<Tag> _TagLabels = new List<Tag>();
 
-        private Size _MinTagSize = new Size(32, 22); // 标签最小大小。
-        private Padding _TagPadding = new Padding(2, 2, 2, 2); // 标签外边距。
+        private Thickness _TagMargin = new Thickness(2); // 标签外边距。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _DarkTheme = false; // 是否为暗色主题。
@@ -41,56 +46,23 @@ namespace TreeOfLife
 
             //
 
-            this.Load += TagGroup_Load;
-            this.SizeChanged += TagGroup_SizeChanged;
-            this.AutoSizeChanged += TagGroup_AutoSizeChanged;
-            this.FontChanged += TagGroup_FontChanged;
-        }
-
-        //
-
-        private void TagGroup_Load(object sender, EventArgs e)
-        {
-            _UpdateFont();
-            _UpdateColor();
-            _UpdateLayout();
-        }
-
-        private void TagGroup_SizeChanged(object sender, EventArgs e)
-        {
-            _UpdateLayout();
-        }
-
-        private void TagGroup_AutoSizeChanged(object sender, EventArgs e)
-        {
-            _AutoSizeChanged();
-        }
-
-        private void TagGroup_FontChanged(object sender, EventArgs e)
-        {
-            _UpdateFont();
-        }
-
-        //
-
-        private void _AutoSizeChanged()
-        {
-            if (this.AutoSize)
+            this.Loaded += (s, e) =>
             {
-                _AutoSize();
-            }
+                _UpdateFont();
+                _UpdateColor();
+            };
         }
 
-        private void _AutoSize()
-        {
-            this.Height = (_TagLabels.Count <= 0 ? 0 : _TagLabels[_TagLabels.Count - 1].Bottom);
-        }
+        //
 
         private void _UpdateFont()
         {
             foreach (var tag in _TagLabels)
             {
-                tag.Font = this.Font;
+                tag.FontFamily = this.FontFamily;
+                tag.FontSize = this.FontSize;
+                tag.FontStyle = this.FontStyle;
+                tag.FontWeight = this.FontWeight;
             }
         }
 
@@ -98,8 +70,7 @@ namespace TreeOfLife
         {
             foreach (var tag in _TagLabels)
             {
-                tag.ForeColor = _TagForeColor;
-                tag.BackColor = _TagBackColor;
+                tag.ThemeColor = _ThemeColor;
             }
         }
 
@@ -107,75 +78,30 @@ namespace TreeOfLife
         {
             if (_TagLabels.Count > 0)
             {
-                for (int i = 0; i < _TagLabels.Count; i++)
+                foreach (var tagLabel in _TagLabels)
                 {
-                    _TagLabels[i].MinimumSize = _MinTagSize;
-
-                    if (i > 0)
-                    {
-                        if (_TagLabels[i - 1].Right + _TagPadding.Vertical + _TagLabels[i].Width > this.Width)
-                        {
-                            _TagLabels[i].Location = new Point(0, _TagLabels[i - 1].Bottom + _TagPadding.Vertical);
-                        }
-                        else
-                        {
-                            _TagLabels[i].Location = new Point(_TagLabels[i - 1].Right + _TagPadding.Horizontal, _TagLabels[i - 1].Top);
-                        }
-                    }
-                    else
-                    {
-                        _TagLabels[i].Location = new Point(0, 0);
-                    }
+                    tagLabel.Margin = _TagMargin;
                 }
             }
-
-            //
-
-            if (this.AutoSize)
-            {
-                _AutoSize();
-            }
         }
 
         //
 
-        private Color _TagForeColor => _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToColor();
-
-        private Color _TagBackColor => _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90).ToColor();
-
-        //
-
-        public Size MinTagSize
+        public Thickness TagMargin
         {
             get
             {
-                return _MinTagSize;
+                return _TagMargin;
             }
 
             set
             {
-                _MinTagSize = value;
+                _TagMargin = value;
 
                 _UpdateLayout();
             }
         }
 
-        public Padding TagPadding
-        {
-            get
-            {
-                return _TagPadding;
-            }
-
-            set
-            {
-                _TagPadding = value;
-
-                _UpdateLayout();
-            }
-        }
-
-        [Browsable(false)]
         public ColorX ThemeColor
         {
             get
@@ -206,35 +132,33 @@ namespace TreeOfLife
             }
         }
 
-        [Browsable(false)]
         public string[] Tags
         {
             set
             {
-                Panel_Main.Visible = false;
+                wrapPanel_Tags.Visibility = Visibility.Hidden;
 
-                Panel_Main.Controls.Clear();
+                wrapPanel_Tags.Children.Clear();
 
-                _TagLabels = new List<Label>(value.Length);
+                _TagLabels = new List<Tag>(value.Length);
 
                 foreach (var tag in value)
                 {
-                    Label tagLabel = new Label();
-                    tagLabel.MinimumSize = _MinTagSize;
-                    tagLabel.AutoSize = true;
-                    tagLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    tagLabel.Text = tag;
+                    Tag tagLabel = new Tag
+                    {
+                        Text = tag
+                    };
 
                     _TagLabels.Add(tagLabel);
 
-                    Panel_Main.Controls.Add(tagLabel);
+                    wrapPanel_Tags.Children.Add(tagLabel);
                 }
 
                 _UpdateFont();
                 _UpdateColor();
                 _UpdateLayout();
 
-                Panel_Main.Visible = true;
+                wrapPanel_Tags.Visibility = Visibility.Visible;
             }
         }
     }

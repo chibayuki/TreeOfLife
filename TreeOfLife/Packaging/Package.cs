@@ -1,12 +1,10 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
@@ -17,122 +15,77 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace TreeOfLife
+namespace TreeOfLife.Packaging
 {
-    // 版本信息。
-    public class VersionInfo
-    {
-        private int _FileVersion = 1; // 文件版本。
-
-        //
-
-        public VersionInfo()
-        {
-        }
-
-        public VersionInfo(int fileVersion)
-        {
-            _FileVersion = fileVersion;
-        }
-
-        //
-
-        [JsonPropertyName("FileVersion")]
-        public int FileVersion
-        {
-            get => _FileVersion;
-            set => _FileVersion = value;
-        }
-    }
-
-    // 文件信息。
-    public class FileInfo
-    {
-        private DateTime _CreationTime; // 创建时间。
-        private DateTime _ModificationTime; // 创建时间。
-
-        //
-
-        public FileInfo()
-        {
-        }
-
-        public FileInfo(DateTime creationTime)
-        {
-            _CreationTime = creationTime;
-        }
-
-        //
-
-        [JsonPropertyName("CreationTime")]
-        public DateTime CreationTime
-        {
-            get => _CreationTime;
-            set => _CreationTime = value;
-        }
-
-        [JsonPropertyName("ModificationTime")]
-        public DateTime ModificationTime
-        {
-            get => _ModificationTime;
-            set => _ModificationTime = value;
-        }
-    }
-
-    // 容器。
+    // 包。
     public class Package
     {
-        private const int _LatestVersion = 1; // 最新的文件版本/展开版本。
+        private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
 
         //
 
-        private bool _Opened = false; // 文件是否已经作为容器打开。
+        private bool _Closed = false; // 包是否已关闭。
 
         private string _FileName = null; // 文件名。
 
         private string _TempDir = null; // 临时目录。
-        private string _PackageDir = null; // 容器目录。
-        private string _VersionInfoFileName = null; // 版本信息文件。
+        private string _PackageDir = null; // 包目录。
+        private string _VersionFileName = null; // 版本文件。
         private string _InfoDir = null; // 文件信息目录。
-        private string _FileInfoFileName = null; // 文件信息文件。
-        private string _WorkingDir = null; // 工作目录。
+        private string _InfoFileName = null; // 信息文件。
+        private string _PackageContentDir = null; // 包内容目录。
 
-        private VersionInfo _VersionInfo = null; // 版本信息。
-        private FileInfo _FileInfo = null; // 文件信息。
+        private PackageVersion _Version; // 包版本。
+        private PackageInfo _Info; // 包信息。
 
         private void _InitDirs()
         {
-            _TempDir = Path.Combine(Path.GetTempPath(), "TreeOfLife", Path.GetRandomFileName());
+            _TempDir = Path.Combine(Path.GetTempPath(), _AppName, Path.GetRandomFileName());
             _PackageDir = Path.Combine(_TempDir, "package");
-            _VersionInfoFileName = Path.Combine(_PackageDir, "_version");
+            _VersionFileName = Path.Combine(_PackageDir, "_version");
             _InfoDir = Path.Combine(_PackageDir, "info");
-            _FileInfoFileName = Path.Combine(_InfoDir, "_fileinfo");
-            _WorkingDir = Path.Combine(_PackageDir, "data");
+            _InfoFileName = Path.Combine(_InfoDir, "_info");
+            _PackageContentDir = Path.Combine(_PackageDir, "data");
         }
 
         //
 
-        public Package(string fileName)
+        private Package()
+        {
+            _Info = new PackageInfo(DateTime.UtcNow);
+        }
+
+        private Package(string fileName)
         {
             _FileName = fileName;
 
-            _FileInfo = new FileInfo(DateTime.UtcNow);
+            _InitDirs();
+
+            _Info = new PackageInfo(DateTime.UtcNow);
         }
 
         //
 
-        public bool Opened => _Opened;
+        public string FileName
+        {
+            get => _FileName;
 
-        public string FileName => _FileName;
+            private set
+            {
+                _FileName = value;
 
-        public string WorkingDir => _WorkingDir;
+                _InitDirs();
 
-        public VersionInfo VersionInfo => _VersionInfo;
+                _Info.CreationTime = DateTime.UtcNow;
+            }
+        }
 
-        public FileInfo FileInfo => _FileInfo;
+        public PackageVersion Version => _Version;
+
+        public PackageInfo Info => _Info;
 
         //
 
@@ -169,46 +122,40 @@ namespace TreeOfLife
             File.Move(tmpFile, destinationArchiveFileName);
         }
 
-        // 读取版本信息。
-        private static VersionInfo _ReadVersionInfo(string fileName)
+        // 读取包版本。
+        private static PackageVersion _ReadPackageVersion(string fileName)
         {
             string jsonText = File.ReadAllText(fileName);
 
             JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 
-            return JsonSerializer.Deserialize<VersionInfo>(jsonText, options);
+            return JsonSerializer.Deserialize<PackageVersion>(jsonText, options);
         }
 
-        // 写入版本信息。
-        private static void _WriteVersionInfo(string fileName, VersionInfo versionInfo)
+        // 写入包版本。
+        private static void _WritePackageVersion(string fileName, PackageVersion versionInfo)
         {
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.WriteIndented = true;
+            JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
 
             string jsonText = JsonSerializer.Serialize(versionInfo, options);
 
             File.WriteAllText(fileName, jsonText);
         }
 
-        // 读取文件信息。
-        private static FileInfo _ReadFileInfo(string fileName)
+        // 读取包信息。
+        private static PackageInfo _ReadPackageInfo(string fileName)
         {
             string jsonText = File.ReadAllText(fileName);
 
             JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 
-            return JsonSerializer.Deserialize<FileInfo>(jsonText, options);
+            return JsonSerializer.Deserialize<PackageInfo>(jsonText, options);
         }
 
-        // 写入文件信息。
-        private static void _WriteFileInfo(string fileName, FileInfo fileInfo)
+        // 写入包信息。
+        private static void _WritePackageInfo(string fileName, PackageInfo fileInfo)
         {
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.WriteIndented = true;
+            JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
 
             string jsonText = JsonSerializer.Serialize(fileInfo, options);
 
@@ -217,106 +164,97 @@ namespace TreeOfLife
 
         //
 
-        // 打开。
-        public void Open()
+        // 创建。
+        public static Package Create()
         {
-            if (_Opened)
+            return new Package();
+        }
+
+        // 打开。
+        public static Package Open(string fileName, out IPackageContent packageContent)
+        {
+            Package package = new Package(fileName);
+
+            _Extract(package._FileName, package._PackageDir);
+
+            package._Version = _ReadPackageVersion(package._VersionFileName);
+            package._Info = _ReadPackageInfo(package._InfoFileName);
+
+            packageContent = PackageContentVersions.CreateFromVersion(package._Version);
+
+            packageContent.Deserialize(package._PackageContentDir);
+
+            return package;
+        }
+
+        // 保存。
+        public void Save(IPackageContent packageContent)
+        {
+            if (_Closed)
             {
                 throw new InvalidOperationException();
             }
 
             //
 
-            _Opened = true;
-
-            _InitDirs();
-
-            _Extract(_FileName, _PackageDir);
-
-            _VersionInfo = _ReadVersionInfo(_VersionInfoFileName);
-            _FileInfo = _ReadFileInfo(_FileInfoFileName);
-        }
-
-        // 保存。
-        public void Save()
-        {
-            if (!_Opened)
-            {
-                _Opened = true;
-
-                _InitDirs();
-            }
-
-            _VersionInfo = new VersionInfo(_LatestVersion);
-            _WriteVersionInfo(_VersionInfoFileName, _VersionInfo);
+            _Version = packageContent.Version;
+            _WritePackageVersion(_VersionFileName, _Version);
 
             if (!Directory.Exists(_InfoDir))
             {
                 Directory.CreateDirectory(_InfoDir);
             }
 
-            _FileInfo.ModificationTime = DateTime.UtcNow;
-            _WriteFileInfo(_FileInfoFileName, _FileInfo);
+            _Info.ModificationTime = DateTime.UtcNow;
+            _WritePackageInfo(_InfoFileName, _Info);
+
+            packageContent.Serialize(_PackageContentDir);
 
             _Compress(_PackageDir, _FileName);
         }
 
         // 另存为。
-        public void SaveAs(string fileName)
+        public void SaveAs(IPackageContent packageContent, string fileName)
         {
-            if (_FileName != fileName)
+            if (_Closed)
             {
-                _FileName = fileName;
-
-                _FileInfo.CreationTime = DateTime.UtcNow;
+                throw new InvalidOperationException();
             }
 
-            if (!_Opened)
-            {
-                _Opened = true;
+            //
 
-                _InitDirs();
-            }
+            FileName = fileName;
 
-            _VersionInfo = new VersionInfo(_LatestVersion);
-            _WriteVersionInfo(_VersionInfoFileName, _VersionInfo);
-
-            if (!Directory.Exists(_InfoDir))
-            {
-                Directory.CreateDirectory(_InfoDir);
-            }
-
-            _FileInfo.ModificationTime = DateTime.UtcNow;
-            _WriteFileInfo(_FileInfoFileName, _FileInfo);
-
-            _Compress(_PackageDir, _FileName);
+            Save(packageContent);
         }
 
         // 关闭。
         public void Close()
         {
-            if (_Opened)
+            if (_Closed)
             {
-                _Opened = false;
-
-                try
-                {
-                    if (Directory.Exists(_TempDir))
-                    {
-                        Directory.Delete(_TempDir, true);
-                    }
-                }
-                catch { }
-
-                _TempDir = null;
-                _PackageDir = null;
-                _VersionInfoFileName = null;
-                _InfoDir = null;
-                _FileInfoFileName = null;
-                _WorkingDir = null;
-
-                _VersionInfo = null;
+                throw new InvalidOperationException();
             }
+
+            //
+
+            _Closed = true;
+
+            try
+            {
+                if (Directory.Exists(_TempDir))
+                {
+                    Directory.Delete(_TempDir, true);
+                }
+            }
+            catch { }
+
+            _TempDir = null;
+            _PackageDir = null;
+            _VersionFileName = null;
+            _InfoDir = null;
+            _InfoFileName = null;
+            _PackageContentDir = null;
         }
     }
 }

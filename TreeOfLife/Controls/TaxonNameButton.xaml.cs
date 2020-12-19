@@ -1,38 +1,48 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright © 2020 chibayuki@foxmail.com
 
-生命树 (TreeOfLife)
-Version 1.0.415.1000.M5.201204-2200
+TreeOfLife
+Version 1.0.608.1000.M6.201219-0000
 
-This file is part of "生命树" (TreeOfLife)
-
-"生命树" (TreeOfLife) is released under the GPLv3 license
+This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-using ColorX = Com.ColorX;
+using TreeOfLife.Extensions;
+using TreeOfLife.Taxonomy;
+using TreeOfLife.Taxonomy.Extensions;
 
-namespace TreeOfLife
+using ColorX = Com.Chromatics.ColorX;
+
+namespace TreeOfLife.Controls
 {
+    /// <summary>
+    /// TaxonNameButton.xaml 的交互逻辑
+    /// </summary>
     public partial class TaxonNameButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
 
+        private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
+
         private bool _Checked = false; // 是否处于已选择状态。
 
-        private int _CategoryNameWidth = 50; // 分类阶元名称宽度。
-
-        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _DarkTheme = false; // 是否为暗色主题。
+        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
 
         //
 
@@ -42,81 +52,66 @@ namespace TreeOfLife
 
             //
 
-            this.Load += TaxonNameButton_Load;
-            this.SizeChanged += TaxonNameButton_SizeChanged;
-            this.FontChanged += TaxonNameButton_FontChanged;
+            this.Loaded += (s, e) =>
+            {
+                label_CategoryName.FontFamily = this.FontFamily;
+                label_CategoryName.FontSize = this.FontSize;
+                label_CategoryName.FontStyle = this.FontStyle;
+                label_CategoryName.FontWeight = this.FontWeight;
 
-            Label_CategoryName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
-            Label_TaxonName.MouseClick += (s, e) => { if (e.Button == MouseButtons.Left) { base.OnClick(e); } base.OnMouseClick(e); };
+                label_TaxonName.FontFamily = this.FontFamily;
+                label_TaxonName.FontSize = this.FontSize;
+                label_TaxonName.FontStyle = this.FontStyle;
+                label_TaxonName.FontWeight = this.FontWeight;
+
+                _UpdateColor();
+                _UpdateTaxon();
+            };
+
+            label_CategoryName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
+            label_CategoryName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
+            label_CategoryName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
+
+            label_TaxonName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
+            label_TaxonName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
+            label_TaxonName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
         }
 
         //
 
-        private void TaxonNameButton_Load(object sender, EventArgs e)
+        private void _UpdateTaxon()
         {
-            _UpdateFont();
-            _UpdateColor();
-            _SizeChanged();
-            _UpdateTaxonInfo();
+            label_CategoryName.Content = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
+            label_TaxonName.Content = (_Taxon == null ? string.Empty : _Taxon.ShortName());
         }
 
-        private void TaxonNameButton_SizeChanged(object sender, EventArgs e)
+        private void _UpdateCategoryNameWidth()
         {
-            _SizeChanged();
+            label_CategoryName.Width = _CategoryNameWidth - 1;
+            label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 1, 1, 1);
         }
 
-        private void TaxonNameButton_FontChanged(object sender, EventArgs e)
-        {
-            _UpdateFont();
-        }
+        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToWpfColor());
 
-        //
+        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToWpfColor();
 
-        private void _SizeChanged()
-        {
-            Label_CategoryName.Size = new Size(_CategoryNameWidth - 1, Panel_Main.Height - 2);
-            Label_CategoryName.Location = new Point(1, 1);
+        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_DarkTheme ? 60 : 40) : 50).ToWpfColor();
 
-            Label_TaxonName.Size = new Size(Panel_Main.Width - _CategoryNameWidth - 1, Panel_Main.Height - 2);
-            Label_TaxonName.Location = new Point(Label_CategoryName.Right, 1);
-        }
-
-        private void _UpdateFont()
-        {
-            Label_CategoryName.Font = this.Font;
-            Label_TaxonName.Font = this.Font;
-        }
+        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToWpfColor();
 
         private void _UpdateColor()
         {
-            Panel_Main.BackColor = _CategoryNameBackColor;
+            this.SetBackColor(_CategoryNameBackColor);
 
-            Label_CategoryName.ForeColor = _CategoryNameForeColor;
-            Label_CategoryName.BackColor = _CategoryNameBackColor;
+            label_CategoryName.SetForeColor(_CategoryNameForeColor);
+            label_CategoryName.SetBackColor(_CategoryNameBackColor);
 
-            Label_TaxonName.ForeColor = _TaxonNameForeColor;
-            Label_TaxonName.BackColor = _TaxonNameBackColor;
-        }
-
-        private void _UpdateTaxonInfo()
-        {
-            Label_CategoryName.Text = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
-            Label_TaxonName.Text = (_Taxon == null ? string.Empty : _Taxon.ShortName());
+            label_TaxonName.SetForeColor(_TaxonNameForeColor);
+            label_TaxonName.SetBackColor(_TaxonNameBackColor);
         }
 
         //
 
-        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Color.Black : Color.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToColor());
-
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToColor();
-
-        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_DarkTheme ? 60 : 40) : 50).ToColor();
-
-        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToColor();
-
-        //
-
-        [Browsable(false)]
         public Taxon Taxon
         {
             get
@@ -128,7 +123,22 @@ namespace TreeOfLife
             {
                 _Taxon = value;
 
-                _UpdateTaxonInfo();
+                _UpdateTaxon();
+            }
+        }
+
+        public double CategoryNameWidth
+        {
+            get
+            {
+                return _CategoryNameWidth;
+            }
+
+            set
+            {
+                _CategoryNameWidth = value;
+
+                _UpdateCategoryNameWidth();
             }
         }
 
@@ -147,37 +157,6 @@ namespace TreeOfLife
             }
         }
 
-        public int CategoryNameWidth
-        {
-            get
-            {
-                return _CategoryNameWidth;
-            }
-
-            set
-            {
-                _CategoryNameWidth = value;
-
-                _SizeChanged();
-            }
-        }
-
-        [Browsable(false)]
-        public ColorX ThemeColor
-        {
-            get
-            {
-                return _ThemeColor;
-            }
-
-            set
-            {
-                _ThemeColor = value;
-
-                _UpdateColor();
-            }
-        }
-
         public bool IsDarkTheme
         {
             get
@@ -188,6 +167,21 @@ namespace TreeOfLife
             set
             {
                 _DarkTheme = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public ColorX ThemeColor
+        {
+            get
+            {
+                return _ThemeColor;
+            }
+
+            set
+            {
+                _ThemeColor = value;
 
                 _UpdateColor();
             }
