@@ -87,10 +87,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             var children = _CurrentTaxon.GetNamedChildren(true);
 
-            if (children.Count > 0)
-            {
-                Common.UpdateChildren(taxonNameButtonGroup_Children, children);
-            }
+            Common.UpdateChildren(taxonNameButtonGroup_Children, children);
         }
 
         // 更新可见性。
@@ -130,15 +127,14 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
+                _IsDarkTheme = value;
 
-                    taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
-                    taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
+                tagGroup_Tags.IsDarkTheme = _IsDarkTheme;
+                tagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
 
-                    ViewModel.IsDarkTheme = _IsDarkTheme;
-                }
+                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

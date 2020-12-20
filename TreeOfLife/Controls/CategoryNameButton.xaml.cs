@@ -41,7 +41,7 @@ namespace TreeOfLife.Controls
         private bool _Checked = false; // 是否处于已选择状态。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
-        private bool _DarkTheme = false; // 是否为暗色主题。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
 
@@ -84,9 +84,9 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToWpfColor());
+        private Color _CategoryNameForeColor => (_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToWpfColor();
+        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor();
 
         //
 
@@ -140,21 +140,6 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public bool IsDarkTheme
-        {
-            get
-            {
-                return _DarkTheme;
-            }
-
-            set
-            {
-                _DarkTheme = value;
-
-                _UpdateColor();
-            }
-        }
-
         public ColorX ThemeColor
         {
             get
@@ -165,6 +150,21 @@ namespace TreeOfLife.Controls
             set
             {
                 _ThemeColor = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get
+            {
+                return _IsDarkTheme;
+            }
+
+            set
+            {
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }

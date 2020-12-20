@@ -83,6 +83,21 @@ namespace TreeOfLife.Packaging
             }
         }
 
+        public long PackageSize
+        {
+            get
+            {
+                if (Directory.Exists(_PackageDir))
+                {
+                    return _GetDirSize(new DirectoryInfo(_PackageDir));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public PackageVersion Version => _Version;
 
         public PackageInfo Info => _Info;
@@ -160,6 +175,28 @@ namespace TreeOfLife.Packaging
             string jsonText = JsonSerializer.Serialize(fileInfo, options);
 
             File.WriteAllText(fileName, jsonText);
+        }
+
+        // 获取目录大小。
+        private static long _GetDirSize(DirectoryInfo dirInfo)
+        {
+            long size = 0;
+
+            FileInfo[] fileInfos = dirInfo.GetFiles();
+
+            foreach (var fi in fileInfos)
+            {
+                size += fi.Length;
+            }
+
+            DirectoryInfo[] dirInfos = dirInfo.GetDirectories();
+
+            foreach (var di in dirInfos)
+            {
+                size += _GetDirSize(di);
+            }
+
+            return size;
         }
 
         //

@@ -33,6 +33,8 @@ namespace TreeOfLife.Phylogeny
 
         public static string FileName => (_Package?.FileName);
 
+        public static long FileSize => (_Package.PackageSize);
+
         public static DateTime CreationTime => _Package.Info.CreationTime;
 
         public static DateTime ModificationTime => _Package.Info.ModificationTime;

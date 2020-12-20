@@ -14,6 +14,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.ComponentModel;
+using System.IO;
+using System.Windows.Media;
+
+using TreeOfLife.Phylogeny;
 
 namespace TreeOfLife.Views.File
 {
@@ -36,12 +40,42 @@ namespace TreeOfLife.Views.File
 
         #region 文件信息
 
-        private DateTime _CreationTime; // 创建时间。
-        private string _CreationTimeString; // 创建时间。
-        private DateTime _ModificationTime; // 修改时间。
-        private string _ModificationTimeString; // 修改时间。
+        private string _FileName; // 文件名。
+        private string _FileSize; // 文件大小。
+        private string _CreationTime; // 创建时间。
+        private string _ModificationTime; // 修改时间。
 
-        public DateTime CreationTime
+        public string FileName
+        {
+            get => _FileName;
+
+            set
+            {
+                if (_FileName != value)
+                {
+                    _FileName = value;
+
+                    NotifyPropertyChanged(nameof(FileName));
+                }
+            }
+        }
+
+        public string FileSize
+        {
+            get => _FileSize;
+
+            set
+            {
+                if (_FileSize != value)
+                {
+                    _FileSize = value;
+
+                    NotifyPropertyChanged(nameof(FileSize));
+                }
+            }
+        }
+
+        public string CreationTime
         {
             get => _CreationTime;
 
@@ -51,34 +85,12 @@ namespace TreeOfLife.Views.File
                 {
                     _CreationTime = value;
 
-                    if (_CreationTime == DateTime.MinValue)
-                    {
-                        CreationTimeString = string.Empty;
-                    }
-                    else
-                    {
-                        CreationTimeString = string.Concat("创建时间: ", _CreationTime.ToLocalTime().ToLongDateString(), " ", _CreationTime.ToLocalTime().ToLongTimeString());
-                    }
+                    NotifyPropertyChanged(nameof(CreationTime));
                 }
             }
         }
 
-        public string CreationTimeString
-        {
-            get => _CreationTimeString;
-
-            set
-            {
-                if (_CreationTimeString != value)
-                {
-                    _CreationTimeString = value;
-
-                    NotifyPropertyChanged(nameof(CreationTimeString));
-                }
-            }
-        }
-
-        public DateTime ModificationTime
+        public string ModificationTime
         {
             get => _ModificationTime;
 
@@ -88,30 +100,55 @@ namespace TreeOfLife.Views.File
                 {
                     _ModificationTime = value;
 
-                    if (_ModificationTime == DateTime.MinValue)
-                    {
-                        ModificationTimeString = string.Empty;
-                    }
-                    else
-                    {
-                        ModificationTimeString = string.Concat("修改时间: ", _ModificationTime.ToLocalTime().ToLongDateString(), " ", _ModificationTime.ToLocalTime().ToLongTimeString());
-                    }
+                    NotifyPropertyChanged(nameof(ModificationTime));
                 }
             }
         }
 
-        public string ModificationTimeString
+        private string _GetSizeString(long size)
         {
-            get => _ModificationTimeString;
-
-            set
+            if (size <= 0)
             {
-                if (_ModificationTimeString != value)
-                {
-                    _ModificationTimeString = value;
+                return "0 B";
+            }
+            else
+            {
+                string s = size.ToString("N0") + " B";
 
-                    NotifyPropertyChanged(nameof(ModificationTimeString));
+                if (size < 1000L)
+                {
+                    return s;
                 }
+                else if (size < 1000L * 1024)
+                {
+                    return string.Concat((size / 1024.0).ToString("N0"), " KB (", s, ")");
+                }
+                else if (size < 1000L * 1024 * 1024)
+                {
+                    return string.Concat((size / 1024.0 / 1024.0).ToString("N0") + " MB (", s, ")");
+                }
+                else
+                {
+                    return string.Concat((size / 1024.0 / 1024.0 / 1024.0).ToString("N0") + " GB (", s, ")");
+                }
+            }
+        }
+
+        public void UpdateFileInfo()
+        {
+            if (string.IsNullOrWhiteSpace(Phylogenesis.FileName))
+            {
+                FileName = "(未保存)";
+                FileSize = "(未保存)";
+                CreationTime = "(未保存)";
+                ModificationTime = "(未保存)";
+            }
+            else
+            {
+                FileName = Path.GetFileNameWithoutExtension(Phylogenesis.FileName);
+                FileSize = _GetSizeString(Phylogenesis.FileSize);
+                CreationTime = string.Concat(Phylogenesis.CreationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.CreationTime.ToLocalTime().ToLongTimeString());
+                ModificationTime = string.Concat(Phylogenesis.ModificationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }
 
@@ -119,9 +156,9 @@ namespace TreeOfLife.Views.File
 
         #region 文件操作
 
-        public Func<bool> Open { get; set; }
-        public Func<bool> Save { get; set; }
-        public Func<bool> SaveAs { get; set; }
+        public Func<bool?> Open { get; set; }
+        public Func<bool?> Save { get; set; }
+        public Func<bool?> SaveAs { get; set; }
         public Func<bool> Close { get; set; }
         public Func<bool> TrySaveAndClose { get; set; }
 
@@ -133,9 +170,15 @@ namespace TreeOfLife.Views.File
 
         private bool _IsDarkTheme;
 
+        private Brush _SubTitle_ForeGround;
+        private Brush _SubTitle_BackGround;
+        private Brush _FileInfo_ForeGround;
+
         private void _UpdateColors()
         {
-
+            SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(208, 208, 208) : Color.FromRgb(48, 48, 48));
+            SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
+            FileInfo_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme
@@ -144,11 +187,53 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
+                _IsDarkTheme = value;
 
-                    _UpdateColors();
+                _UpdateColors();
+            }
+        }
+
+        public Brush SubTitle_ForeGround
+        {
+            get => _SubTitle_ForeGround;
+
+            set
+            {
+                if (_SubTitle_ForeGround != value)
+                {
+                    _SubTitle_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
+                }
+            }
+        }
+
+        public Brush SubTitle_BackGround
+        {
+            get => _SubTitle_BackGround;
+
+            set
+            {
+                if (_SubTitle_BackGround != value)
+                {
+                    _SubTitle_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
+                }
+            }
+        }
+
+        public Brush FileInfo_ForeGround
+        {
+            get => _FileInfo_ForeGround;
+
+            set
+            {
+                if (_FileInfo_ForeGround != value)
+                {
+                    _FileInfo_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(FileInfo_ForeGround));
                 }
             }
         }

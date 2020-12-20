@@ -31,6 +31,9 @@
     <Compile Update="Views\File\View_File.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Tree\View_Tree.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\CategorySelector.xaml">
@@ -58,6 +61,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\File\View_File.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Tree\View_Tree.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

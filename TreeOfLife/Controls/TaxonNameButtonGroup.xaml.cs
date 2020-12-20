@@ -38,8 +38,9 @@ namespace TreeOfLife.Controls
         private class _Group
         {
             private string _Name; // 组名称。
+
             private ColorX _ThemeColor; // 主题颜色。
-            private bool _DarkTheme = false; // 是否为暗色主题。
+            private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private Grid _GroupPanel = new Grid();
             private Label _NameLabel = new Label();
@@ -49,7 +50,7 @@ namespace TreeOfLife.Controls
             {
                 _Name = name;
                 _ThemeColor = themeColor;
-                _DarkTheme = isDarkTheme;
+                _IsDarkTheme = isDarkTheme;
 
                 _GroupPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _GroupPanel.VerticalAlignment = VerticalAlignment.Top;
@@ -97,12 +98,12 @@ namespace TreeOfLife.Controls
             {
                 get
                 {
-                    return _DarkTheme;
+                    return _IsDarkTheme;
                 }
 
                 set
                 {
-                    _DarkTheme = value;
+                    _IsDarkTheme = value;
 
                     UpdateColor();
                 }
@@ -136,12 +137,12 @@ namespace TreeOfLife.Controls
 
             public void UpdateColor()
             {
-                _NameLabel.SetForeColor(_DarkTheme ? Colors.Black : Colors.White);
+                _NameLabel.SetForeColor(_IsDarkTheme ? Colors.Black : Colors.White);
                 _NameLabel.SetBackColor(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in _Buttons)
                 {
-                    button.IsDarkTheme = _DarkTheme;
+                    button.IsDarkTheme = _IsDarkTheme;
                     button.ThemeColor = _ThemeColor;
                 }
             }
@@ -220,7 +221,7 @@ namespace TreeOfLife.Controls
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
         private double _ButtonHeight = 22; // 按钮高度。
         private Thickness _ButtonMargin = new Thickness(4, 1, 0, 1); // 按钮外边距。
-        private bool _DarkTheme = false; // 是否为暗色主题。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private bool _Editing = false; // 是否正在编辑。
 
@@ -255,7 +256,7 @@ namespace TreeOfLife.Controls
         {
             foreach (var group in _Groups)
             {
-                group.IsDarkTheme = _DarkTheme;
+                group.IsDarkTheme = _IsDarkTheme;
                 group.UpdateColor();
             }
         }
@@ -381,12 +382,12 @@ namespace TreeOfLife.Controls
         {
             get
             {
-                return _DarkTheme;
+                return _IsDarkTheme;
             }
 
             set
             {
-                _DarkTheme = value;
+                _IsDarkTheme = value;
 
                 if (!_Editing)
                 {
@@ -419,7 +420,7 @@ namespace TreeOfLife.Controls
 
             //
 
-            _Groups.Insert(groupIndex, new _Group(name, color, _DarkTheme));
+            _Groups.Insert(groupIndex, new _Group(name, color, _IsDarkTheme));
         }
 
         // 添加一个组。
@@ -432,7 +433,7 @@ namespace TreeOfLife.Controls
 
             //
 
-            _Groups.Add(new _Group(name, color, _DarkTheme));
+            _Groups.Add(new _Group(name, color, _IsDarkTheme));
         }
 
         // 删除一个组。

@@ -1,4 +1,4 @@
-﻿<Window x:Class="TreeOfLife.MainWindow"
+﻿<Window xmlns:Tree="clr-namespace:TreeOfLife.Views.Tree"  x:Class="TreeOfLife.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,20 +9,23 @@
         xmlns:File="clr-namespace:TreeOfLife.Views.File"
         mc:Ignorable="d"
         Title="Tree of Life" Height="600" Width="1200">
+    <Window.DataContext>
+        <local:ViewModel_MainWindow/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="480"/>
         </Grid.ColumnDefinitions>
-        <Grid RenderTransformOrigin="0.5,0.5">
-            <TextBox x:Name="textBox_EvoTree" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" />
+        <Grid>
+            <Tree:View_Tree x:Name="view_Tree" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
-            <Grid>
+            <Grid Background="{Binding Pages_BackGround}">
                 <Grid x:Name="grid_File">
                     <File:View_File x:Name="view_File" Margin="25,0,25,0"/>
                 </Grid>
@@ -33,7 +36,7 @@
                 <Grid x:Name="grid_Search"/>
                 <Grid x:Name="grid_About"/>
             </Grid>
-            <StackPanel Grid.Column="1" Background="Silver">
+            <StackPanel Grid.Column="1" Background="{Binding PagesSide_BackGround}">
                 <Button x:Name="button_File" VerticalAlignment="Top" Content="文&#xD;&#xA;件" Padding="0,6,0,6" />
                 <Button x:Name="button_Evo" VerticalAlignment="Top" Content="分&#xD;&#xA;类&#xD;&#xA;学" Padding="0,6,0,6" />
                 <Button x:Name="button_Search" VerticalAlignment="Top" Content="搜&#xD;&#xA;索" Padding="0,6,0,6" />

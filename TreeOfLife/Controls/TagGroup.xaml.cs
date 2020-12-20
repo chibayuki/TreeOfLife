@@ -36,7 +36,7 @@ namespace TreeOfLife.Controls
         private Thickness _TagMargin = new Thickness(2); // 标签外边距。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
-        private bool _DarkTheme = false; // 是否为暗色主题。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
 
@@ -70,6 +70,7 @@ namespace TreeOfLife.Controls
         {
             foreach (var tag in _TagLabels)
             {
+                tag.IsDarkTheme = _IsDarkTheme;
                 tag.ThemeColor = _ThemeColor;
             }
         }
@@ -121,12 +122,12 @@ namespace TreeOfLife.Controls
         {
             get
             {
-                return _DarkTheme;
+                return _IsDarkTheme;
             }
 
             set
             {
-                _DarkTheme = value;
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }

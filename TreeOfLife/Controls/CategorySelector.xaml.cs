@@ -36,7 +36,7 @@ namespace TreeOfLife.Controls
     {
         private class _Group
         {
-            private bool _DarkTheme = false; // 是否为暗色主题。
+            private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private WrapPanel _GroupPanel = new WrapPanel();
             private List<CategoryNameButton> _Buttons = new List<CategoryNameButton>();
@@ -57,7 +57,7 @@ namespace TreeOfLife.Controls
 
             public _Group(bool isDarkTheme)
             {
-                _DarkTheme = isDarkTheme;
+                _IsDarkTheme = isDarkTheme;
 
                 _GroupPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _GroupPanel.VerticalAlignment = VerticalAlignment.Top;
@@ -67,12 +67,12 @@ namespace TreeOfLife.Controls
             {
                 get
                 {
-                    return _DarkTheme;
+                    return _IsDarkTheme;
                 }
 
                 set
                 {
-                    _DarkTheme = value;
+                    _IsDarkTheme = value;
 
                     UpdateColor();
                 }
@@ -97,7 +97,7 @@ namespace TreeOfLife.Controls
             {
                 foreach (var button in _Buttons)
                 {
-                    button.IsDarkTheme = _DarkTheme;
+                    button.IsDarkTheme = _IsDarkTheme;
                 }
             }
 
@@ -152,7 +152,7 @@ namespace TreeOfLife.Controls
         private Thickness _ButtonMargin = new Thickness(3); // 按钮外边距。
         private Thickness _GroupMargin = new Thickness(0, 6, 0, 6); // 组外边距。
 
-        private bool _DarkTheme = false; // 是否为暗色主题。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 当前选择的分类阶元。
 
@@ -180,7 +180,7 @@ namespace TreeOfLife.Controls
 
         private void _InitLevel1()
         {
-            _Level1Group = new _Group(_DarkTheme);
+            _Level1Group = new _Group(_IsDarkTheme);
 
             _Level1Group.GroupPanel.Visibility = Visibility.Visible;
 
@@ -231,7 +231,7 @@ namespace TreeOfLife.Controls
 
         private void _InitLevel2()
         {
-            _Group primaryGroup = new _Group(_DarkTheme);
+            _Group primaryGroup = new _Group(_IsDarkTheme);
 
             primaryGroup.GroupPanel.Visibility = Visibility.Collapsed;
 
@@ -268,7 +268,7 @@ namespace TreeOfLife.Controls
 
             //
 
-            _Group secondaryGroup = new _Group(_DarkTheme);
+            _Group secondaryGroup = new _Group(_IsDarkTheme);
 
             secondaryGroup.GroupPanel.Visibility = Visibility.Collapsed;
 
@@ -309,7 +309,7 @@ namespace TreeOfLife.Controls
             {
                 foreach (var button2 in group2.Buttons)
                 {
-                    _Group group3 = new _Group(_DarkTheme);
+                    _Group group3 = new _Group(_IsDarkTheme);
 
                     group3.GroupPanel.Visibility = Visibility.Collapsed;
 
@@ -521,18 +521,18 @@ namespace TreeOfLife.Controls
 
         private void _UpdateColor()
         {
-            _Level1Group.IsDarkTheme = _DarkTheme;
+            _Level1Group.IsDarkTheme = _IsDarkTheme;
             _Level1Group.UpdateColor();
 
             foreach (var group in _Level2Groups.Values)
             {
-                group.IsDarkTheme = _DarkTheme;
+                group.IsDarkTheme = _IsDarkTheme;
                 group.UpdateColor();
             }
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.IsDarkTheme = _DarkTheme;
+                group.IsDarkTheme = _IsDarkTheme;
                 group.UpdateColor();
             }
         }
@@ -550,22 +550,6 @@ namespace TreeOfLife.Controls
             {
                 group.UpdateLayout(_GroupMargin, _ButtonMargin);
             }
-        }
-
-        private void _UpdateGroupSeparatorLine()
-        {
-            /*using (Graphics graphics = Panel_Main.CreateGraphics())
-            {
-                if (_CurrentLevel1Button != null && _CurrentLevel2Group != null)
-                {
-                    graphics.DrawLine(new Pen(_CurrentLevel1Button.ThemeColor.ToColor(), 1F), new Point(0, grid_Level1.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, grid_Level1.Bottom + _GroupPadding.Bottom));
-                }
-
-                if (_CurrentLevel2Button != null && _CurrentLevel3Group != null)
-                {
-                    graphics.DrawLine(new Pen(_CurrentLevel2Button.ThemeColor.ToColor(), 1F), new Point(0, grid_Level2.Bottom + _GroupPadding.Bottom), new Point(Panel_Main.Width, grid_Level2.Bottom + _GroupPadding.Bottom));
-                }
-            }*/
         }
 
         private void _UpdateCategory()
@@ -638,10 +622,6 @@ namespace TreeOfLife.Controls
             //
 
             _UpdateLayout();
-
-            //
-
-            _UpdateGroupSeparatorLine();
         }
 
         private void _UpdateCategoryAndOnMouseLeftButtonUp(TaxonomicCategory category, MouseButtonEventArgs e)
@@ -767,12 +747,12 @@ namespace TreeOfLife.Controls
         {
             get
             {
-                return _DarkTheme;
+                return _IsDarkTheme;
             }
 
             set
             {
-                _DarkTheme = value;
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }

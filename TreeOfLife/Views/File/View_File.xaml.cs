@@ -24,8 +24,6 @@ using System.Windows.Shapes;
 
 using System.Reflection;
 
-using TreeOfLife.Phylogeny;
-
 namespace TreeOfLife.Views.File
 {
     /// <summary>
@@ -43,6 +41,8 @@ namespace TreeOfLife.Views.File
 
             //
 
+            this.Loaded += (s, e) => ViewModel.UpdateFileInfo();
+
             button_Open.Click += Button_Open_Click;
             button_Save.Click += Button_Save_Click;
             button_SaveAs.Click += Button_SaveAs_Click;
@@ -55,45 +55,57 @@ namespace TreeOfLife.Views.File
         {
             if (ViewModel.TrySaveAndClose())
             {
-                ViewModel.CreationTime = DateTime.MinValue;
-                ViewModel.ModificationTime = DateTime.MinValue;
+                ViewModel.UpdateFileInfo();
 
-                if (ViewModel.Open())
-                {
-                    ViewModel.CreationTime = Phylogenesis.CreationTime;
-                    ViewModel.ModificationTime = Phylogenesis.ModificationTime;
+                bool? open = ViewModel.Open();
 
-                    ViewModel.OpenDone();
-                }
-                else
+                if (open.HasValue)
                 {
-                    MessageBox.Show("打开失败。", _AppName, MessageBoxButton.OK);
+                    if (open.Value)
+                    {
+                        ViewModel.UpdateFileInfo();
+
+                        ViewModel.OpenDone();
+                    }
+                    else
+                    {
+                        MessageBox.Show("打开失败。", _AppName, MessageBoxButton.OK);
+                    }
                 }
             }
         }
 
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.Save())
+            bool? save = ViewModel.Save();
+
+            if (save.HasValue)
             {
-                ViewModel.ModificationTime = Phylogenesis.ModificationTime;
-            }
-            else
-            {
-                MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                if (save.Value)
+                {
+                    ViewModel.UpdateFileInfo();
+                }
+                else
+                {
+                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                }
             }
         }
 
         private void Button_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.SaveAs())
+            bool? saveAs = ViewModel.SaveAs();
+
+            if (saveAs.HasValue)
             {
-                ViewModel.CreationTime = Phylogenesis.CreationTime;
-                ViewModel.ModificationTime = Phylogenesis.ModificationTime;
-            }
-            else
-            {
-                MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                if (saveAs.Value)
+                {
+                    ViewModel.UpdateFileInfo();
+                }
+                else
+                {
+                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                }
             }
         }
 
@@ -101,8 +113,7 @@ namespace TreeOfLife.Views.File
         {
             if (ViewModel.TrySaveAndClose())
             {
-                ViewModel.CreationTime = DateTime.MinValue;
-                ViewModel.ModificationTime = DateTime.MinValue;
+                ViewModel.UpdateFileInfo();
             }
         }
 
@@ -122,12 +133,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
+                _IsDarkTheme = value;
 
-                    ViewModel.IsDarkTheme = _IsDarkTheme;
-                }
+                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

@@ -72,19 +72,19 @@ namespace TreeOfLife.Views.Evo.EditMode
             MenuItem item_Children_Select = new MenuItem() { Header = "选择" };
             item_Children_Select.Click += (s, e) => _SelectedTaxon = Common.RightButtonTaxon;
             MenuItem item_Children_SetParent = new MenuItem() { Header = "继承选择的类群" };
-            item_Children_SetParent.Click += (s, e) => { Common.RightButtonTaxon?.SetParent(_SelectedTaxon); _UpdateParents(); _UpdateChildren(); };
+            item_Children_SetParent.Click += (s, e) => { Common.RightButtonTaxon?.SetParent(_SelectedTaxon); _UpdateParents(); _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
-            item_Children_MoveTop.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, 0); _UpdateChildren(); };
+            item_Children_MoveTop.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, 0); _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
-            item_Children_MoveUp.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1); _UpdateChildren(); };
+            item_Children_MoveUp.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1); _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
-            item_Children_MoveDown.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1); _UpdateChildren(); };
+            item_Children_MoveDown.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1); _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
-            item_Children_MoveBottom.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1); _UpdateChildren(); };
+            item_Children_MoveBottom.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1); _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
-            item_Children_DeleteWithoutChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(false); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildren(); };
+            item_Children_DeleteWithoutChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(false); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
-            item_Children_DeleteWithinChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(true); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildren(); };
+            item_Children_DeleteWithinChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(true); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
 
             Action updateMenuItems_Children = () =>
             {
@@ -176,7 +176,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            _UpdateChildren();
+            _UpdateChildrenWithVisibility();
         }
 
         private void Button_AddChildren_Click(object sender, RoutedEventArgs e)
@@ -194,7 +194,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            _UpdateChildren();
+            _UpdateChildrenWithVisibility();
         }
 
         //
@@ -238,10 +238,17 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             var children = _CurrentTaxon.Children;
 
-            if (children.Count > 0)
-            {
-                Common.UpdateChildren(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
-            }
+            Common.UpdateChildren(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
+
+            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+        }
+
+        // 更新子类群及其可见性。
+        private void _UpdateChildrenWithVisibility()
+        {
+            _UpdateChildren();
+
+            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
         // 更新可见性。
@@ -265,6 +272,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             ViewModel.UpdateFromTaxon(taxon);
 
             categorySelector.Category = ViewModel.Category;
+            textBox_Parent.Clear();
+            textBox_Children.Clear();
 
             _UpdateParents();
             _UpdateChildren();
@@ -283,16 +292,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
+                _IsDarkTheme = value;
 
-                    categorySelector.IsDarkTheme = _IsDarkTheme;
-                    taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
-                    taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
+                categorySelector.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
 
-                    ViewModel.IsDarkTheme = _IsDarkTheme;
-                }
+                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

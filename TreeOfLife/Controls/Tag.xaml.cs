@@ -36,7 +36,7 @@ namespace TreeOfLife.Controls
         private string _Text = string.Empty; // 文本。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
-        private bool _DarkTheme = false; // 是否为暗色主题。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
 
@@ -79,9 +79,9 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Color _CategoryNameForeColor => _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToWpfColor();
+        private Color _CategoryNameForeColor => _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor();
 
-        private Color _CategoryNameBackColor => _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90).ToWpfColor();
+        private Color _CategoryNameBackColor => _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor();
 
         //
 
@@ -104,12 +104,12 @@ namespace TreeOfLife.Controls
         {
             get
             {
-                return _DarkTheme;
+                return _IsDarkTheme;
             }
 
             set
             {
-                _DarkTheme = value;
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }

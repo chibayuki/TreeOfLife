@@ -75,6 +75,10 @@ namespace TreeOfLife
                 //
 
                 _SelectPage(Pages.File);
+
+                //
+
+                IsDarkTheme = true;
             };
 
             this.Closing += (s, e) =>
@@ -91,28 +95,11 @@ namespace TreeOfLife
             button_About.Click += (s, e) => _SelectPage(Pages.About);
         }
 
-        #region 主题
+        //
 
-        private bool _IsDarkTheme = false;
+        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
 
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
-
-                    view_File.IsDarkTheme = _IsDarkTheme;
-                    view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;
-                    view_Evo_EditMode.IsDarkTheme = _IsDarkTheme;
-                }
-            }
-        }
-
-        #endregion
+        //
 
         #region 页面切换
 
@@ -136,6 +123,11 @@ namespace TreeOfLife
                 grid_Evo.Visibility = (_CurrentPage.Value == Pages.Evo ? Visibility.Visible : Visibility.Collapsed);
                 grid_Search.Visibility = (_CurrentPage.Value == Pages.Search ? Visibility.Visible : Visibility.Collapsed);
                 grid_About.Visibility = (_CurrentPage.Value == Pages.About ? Visibility.Visible : Visibility.Collapsed);
+
+                if (_CurrentPage.Value == Pages.Evo)
+                {
+                    _SetEditMode(false);
+                }
             }
         }
 
@@ -148,9 +140,9 @@ namespace TreeOfLife
 
         private bool _Saved = false;
 
-        private bool _Open()
+        private bool? _Open()
         {
-            bool result = true;
+            bool? result = null;
 
             bool? r = _OpenFileDialog.ShowDialog();
 
@@ -159,11 +151,11 @@ namespace TreeOfLife
                 result = Phylogenesis.Open(_OpenFileDialog.FileName);
             }
 
-            if (result)
+            if (result.HasValue && result.Value)
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
                 _SetEditMode(false);
-                _UpdatePhylogeneticTree();
+                _UpdateTree();
 
                 _Saved = true;
             }
@@ -171,9 +163,9 @@ namespace TreeOfLife
             return result;
         }
 
-        private bool _Save()
+        private bool? _Save()
         {
-            bool result = true;
+            bool? result = null;
 
             if (!string.IsNullOrEmpty(Phylogenesis.FileName))
             {
@@ -199,7 +191,7 @@ namespace TreeOfLife
                 }
             }
 
-            if (result)
+            if (result.HasValue && result.Value)
             {
                 _Saved = true;
             }
@@ -207,9 +199,9 @@ namespace TreeOfLife
             return result;
         }
 
-        private bool _SaveAs()
+        private bool? _SaveAs()
         {
-            bool result = true;
+            bool? result = null;
 
             bool? r = _SaveFileDialog.ShowDialog();
 
@@ -223,7 +215,7 @@ namespace TreeOfLife
                 result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
             }
 
-            if (result)
+            if (result.HasValue && result.Value)
             {
                 _Saved = true;
             }
@@ -241,7 +233,7 @@ namespace TreeOfLife
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
                 _SetEditMode(false);
-                _UpdatePhylogeneticTree();
+                _UpdateTree();
 
                 _Saved = false;
             }
@@ -270,31 +262,42 @@ namespace TreeOfLife
             }
             else
             {
-                MessageBoxResult r = MessageBox.Show("是否保存?", _AppName, MessageBoxButton.YesNoCancel);
+                MessageBoxResult r = MessageBox.Show("是否保存？", _AppName, MessageBoxButton.YesNoCancel);
 
                 switch (r)
                 {
                     case MessageBoxResult.Cancel: return false;
 
                     case MessageBoxResult.Yes:
-                        if (_Save())
                         {
-                            if (_Close())
+                            bool? save = _Save();
+
+                            if (save.HasValue)
                             {
-                                return true;
+                                if (save.Value)
+                                {
+                                    if (_Close())
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+
+                                    return false;
+                                }
                             }
                             else
                             {
-                                MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
-
                                 return false;
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
-
-                            return false;
                         }
 
                     case MessageBoxResult.No:
@@ -365,7 +368,7 @@ namespace TreeOfLife
 
                 if (!_EditMode.Value)
                 {
-                    _UpdatePhylogeneticTree();
+                    _UpdateTree();
                 }
             }
         }
@@ -395,75 +398,33 @@ namespace TreeOfLife
 
         #region 系统发生树（临时）
 
-        private void _RecursiveFillStringBuilder(StringBuilder sb, Taxon taxon)
+        // 更新系统发生树。
+        private void _UpdateTree()
         {
-            if (sb == null || taxon == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            //
-
-            foreach (var child in taxon.Children)
-            {
-                char[] ch = new char[child.Level * 2];
-
-                for (int i = 0; i < ch.Length; i++)
-                {
-                    ch[i] = '　';
-                }
-
-                int chIndex = ch.Length - 2;
-
-                if (child.Index < child.Parent.Children.Count - 1)
-                {
-                    ch[chIndex] = '├';
-                }
-                else
-                {
-                    ch[chIndex] = '└';
-                }
-
-                chIndex -= 2;
-
-                Taxon t = child.Parent;
-
-                while (t.Parent != null)
-                {
-                    if (t.Index < t.Parent.Children.Count - 1)
-                    {
-                        ch[chIndex] = '│';
-                    }
-
-                    chIndex -= 2;
-                    t = t.Parent;
-                }
-
-                sb.Append(ch);
-
-                if (child.IsNamed())
-                {
-                    sb.AppendLine(child.LongName());
-                }
-                else
-                {
-                    sb.AppendLine("─");
-                }
-
-                _RecursiveFillStringBuilder(sb, child);
-            }
+            view_Tree.UpdateTree();
         }
 
-        // 更新系统发生树。
-        private void _UpdatePhylogeneticTree()
+        #endregion
+
+        #region 主题
+
+        private bool _IsDarkTheme = false;
+
+        public bool IsDarkTheme
         {
-            textBox_EvoTree.Clear();
+            get => _IsDarkTheme;
 
-            StringBuilder sb = new StringBuilder();
+            set
+            {
+                _IsDarkTheme = value;
 
-            _RecursiveFillStringBuilder(sb, Phylogenesis.Root);
+                view_File.IsDarkTheme = _IsDarkTheme;
+                view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;
+                view_Evo_EditMode.IsDarkTheme = _IsDarkTheme;
+                view_Tree.IsDarkTheme = _IsDarkTheme;
 
-            textBox_EvoTree.Text = sb.ToString();
+                ViewModel.IsDarkTheme = _IsDarkTheme;
+            }
         }
 
         #endregion

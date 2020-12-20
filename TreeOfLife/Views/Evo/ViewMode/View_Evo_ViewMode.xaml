@@ -15,7 +15,7 @@
             <RowDefinition Height="75"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Margin="25,25,25,0">
+        <Grid Margin="25,25,25,0" Background="{Binding CategoryName_BackGround}">
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.5"/>
             </Grid.Effect>
@@ -29,19 +29,19 @@
                     <Controls:TagGroup x:Name="tagGroup_Tags" />
                 </Grid>
                 <Grid x:Name="grid_Parents" Margin="0,25,0,0">
-                    <Label Content="科学分类" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Label Content="科学分类" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
-                    <Label Content="下属类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Label Content="下属类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
-                    <Label Content="异名" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="#FFD8D8D8" />
+                    <Label Content="异名" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TagGroup x:Name="tagGroup_Synonyms" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0,0,0,0" Text="{Binding Desc}" TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0,0,0,0" Text="{Binding Desc}" TextWrapping="Wrap" Foreground="{Binding Desc_BackGround}" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

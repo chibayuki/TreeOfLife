@@ -127,10 +127,13 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         private bool _IsDarkTheme;
 
-        private SolidColorBrush _CategoryName_ForeGround;
-        private SolidColorBrush _CategoryName_BackGround;
-        private SolidColorBrush _TaxonName_ForeGround;
-        private SolidColorBrush _TaxonName_BackGround;
+        private Brush _CategoryName_ForeGround;
+        private Brush _CategoryName_BackGround;
+        private Brush _TaxonName_ForeGround;
+        private Brush _TaxonName_BackGround;
+        private Brush _SubTitle_ForeGround;
+        private Brush _SubTitle_BackGround;
+        private Brush _Desc_BackGround;
 
         private void _UpdateColors()
         {
@@ -138,6 +141,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
             CategoryName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
             TaxonName_ForeGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
             TaxonName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+            SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(208, 208, 208) : Color.FromRgb(48, 48, 48));
+            SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
+            Desc_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public ColorX TaxonColor
@@ -161,16 +167,13 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_IsDarkTheme != value)
-                {
-                    _IsDarkTheme = value;
+                _IsDarkTheme = value;
 
-                    _UpdateColors();
-                }
+                _UpdateColors();
             }
         }
 
-        public SolidColorBrush CategoryName_ForeGround
+        public Brush CategoryName_ForeGround
         {
             get => _CategoryName_ForeGround;
 
@@ -185,7 +188,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
         }
 
-        public SolidColorBrush CategoryName_BackGround
+        public Brush CategoryName_BackGround
         {
             get => _CategoryName_BackGround;
 
@@ -200,7 +203,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
         }
 
-        public SolidColorBrush TaxonName_ForeGround
+        public Brush TaxonName_ForeGround
         {
             get => _TaxonName_ForeGround;
 
@@ -215,7 +218,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
         }
 
-        public SolidColorBrush TaxonName_BackGround
+        public Brush TaxonName_BackGround
         {
             get => _TaxonName_BackGround;
 
@@ -226,6 +229,51 @@ namespace TreeOfLife.Views.Evo.ViewMode
                     _TaxonName_BackGround = value;
 
                     NotifyPropertyChanged(nameof(TaxonName_BackGround));
+                }
+            }
+        }
+
+        public Brush SubTitle_ForeGround
+        {
+            get => _SubTitle_ForeGround;
+
+            set
+            {
+                if (_SubTitle_ForeGround != value)
+                {
+                    _SubTitle_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
+                }
+            }
+        }
+
+        public Brush SubTitle_BackGround
+        {
+            get => _SubTitle_BackGround;
+
+            set
+            {
+                if (_SubTitle_BackGround != value)
+                {
+                    _SubTitle_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
+                }
+            }
+        }
+
+        public Brush Desc_BackGround
+        {
+            get => _Desc_BackGround;
+
+            set
+            {
+                if (_Desc_BackGround != value)
+                {
+                    _Desc_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(Desc_BackGround));
                 }
             }
         }

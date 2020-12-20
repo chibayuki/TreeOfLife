@@ -41,8 +41,8 @@ namespace TreeOfLife.Controls
 
         private bool _Checked = false; // 是否处于已选择状态。
 
-        private bool _DarkTheme = false; // 是否为暗色主题。
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
 
@@ -91,13 +91,13 @@ namespace TreeOfLife.Controls
             label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 1, 1, 1);
         }
 
-        private Color _CategoryNameForeColor => (_Checked ? (_DarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_DarkTheme ? 40 : 60).ToWpfColor());
+        private Color _CategoryNameForeColor => (_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_DarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_DarkTheme ? 10 : 90)).ToWpfColor();
+        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor();
 
-        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_DarkTheme ? 60 : 40) : 50).ToWpfColor();
+        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor();
 
-        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_DarkTheme ? 10 : 90) : (_DarkTheme ? 3 : 97)).ToWpfColor();
+        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor();
 
         private void _UpdateColor()
         {
@@ -157,21 +157,6 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public bool IsDarkTheme
-        {
-            get
-            {
-                return _DarkTheme;
-            }
-
-            set
-            {
-                _DarkTheme = value;
-
-                _UpdateColor();
-            }
-        }
-
         public ColorX ThemeColor
         {
             get
@@ -182,6 +167,21 @@ namespace TreeOfLife.Controls
             set
             {
                 _ThemeColor = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get
+            {
+                return _IsDarkTheme;
+            }
+
+            set
+            {
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }
