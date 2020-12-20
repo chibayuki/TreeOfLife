@@ -10,7 +10,7 @@
 [![HitCount](http://hits.dwyl.io/chibayuki/TreeOfLife.svg)](http://hits.dwyl.io/chibayuki/TreeOfLife)
 [![Language](https://img.shields.io/badge/language-C%23-green.svg)](https://github.com/chibayuki/TreeOfLife)
 
-# 生命树 / Tree of Life
+# Tree of Life
 基于生物分类学的系统发生树编辑程序 / An app of editing phylogenetic tree based on biotaxonomy.
 
 ![ScreenShot](ScreenShot.png)
