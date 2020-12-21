@@ -63,28 +63,56 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private void _InitContextMenus()
         {
+            Thickness menuItemPadding = new Thickness(3, 6, 3, 6);
+            Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
+
             MenuItem item_Parent_Select = new MenuItem() { Header = "选择" };
             item_Parent_Select.Click += (s, e) => _SelectedTaxon = Common.RightButtonTaxon;
+            item_Parent_Select.Padding = menuItemPadding;
+            item_Parent_Select.Margin = menuItemMargin;
 
             _ContextMenu_Parent = new ContextMenu();
             _ContextMenu_Parent.Items.Add(item_Parent_Select);
 
             MenuItem item_Children_Select = new MenuItem() { Header = "选择" };
             item_Children_Select.Click += (s, e) => _SelectedTaxon = Common.RightButtonTaxon;
+            item_Children_Select.Padding = menuItemPadding;
+            item_Children_Select.Margin = menuItemMargin;
+
             MenuItem item_Children_SetParent = new MenuItem() { Header = "继承选择的类群" };
             item_Children_SetParent.Click += (s, e) => { Common.RightButtonTaxon?.SetParent(_SelectedTaxon); _UpdateParents(); _UpdateChildrenWithVisibility(); };
+            item_Children_SetParent.Padding = menuItemPadding;
+            item_Children_SetParent.Margin = menuItemMargin;
+
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
             item_Children_MoveTop.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, 0); _UpdateChildrenWithVisibility(); };
+            item_Children_MoveTop.Padding = menuItemPadding;
+            item_Children_MoveTop.Margin = menuItemMargin;
+
             MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
             item_Children_MoveUp.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1); _UpdateChildrenWithVisibility(); };
+            item_Children_MoveUp.Padding = menuItemPadding;
+            item_Children_MoveUp.Margin = menuItemMargin;
+
             MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
             item_Children_MoveDown.Click += (s, e) => { Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1); _UpdateChildrenWithVisibility(); };
+            item_Children_MoveDown.Padding = menuItemPadding;
+            item_Children_MoveDown.Margin = menuItemMargin;
+
             MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
             item_Children_MoveBottom.Click += (s, e) => { Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1); _UpdateChildrenWithVisibility(); };
+            item_Children_MoveBottom.Padding = menuItemPadding;
+            item_Children_MoveBottom.Margin = menuItemMargin;
+
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
             item_Children_DeleteWithoutChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(false); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
+            item_Children_DeleteWithoutChildren.Padding = menuItemPadding;
+            item_Children_DeleteWithoutChildren.Margin = menuItemMargin;
+
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
             item_Children_DeleteWithinChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(true); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
+            item_Children_DeleteWithinChildren.Padding = menuItemPadding;
+            item_Children_DeleteWithinChildren.Margin = menuItemMargin;
 
             Action updateMenuItems_Children = () =>
             {
@@ -136,10 +164,12 @@ namespace TreeOfLife.Views.Evo.EditMode
             _ContextMenu_Children = new ContextMenu();
             _ContextMenu_Children.Items.Add(item_Children_Select);
             _ContextMenu_Children.Items.Add(item_Children_SetParent);
+            _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_MoveTop);
             _ContextMenu_Children.Items.Add(item_Children_MoveUp);
             _ContextMenu_Children.Items.Add(item_Children_MoveDown);
             _ContextMenu_Children.Items.Add(item_Children_MoveBottom);
+            _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_DeleteWithoutChildren);
             _ContextMenu_Children.Items.Add(item_Children_DeleteWithinChildren);
             _ContextMenu_Children.DataContext = updateMenuItems_Children;

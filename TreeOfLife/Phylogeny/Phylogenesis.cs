@@ -21,23 +21,23 @@ namespace TreeOfLife.Phylogeny
     // 系统发生学。
     public static class Phylogenesis
     {
-        private static PhylogeneticTree _PhylogeneticTree = new PhylogeneticTree();
+        private static PhylogeneticTree _PhylogeneticTree = null;
 
         private static Package _Package = null;
 
         //
 
-        public static Taxon Root => _PhylogeneticTree.Root;
+        public static Taxon Root => _PhylogeneticTree?.Root;
 
-        public static bool IsEmpty => _PhylogeneticTree.Root.IsFinal;
+        public static bool IsEmpty => (_PhylogeneticTree == null ? true : _PhylogeneticTree.Root.IsFinal);
 
         public static string FileName => (_Package?.FileName);
 
-        public static long FileSize => (_Package.PackageSize);
+        public static long PackageSize => (_Package == null ? 0 : _Package.PackageSize);
 
-        public static DateTime CreationTime => _Package.Info.CreationTime;
+        public static DateTime CreationTime => (_Package == null ? DateTime.MinValue : _Package.Info.CreationTime);
 
-        public static DateTime ModificationTime => _Package.Info.ModificationTime;
+        public static DateTime ModificationTime => (_Package == null ? DateTime.MinValue : _Package.Info.ModificationTime);
 
         //
 

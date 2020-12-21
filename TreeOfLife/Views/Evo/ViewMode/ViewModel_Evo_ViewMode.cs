@@ -127,6 +127,8 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         private bool _IsDarkTheme;
 
+        private Brush _Button_ForeGround;
+        private Brush _Button_BackGround;
         private Brush _CategoryName_ForeGround;
         private Brush _CategoryName_BackGround;
         private Brush _TaxonName_ForeGround;
@@ -137,6 +139,8 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         private void _UpdateColors()
         {
+            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
             CategoryName_ForeGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
             CategoryName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
             TaxonName_ForeGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
@@ -170,6 +174,36 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 _IsDarkTheme = value;
 
                 _UpdateColors();
+            }
+        }
+
+        public Brush Button_ForeGround
+        {
+            get => _Button_ForeGround;
+
+            set
+            {
+                if (_Button_ForeGround != value)
+                {
+                    _Button_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_ForeGround));
+                }
+            }
+        }
+
+        public Brush Button_BackGround
+        {
+            get => _Button_BackGround;
+
+            set
+            {
+                if (_Button_BackGround != value)
+                {
+                    _Button_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_BackGround));
+                }
             }
         }
 

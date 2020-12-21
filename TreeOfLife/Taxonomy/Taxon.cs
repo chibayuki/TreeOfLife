@@ -27,7 +27,7 @@ namespace TreeOfLife.Taxonomy
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _Unsure = false; // 存疑。
+        private bool _IsUnsure = false; // 存疑。
 
         private Taxon _Parent = null; // 父类群。
         private List<Taxon> _Children = new List<Taxon>(); // 子类群。
@@ -77,10 +77,10 @@ namespace TreeOfLife.Taxonomy
             set => _IsExtinct = value;
         }
 
-        public bool Unsure
+        public bool IsUnsure
         {
-            get => _Unsure;
-            set => _Unsure = value;
+            get => _IsUnsure;
+            set => _IsUnsure = value;
         }
 
         public Taxon Parent => _Parent;

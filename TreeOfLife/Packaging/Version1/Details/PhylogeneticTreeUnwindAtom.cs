@@ -193,7 +193,7 @@ namespace TreeOfLife.Packaging.Version1.Details
         private TaxonomicCategory _Category; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _Unsure = false; // 存疑。
+        private bool _IsUnsure = false; // 存疑。
 
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
@@ -258,10 +258,10 @@ namespace TreeOfLife.Packaging.Version1.Details
         }
 
         [JsonPropertyName("Unsure")]
-        public int Unsure
+        public int IsUnsure
         {
-            get => Convert.ToInt32(_Unsure);
-            set => _Unsure = Convert.ToBoolean(value);
+            get => Convert.ToInt32(_IsUnsure);
+            set => _IsUnsure = Convert.ToBoolean(value);
         }
 
         [JsonIgnore]
@@ -336,7 +336,7 @@ namespace TreeOfLife.Packaging.Version1.Details
                 Category = _ConvertCategory(_Category),
 
                 IsExtinct = _IsExtinct,
-                Unsure = _Unsure
+                IsUnsure = _IsUnsure
             };
 
             taxon.Synonyms.AddRange(_Synonyms);
@@ -365,7 +365,7 @@ namespace TreeOfLife.Packaging.Version1.Details
                 _Category = _ConvertCategory(taxon.Category),
 
                 _IsExtinct = taxon.IsExtinct,
-                _Unsure = taxon.Unsure,
+                _IsUnsure = taxon.IsUnsure,
 
                 _Level = taxon.Level,
                 _Index = taxon.Index,

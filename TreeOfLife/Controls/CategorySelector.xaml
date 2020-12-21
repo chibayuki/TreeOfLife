@@ -9,8 +9,12 @@
     <Grid>
         <StackPanel>
             <Grid x:Name="grid_Level1" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-            <Grid x:Name="grid_Level2" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-            <Grid x:Name="grid_Level3" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+            <Grid x:Name="grid_Level2" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                <Label VerticalAlignment="Top" Height="2" Background="#7F808080" />
+            </Grid>
+            <Grid x:Name="grid_Level3" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                <Label VerticalAlignment="Top" Height="2" Background="#7F808080" />
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

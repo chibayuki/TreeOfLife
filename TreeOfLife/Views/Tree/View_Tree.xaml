@@ -10,7 +10,7 @@
         <local:ViewModel_Tree/>
     </UserControl.DataContext>
     <Grid>
-        <TextBox x:Name="textBox_EvoTree" Padding="3,3,3,3" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TreeText_BackGround}" Foreground="{Binding TreeText_ForeGround}" SelectionBrush="{Binding TreeText_Selection}" SelectionTextBrush="{Binding TreeText_SelectionText}" Text="{Binding TreeText}" />
+        <TextBox x:Name="textBox_EvoTree" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TreeText_BackGround}" Foreground="{Binding TreeText_ForeGround}" SelectionBrush="{Binding TreeText_Selection}" SelectionTextBrush="{Binding TreeText_SelectionText}" Text="{Binding TreeText}" />
 
     </Grid>
 </UserControl>

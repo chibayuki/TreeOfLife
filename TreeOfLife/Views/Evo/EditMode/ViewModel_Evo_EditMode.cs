@@ -52,7 +52,7 @@ namespace TreeOfLife.Views.Evo.EditMode
         private string _ChsName;
 
         private bool _IsExtinct;
-        private bool _Unsure;
+        private bool _IsUnsure;
 
         private TaxonomicCategory _Category;
 
@@ -82,9 +82,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
                     StringBuilder taxonName = new StringBuilder();
 
-                    if (_Unsure || _IsExtinct)
+                    if (_IsUnsure || _IsExtinct)
                     {
-                        if (_Unsure)
+                        if (_IsUnsure)
                         {
                             taxonName.Append('?');
                         }
@@ -202,17 +202,17 @@ namespace TreeOfLife.Views.Evo.EditMode
             }
         }
 
-        public bool Unsure
+        public bool IsUnsure
         {
-            get => _Unsure;
+            get => _IsUnsure;
 
             set
             {
-                if (_Unsure != value)
+                if (_IsUnsure != value)
                 {
-                    _Unsure = value;
+                    _IsUnsure = value;
 
-                    NotifyPropertyChanged(nameof(Unsure));
+                    NotifyPropertyChanged(nameof(IsUnsure));
 
                     _UpdateTitle();
                 }
@@ -292,7 +292,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             ChsName = _Taxon.ChineseName;
 
             IsExtinct = _Taxon.IsExtinct;
-            Unsure = _Taxon.Unsure;
+            IsUnsure = _Taxon.IsUnsure;
 
             Category = _Taxon.Category;
 
@@ -309,7 +309,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _Taxon.ChineseName = _ChsName;
 
                 _Taxon.IsExtinct = _IsExtinct;
-                _Taxon.Unsure = _Unsure;
+                _Taxon.IsUnsure = _IsUnsure;
 
                 _Taxon.Category = _Category;
 
@@ -329,6 +329,8 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private bool _IsDarkTheme;
 
+        private Brush _Button_ForeGround;
+        private Brush _Button_BackGround;
         private Brush _CategoryName_ForeGround;
         private Brush _CategoryName_BackGround;
         private Brush _TaxonName_ForeGround;
@@ -343,6 +345,8 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private void _UpdateColors()
         {
+            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
             CategoryName_ForeGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
             CategoryName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
             TaxonName_ForeGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
@@ -380,6 +384,36 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _IsDarkTheme = value;
 
                 _UpdateColors();
+            }
+        }
+
+        public Brush Button_ForeGround
+        {
+            get => _Button_ForeGround;
+
+            set
+            {
+                if (_Button_ForeGround != value)
+                {
+                    _Button_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_ForeGround));
+                }
+            }
+        }
+
+        public Brush Button_BackGround
+        {
+            get => _Button_BackGround;
+
+            set
+            {
+                if (_Button_BackGround != value)
+                {
+                    _Button_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_BackGround));
+                }
             }
         }
 

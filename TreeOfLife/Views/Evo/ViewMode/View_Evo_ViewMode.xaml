@@ -21,7 +21,7 @@
             </Grid.Effect>
             <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Margin="1,1,0,1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="79" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
             <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" Margin="80,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" />
-            <Button x:Name="button_Edit" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" />
+            <Button x:Name="button_Edit" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">

@@ -42,6 +42,7 @@ namespace TreeOfLife.Views.File
 
         private string _FileName; // 文件名。
         private string _FileSize; // 文件大小。
+        private string _PackageSize; // 包大小。
         private string _CreationTime; // 创建时间。
         private string _ModificationTime; // 修改时间。
 
@@ -71,6 +72,21 @@ namespace TreeOfLife.Views.File
                     _FileSize = value;
 
                     NotifyPropertyChanged(nameof(FileSize));
+                }
+            }
+        }
+
+        public string PackageSize
+        {
+            get => _PackageSize;
+
+            set
+            {
+                if (_PackageSize != value)
+                {
+                    _PackageSize = value;
+
+                    NotifyPropertyChanged(nameof(PackageSize));
                 }
             }
         }
@@ -119,35 +135,72 @@ namespace TreeOfLife.Views.File
                 {
                     return s;
                 }
-                else if (size < 1000L * 1024)
-                {
-                    return string.Concat((size / 1024.0).ToString("N0"), " KB (", s, ")");
-                }
-                else if (size < 1000L * 1024 * 1024)
-                {
-                    return string.Concat((size / 1024.0 / 1024.0).ToString("N0") + " MB (", s, ")");
-                }
                 else
                 {
-                    return string.Concat((size / 1024.0 / 1024.0 / 1024.0).ToString("N0") + " GB (", s, ")");
+                    double div = 1024;
+                    string unit;
+
+                    if (size < 1000 * div)
+                    {
+                        unit = "KB";
+                    }
+                    else
+                    {
+                        div *= 1024;
+
+                        if (size < 1000 * div)
+                        {
+                            unit = "MB";
+                        }
+                        else
+                        {
+                            div *= 1024;
+
+                            if (size < 1000 * div)
+                            {
+                                unit = "GB";
+                            }
+                            else
+                            {
+                                div *= 1024;
+                                unit = "TB";
+                            }
+                        }
+                    }
+
+                    double value = size / div;
+
+                    if (size < 10 * div)
+                    {
+                        return string.Concat(value.ToString("N2"), " ", unit, " (", s, ")");
+                    }
+                    else if (size < 100 * div)
+                    {
+                        return string.Concat(value.ToString("N1"), " ", unit, " (", s, ")");
+                    }
+                    else
+                    {
+                        return string.Concat(value.ToString("N0"), " ", unit, " (", s, ")");
+                    }
                 }
             }
         }
 
         public void UpdateFileInfo()
         {
+            PackageSize = _GetSizeString(Phylogenesis.PackageSize);
+            CreationTime = string.Concat(Phylogenesis.CreationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.CreationTime.ToLocalTime().ToLongTimeString());
+
             if (string.IsNullOrWhiteSpace(Phylogenesis.FileName))
             {
                 FileName = "(未保存)";
                 FileSize = "(未保存)";
-                CreationTime = "(未保存)";
                 ModificationTime = "(未保存)";
             }
             else
             {
                 FileName = Path.GetFileNameWithoutExtension(Phylogenesis.FileName);
-                FileSize = _GetSizeString(Phylogenesis.FileSize);
-                CreationTime = string.Concat(Phylogenesis.CreationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.CreationTime.ToLocalTime().ToLongTimeString());
+                FileSize = _GetSizeString(new FileInfo(Phylogenesis.FileName).Length);
                 ModificationTime = string.Concat(Phylogenesis.ModificationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }
@@ -159,7 +212,6 @@ namespace TreeOfLife.Views.File
         public Func<bool?> Open { get; set; }
         public Func<bool?> Save { get; set; }
         public Func<bool?> SaveAs { get; set; }
-        public Func<bool> Close { get; set; }
         public Func<bool> TrySaveAndClose { get; set; }
 
         public Action OpenDone { get; set; }
@@ -170,12 +222,16 @@ namespace TreeOfLife.Views.File
 
         private bool _IsDarkTheme;
 
+        private Brush _Button_ForeGround;
+        private Brush _Button_BackGround;
         private Brush _SubTitle_ForeGround;
         private Brush _SubTitle_BackGround;
         private Brush _FileInfo_ForeGround;
 
         private void _UpdateColors()
         {
+            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
             SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(208, 208, 208) : Color.FromRgb(48, 48, 48));
             SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
             FileInfo_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
@@ -190,6 +246,36 @@ namespace TreeOfLife.Views.File
                 _IsDarkTheme = value;
 
                 _UpdateColors();
+            }
+        }
+
+        public Brush Button_ForeGround
+        {
+            get => _Button_ForeGround;
+
+            set
+            {
+                if (_Button_ForeGround != value)
+                {
+                    _Button_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_ForeGround));
+                }
+            }
+        }
+
+        public Brush Button_BackGround
+        {
+            get => _Button_BackGround;
+
+            set
+            {
+                if (_Button_BackGround != value)
+                {
+                    _Button_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_BackGround));
+                }
             }
         }
 

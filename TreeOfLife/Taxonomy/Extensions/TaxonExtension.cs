@@ -57,9 +57,9 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.Unsure || taxon.IsExtinct)
+                if (taxon.IsUnsure || taxon.IsExtinct)
                 {
-                    if (taxon.Unsure)
+                    if (taxon.IsUnsure)
                     {
                         taxonName.Append('?');
                     }
@@ -109,9 +109,9 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.Unsure || taxon.IsExtinct)
+                if (taxon.IsUnsure || taxon.IsExtinct)
                 {
-                    if (taxon.Unsure)
+                    if (taxon.IsUnsure)
                     {
                         taxonName.Append('?');
                     }
@@ -156,7 +156,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                 if (chars.Contains('?'))
                 {
-                    taxon.Unsure = true;
+                    taxon.IsUnsure = true;
 
                     chars.RemoveAll((ch) => ch == '?');
                 }

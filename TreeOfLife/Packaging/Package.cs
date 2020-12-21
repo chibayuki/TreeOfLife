@@ -51,20 +51,31 @@ namespace TreeOfLife.Packaging
             _PackageContentDir = Path.Combine(_PackageDir, "data");
         }
 
+        private void _TryCreateDirs()
+        {
+            if (!Directory.Exists(_InfoDir))
+            {
+                Directory.CreateDirectory(_InfoDir);
+            }
+
+            if (!Directory.Exists(_PackageContentDir))
+            {
+                Directory.CreateDirectory(_PackageContentDir);
+            }
+        }
+
         //
 
         private Package()
         {
-            _Info = new PackageInfo(DateTime.UtcNow);
-        }
-
-        private Package(string fileName)
-        {
-            _FileName = fileName;
-
             _InitDirs();
 
             _Info = new PackageInfo(DateTime.UtcNow);
+        }
+
+        private Package(string fileName) : this()
+        {
+            _FileName = fileName;
         }
 
         //
@@ -76,8 +87,6 @@ namespace TreeOfLife.Packaging
             private set
             {
                 _FileName = value;
-
-                _InitDirs();
 
                 _Info.CreationTime = DateTime.UtcNow;
             }
@@ -234,13 +243,10 @@ namespace TreeOfLife.Packaging
 
             //
 
+            _TryCreateDirs();
+
             _Version = packageContent.Version;
             _WritePackageVersion(_VersionFileName, _Version);
-
-            if (!Directory.Exists(_InfoDir))
-            {
-                Directory.CreateDirectory(_InfoDir);
-            }
 
             _Info.ModificationTime = DateTime.UtcNow;
             _WritePackageInfo(_InfoFileName, _Info);

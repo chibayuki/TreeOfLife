@@ -33,7 +33,7 @@ namespace TreeOfLife.Controls
     {
         List<Tag> _TagLabels = new List<Tag>();
 
-        private Thickness _TagMargin = new Thickness(2); // 标签外边距。
+        private Thickness _TagMargin = new Thickness(4); // 标签外边距。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。

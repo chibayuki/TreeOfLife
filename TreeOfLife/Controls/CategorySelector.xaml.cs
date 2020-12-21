@@ -684,6 +684,12 @@ namespace TreeOfLife.Controls
                 if (_Level2Group != null)
                 {
                     _Level2Group.GroupPanel.Visibility = Visibility.Visible;
+
+                    grid_Level2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_Level2.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -707,6 +713,12 @@ namespace TreeOfLife.Controls
                 if (_Level3Group != null)
                 {
                     _Level3Group.GroupPanel.Visibility = Visibility.Visible;
+
+                    grid_Level3.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_Level3.Visibility = Visibility.Collapsed;
                 }
             }
         }

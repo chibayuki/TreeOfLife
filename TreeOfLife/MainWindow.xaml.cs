@@ -61,7 +61,6 @@ namespace TreeOfLife
             view_File.ViewModel.Open = _Open;
             view_File.ViewModel.Save = _Save;
             view_File.ViewModel.SaveAs = _SaveAs;
-            view_File.ViewModel.Close = _Close;
             view_File.ViewModel.TrySaveAndClose = _TrySaveAndClose;
             view_File.ViewModel.OpenDone = () => _SelectPage(Pages.Evo);
 
@@ -69,6 +68,8 @@ namespace TreeOfLife
 
             this.Loaded += (s, e) =>
             {
+                Phylogenesis.New();
+
                 _SetCurrentTaxon(Phylogenesis.Root);
                 _SetEditMode(false);
 
@@ -78,7 +79,7 @@ namespace TreeOfLife
 
                 //
 
-                IsDarkTheme = true;
+                IsDarkTheme = false;
             };
 
             this.Closing += (s, e) =>
