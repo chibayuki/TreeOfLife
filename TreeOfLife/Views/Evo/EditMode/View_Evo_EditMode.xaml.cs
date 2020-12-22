@@ -35,8 +35,6 @@ namespace TreeOfLife.Views.Evo.EditMode
         private ContextMenu _ContextMenu_Parent;
         private ContextMenu _ContextMenu_Children;
 
-        private Taxon _SelectedTaxon = null;
-
         //
 
         public View_Evo_EditMode()
@@ -67,7 +65,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
 
             MenuItem item_Parent_Select = new MenuItem() { Header = "选择" };
-            item_Parent_Select.Click += (s, e) => _SelectedTaxon = Common.RightButtonTaxon;
+            item_Parent_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
             item_Parent_Select.Padding = menuItemPadding;
             item_Parent_Select.Margin = menuItemMargin;
 
@@ -75,12 +73,12 @@ namespace TreeOfLife.Views.Evo.EditMode
             _ContextMenu_Parent.Items.Add(item_Parent_Select);
 
             MenuItem item_Children_Select = new MenuItem() { Header = "选择" };
-            item_Children_Select.Click += (s, e) => _SelectedTaxon = Common.RightButtonTaxon;
+            item_Children_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
             item_Children_Select.Padding = menuItemPadding;
             item_Children_Select.Margin = menuItemMargin;
 
             MenuItem item_Children_SetParent = new MenuItem() { Header = "继承选择的类群" };
-            item_Children_SetParent.Click += (s, e) => { Common.RightButtonTaxon?.SetParent(_SelectedTaxon); _UpdateParents(); _UpdateChildrenWithVisibility(); };
+            item_Children_SetParent.Click += (s, e) => { Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon); _UpdateParents(); _UpdateChildrenWithVisibility(); };
             item_Children_SetParent.Padding = menuItemPadding;
             item_Children_SetParent.Margin = menuItemMargin;
 
@@ -105,12 +103,12 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveBottom.Margin = menuItemMargin;
 
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
-            item_Children_DeleteWithoutChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(false); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
+            item_Children_DeleteWithoutChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(false); if (Common.SelectedTaxon == Common.RightButtonTaxon) { Common.SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
             item_Children_DeleteWithoutChildren.Padding = menuItemPadding;
             item_Children_DeleteWithoutChildren.Margin = menuItemMargin;
 
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
-            item_Children_DeleteWithinChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(true); if (_SelectedTaxon == Common.RightButtonTaxon) { _SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
+            item_Children_DeleteWithinChildren.Click += (s, e) => { Common.RightButtonTaxon?.RemoveCurrent(true); if (Common.SelectedTaxon == Common.RightButtonTaxon) { Common.SelectedTaxon = null; } Common.RightButtonTaxon = null; _UpdateChildrenWithVisibility(); };
             item_Children_DeleteWithinChildren.Padding = menuItemPadding;
             item_Children_DeleteWithinChildren.Margin = menuItemMargin;
 
@@ -118,33 +116,33 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                item_Children_SetParent.IsEnabled = (_SelectedTaxon != null && _SelectedTaxon != rightButtonTaxon.Parent && !_SelectedTaxon.InheritFrom(rightButtonTaxon));
+                item_Children_SetParent.IsEnabled = (Common.SelectedTaxon != null && Common.SelectedTaxon != rightButtonTaxon.Parent && !Common.SelectedTaxon.InheritFrom(rightButtonTaxon));
                 item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
                 item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
 
-                if (item_Children_SetParent.IsEnabled)
+                if (Common.SelectedTaxon == null)
                 {
-                    if (_SelectedTaxon.IsAnonymous())
-                    {
-                        item_Children_SetParent.Header = "继承选择的类群 (未命名)";
-                    }
-                    else
-                    {
-                        string taxonName = _SelectedTaxon.LongName();
-
-                        if (taxonName.Length > 16)
-                        {
-                            item_Children_SetParent.Header = string.Concat("继承选择的类群 (", taxonName.Substring(0, 16), "...)");
-                        }
-                        else
-                        {
-                            item_Children_SetParent.Header = string.Concat("继承选择的类群 (", taxonName, ")");
-                        }
-                    }
+                    item_Parent_Select.Header = item_Children_Select.Header = "选择";
                 }
                 else
                 {
-                    item_Children_SetParent.Header = "继承选择的类群";
+                    if (Common.SelectedTaxon.IsAnonymous())
+                    {
+                        item_Parent_Select.Header = item_Children_Select.Header = "选择 (已选择: \"(未命名)\")";
+                    }
+                    else
+                    {
+                        string taxonName = Common.SelectedTaxon.LongName();
+
+                        if (taxonName.Length > 32)
+                        {
+                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName.Substring(0, 32), "...\")");
+                        }
+                        else
+                        {
+                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName, "\")");
+                        }
+                    }
                 }
 
                 if (rightButtonTaxon.IsFinal)

@@ -27,7 +27,6 @@ using System.Reflection;
 
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Views;
 
 namespace TreeOfLife
 {
@@ -342,6 +341,11 @@ namespace TreeOfLife
         {
             if (!_EditMode.HasValue || _EditMode.Value != editMode)
             {
+                Views.Evo.Common.RightButtonTaxon = null;
+                Views.Evo.Common.SelectedTaxon = null;
+
+                //
+
                 if (_EditMode.HasValue && _EditMode.Value)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
@@ -419,7 +423,7 @@ namespace TreeOfLife
             {
                 _IsDarkTheme = value;
 
-                Common.IsDarkTheme = value;
+                Views.Common.IsDarkTheme = value;
 
                 view_File.IsDarkTheme = _IsDarkTheme;
                 view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;

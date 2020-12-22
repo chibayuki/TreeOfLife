@@ -32,6 +32,7 @@ namespace TreeOfLife.Views.Evo
         public static Action ExitEditMode { get; set; }
 
         public static Taxon RightButtonTaxon { get; set; }
+        public static Taxon SelectedTaxon { get; set; }
 
         //
 
