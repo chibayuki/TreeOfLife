@@ -46,7 +46,7 @@ namespace TreeOfLife
         private void _UpdateColors()
         {
             Pages_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
-            PagesSide_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            PagesSide_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
             PagesSide_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
         }
 

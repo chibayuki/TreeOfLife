@@ -27,7 +27,7 @@ using System.Reflection;
 
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
+using TreeOfLife.Views;
 
 namespace TreeOfLife
 {
@@ -418,6 +418,8 @@ namespace TreeOfLife
             set
             {
                 _IsDarkTheme = value;
+
+                Common.IsDarkTheme = value;
 
                 view_File.IsDarkTheme = _IsDarkTheme;
                 view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;

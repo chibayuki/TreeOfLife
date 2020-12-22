@@ -345,19 +345,19 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private void _UpdateColors()
         {
-            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
+            Button_ForeGround = Views.Common.Button_ForeGround;
+            Button_BackGround = Views.Common.Button_BackGround;
             CategoryName_ForeGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
             CategoryName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
             TaxonName_ForeGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
             TaxonName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
-            SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(208, 208, 208) : Color.FromRgb(48, 48, 48));
-            SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
-            TextBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-            TextBox_BackGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
-            TextBox_Selection = new SolidColorBrush(Color.FromRgb(0, 120, 215));
-            TextBox_SelectionText = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
-            CheckBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            SubTitle_ForeGround = Views.Common.SubTitle_ForeGround;
+            SubTitle_BackGround = Views.Common.SubTitle_BackGround;
+            TextBox_ForeGround = Views.Common.TextBox_ForeGround;
+            TextBox_BackGround = Views.Common.TextBox_BackGround;
+            TextBox_Selection = Views.Common.TextBox_Selection;
+            TextBox_SelectionText = Views.Common.TextBox_SelectionText;
+            CheckBox_ForeGround = Views.Common.CheckBox_ForeGround;
         }
 
         public ColorX TaxonColor

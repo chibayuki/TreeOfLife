@@ -17,11 +17,11 @@
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0" Background="{Binding CategoryName_BackGround}">
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.5"/>
+                <DropShadowEffect ShadowDepth="1" BlurRadius="10" Opacity="0.5" Direction="270"/>
             </Grid.Effect>
             <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Margin="1,1,0,1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="79" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
             <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" Margin="80,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" />
-            <Button x:Name="button_Back" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" />
+            <Button x:Name="button_Back" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
@@ -34,7 +34,7 @@
                 <Grid x:Name="grid_State" Margin="0,25,0,0">
                     <Label Content="状态" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <CheckBox Content="灭绝" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" />
-                    <CheckBox Content="存疑" HorizontalAlignment="Right" Margin="0,0,80,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" IsChecked="{Binding Unsure}" Foreground="{Binding CheckBox_ForeGround}" />
+                    <CheckBox Content="存疑" HorizontalAlignment="Right" Margin="0,0,80,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" />
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">
                     <Label Content="分级" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
@@ -59,8 +59,8 @@
                 <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
                     <Label Content="插入&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <TextBox x:Name="textBox_Parent" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="4" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-                    <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="80,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" />
-                    <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="30" Margin="0,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" />
+                    <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="80,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+                    <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="30" Margin="0,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Label Content="下级类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
@@ -69,7 +69,7 @@
                 <Grid Margin="0,25,0,0">
                     <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <TextBox x:Name="textBox_Children" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-                    <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="30" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" />
+                    <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="30" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

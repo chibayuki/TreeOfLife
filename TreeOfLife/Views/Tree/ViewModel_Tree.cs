@@ -132,17 +132,17 @@ namespace TreeOfLife.Views.Tree
 
         private bool _IsDarkTheme;
 
-        private Brush _TreeText_ForeGround;
-        private Brush _TreeText_BackGround;
-        private Brush _TreeText_Selection;
-        private Brush _TreeText_SelectionText;
+        private Brush _TextBox_ForeGround;
+        private Brush _TextBox_BackGround;
+        private Brush _TextBox_Selection;
+        private Brush _TextBox_SelectionText;
 
         private void _UpdateColors()
         {
-            TreeText_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-            TreeText_BackGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
-            TreeText_Selection = new SolidColorBrush(Color.FromRgb(0, 120, 215));
-            TreeText_SelectionText = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            TextBox_ForeGround = Common.TextBox_ForeGround;
+            TextBox_BackGround = Common.TextBox_BackGround;
+            TextBox_Selection = Common.TextBox_Selection;
+            TextBox_SelectionText = Common.TextBox_SelectionText;
         }
 
         public bool IsDarkTheme
@@ -157,62 +157,62 @@ namespace TreeOfLife.Views.Tree
             }
         }
 
-        public Brush TreeText_ForeGround
+        public Brush TextBox_ForeGround
         {
-            get => _TreeText_ForeGround;
+            get => _TextBox_ForeGround;
 
             set
             {
-                if (_TreeText_ForeGround != value)
+                if (_TextBox_ForeGround != value)
                 {
-                    _TreeText_ForeGround = value;
+                    _TextBox_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TreeText_ForeGround));
+                    NotifyPropertyChanged(nameof(TextBox_ForeGround));
                 }
             }
         }
 
-        public Brush TreeText_BackGround
+        public Brush TextBox_BackGround
         {
-            get => _TreeText_BackGround;
+            get => _TextBox_BackGround;
 
             set
             {
-                if (_TreeText_BackGround != value)
+                if (_TextBox_BackGround != value)
                 {
-                    _TreeText_BackGround = value;
+                    _TextBox_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TreeText_BackGround));
+                    NotifyPropertyChanged(nameof(TextBox_BackGround));
                 }
             }
         }
 
-        public Brush TreeText_Selection
+        public Brush TextBox_Selection
         {
-            get => _TreeText_Selection;
+            get => _TextBox_Selection;
 
             set
             {
-                if (_TreeText_Selection != value)
+                if (_TextBox_Selection != value)
                 {
-                    _TreeText_Selection = value;
+                    _TextBox_Selection = value;
 
-                    NotifyPropertyChanged(nameof(TreeText_Selection));
+                    NotifyPropertyChanged(nameof(TextBox_Selection));
                 }
             }
         }
 
-        public Brush TreeText_SelectionText
+        public Brush TextBox_SelectionText
         {
-            get => _TreeText_SelectionText;
+            get => _TextBox_SelectionText;
 
             set
             {
-                if (_TreeText_SelectionText != value)
+                if (_TextBox_SelectionText != value)
                 {
-                    _TreeText_SelectionText = value;
+                    _TextBox_SelectionText = value;
 
-                    NotifyPropertyChanged(nameof(TreeText_SelectionText));
+                    NotifyPropertyChanged(nameof(TextBox_SelectionText));
                 }
             }
         }

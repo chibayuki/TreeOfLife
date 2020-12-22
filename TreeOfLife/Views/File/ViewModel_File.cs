@@ -230,10 +230,10 @@ namespace TreeOfLife.Views.File
 
         private void _UpdateColors()
         {
-            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
-            SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(208, 208, 208) : Color.FromRgb(48, 48, 48));
-            SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
+            Button_ForeGround = Common.Button_ForeGround;
+            Button_BackGround = Common.Button_BackGround;
+            SubTitle_ForeGround = Common.SubTitle_ForeGround;
+            SubTitle_BackGround = Common.SubTitle_BackGround;
             FileInfo_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
