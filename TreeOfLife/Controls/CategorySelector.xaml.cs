@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.608.1000.M6.201219-0000
+Version 1.0.617.1000.M6.201225-2240
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,7 +45,7 @@ namespace TreeOfLife.Controls
             {
                 if (_Buttons.Count > 0)
                 {
-                    CategoryNameButton lastButton = _Buttons[_Buttons.Count - 1];
+                    CategoryNameButton lastButton = _Buttons[^1];
 
                     _GroupPanel.Height = lastButton.TranslatePoint(new Point(lastButton.Height, lastButton.Height), _GroupPanel).Y + lastButton.Margin.Bottom;
                 }

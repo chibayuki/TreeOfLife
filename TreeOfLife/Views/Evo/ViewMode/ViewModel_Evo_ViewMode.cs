@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.608.1000.M6.201219-0000
+Version 1.0.617.1000.M6.201225-2240
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -141,7 +141,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Button_ForeGround = Views.Common.Button_ForeGround;
             Button_BackGround = Views.Common.Button_BackGround;
-            CategoryName_ForeGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            CategoryName_ForeGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
             CategoryName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
             TaxonName_ForeGround = new SolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
             TaxonName_BackGround = new SolidColorBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());

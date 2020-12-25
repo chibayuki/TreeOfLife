@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.608.1000.M6.201219-0000
+Version 1.0.617.1000.M6.201225-2240
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,6 +27,7 @@ using System.Reflection;
 
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
+using TreeOfLife.Taxonomy.Extensions;
 
 namespace TreeOfLife
 {
@@ -341,11 +342,6 @@ namespace TreeOfLife
         {
             if (!_EditMode.HasValue || _EditMode.Value != editMode)
             {
-                Views.Evo.Common.RightButtonTaxon = null;
-                Views.Evo.Common.SelectedTaxon = null;
-
-                //
-
                 if (_EditMode.HasValue && _EditMode.Value)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
@@ -363,16 +359,36 @@ namespace TreeOfLife
                 if (_EditMode.Value)
                 {
                     _Saved = false;
+
+                    //
+
+                    _UpdateCurrentTaxonInfo();
                 }
-
-                //
-
-                _UpdateCurrentTaxonInfo();
-
-                //
-
-                if (!_EditMode.Value)
+                else
                 {
+                    Views.Evo.Common.RightButtonTaxon = null;
+                    Views.Evo.Common.SelectedTaxon = null;
+
+                    //
+
+                    if (!_CurrentTaxon.IsRoot && _CurrentTaxon.IsAnonymous())
+                    {
+                        Taxon parent = _CurrentTaxon.GetNamedParent();
+
+                        if (parent == null)
+                        {
+                            parent = _CurrentTaxon.Root;
+                        }
+
+                        _SetCurrentTaxon(parent);
+                    }
+                    else
+                    {
+                        _UpdateCurrentTaxonInfo();
+                    }
+
+                    //
+
                     _UpdateTree();
                 }
             }

@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.608.1000.M6.201219-0000
+Version 1.0.617.1000.M6.201225-2240
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -144,7 +144,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     // 如果上溯到任何主要分类阶元，继续上溯到最高级别，并且忽略演化支与更低的主要分类阶元
                     if (result.Count > 0)
                     {
-                        Taxon parent = result[result.Count - 1];
+                        Taxon parent = result[^1];
 
                         result.AddRange(parent.GetParents(
                            TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),

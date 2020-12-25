@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.608.1000.M6.201219-0000
+Version 1.0.617.1000.M6.201225-2240
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -31,9 +31,9 @@ namespace TreeOfLife.Views
             SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
             SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
             TextBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
-            TextBox_BackGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            TextBox_BackGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
             TextBox_Selection = new SolidColorBrush(Color.FromRgb(0, 120, 215));
-            TextBox_SelectionText = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            TextBox_SelectionText = (_IsDarkTheme ? Brushes.Black : Brushes.White);
             CheckBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
         }
 
