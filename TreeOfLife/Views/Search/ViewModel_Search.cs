@@ -16,15 +16,11 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
-using TreeOfLife.Phylogeny;
-using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
-
-namespace TreeOfLife.Views.Tree
+namespace TreeOfLife.Views.Search
 {
-    public class ViewModel_Tree : INotifyPropertyChanged
+    public class ViewModel_Search : INotifyPropertyChanged
     {
-        public ViewModel_Tree()
+        public ViewModel_Search()
         {
         }
 
@@ -39,91 +35,25 @@ namespace TreeOfLife.Views.Tree
 
         //
 
-        #region 系统发生树（临时）
+        #region 搜索
 
-        private string _TreeText;
+        public Action ClickSearchResult { get; set; }
 
-        public string TreeText
+        private string _KeyWord;
+
+        public string KeyWord
         {
-            get => _TreeText;
+            get => _KeyWord;
 
             set
             {
-                if (_TreeText != value)
+                if (_KeyWord != value)
                 {
-                    _TreeText = value;
+                    _KeyWord = value;
 
-                    NotifyPropertyChanged(nameof(TreeText));
+                    NotifyPropertyChanged(nameof(KeyWord));
                 }
             }
-        }
-
-        private void _RecursiveFillStringBuilder(StringBuilder sb, Taxon taxon)
-        {
-            if (sb == null || taxon == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            //
-
-            foreach (var child in taxon.Children)
-            {
-                char[] ch = new char[child.Level * 2];
-
-                for (int i = 0; i < ch.Length; i++)
-                {
-                    ch[i] = '　';
-                }
-
-                int chIndex = ch.Length - 2;
-
-                if (child.Index < child.Parent.Children.Count - 1)
-                {
-                    ch[chIndex] = '├';
-                }
-                else
-                {
-                    ch[chIndex] = '└';
-                }
-
-                chIndex -= 2;
-
-                Taxon t = child.Parent;
-
-                while (t.Parent != null)
-                {
-                    if (t.Index < t.Parent.Children.Count - 1)
-                    {
-                        ch[chIndex] = '│';
-                    }
-
-                    chIndex -= 2;
-                    t = t.Parent;
-                }
-
-                sb.Append(ch);
-
-                if (child.IsNamed())
-                {
-                    sb.AppendLine(child.GetLongName());
-                }
-                else
-                {
-                    sb.AppendLine("─");
-                }
-
-                _RecursiveFillStringBuilder(sb, child);
-            }
-        }
-
-        public void UpdateTree()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            _RecursiveFillStringBuilder(sb, Phylogenesis.Root);
-
-            TreeText = sb.ToString();
         }
 
         #endregion
@@ -132,6 +62,10 @@ namespace TreeOfLife.Views.Tree
 
         private bool _IsDarkTheme;
 
+        private Brush _Button_ForeGround;
+        private Brush _Button_BackGround;
+        private Brush _SubTitle_ForeGround;
+        private Brush _SubTitle_BackGround;
         private Brush _TextBox_ForeGround;
         private Brush _TextBox_BackGround;
         private Brush _TextBox_Selection;
@@ -139,6 +73,10 @@ namespace TreeOfLife.Views.Tree
 
         private void _UpdateColors()
         {
+            Button_ForeGround = Common.Button_ForeGround;
+            Button_BackGround = Common.Button_BackGround;
+            SubTitle_ForeGround = Common.SubTitle_ForeGround;
+            SubTitle_BackGround = Common.SubTitle_BackGround;
             TextBox_ForeGround = Common.TextBox_ForeGround;
             TextBox_BackGround = Common.TextBox_BackGround;
             TextBox_Selection = Common.TextBox_Selection;
@@ -154,6 +92,66 @@ namespace TreeOfLife.Views.Tree
                 _IsDarkTheme = value;
 
                 _UpdateColors();
+            }
+        }
+
+        public Brush Button_ForeGround
+        {
+            get => _Button_ForeGround;
+
+            set
+            {
+                if (_Button_ForeGround != value)
+                {
+                    _Button_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_ForeGround));
+                }
+            }
+        }
+
+        public Brush Button_BackGround
+        {
+            get => _Button_BackGround;
+
+            set
+            {
+                if (_Button_BackGround != value)
+                {
+                    _Button_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(Button_BackGround));
+                }
+            }
+        }
+
+        public Brush SubTitle_ForeGround
+        {
+            get => _SubTitle_ForeGround;
+
+            set
+            {
+                if (_SubTitle_ForeGround != value)
+                {
+                    _SubTitle_ForeGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
+                }
+            }
+        }
+
+        public Brush SubTitle_BackGround
+        {
+            get => _SubTitle_BackGround;
+
+            set
+            {
+                if (_SubTitle_BackGround != value)
+                {
+                    _SubTitle_BackGround = value;
+
+                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
+                }
             }
         }
 

@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -24,13 +24,6 @@ namespace TreeOfLife.Views.Evo
 {
     public static class Common
     {
-        public static Taxon CurrentTaxon { get; set; }
-
-        public static Action<Taxon> SetCurrentTaxon { get; set; }
-
-        public static Action EnterEditMode { get; set; }
-        public static Action ExitEditMode { get; set; }
-
         public static Taxon RightButtonTaxon { get; set; }
         public static Taxon SelectedTaxon { get; set; }
 
@@ -53,7 +46,7 @@ namespace TreeOfLife.Views.Evo
                 {
                     categoryOfGroup = taxon.Category.BasicCategory();
 
-                    control.AddGroup(((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.Name() : string.Empty), taxon.GetThemeColor());
+                    control.AddGroup(((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetName() : string.Empty), taxon.GetThemeColor());
                 }
                 else
                 {
@@ -63,7 +56,7 @@ namespace TreeOfLife.Views.Evo
                     {
                         categoryOfGroup = basicCategory;
 
-                        control.AddGroup(categoryOfGroup.Name(), taxon.GetThemeColor());
+                        control.AddGroup(categoryOfGroup.GetName(), taxon.GetThemeColor());
 
                         groupIndex++;
                     }
@@ -71,7 +64,7 @@ namespace TreeOfLife.Views.Evo
 
                 TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
 
-                button.MouseLeftButtonUp += (s, e) => SetCurrentTaxon(taxon);
+                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
 
                 if (menu != null)
                 {
@@ -80,7 +73,7 @@ namespace TreeOfLife.Views.Evo
                     button.MouseRightButtonUp += (s, e) => { RightButtonTaxon = button.Taxon; (button.ContextMenu.DataContext as Action)?.Invoke(); };
                 }
 
-                if (taxon == CurrentTaxon)
+                if (taxon == Views.Common.CurrentTaxon)
                 {
                     button.Checked = true;
                 }
@@ -105,7 +98,7 @@ namespace TreeOfLife.Views.Evo
 
                 TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
 
-                button.MouseLeftButtonUp += (s, e) => SetCurrentTaxon(taxon);
+                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
 
                 if (menu != null)
                 {

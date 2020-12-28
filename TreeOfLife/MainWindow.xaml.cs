@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -40,6 +40,10 @@ namespace TreeOfLife
 
         //
 
+        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
+
+        //
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,15 +58,17 @@ namespace TreeOfLife
 
             //
 
-            Views.Evo.Common.SetCurrentTaxon = _SetCurrentTaxon;
-            Views.Evo.Common.EnterEditMode = () => _SetEditMode(true);
-            Views.Evo.Common.ExitEditMode = () => _SetEditMode(false);
+            Views.Common.SetCurrentTaxon = _SetCurrentTaxon;
+            Views.Common.EnterEditMode = () => _SetEditMode(true);
+            Views.Common.ExitEditMode = () => _SetEditMode(false);
 
             view_File.ViewModel.Open = _Open;
             view_File.ViewModel.Save = _Save;
             view_File.ViewModel.SaveAs = _SaveAs;
             view_File.ViewModel.TrySaveAndClose = _TrySaveAndClose;
             view_File.ViewModel.OpenDone = () => _SelectPage(Pages.Evo);
+
+            view_Search.ViewModel.ClickSearchResult = () => _SelectPage(Pages.Evo);
 
             //
 
@@ -98,10 +104,6 @@ namespace TreeOfLife
 
         //
 
-        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
-
-        //
-
         #region 页面切换
 
         private enum Pages
@@ -118,17 +120,16 @@ namespace TreeOfLife
         {
             if (!_CurrentPage.HasValue || _CurrentPage.Value != tabPage)
             {
+                _SetEditMode(false);
+
+                //
+
                 _CurrentPage = tabPage;
 
                 grid_File.Visibility = (_CurrentPage.Value == Pages.File ? Visibility.Visible : Visibility.Collapsed);
                 grid_Evo.Visibility = (_CurrentPage.Value == Pages.Evo ? Visibility.Visible : Visibility.Collapsed);
                 grid_Search.Visibility = (_CurrentPage.Value == Pages.Search ? Visibility.Visible : Visibility.Collapsed);
                 grid_About.Visibility = (_CurrentPage.Value == Pages.About ? Visibility.Visible : Visibility.Collapsed);
-
-                if (_CurrentPage.Value == Pages.Evo)
-                {
-                    _SetEditMode(false);
-                }
             }
         }
 
@@ -141,6 +142,7 @@ namespace TreeOfLife
 
         private bool _Saved = false;
 
+        // true=成功，false=失败，null=取消
         private bool? _Open()
         {
             bool? result = null;
@@ -155,7 +157,6 @@ namespace TreeOfLife
             if (result.HasValue && result.Value)
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
-                _SetEditMode(false);
                 _UpdateTree();
 
                 _Saved = true;
@@ -164,42 +165,41 @@ namespace TreeOfLife
             return result;
         }
 
+        // true=成功，false=失败，null=取消
         private bool? _Save()
         {
             bool? result = null;
 
-            if (!string.IsNullOrEmpty(Phylogenesis.FileName))
+            if (_Saved)
             {
-                if (_EditMode.HasValue && _EditMode.Value)
-                {
-                    _SetEditMode(false);
-                }
-
-                result = Phylogenesis.Save();
+                result = true;
             }
             else
             {
-                bool? r = _SaveFileDialog.ShowDialog();
-
-                if (r.HasValue && r.Value)
+                if (!string.IsNullOrEmpty(Phylogenesis.FileName))
                 {
-                    if (_EditMode.HasValue && _EditMode.Value)
-                    {
-                        _SetEditMode(false);
-                    }
-
-                    result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                    result = Phylogenesis.Save();
                 }
-            }
+                else
+                {
+                    bool? r = _SaveFileDialog.ShowDialog();
 
-            if (result.HasValue && result.Value)
-            {
-                _Saved = true;
+                    if (r.HasValue && r.Value)
+                    {
+                        result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                    }
+                }
+
+                if (result.HasValue && result.Value)
+                {
+                    _Saved = true;
+                }
             }
 
             return result;
         }
 
+        // true=成功，false=失败，null=取消
         private bool? _SaveAs()
         {
             bool? result = null;
@@ -208,11 +208,6 @@ namespace TreeOfLife
 
             if (r.HasValue && r.Value)
             {
-                if (_EditMode.HasValue && _EditMode.Value)
-                {
-                    _SetEditMode(false);
-                }
-
                 result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
             }
 
@@ -224,16 +219,16 @@ namespace TreeOfLife
             return result;
         }
 
+        // true=成功，false=失败
         private bool _Close()
         {
-            bool result = true;
+            view_Search.ClearSearchResult();
 
-            result = Phylogenesis.Close();
+            bool result = Phylogenesis.Close();
 
             if (result)
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
-                _SetEditMode(false);
                 _UpdateTree();
 
                 _Saved = false;
@@ -242,6 +237,7 @@ namespace TreeOfLife
             return result;
         }
 
+        // true=成功，false=失败或取消
         private bool _TrySaveAndClose()
         {
             if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
@@ -371,6 +367,7 @@ namespace TreeOfLife
 
                     //
 
+                    // 退出编辑模式时，应位于具名类群（或顶级类群）
                     if (!_CurrentTaxon.IsRoot && _CurrentTaxon.IsAnonymous())
                     {
                         Taxon parent = _CurrentTaxon.GetNamedParent();
@@ -399,6 +396,13 @@ namespace TreeOfLife
         // 设置当前选择的类群。
         private void _SetCurrentTaxon(Taxon taxon)
         {
+            if (taxon.IsRoot && taxon != Phylogenesis.Root)
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
             if (_CurrentTaxon != taxon)
             {
                 if (_EditMode.HasValue && _EditMode.Value)
@@ -409,7 +413,7 @@ namespace TreeOfLife
                 //
 
                 _CurrentTaxon = taxon;
-                Views.Evo.Common.CurrentTaxon = taxon;
+                Views.Common.CurrentTaxon = taxon;
 
                 _UpdateCurrentTaxonInfo();
             }
@@ -444,6 +448,7 @@ namespace TreeOfLife
                 view_File.IsDarkTheme = _IsDarkTheme;
                 view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;
                 view_Evo_EditMode.IsDarkTheme = _IsDarkTheme;
+                view_Search.IsDarkTheme = _IsDarkTheme;
                 view_Tree.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;

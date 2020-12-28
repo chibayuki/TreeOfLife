@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -23,7 +23,7 @@ namespace TreeOfLife.Packaging.Version1
     {
         private PackageVersion _Version = new PackageVersion(1);
 
-        PhylogeneticTreeUnwind _EvoTreeUnwind = null;
+        private PhylogeneticTreeUnwind _EvoTreeUnwind = null;
 
         //
 

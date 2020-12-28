@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -137,8 +137,8 @@ namespace TreeOfLife.Controls
 
             public void UpdateColor()
             {
-                _NameLabel.SetForeColor(_IsDarkTheme ? Colors.Black : Colors.White);
-                _NameLabel.SetBackColor(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+                _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
+                _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in _Buttons)
                 {
@@ -185,7 +185,7 @@ namespace TreeOfLife.Controls
                     _NameLabel.VerticalAlignment = VerticalAlignment.Stretch;
 
                     _GroupPanel.Margin = groupPadding;
-                    _GroupPanel.Height = _Buttons.Count * (buttonHeight + buttonPadding.Vertical());
+                    _GroupPanel.Height = _Buttons.Count * (buttonHeight + (buttonPadding.Top + buttonPadding.Bottom));
                     _GroupPanel.ColumnDefinitions[0].Width = new GridLength(groupNameWidth, GridUnitType.Pixel);
 
                     for (int i = 0; i < _Buttons.Count; i++)
@@ -201,7 +201,7 @@ namespace TreeOfLife.Controls
                         button.VerticalAlignment = VerticalAlignment.Stretch;
                         button.CategoryNameWidth = categoryNameWidth;
 
-                        _GroupPanel.RowDefinitions[i].Height = new GridLength(buttonHeight + buttonPadding.Vertical(), GridUnitType.Pixel);
+                        _GroupPanel.RowDefinitions[i].Height = new GridLength(buttonHeight + (buttonPadding.Top + buttonPadding.Bottom), GridUnitType.Pixel);
                     }
                 }
                 else
@@ -275,7 +275,7 @@ namespace TreeOfLife.Controls
 
         private void _UpdateLayout()
         {
-            double height = _GroupMargin.Vertical() * _Groups.Count;
+            double height = (_GroupMargin.Top + _GroupMargin.Bottom) * _Groups.Count;
 
             foreach (var group in _Groups)
             {
@@ -399,13 +399,13 @@ namespace TreeOfLife.Controls
         //
 
         // 获取组数目。
-        public int GroupCount()
+        public int GetGroupCount()
         {
             return _Groups.Count;
         }
 
         // 获取指定组的按钮数目。
-        public int ButtonCount(int groupIndex)
+        public int GetButtonCount(int groupIndex)
         {
             return _Groups[groupIndex].Buttons.Count;
         }

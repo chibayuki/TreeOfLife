@@ -1,0 +1,31 @@
+﻿<UserControl xmlns:Controls="clr-namespace:TreeOfLife.Controls"  x:Class="TreeOfLife.Views.Search.View_Search"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.Views.Search"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Search/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grid_Name" Margin="25,25,25,0">
+            <TextBox HorizontalAlignment="Stretch" Margin="0,0,80,0" VerticalAlignment="Top" Height="25" Padding="4" Text="{Binding KeyWord}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
+            <Button x:Name="button_Search" Content="搜索" HorizontalAlignment="Right" VerticalAlignment="Top" Width="70" Height="25" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_Children" Margin="0,25,0,0">
+                    <Label Content="搜索结果" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult" Margin="0,35,0,0" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

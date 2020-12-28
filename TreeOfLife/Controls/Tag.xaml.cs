@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -59,29 +59,27 @@ namespace TreeOfLife.Controls
                 _UpdateText();
             };
 
-            label_Tag.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
-            label_Tag.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
-            label_Tag.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
+            label_Tag.MouseUp += (s, e) => base.OnMouseUp(e);
+            label_Tag.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
+            label_Tag.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //
 
+        private Brush _Foreground => new SolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+
+        private Brush _Background => new SolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+
         private void _UpdateColor()
         {
-            label_Tag.SetForeColor(_CategoryNameForeColor);
-            border.Background = new SolidColorBrush(_CategoryNameBackColor);
+            label_Tag.Foreground = _Foreground;
+            border.Background = _Background;
         }
 
         private void _UpdateText()
         {
             label_Tag.Content = _Text;
         }
-
-        //
-
-        private Color _CategoryNameForeColor => _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor();
-
-        private Color _CategoryNameBackColor => _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor();
 
         //
 

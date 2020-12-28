@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -273,6 +273,7 @@ namespace TreeOfLife.Packaging.Version1.Details
         [JsonIgnore]
         public IReadOnlyList<int> ParentsIndex => _ParentsIndex;
 
+        // 序列化/反序列化时，自行构造/解析字符串比直接使用整数数组快很多
         [JsonPropertyName("ID")]
         public string ID
         {

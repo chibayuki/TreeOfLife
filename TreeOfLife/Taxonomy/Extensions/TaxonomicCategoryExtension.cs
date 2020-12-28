@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -18,7 +18,7 @@ namespace TreeOfLife.Taxonomy.Extensions
     // 生物分类阶元的扩展方法。
     public static class TaxonomicCategoryExtension
     {
-        public static string Name(this TaxonomicCategory category)
+        public static string GetName(this TaxonomicCategory category)
         {
             return TaxonomicCategoryChineseName.GetCategoryName(category);
         }

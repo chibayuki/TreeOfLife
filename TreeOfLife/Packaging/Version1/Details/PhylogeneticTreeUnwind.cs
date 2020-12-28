@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -93,6 +93,8 @@ namespace TreeOfLife.Packaging.Version1.Details
         // 重建系统发生树。
         public void RebuildTo(PhylogeneticTree tree)
         {
+            // 先按照层次升序排序，用于保证总是先创建父类群
+            // 再按照索引升序排序，用于保证每个类群的次序与原先相同
             var atoms = _Atoms.OrderBy(atom => atom.Level).ThenBy(atom => atom.Index);
 
             foreach (PhylogeneticTreeUnwindAtom atom in atoms)
@@ -108,14 +110,14 @@ namespace TreeOfLife.Packaging.Version1.Details
         }
 
         // 序列化。
-        public void Serialize(string workingDirectory)
+        public void Serialize(string directory)
         {
             JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 
             string jsonText = JsonSerializer.Serialize(this, options);
 
-            File.WriteAllText(_GetDataFileName(workingDirectory), jsonText);
+            File.WriteAllText(_GetDataFileName(directory), jsonText);
         }
 
         // 反序列化。

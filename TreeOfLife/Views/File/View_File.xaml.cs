@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,6 +35,10 @@ namespace TreeOfLife.Views.File
 
         //
 
+        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
+
+        //
+
         public View_File()
         {
             InitializeComponent();
@@ -51,6 +55,8 @@ namespace TreeOfLife.Views.File
 
         //
 
+        #region 回调函数
+
         private void Button_Open_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel.TrySaveAndClose())
@@ -64,7 +70,6 @@ namespace TreeOfLife.Views.File
                     if (open.Value)
                     {
                         ViewModel.UpdateFileInfo();
-
                         ViewModel.OpenDone();
                     }
                     else
@@ -117,11 +122,7 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        //
-
-        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
-
-        //
+        #endregion
 
         #region 主题
 

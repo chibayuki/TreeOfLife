@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -40,7 +40,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         //
 
         // 获取类群的短名称。
-        public static string ShortName(this Taxon taxon, char separator = ' ')
+        public static string GetShortName(this Taxon taxon, char separator = ' ')
         {
             if (taxon == null)
             {
@@ -92,7 +92,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         }
 
         // 获取类群的长名称。
-        public static string LongName(this Taxon taxon, char separator = ' ')
+        public static string GetLongName(this Taxon taxon, char separator = ' ')
         {
             if (taxon == null)
             {
@@ -130,7 +130,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 }
                 else
                 {
-                    taxonName.Append(taxon.Category.Name());
+                    taxonName.Append(taxon.Category.GetName());
                 }
 
                 if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
@@ -154,11 +154,12 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 List<char> chars = new List<char>(name);
 
-                if (chars.Contains('?'))
+                if (chars.Contains('?') || chars.Contains('？'))
                 {
                     taxon.IsUnsure = true;
 
                     chars.RemoveAll((ch) => ch == '?');
+                    chars.RemoveAll((ch) => ch == '？');
                 }
 
                 if (chars.Count > 0)
@@ -176,7 +177,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     bool existLatin = false;
                     bool latinAtRight = false;
 
-                    if (char.IsLower(chars[^1]) || char.IsUpper(chars[^1]))
+                    if (char.IsLower(chars[^1]) || char.IsUpper(chars[^1]) || char.IsDigit(chars[^1]) || chars[^1] == '.')
                     {
                         existLatin = true;
                         latinAtRight = true;
@@ -195,7 +196,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                         {
                             int latinIndex = chars.Count - 1;
 
-                            while (latinIndex >= 0 && (char.IsLower(chars[latinIndex]) || char.IsUpper(chars[latinIndex]) || char.IsWhiteSpace(chars[latinIndex])))
+                            while (latinIndex >= 0 && (char.IsLower(chars[latinIndex]) || char.IsUpper(chars[latinIndex]) || char.IsWhiteSpace(chars[latinIndex]) || char.IsDigit(chars[latinIndex]) || chars[latinIndex] == '-' || chars[latinIndex] == '.'))
                             {
                                 latinIndex--;
                             }
@@ -218,7 +219,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                         {
                             int chsIndex = 0;
 
-                            while (chsIndex < chars.Count && (char.IsLower(chars[chsIndex]) || char.IsUpper(chars[chsIndex]) || char.IsWhiteSpace(chars[chsIndex])))
+                            while (chsIndex < chars.Count && (char.IsLower(chars[chsIndex]) || char.IsUpper(chars[chsIndex]) || char.IsWhiteSpace(chars[chsIndex]) || char.IsDigit(chars[chsIndex]) || chars[chsIndex] == '-' || chars[chsIndex] == '.'))
                             {
                                 chsIndex++;
                             }
@@ -428,7 +429,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         }
 
         // 获取具名子类群（并递归获取匿名子类群的所有的具名子类群）。
-        public static List<Taxon> GetNamedChildren(this Taxon taxon, bool recursive = true)
+        public static IReadOnlyList<Taxon> GetNamedChildren(this Taxon taxon, bool recursive = true)
         {
             if (taxon == null)
             {

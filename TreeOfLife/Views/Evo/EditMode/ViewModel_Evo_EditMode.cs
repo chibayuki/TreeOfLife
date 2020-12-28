@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -78,7 +78,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 }
                 else
                 {
-                    CategoryName = category.Name();
+                    CategoryName = category.GetName();
 
                     StringBuilder taxonName = new StringBuilder();
 
@@ -285,8 +285,8 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             TaxonColor = _Taxon.GetThemeColor();
 
-            CategoryName = (_Taxon.IsRoot || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
-            TaxonName = (_Taxon.IsRoot ? string.Empty : _Taxon.ShortName('\n'));
+            CategoryName = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetName());
+            TaxonName = _Taxon.GetShortName('\n');
 
             Name = _Taxon.BotanicalName;
             ChsName = _Taxon.ChineseName;
@@ -305,18 +305,36 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             if (!_Taxon.IsRoot)
             {
-                _Taxon.BotanicalName = _Name;
-                _Taxon.ChineseName = _ChsName;
+                _Taxon.BotanicalName = _Name.Trim();
+                _Taxon.ChineseName = _ChsName.Trim();
 
                 _Taxon.IsExtinct = _IsExtinct;
                 _Taxon.IsUnsure = _IsUnsure;
 
-                _Taxon.Category = _Category;
+                // 只对具名类群应用分类阶元
+                if (_Taxon.BotanicalName.Length > 0 || _Taxon.ChineseName.Length > 0)
+                {
+                    _Taxon.Category = _Category;
+                }
+                else
+                {
+                    _Taxon.Category = TaxonomicCategory.Unranked;
+                }
 
                 _Taxon.Synonyms.Clear();
-                _Taxon.Synonyms.AddRange(from s in _Synonyms.Split(Environment.NewLine) where !string.IsNullOrWhiteSpace(s.Trim()) select s.Trim());
+                _Taxon.Synonyms.AddRange(
+                    from s in _Synonyms.Split(Environment.NewLine)
+                    let synonym = s.Trim()
+                    where !string.IsNullOrWhiteSpace(synonym)
+                    select synonym);
+
                 _Taxon.Tags.Clear();
-                _Taxon.Tags.AddRange(from s in _Tags.Split(Environment.NewLine) where !string.IsNullOrWhiteSpace(s.Trim()) select s.Trim());
+                _Taxon.Tags.AddRange(
+                    from s in _Tags.Split(Environment.NewLine)
+                    let tag = s.Trim()
+                    where !string.IsNullOrWhiteSpace(tag)
+                    select tag);
+
                 _Taxon.Description = _Description;
             }
         }

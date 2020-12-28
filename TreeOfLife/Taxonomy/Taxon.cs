@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -139,6 +139,7 @@ namespace TreeOfLife.Taxonomy
             }
             else
             {
+                // 不可能继承层次更深的类群
                 if (_Level <= taxon._Level)
                 {
                     return false;
@@ -147,6 +148,7 @@ namespace TreeOfLife.Taxonomy
                 {
                     Taxon t = this;
 
+                    // 层次相等之后没有必要继续判断
                     while (t != null && t._Level >= taxon._Level)
                     {
                         if (t == taxon)

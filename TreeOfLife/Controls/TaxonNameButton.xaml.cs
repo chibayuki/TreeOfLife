@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -68,46 +68,45 @@ namespace TreeOfLife.Controls
                 _UpdateTaxon();
             };
 
-            label_CategoryName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
-            label_CategoryName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
-            label_CategoryName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
+            label_CategoryName.MouseUp += (s, e) => base.OnMouseUp(e);
+            label_CategoryName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
+            label_CategoryName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
 
-            label_TaxonName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
-            label_TaxonName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
-            label_TaxonName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
+            label_TaxonName.MouseUp += (s, e) => base.OnMouseUp(e);
+            label_TaxonName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
+            label_TaxonName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //
 
         private void _UpdateTaxon()
         {
-            label_CategoryName.Content = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.Name());
-            label_TaxonName.Content = (_Taxon == null ? string.Empty : _Taxon.ShortName());
+            label_CategoryName.Content = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetName());
+            label_TaxonName.Content = (_Taxon == null ? string.Empty : _Taxon.GetShortName());
         }
 
         private void _UpdateCategoryNameWidth()
         {
-            label_CategoryName.Width = _CategoryNameWidth - 1;
-            label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 1, 1, 1);
+            label_CategoryName.Width = _CategoryNameWidth;
+            label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 0, 0, 0);
         }
 
-        private Color _CategoryNameForeColor => (_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => new SolidColorBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor();
+        private Brush _CategoryNameBackground => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Color _TaxonNameForeColor => _ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor();
+        private Brush _TaxonNameForeground => new SolidColorBrush(_ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
 
-        private Color _TaxonNameBackColor => _ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor();
+        private Brush _TaxonNameBackground => new SolidColorBrush(_ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
         private void _UpdateColor()
         {
-            this.SetBackColor(_CategoryNameBackColor);
+            label_CategoryName.Foreground = _CategoryNameForeground;
+            label_CategoryName.Background = _CategoryNameBackground;
 
-            label_CategoryName.SetForeColor(_CategoryNameForeColor);
-            label_CategoryName.SetBackColor(_CategoryNameBackColor);
-
-            label_TaxonName.SetForeColor(_TaxonNameForeColor);
-            label_TaxonName.SetBackColor(_TaxonNameBackColor);
+            label_TaxonName.Foreground = _TaxonNameForeground;
+            label_TaxonName.Background = _TaxonNameBackground;
+            label_TaxonName.BorderBrush = _CategoryNameBackground;
         }
 
         //

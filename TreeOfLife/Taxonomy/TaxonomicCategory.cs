@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -306,6 +306,7 @@ namespace TreeOfLife.Taxonomy
             }
         }
 
+        // 获取分类阶元的名称。
         public static string GetCategoryName(TaxonomicCategory category)
         {
             _EnsureCategoryNameTable();
@@ -528,6 +529,24 @@ namespace TreeOfLife.Taxonomy
             Domain
         };
 
+        // 精确匹配分类阶元名称。
+        public static TaxonomicCategory? ParseCategoryName(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                for (int i = 0; i < _CategoryParseArray.Length; i++)
+                {
+                    if (name == _ChsParseArray[i])
+                    {
+                        return _CategoryParseArray[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // 尝试匹配可能包含分类阶元名称的字符串。
         public static bool TryParseCategory(string name, out TaxonomicCategory category, out string parsedCategoryName)
         {
             category = TaxonomicCategory.Unranked;

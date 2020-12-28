@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -16,10 +16,21 @@ using System.Windows.Input;
 
 using System.Windows.Media;
 
+using TreeOfLife.Taxonomy;
+
 namespace TreeOfLife.Views
 {
     public static class Common
     {
+        public static Taxon CurrentTaxon { get; set; }
+
+        public static Action<Taxon> SetCurrentTaxon { get; set; }
+
+        public static Action EnterEditMode { get; set; }
+        public static Action ExitEditMode { get; set; }
+
+        //
+
         #region 主题
 
         private static bool _IsDarkTheme;

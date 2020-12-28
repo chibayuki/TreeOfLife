@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.617.1000.M6.201226-1000
+Version 1.0.700.1000.M7.201226-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,29 +64,27 @@ namespace TreeOfLife.Controls
                 _UpdateCategory();
             };
 
-            label_CategoryName.AddHandler(Button.MouseUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseUp(e)), true);
-            label_CategoryName.AddHandler(Button.MouseLeftButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseLeftButtonUp(e)), true);
-            label_CategoryName.AddHandler(Button.MouseRightButtonUpEvent, new MouseButtonEventHandler((s, e) => base.OnMouseRightButtonUp(e)), true);
+            label_CategoryName.MouseUp += (s, e) => base.OnMouseUp(e);
+            label_CategoryName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
+            label_CategoryName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //
 
+        private Brush _CategoryNameForeground => new SolidColorBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+
+        private Brush _CategoryNameBackground => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+
         private void _UpdateColor()
         {
-            label_CategoryName.SetForeColor(_CategoryNameForeColor);
-            label_CategoryName.SetBackColor(_CategoryNameBackColor);
+            label_CategoryName.Foreground = _CategoryNameForeground;
+            label_CategoryName.Background = _CategoryNameBackground;
         }
 
         private void _UpdateCategory()
         {
             label_CategoryName.Content = _CategoryName;
         }
-
-        //
-
-        private Color _CategoryNameForeColor => (_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-
-        private Color _CategoryNameBackColor => (_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor();
 
         //
 
@@ -118,7 +116,7 @@ namespace TreeOfLife.Controls
 
                 if (_Category.HasValue)
                 {
-                    _CategoryName = _Category.Value.Name();
+                    _CategoryName = _Category.Value.GetName();
 
                     _UpdateCategory();
                 }
