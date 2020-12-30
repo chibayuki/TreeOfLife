@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -29,9 +29,9 @@ namespace TreeOfLife.Phylogeny
 
         public static Taxon Root => _PhylogeneticTree?.Root;
 
-        public static bool IsEmpty => (_PhylogeneticTree == null ? true : _PhylogeneticTree.Root.IsFinal);
+        public static bool IsEmpty => (_PhylogeneticTree == null || _PhylogeneticTree.Root.IsFinal);
 
-        public static string FileName => (_Package?.FileName);
+        public static string FileName => _Package?.FileName;
 
         public static long PackageSize => (_Package == null ? 0 : _Package.PackageSize);
 

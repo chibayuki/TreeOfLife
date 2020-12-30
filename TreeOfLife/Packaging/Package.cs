@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -43,7 +43,7 @@ namespace TreeOfLife.Packaging
 
         private void _InitDirs()
         {
-            _TempDir = Path.Combine(Path.GetTempPath(), _AppName, Path.GetRandomFileName());
+            _TempDir = Path.Combine(Path.GetTempPath(), _AppName, Guid.NewGuid().ToString().ToUpperInvariant());
             _PackageDir = Path.Combine(_TempDir, "package");
             _VersionFileName = Path.Combine(_PackageDir, "_version");
             _InfoDir = Path.Combine(_PackageDir, "info");
@@ -134,16 +134,14 @@ namespace TreeOfLife.Packaging
                 Directory.CreateDirectory(dir);
             }
 
-            string tmpFile = Path.Combine(dir, Path.GetRandomFileName() + ".tmp");
+            string fileName = Path.GetFileNameWithoutExtension(destinationArchiveFileName);
+            string randomFileName = Path.GetRandomFileName();
+            string tmpFile = Path.Combine(dir, string.Concat((fileName.Length > 6 ? fileName[0..6] : fileName), "~", (randomFileName.Length > 6 ? randomFileName[0..6] : randomFileName), ".tmp"));
 
+            // 先压缩到用户文件同目录下的临时文件，压缩成功之后，再更新用户文件
             ZipFile.CreateFromDirectory(sourceDirectoryName, tmpFile, CompressionLevel.Optimal, false);
 
-            if (File.Exists(destinationArchiveFileName))
-            {
-                File.Delete(destinationArchiveFileName);
-            }
-
-            File.Move(tmpFile, destinationArchiveFileName);
+            File.Move(tmpFile, destinationArchiveFileName, true);
         }
 
         // 读取包版本。

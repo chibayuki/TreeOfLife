@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,12 +50,12 @@ namespace TreeOfLife.Taxonomy.Extensions
                         // 使名称更短的类群匹配率更高，分类阶元的中文名按平均1.5个字符计，学名和中文名长度做加权平均处理
                         if (child.Category == _ParsedCategory.Value)
                         {
-                            matching = 1.5 / (0.35 * child.BotanicalName.Length + 0.65 * (1.5 + child.ChineseName.Length));
+                            matching = 1.5 / (0.5 * child.BotanicalName.Length + (1.5 + child.ChineseName.Length));
                         }
                         // 对于"继承"，匹配率减至1/3
                         else if (child.Category.BasicCategory() == _ParsedCategory.Value)
                         {
-                            matching = 0.5 / (0.35 * child.BotanicalName.Length + 0.65 * (1.5 + child.ChineseName.Length));
+                            matching = 0.5 / (0.5 * child.BotanicalName.Length + (1.5 + child.ChineseName.Length));
                         }
                     }
 
@@ -129,7 +129,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             _KeyWord = keyWord;
             _KeyWordLength = _KeyWord.Length;
-            _ParsedCategory = TaxonomicCategoryChineseName.ParseCategoryName(_KeyWord);
+            _ParsedCategory = TaxonomicCategoryChineseExtension.ParseCategory(_KeyWord);
             _SearchResults = new List<_SearchResult>();
 
             taxon._GetMatchedChildren();

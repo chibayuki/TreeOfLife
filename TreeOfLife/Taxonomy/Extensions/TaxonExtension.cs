@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -130,7 +130,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 }
                 else
                 {
-                    taxonName.Append(taxon.Category.GetName());
+                    taxonName.Append(taxon.Category.GetChineseName());
                 }
 
                 if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
@@ -252,7 +252,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                         TaxonomicCategory category;
                         string parsedCategoryName;
 
-                        if (TaxonomicCategoryChineseName.TryParseCategory(chsPart, out category, out parsedCategoryName))
+                        if (TaxonomicCategoryChineseExtension.TryParseCategory(chsPart, out category, out parsedCategoryName))
                         {
                             taxon.Category = category;
 

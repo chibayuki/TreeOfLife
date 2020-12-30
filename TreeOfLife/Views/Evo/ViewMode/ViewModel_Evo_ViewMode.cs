@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -110,7 +110,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             TaxonColor = _Taxon.GetThemeColor();
 
-            CategoryName = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetName());
+            CategoryName = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetChineseName());
             TaxonName = _Taxon.GetShortName('\n');
 
             _Tags = _Taxon.Tags.ToArray();

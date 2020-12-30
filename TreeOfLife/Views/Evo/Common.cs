@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.700.1000.M7.201226-0000
+Version 1.0.708.1000.M7.201230-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -46,7 +46,7 @@ namespace TreeOfLife.Views.Evo
                 {
                     categoryOfGroup = taxon.Category.BasicCategory();
 
-                    control.AddGroup(((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetName() : string.Empty), taxon.GetThemeColor());
+                    control.AddGroup(((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor());
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace TreeOfLife.Views.Evo
                     {
                         categoryOfGroup = basicCategory;
 
-                        control.AddGroup(categoryOfGroup.GetName(), taxon.GetThemeColor());
+                        control.AddGroup(categoryOfGroup.GetChineseName(), taxon.GetThemeColor());
 
                         groupIndex++;
                     }
