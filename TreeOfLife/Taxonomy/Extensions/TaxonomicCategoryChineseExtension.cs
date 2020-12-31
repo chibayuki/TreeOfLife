@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.708.1000.M7.201230-2100
+Version 1.0.800.1000.M7.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -22,187 +22,190 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         //
 
-        private const string Unranked = "未分级";
+        public static class _Names
+        {
+            public const string Unranked = "未分级";
 
-        private const string Clade = "演化支";
+            public const string Clade = "演化支";
 
-        private const string Strain = "株";
+            public const string Strain = "株";
 
-        private const string Subform = "亚型";
-        private const string Form = "型";
+            public const string Subform = "亚型";
+            public const string Form = "型";
 
-        private const string Subseries = "亚系";
-        private const string Series = "系";
+            public const string Subseries = "亚系";
+            public const string Series = "系";
 
-        private const string Infrasection = "下派";
-        private const string Subsection = "亚派";
-        private const string Section = "派";
-        private const string Supersection = "总派";
+            public const string Infrasection = "下派";
+            public const string Subsection = "亚派";
+            public const string Section = "派";
+            public const string Supersection = "总派";
 
-        private const string Infradivision = "下类";
-        private const string Subdivision = "亚类";
-        private const string Division = "类";
-        private const string Superdivision = "总类";
+            public const string Infradivision = "下类";
+            public const string Subdivision = "亚类";
+            public const string Division = "类";
+            public const string Superdivision = "总类";
 
-        private const string Infracohort = "下群";
-        private const string Subcohort = "亚群";
-        private const string Cohort = "群";
-        private const string Supercohort = "总群";
-        private const string Megacohort = "高群";
+            public const string Infracohort = "下群";
+            public const string Subcohort = "亚群";
+            public const string Cohort = "群";
+            public const string Supercohort = "总群";
+            public const string Megacohort = "高群";
 
-        private const string Infratribe = "下族";
-        private const string Subtribe = "亚族";
-        private const string Tribe = "族";
-        private const string Supertribe = "总族";
+            public const string Infratribe = "下族";
+            public const string Subtribe = "亚族";
+            public const string Tribe = "族";
+            public const string Supertribe = "总族";
 
-        private const string Subvariety = "亚变种";
-        private const string Variety = "变种";
-        private const string Subspecies = "亚种";
-        private const string Species = "种";
-        private const string Superspecies = "种团";
+            public const string Subvariety = "亚变种";
+            public const string Variety = "变种";
+            public const string Subspecies = "亚种";
+            public const string Species = "种";
+            public const string Superspecies = "种团";
 
-        private const string Infragenus = "下属";
-        private const string Subgenus = "亚属";
-        private const string Genus = "属";
+            public const string Infragenus = "下属";
+            public const string Subgenus = "亚属";
+            public const string Genus = "属";
 
-        private const string Infrafamily = "下科";
-        private const string Subfamily = "亚科";
-        private const string Family = "科";
-        private const string Epifamily = "领科";
-        private const string Hyperfamily = "上科";
-        private const string Grandfamily = "大科";
-        private const string Superfamily = "总科";
-        private const string Megafamily = "高科";
-        private const string Gigafamily = "宏科";
+            public const string Infrafamily = "下科";
+            public const string Subfamily = "亚科";
+            public const string Family = "科";
+            public const string Epifamily = "领科";
+            public const string Hyperfamily = "上科";
+            public const string Grandfamily = "大科";
+            public const string Superfamily = "总科";
+            public const string Megafamily = "高科";
+            public const string Gigafamily = "宏科";
 
-        private const string Parvorder = "小目";
-        private const string Infraorder = "下目";
-        private const string Suborder = "亚目";
-        private const string Minorder = "若目";
-        private const string Hypoorder = "次目";
-        private const string Nanorder = "从目";
-        private const string Order = "目";
-        private const string Hyperorder = "上目";
-        private const string Grandorder = "大目";
-        private const string Superorder = "总目";
-        private const string Megaorder = "高目";
-        private const string Gigaorder = "宏目";
+            public const string Parvorder = "小目";
+            public const string Infraorder = "下目";
+            public const string Suborder = "亚目";
+            public const string Minorder = "若目";
+            public const string Hypoorder = "次目";
+            public const string Nanorder = "从目";
+            public const string Order = "目";
+            public const string Hyperorder = "上目";
+            public const string Grandorder = "大目";
+            public const string Superorder = "总目";
+            public const string Megaorder = "高目";
+            public const string Gigaorder = "宏目";
 
-        private const string Parvclass = "小纲";
-        private const string Infraclass = "下纲";
-        private const string Subclass = "亚纲";
-        private const string Class = "纲";
-        private const string Hyperclass = "上纲";
-        private const string Grandclass = "大纲";
-        private const string Superclass = "总纲";
-        private const string Megaclass = "高纲";
+            public const string Parvclass = "小纲";
+            public const string Infraclass = "下纲";
+            public const string Subclass = "亚纲";
+            public const string Class = "纲";
+            public const string Hyperclass = "上纲";
+            public const string Grandclass = "大纲";
+            public const string Superclass = "总纲";
+            public const string Megaclass = "高纲";
 
-        private const string Parvphylum = "小门";
-        private const string Infraphylum = "下门";
-        private const string Subphylum = "亚门";
-        private const string Phylum = "门";
-        private const string Superphylum = "总门";
+            public const string Parvphylum = "小门";
+            public const string Infraphylum = "下门";
+            public const string Subphylum = "亚门";
+            public const string Phylum = "门";
+            public const string Superphylum = "总门";
 
-        private const string Kingdom = "界";
-        private const string Superkingdom = "总界";
-        private const string Infrakingdom = "下界";
-        private const string Subkingdom = "亚界";
+            public const string Kingdom = "界";
+            public const string Superkingdom = "总界";
+            public const string Infrakingdom = "下界";
+            public const string Subkingdom = "亚界";
 
-        private const string Domain = "域";
-        private const string Superdomain = "总域";
+            public const string Domain = "域";
+            public const string Superdomain = "总域";
+        }
 
         //
 
         private static Dictionary<TaxonomicCategory, string> _CategoryToNameTable = new Dictionary<TaxonomicCategory, string>()
         {
-            { TaxonomicCategory.Unranked, Unranked },
+            { TaxonomicCategory.Unranked, _Names.Unranked },
 
-            { TaxonomicCategory.Clade, Clade },
+            { TaxonomicCategory.Clade, _Names.Clade },
 
-            { TaxonomicCategory.Strain, Strain },
+            { TaxonomicCategory.Strain, _Names.Strain },
 
-            { TaxonomicCategory.Subform, Subform },
-            { TaxonomicCategory.Form, Form },
+            { TaxonomicCategory.Subform, _Names.Subform },
+            { TaxonomicCategory.Form, _Names.Form },
 
-            { TaxonomicCategory.Subseries, Subseries },
-            { TaxonomicCategory.Series, Series },
+            { TaxonomicCategory.Subseries, _Names.Subseries },
+            { TaxonomicCategory.Series, _Names.Series },
 
-            { TaxonomicCategory.Infradivision, Infradivision },
-            { TaxonomicCategory.Subdivision, Subdivision },
-            { TaxonomicCategory.Division, Division },
-            { TaxonomicCategory.Superdivision, Superdivision },
+            { TaxonomicCategory.Infradivision, _Names.Infradivision },
+            { TaxonomicCategory.Subdivision, _Names.Subdivision },
+            { TaxonomicCategory.Division, _Names.Division },
+            { TaxonomicCategory.Superdivision, _Names.Superdivision },
 
-            { TaxonomicCategory.Infrasection, Infrasection },
-            { TaxonomicCategory.Subsection, Subsection },
-            { TaxonomicCategory.Section, Section },
-            { TaxonomicCategory.Supersection, Supersection },
+            { TaxonomicCategory.Infrasection, _Names.Infrasection },
+            { TaxonomicCategory.Subsection, _Names.Subsection },
+            { TaxonomicCategory.Section, _Names.Section },
+            { TaxonomicCategory.Supersection, _Names.Supersection },
 
-            { TaxonomicCategory.Infracohort, Infracohort },
-            { TaxonomicCategory.Subcohort, Subcohort },
-            { TaxonomicCategory.Cohort, Cohort },
-            { TaxonomicCategory.Supercohort, Supercohort },
-            { TaxonomicCategory.Megacohort, Megacohort },
+            { TaxonomicCategory.Infracohort, _Names.Infracohort },
+            { TaxonomicCategory.Subcohort, _Names.Subcohort },
+            { TaxonomicCategory.Cohort, _Names.Cohort },
+            { TaxonomicCategory.Supercohort, _Names.Supercohort },
+            { TaxonomicCategory.Megacohort, _Names.Megacohort },
 
-            { TaxonomicCategory.Infratribe, Infratribe },
-            { TaxonomicCategory.Subtribe, Subtribe },
-            { TaxonomicCategory.Tribe, Tribe },
-            { TaxonomicCategory.Supertribe, Supertribe },
+            { TaxonomicCategory.Infratribe, _Names.Infratribe },
+            { TaxonomicCategory.Subtribe, _Names.Subtribe },
+            { TaxonomicCategory.Tribe, _Names.Tribe },
+            { TaxonomicCategory.Supertribe, _Names.Supertribe },
 
-            { TaxonomicCategory.Subvariety, Subvariety },
-            { TaxonomicCategory.Variety, Variety },
-            { TaxonomicCategory.Subspecies, Subspecies },
-            { TaxonomicCategory.Species, Species },
-            { TaxonomicCategory.Superspecies, Superspecies },
+            { TaxonomicCategory.Subvariety, _Names.Subvariety },
+            { TaxonomicCategory.Variety, _Names.Variety },
+            { TaxonomicCategory.Subspecies, _Names.Subspecies },
+            { TaxonomicCategory.Species, _Names.Species },
+            { TaxonomicCategory.Superspecies, _Names.Superspecies },
 
-            { TaxonomicCategory.Infragenus, Infragenus },
-            { TaxonomicCategory.Subgenus, Subgenus },
-            { TaxonomicCategory.Genus, Genus },
+            { TaxonomicCategory.Infragenus, _Names.Infragenus },
+            { TaxonomicCategory.Subgenus, _Names.Subgenus },
+            { TaxonomicCategory.Genus, _Names.Genus },
 
-            { TaxonomicCategory.Infrafamily, Infrafamily },
-            { TaxonomicCategory.Subfamily, Subfamily },
-            { TaxonomicCategory.Family, Family },
-            { TaxonomicCategory.Epifamily, Epifamily },
-            { TaxonomicCategory.Hyperfamily, Hyperfamily },
-            { TaxonomicCategory.Grandfamily, Grandfamily },
-            { TaxonomicCategory.Superfamily, Superfamily },
-            { TaxonomicCategory.Megafamily, Megafamily },
-            { TaxonomicCategory.Gigafamily, Gigafamily },
+            { TaxonomicCategory.Infrafamily, _Names.Infrafamily },
+            { TaxonomicCategory.Subfamily, _Names.Subfamily },
+            { TaxonomicCategory.Family, _Names.Family },
+            { TaxonomicCategory.Epifamily, _Names.Epifamily },
+            { TaxonomicCategory.Hyperfamily, _Names.Hyperfamily },
+            { TaxonomicCategory.Grandfamily, _Names.Grandfamily },
+            { TaxonomicCategory.Superfamily, _Names.Superfamily },
+            { TaxonomicCategory.Megafamily, _Names.Megafamily },
+            { TaxonomicCategory.Gigafamily, _Names.Gigafamily },
 
-            { TaxonomicCategory.Parvorder, Parvorder },
-            { TaxonomicCategory.Infraorder, Infraorder },
-            { TaxonomicCategory.Suborder, Suborder },
-            { TaxonomicCategory.Minorder, Minorder },
-            { TaxonomicCategory.Hypoorder, Hypoorder },
-            { TaxonomicCategory.Nanorder, Nanorder },
-            { TaxonomicCategory.Order, Order },
-            { TaxonomicCategory.Hyperorder, Hyperorder },
-            { TaxonomicCategory.Grandorder, Grandorder },
-            { TaxonomicCategory.Superorder, Superorder },
-            { TaxonomicCategory.Megaorder, Megaorder },
-            { TaxonomicCategory.Gigaorder, Gigaorder },
+            { TaxonomicCategory.Parvorder, _Names.Parvorder },
+            { TaxonomicCategory.Infraorder, _Names.Infraorder },
+            { TaxonomicCategory.Suborder, _Names.Suborder },
+            { TaxonomicCategory.Minorder, _Names.Minorder },
+            { TaxonomicCategory.Hypoorder, _Names.Hypoorder },
+            { TaxonomicCategory.Nanorder, _Names.Nanorder },
+            { TaxonomicCategory.Order, _Names.Order },
+            { TaxonomicCategory.Hyperorder, _Names.Hyperorder },
+            { TaxonomicCategory.Grandorder, _Names.Grandorder },
+            { TaxonomicCategory.Superorder, _Names.Superorder },
+            { TaxonomicCategory.Megaorder, _Names.Megaorder },
+            { TaxonomicCategory.Gigaorder, _Names.Gigaorder },
 
-            { TaxonomicCategory.Parvclass, Parvclass },
-            { TaxonomicCategory.Infraclass, Infraclass },
-            { TaxonomicCategory.Subclass, Subclass },
-            { TaxonomicCategory.Class, Class },
-            { TaxonomicCategory.Hyperclass, Hyperclass },
-            { TaxonomicCategory.Grandclass, Grandclass },
-            { TaxonomicCategory.Superclass, Superclass },
-            { TaxonomicCategory.Megaclass, Megaclass },
+            { TaxonomicCategory.Parvclass, _Names.Parvclass },
+            { TaxonomicCategory.Infraclass, _Names.Infraclass },
+            { TaxonomicCategory.Subclass, _Names.Subclass },
+            { TaxonomicCategory.Class, _Names.Class },
+            { TaxonomicCategory.Hyperclass, _Names.Hyperclass },
+            { TaxonomicCategory.Grandclass, _Names.Grandclass },
+            { TaxonomicCategory.Superclass, _Names.Superclass },
+            { TaxonomicCategory.Megaclass, _Names.Megaclass },
 
-            { TaxonomicCategory.Parvphylum, Parvphylum },
-            { TaxonomicCategory.Infraphylum, Infraphylum },
-            { TaxonomicCategory.Subphylum, Subphylum },
-            { TaxonomicCategory.Phylum, Phylum },
-            { TaxonomicCategory.Superphylum, Superphylum },
+            { TaxonomicCategory.Parvphylum, _Names.Parvphylum },
+            { TaxonomicCategory.Infraphylum, _Names.Infraphylum },
+            { TaxonomicCategory.Subphylum, _Names.Subphylum },
+            { TaxonomicCategory.Phylum, _Names.Phylum },
+            { TaxonomicCategory.Superphylum, _Names.Superphylum },
 
-            { TaxonomicCategory.Infrakingdom, Infrakingdom },
-            { TaxonomicCategory.Subkingdom, Subkingdom },
-            { TaxonomicCategory.Kingdom, Kingdom },
-            { TaxonomicCategory.Superkingdom, Superkingdom },
+            { TaxonomicCategory.Infrakingdom, _Names.Infrakingdom },
+            { TaxonomicCategory.Subkingdom, _Names.Subkingdom },
+            { TaxonomicCategory.Kingdom, _Names.Kingdom },
+            { TaxonomicCategory.Superkingdom, _Names.Superkingdom },
 
-            { TaxonomicCategory.Domain, Domain },
-            { TaxonomicCategory.Superdomain, Superdomain }
+            { TaxonomicCategory.Domain, _Names.Domain },
+            { TaxonomicCategory.Superdomain, _Names.Superdomain }
         };
 
         // 获取分类阶元的名称。
@@ -222,105 +225,105 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         private static Dictionary<string, TaxonomicCategory> _NameToCategoryTable = new Dictionary<string, TaxonomicCategory>()
         {
-            { Unranked, TaxonomicCategory.Unranked },
+            { _Names.Unranked, TaxonomicCategory.Unranked },
 
-            { Clade, TaxonomicCategory.Clade }, // 演化支
+            { _Names.Clade, TaxonomicCategory.Clade }, // 演化支
             { "支", TaxonomicCategory.Clade }, // 支
 
-            { Strain, TaxonomicCategory.Strain },
+            { _Names.Strain, TaxonomicCategory.Strain },
 
-            { Subform, TaxonomicCategory.Subform },
-            { Form, TaxonomicCategory.Form },
+            { _Names.Subform, TaxonomicCategory.Subform },
+            { _Names.Form, TaxonomicCategory.Form },
 
-            { Subseries, TaxonomicCategory.Subseries },
-            { Series, TaxonomicCategory.Series },
+            { _Names.Subseries, TaxonomicCategory.Subseries },
+            { _Names.Series, TaxonomicCategory.Series },
 
-            { Infrasection, TaxonomicCategory.Infrasection },
-            { Subsection, TaxonomicCategory.Subsection }, // 亚派
+            { _Names.Infrasection, TaxonomicCategory.Infrasection },
+            { _Names.Subsection, TaxonomicCategory.Subsection }, // 亚派
             { "亚组", TaxonomicCategory.Subsection }, // 亚组
             { "亚节", TaxonomicCategory.Subsection }, // 亚节
-            { Section, TaxonomicCategory.Section }, // 派
+            { _Names.Section, TaxonomicCategory.Section }, // 派
             { "组", TaxonomicCategory.Section }, // 组
             { "节", TaxonomicCategory.Section }, // 节
-            { Supersection, TaxonomicCategory.Supersection },
+            { _Names.Supersection, TaxonomicCategory.Supersection },
 
-            { Infradivision, TaxonomicCategory.Infradivision },
-            { Subdivision, TaxonomicCategory.Subdivision },
-            // { Division,  TaxonomicCategory.Division },
+            { _Names.Infradivision, TaxonomicCategory.Infradivision },
+            { _Names.Subdivision, TaxonomicCategory.Subdivision },
+            // { _Names.Division,  TaxonomicCategory.Division },
             { "类", TaxonomicCategory.Clade }, // "类"一般指演化支
-            { Superdivision, TaxonomicCategory.Superdivision },
+            { _Names.Superdivision, TaxonomicCategory.Superdivision },
 
-            { Infracohort, TaxonomicCategory.Infracohort },
-            { Subcohort, TaxonomicCategory.Subcohort },
-            { Cohort, TaxonomicCategory.Cohort },
-            { Supercohort, TaxonomicCategory.Supercohort },
-            { Megacohort, TaxonomicCategory.Megacohort },
+            { _Names.Infracohort, TaxonomicCategory.Infracohort },
+            { _Names.Subcohort, TaxonomicCategory.Subcohort },
+            { _Names.Cohort, TaxonomicCategory.Cohort },
+            { _Names.Supercohort, TaxonomicCategory.Supercohort },
+            { _Names.Megacohort, TaxonomicCategory.Megacohort },
 
-            { Infratribe, TaxonomicCategory.Infratribe },
-            { Subtribe, TaxonomicCategory.Subtribe },
-            { Tribe, TaxonomicCategory.Tribe },
-            { Supertribe, TaxonomicCategory.Supertribe }, // 总族
+            { _Names.Infratribe, TaxonomicCategory.Infratribe },
+            { _Names.Subtribe, TaxonomicCategory.Subtribe },
+            { _Names.Tribe, TaxonomicCategory.Tribe },
+            { _Names.Supertribe, TaxonomicCategory.Supertribe }, // 总族
             { "超族", TaxonomicCategory.Supertribe }, // 超族
 
-            { Subvariety, TaxonomicCategory.Subvariety },
-            { Variety, TaxonomicCategory.Variety },
-            { Subspecies, TaxonomicCategory.Subspecies },
-            { Species, TaxonomicCategory.Species },
-            { Superspecies, TaxonomicCategory.Superspecies },
+            { _Names.Subvariety, TaxonomicCategory.Subvariety },
+            { _Names.Variety, TaxonomicCategory.Variety },
+            { _Names.Subspecies, TaxonomicCategory.Subspecies },
+            { _Names.Species, TaxonomicCategory.Species },
+            { _Names.Superspecies, TaxonomicCategory.Superspecies },
 
-            { Infragenus, TaxonomicCategory.Infragenus },
-            { Subgenus, TaxonomicCategory.Subgenus },
-            { Genus, TaxonomicCategory.Genus },
+            { _Names.Infragenus, TaxonomicCategory.Infragenus },
+            { _Names.Subgenus, TaxonomicCategory.Subgenus },
+            { _Names.Genus, TaxonomicCategory.Genus },
 
-            { Infrafamily, TaxonomicCategory.Infrafamily },
-            { Subfamily, TaxonomicCategory.Subfamily },
-            { Family, TaxonomicCategory.Family },
-            { Epifamily, TaxonomicCategory.Epifamily },
-            { Hyperfamily, TaxonomicCategory.Hyperfamily },
-            { Grandfamily, TaxonomicCategory.Grandfamily },
-            { Superfamily, TaxonomicCategory.Superfamily }, // 总科
+            { _Names.Infrafamily, TaxonomicCategory.Infrafamily },
+            { _Names.Subfamily, TaxonomicCategory.Subfamily },
+            { _Names.Family, TaxonomicCategory.Family },
+            { _Names.Epifamily, TaxonomicCategory.Epifamily },
+            { _Names.Hyperfamily, TaxonomicCategory.Hyperfamily },
+            { _Names.Grandfamily, TaxonomicCategory.Grandfamily },
+            { _Names.Superfamily, TaxonomicCategory.Superfamily }, // 总科
             { "超科", TaxonomicCategory.Superfamily }, // 超科
-            { Megafamily, TaxonomicCategory.Megafamily },
-            { Gigafamily, TaxonomicCategory.Gigafamily },
+            { _Names.Megafamily, TaxonomicCategory.Megafamily },
+            { _Names.Gigafamily, TaxonomicCategory.Gigafamily },
 
-            { Parvorder, TaxonomicCategory.Parvorder },
-            { Infraorder, TaxonomicCategory.Infraorder },
-            { Suborder, TaxonomicCategory.Suborder },
-            { Minorder, TaxonomicCategory.Minorder },
-            { Hypoorder, TaxonomicCategory.Hypoorder },
-            { Nanorder, TaxonomicCategory.Nanorder },
-            { Order, TaxonomicCategory.Order },
-            { Hyperorder, TaxonomicCategory.Hyperorder },
-            { Grandorder, TaxonomicCategory.Grandorder },
-            { Superorder, TaxonomicCategory.Superorder }, // 总目
+            { _Names.Parvorder, TaxonomicCategory.Parvorder },
+            { _Names.Infraorder, TaxonomicCategory.Infraorder },
+            { _Names.Suborder, TaxonomicCategory.Suborder },
+            { _Names.Minorder, TaxonomicCategory.Minorder },
+            { _Names.Hypoorder, TaxonomicCategory.Hypoorder },
+            { _Names.Nanorder, TaxonomicCategory.Nanorder },
+            { _Names.Order, TaxonomicCategory.Order },
+            { _Names.Hyperorder, TaxonomicCategory.Hyperorder },
+            { _Names.Grandorder, TaxonomicCategory.Grandorder },
+            { _Names.Superorder, TaxonomicCategory.Superorder }, // 总目
             { "超目", TaxonomicCategory.Superorder }, // 超目
-            { Megaorder, TaxonomicCategory.Megaorder },
-            { Gigaorder, TaxonomicCategory.Gigaorder },
+            { _Names.Megaorder, TaxonomicCategory.Megaorder },
+            { _Names.Gigaorder, TaxonomicCategory.Gigaorder },
 
-            { Parvclass, TaxonomicCategory.Parvclass },
-            { Infraclass, TaxonomicCategory.Infraclass },
-            { Subclass, TaxonomicCategory.Subclass },
-            { Class, TaxonomicCategory.Class },
-            { Hyperclass, TaxonomicCategory.Hyperclass },
-            { Grandclass, TaxonomicCategory.Grandclass },
-            { Superclass, TaxonomicCategory.Superclass }, // 总纲
+            { _Names.Parvclass, TaxonomicCategory.Parvclass },
+            { _Names.Infraclass, TaxonomicCategory.Infraclass },
+            { _Names.Subclass, TaxonomicCategory.Subclass },
+            { _Names.Class, TaxonomicCategory.Class },
+            { _Names.Hyperclass, TaxonomicCategory.Hyperclass },
+            { _Names.Grandclass, TaxonomicCategory.Grandclass },
+            { _Names.Superclass, TaxonomicCategory.Superclass }, // 总纲
             { "超纲", TaxonomicCategory.Superclass }, // 超纲
-            { Megaclass, TaxonomicCategory.Megaclass },
+            { _Names.Megaclass, TaxonomicCategory.Megaclass },
 
-            { Parvphylum, TaxonomicCategory.Parvphylum },
-            { Infraphylum, TaxonomicCategory.Infraphylum },
-            { Subphylum, TaxonomicCategory.Subphylum },
-            { Phylum, TaxonomicCategory.Phylum },
-            { Superphylum, TaxonomicCategory.Superphylum }, // 总门
+            { _Names.Parvphylum, TaxonomicCategory.Parvphylum },
+            { _Names.Infraphylum, TaxonomicCategory.Infraphylum },
+            { _Names.Subphylum, TaxonomicCategory.Subphylum },
+            { _Names.Phylum, TaxonomicCategory.Phylum },
+            { _Names.Superphylum, TaxonomicCategory.Superphylum }, // 总门
             { "超门", TaxonomicCategory.Superphylum }, // 超门
 
-            { Infrakingdom, TaxonomicCategory.Infrakingdom },
-            { Subkingdom, TaxonomicCategory.Subkingdom },
-            { Kingdom, TaxonomicCategory.Kingdom },
-            { Superkingdom, TaxonomicCategory.Superkingdom },
+            { _Names.Infrakingdom, TaxonomicCategory.Infrakingdom },
+            { _Names.Subkingdom, TaxonomicCategory.Subkingdom },
+            { _Names.Kingdom, TaxonomicCategory.Kingdom },
+            { _Names.Superkingdom, TaxonomicCategory.Superkingdom },
 
-            { Domain, TaxonomicCategory.Domain },
-            { Superdomain, TaxonomicCategory.Superdomain }
+            { _Names.Domain, TaxonomicCategory.Domain },
+            { _Names.Superdomain, TaxonomicCategory.Superdomain }
         };
 
         // 精确匹配分类阶元名称。
@@ -328,7 +331,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             TaxonomicCategory category;
 
-            if (!string.IsNullOrWhiteSpace(name) && name.Length <= MaxLength && _NameToCategoryTable.TryGetValue(name, out category))
+            if (!string.IsNullOrEmpty(name) && name.Length <= MaxLength && _NameToCategoryTable.TryGetValue(name, out category))
             {
                 return category;
             }
@@ -338,13 +341,13 @@ namespace TreeOfLife.Taxonomy.Extensions
             }
         }
 
-        // 尝试匹配可能包含分类阶元名称的字符串，并输出从字符串中匹配到的表示分类阶元名称的部分。
-        public static bool TryParseCategory(string name, out TaxonomicCategory category, out string parsedCategoryName)
+        // 尝试匹配可能包含分类阶元名称的字符串，并输出从字符串中匹配到的表示分类阶元名称的部分的起始索引。
+        public static bool TryParseCategory(string name, out TaxonomicCategory category, out int categoryNameIndex)
         {
             category = TaxonomicCategory.Unranked;
-            parsedCategoryName = null;
+            categoryNameIndex = -1;
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 int len = name.Length;
 
@@ -356,7 +359,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                         if (_NameToCategoryTable.TryGetValue(suffix, out category))
                         {
-                            parsedCategoryName = suffix;
+                            categoryNameIndex = len - i;
 
                             return true;
                         }

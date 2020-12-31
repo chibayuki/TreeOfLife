@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.708.1000.M7.201230-2100
+Version 1.0.800.1000.M7.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,37 +49,28 @@ namespace TreeOfLife.Views.Search
 
             //
 
-            button_Search.Click += Button_Search_Click;
+            button_Search.Click += (s, e) => _SearchAndUpdateResult();
         }
 
         //
 
-        #region 回调函数
-
-        private void Button_Search_Click(object sender, RoutedEventArgs e)
-        {
-            IReadOnlyList<Taxon> searchResult;
-
-            try
-            {
-                searchResult = Phylogenesis.Root.Search(ViewModel.KeyWord.Trim());
-            }
-            catch
-            {
-                searchResult = null;
-            }
-
-            _UpdateSearchResult(searchResult);
-        }
-
-        #endregion
-
         #region 搜索
 
-        private void _UpdateSearchResult(IReadOnlyList<Taxon> searchResult)
+        private void _SearchAndUpdateResult()
         {
             taxonNameButtonGroup_SearchResult.StartEditing();
             taxonNameButtonGroup_SearchResult.Clear();
+
+            IReadOnlyList<Taxon> searchResult;
+
+            //try
+            {
+                searchResult = Phylogenesis.Root.Search(ViewModel.KeyWord.Trim());
+            }
+            /*catch
+            {
+                searchResult = null;
+            }*/
 
             if (searchResult != null)
             {

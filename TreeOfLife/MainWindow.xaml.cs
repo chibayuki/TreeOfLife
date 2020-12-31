@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.708.1000.M7.201230-2100
+Version 1.0.800.1000.M7.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -198,11 +198,11 @@ namespace TreeOfLife
                         result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
                     }
                 }
+            }
 
-                if (result.HasValue && result.Value)
-                {
-                    _Saved = true;
-                }
+            if (result.HasValue && result.Value)
+            {
+                _Saved = true;
             }
 
             return result;
