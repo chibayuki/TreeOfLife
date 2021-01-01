@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M7.201231-0000
+Version 1.0.800.1000.M8.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -63,14 +63,18 @@ namespace TreeOfLife.Views.Search
 
             IReadOnlyList<Taxon> searchResult;
 
-            //try
+#if !DEBUG
+            try
+#endif
             {
                 searchResult = Phylogenesis.Root.Search(ViewModel.KeyWord.Trim());
             }
-            /*catch
+#if !DEBUG
+            catch
             {
                 searchResult = null;
-            }*/
+            }
+#endif
 
             if (searchResult != null)
             {

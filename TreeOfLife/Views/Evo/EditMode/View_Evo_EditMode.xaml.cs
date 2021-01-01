@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M7.201231-0000
+Version 1.0.800.1000.M8.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -170,7 +170,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
                         if (taxonName.Length > 32)
                         {
-                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName.Substring(0, 32), "...\")");
+                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName[0..32], "...\")");
                         }
                         else
                         {

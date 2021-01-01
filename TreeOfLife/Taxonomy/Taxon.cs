@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M7.201231-0000
+Version 1.0.800.1000.M8.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -394,6 +394,20 @@ namespace TreeOfLife.Taxonomy
             return child;
         }
 
+        // 递归删除所有子类群。
+        private void _RecursiveRemoveChildren()
+        {
+            for (int i = 0; i < _Children.Count; i++)
+            {
+                _Children[i]._RecursiveRemoveChildren();
+            }
+
+            // 直接将父类群设为 null 即可，调用_AtomDetachParent会导致递归失败
+            _Parent = null;
+
+            _Children.Clear();
+        }
+
         // 删除当前类群（并且删除/保留所有子类群）。
         public void RemoveCurrent(bool removeChildren)
         {
@@ -401,7 +415,15 @@ namespace TreeOfLife.Taxonomy
             {
                 Taxon parent = _Parent;
 
-                if (removeChildren || _Children.Count <= 0)
+                if (removeChildren)
+                {
+                    // 必须确实递归地删除所有子类群，从而避免例如从"搜索"页面跳转到已删除的类群、或者间接引用大量已删除类群的问题
+                    _RecursiveRemoveChildren();
+
+                    // 第一层递归已经将父类群设为 null，但没有从父类群的子类群中删除当前类群
+                    parent._Children.Remove(this);
+                }
+                else if (_Children.Count <= 0)
                 {
                     _AtomDetachParent();
                 }
@@ -416,9 +438,9 @@ namespace TreeOfLife.Taxonomy
                         _Children[i]._AtomAttachParent(parent, index + i);
                         _Children[i]._RepairLevel();
                     }
-                }
 
-                _Children.Clear();
+                    _Children.Clear();
+                }
 
                 parent._RepairIndex();
             }

@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M7.201231-0000
+Version 1.0.800.1000.M8.201231-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -21,6 +21,15 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取两个字符串的最大相同子串的长度。
         private static int _GetCommonPartLength(string str1, string str2)
         {
+            // 原理：
+            // 将两个字符串（之前各空一位再）分别横排和竖排，以二者的长度加一为行列数目构造一个矩阵，
+            // 则矩阵的 (i, j) 元素表示 str1[i - 1] 与 str2[j - 1] 的比较，矩阵的 (i + 1, j + 1) 元素表示 str1[i] 与 str2[j] 的比较，
+            // 类推可知，矩阵中所有与主对角线平行的对角元素表示将两个字符串相对滑动一段距离后重叠部分的逐字符比较，
+            // 那么所有对角线上连续比中最多的数目即最大相同子串的长度，
+            // 设法使矩阵的每个元素表示所在对角线的连续比中数目，
+            // 令矩阵的第 0 行和第 0 列元素全部为 0，每当比中一个字符，令当前元素 (i, j) 等于 (i - 1, j - 1) + 1，否则等于 0,
+            // 那么矩阵中所有元素的最大值即最大相同子串的长度。
+
             int len1 = str1.Length;
             int len2 = str2.Length;
 
@@ -61,26 +70,41 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取两个字符串的匹配率。
         private static double _GetMatchValueOfTwoString(string str1, string str2)
         {
-            int commonPartLength = _GetCommonPartLength(str1, str2);
+            int commonPartLength = _GetCommonPartLength(str1.ToUpperInvariant(), str2.ToUpperInvariant());
 
             return ((double)commonPartLength * commonPartLength / str1.Length / str2.Length);
         }
 
-        // 获取类群的中文名不含表示分类阶元的部分。
-        private static string _GetChineseNameWithoutCategory(string str)
+        // 将类群的中文名分割为分类阶元与不含表示分类阶元的部分。
+        private static (string chineseNameWithoutCategory, TaxonomicCategory? category) _SplitChineseName(string str)
         {
-            int categoryNameIndex;
-            string chsNameWithoutCategory = str;
+            TaxonomicCategory? categoryN = TaxonomicCategoryChineseExtension.ParseCategory(str);
 
-            if (TaxonomicCategoryChineseExtension.TryParseCategory(str, out _, out categoryNameIndex))
+            if (categoryN.HasValue)
             {
-                if (categoryNameIndex > 0)
+                return (string.Empty, categoryN);
+            }
+            else
+            {
+                TaxonomicCategory category;
+                int categoryNameIndex;
+
+                if (TaxonomicCategoryChineseExtension.TryParseCategory(str, out category, out categoryNameIndex))
                 {
-                    chsNameWithoutCategory = str[0..categoryNameIndex];
+                    if (categoryNameIndex > 0)
+                    {
+                        return (str[0..categoryNameIndex], category);
+                    }
+                    else
+                    {
+                        return (string.Empty, category);
+                    }
+                }
+                else
+                {
+                    return (str, null);
                 }
             }
-
-            return chsNameWithoutCategory;
         }
 
         //
@@ -223,7 +247,9 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                         if (!string.IsNullOrEmpty(taxon.ChineseName))
                         {
-                            string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon.ChineseName);
+                            var split = _SplitChineseName(taxon.ChineseName);
+
+                            string chsNameWithoutCategory = (string.IsNullOrEmpty(split.chineseNameWithoutCategory) ? taxon.ChineseName : split.chineseNameWithoutCategory);
 
                             if (!string.IsNullOrEmpty(chsNameWithoutCategory))
                             {
@@ -370,27 +396,7 @@ namespace TreeOfLife.Taxonomy.Extensions
             _SearchResults = new List<_SearchResult>();
 
             _KeyWord = keyWord;
-            _KeyWordCategory = TaxonomicCategoryChineseExtension.ParseCategory(_KeyWord);
-
-            if (_KeyWordCategory.HasValue)
-            {
-                _KeyWordWithoutCategory = string.Empty;
-            }
-            else
-            {
-                TaxonomicCategory category;
-                int categoryNameIndex;
-
-                if (TaxonomicCategoryChineseExtension.TryParseCategory(_KeyWord, out category, out categoryNameIndex))
-                {
-                    _KeyWordCategory = category;
-                    _KeyWordWithoutCategory = _KeyWord[0..categoryNameIndex];
-                }
-                else
-                {
-                    _KeyWordWithoutCategory = _KeyWord;
-                }
-            }
+            (_KeyWordWithoutCategory, _KeyWordCategory) = _SplitChineseName(_KeyWord);
 
             taxon._GetMatchedChildren();
 
