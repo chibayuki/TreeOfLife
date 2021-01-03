@@ -58,19 +58,23 @@ namespace TreeOfLife.Views.Tree
             }
         }
 
-        private void _RecursiveFillStringBuilder(StringBuilder sb, Taxon taxon)
+        private int _ParentLevels = 1; // 向上追溯的具名父类群的层数。
+        private int _ChildrenLevels = 3; // 向下追溯的具名子类群的层数。
+        private int _SiblingLevels = 0; // 旁系群向下追溯的具名子类群的层数。
+
+        private int _LevelShift = 0; // 向上追溯的最高具名父类群的层级。
+
+        // 为指定类群生成一行表示其在系统发生树中的字符串。
+        private string _GenerateLine(Taxon taxon)
         {
-            if (sb == null || taxon == null)
+            int relativeLevel = taxon.Level - _LevelShift;
+
+            if (relativeLevel > 0)
             {
-                throw new ArgumentNullException();
-            }
+                // 每个类群用一行字符表示，类群名之前的字符数与类群的层级成正比（这里使用2倍关系）
+                char[] ch = new char[relativeLevel * 2];
 
-            //
-
-            foreach (var child in taxon.Children)
-            {
-                char[] ch = new char[child.Level * 2];
-
+                // 首先全部初始化为空格，然后逆序判断和替换字符
                 for (int i = 0; i < ch.Length; i++)
                 {
                     ch[i] = '　';
@@ -78,10 +82,12 @@ namespace TreeOfLife.Views.Tree
 
                 int chIndex = ch.Length - 2;
 
-                if (child.Index < child.Parent.Children.Count - 1)
+                // 当类群的索引不是最后一个时，替换为├
+                if (taxon.Index < taxon.Parent.Children.Count - 1)
                 {
                     ch[chIndex] = '├';
                 }
+                // 当类群的索引是最后一个时，替换为└
                 else
                 {
                     ch[chIndex] = '└';
@@ -89,10 +95,12 @@ namespace TreeOfLife.Views.Tree
 
                 chIndex -= 2;
 
-                Taxon t = child.Parent;
+                Taxon t = taxon.Parent;
 
-                while (t.Parent != null)
+                // 逐个向上判断父类群
+                while (chIndex >= 0 && t.Parent != null)
                 {
+                    // 只有当父类群的索引不是最后一个时，替换为│
                     if (t.Index < t.Parent.Children.Count - 1)
                     {
                         ch[chIndex] = '│';
@@ -102,26 +110,177 @@ namespace TreeOfLife.Views.Tree
                     t = t.Parent;
                 }
 
-                sb.Append(ch);
-
-                if (child.IsNamed())
+                if (taxon.IsNamed())
                 {
-                    sb.AppendLine(child.GetLongName());
+                    return (new string(ch) + taxon.GetLongName());
                 }
                 else
                 {
-                    sb.AppendLine("─");
+                    return (new string(ch) + "─");
                 }
-
-                _RecursiveFillStringBuilder(sb, child);
+            }
+            else
+            {
+                if (taxon.IsNamed())
+                {
+                    return taxon.GetLongName();
+                }
+                else
+                {
+                    return "─";
+                }
             }
         }
 
+        private int _CurrentChildrenDepth; // 当前递归深度。
+
+        // 递归填充系统发生树的子类群部分。
+        private void _RecursiveGenerateLinesForChildren(StringBuilder sb, Taxon taxon)
+        {
+            if (sb == null || taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (!taxon.IsRoot)
+            {
+                sb.AppendLine(_GenerateLine(taxon));
+            }
+
+            if (taxon.IsRoot || taxon.IsNamed())
+            {
+                _CurrentChildrenDepth++;
+            }
+
+            if (_CurrentChildrenDepth < _ChildrenLevels)
+            {
+                foreach (var child in taxon.Children)
+                {
+                    _RecursiveGenerateLinesForChildren(sb, child);
+                }
+            }
+
+            if (taxon.IsRoot || taxon.IsNamed())
+            {
+                _CurrentChildrenDepth--;
+            }
+        }
+
+        private int _CurrentSiblingsDepth; // 当前递归深度。
+
+        // 递归填充系统发生树的旁系群部分。
+        private void _RecursiveGenerateLinesForSiblings(StringBuilder sb, Taxon taxon)
+        {
+            if (sb == null || taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (!taxon.IsRoot)
+            {
+                sb.AppendLine(_GenerateLine(taxon));
+            }
+
+            if (taxon.IsRoot || taxon.IsNamed())
+            {
+                _CurrentSiblingsDepth++;
+            }
+
+            if (_CurrentSiblingsDepth < _SiblingLevels)
+            {
+                foreach (var child in taxon.Children)
+                {
+                    _RecursiveGenerateLinesForSiblings(sb, child);
+                }
+            }
+
+            if (taxon.IsRoot || taxon.IsNamed())
+            {
+                _CurrentSiblingsDepth--;
+            }
+        }
+
+        // 递归填充纯文本形式的系统发生树。
+        private void _RecursiveGenerateLinesForEvoTree(StringBuilder sb, Taxon taxon)
+        {
+            if (sb == null || taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon == _NamedTaxon)
+            {
+                _CurrentChildrenDepth = -1;
+
+                _RecursiveGenerateLinesForChildren(sb, taxon);
+            }
+            else if (taxon.IsNamed() && !_NamedTaxon.InheritFrom(taxon))
+            {
+                _CurrentSiblingsDepth = -1;
+
+                _RecursiveGenerateLinesForSiblings(sb, taxon);
+            }
+            else
+            {
+                if (!taxon.IsRoot)
+                {
+                    sb.AppendLine(_GenerateLine(taxon));
+                }
+
+                foreach (var child in taxon.Children)
+                {
+                    _RecursiveGenerateLinesForEvoTree(sb, child);
+                }
+            }
+        }
+
+        private Taxon _NamedTaxon = null;
+
         public void UpdateTree()
         {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
+            {
+                _NamedTaxon = currentTaxon.GetNamedParent();
+
+                if (_NamedTaxon == null)
+                {
+                    _NamedTaxon = currentTaxon.Root;
+                }
+            }
+            else
+            {
+                _NamedTaxon = currentTaxon;
+            }
+
+            Taxon parent = _NamedTaxon;
+
+            for (int i = 0; i < _ParentLevels; i++)
+            {
+                parent = parent.GetNamedParent();
+
+                if (parent == null)
+                {
+                    parent = _NamedTaxon.Root;
+
+                    break;
+                }
+            }
+
+            _LevelShift = parent.Level;
+
             StringBuilder sb = new StringBuilder();
 
-            _RecursiveFillStringBuilder(sb, Phylogenesis.Root);
+            _RecursiveGenerateLinesForEvoTree(sb, parent);
+
+            _NamedTaxon = null;
 
             TreeText = sb.ToString();
         }

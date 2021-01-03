@@ -114,7 +114,7 @@ namespace TreeOfLife.Controls
             {
                 _Category = value;
 
-                if (_Category.HasValue)
+                if (_Category != null)
                 {
                     _CategoryName = _Category.Value.GetChineseName();
 

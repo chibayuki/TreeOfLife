@@ -588,7 +588,7 @@ namespace TreeOfLife.Controls
 
                 foreach (var button in _CurrentLevel2Group.Buttons)
                 {
-                    if (_Category.BasicCategory() == button.Category.Value)
+                    if (_Category.BasicCategory() == button.Category)
                     {
                         button.Checked = true;
 
@@ -606,7 +606,7 @@ namespace TreeOfLife.Controls
 
                 foreach (var button in _CurrentLevel3Group.Buttons)
                 {
-                    if (_Category == button.Category.Value)
+                    if (_Category == button.Category)
                     {
                         button.Checked = true;
 

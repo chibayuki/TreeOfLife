@@ -29,6 +29,8 @@ namespace TreeOfLife.Views
         public static Action EnterEditMode { get; set; }
         public static Action ExitEditMode { get; set; }
 
+        public static Action UpdateTree { get; set; }
+
         //
 
         #region 主题

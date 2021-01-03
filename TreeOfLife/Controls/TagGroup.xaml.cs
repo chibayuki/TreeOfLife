@@ -145,10 +145,7 @@ namespace TreeOfLife.Controls
 
                 foreach (var tag in value)
                 {
-                    Tag tagLabel = new Tag
-                    {
-                        Text = tag
-                    };
+                    Tag tagLabel = new Tag() { Text = tag };
 
                     _TagLabels.Add(tagLabel);
 

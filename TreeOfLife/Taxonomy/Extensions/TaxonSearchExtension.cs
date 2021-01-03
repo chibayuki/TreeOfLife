@@ -70,41 +70,13 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取两个字符串的匹配率。
         private static double _GetMatchValueOfTwoString(string str1, string str2)
         {
-            int commonPartLength = _GetCommonPartLength(str1.ToUpperInvariant(), str2.ToUpperInvariant());
+            // 出于性能和实际情况考虑，最多只比较前32个字符，并且先转换为大写再比较
+            string s1 = (str1.Length > 32 ? str1[0..32] : str1).ToUpperInvariant();
+            string s2 = (str2.Length > 32 ? str2[0..32] : str2).ToUpperInvariant();
+
+            int commonPartLength = _GetCommonPartLength(s1, s2);
 
             return ((double)commonPartLength * commonPartLength / str1.Length / str2.Length);
-        }
-
-        // 将类群的中文名分割为分类阶元与不含表示分类阶元的部分。
-        private static (string chineseNameWithoutCategory, TaxonomicCategory? category) _SplitChineseName(string str)
-        {
-            TaxonomicCategory? categoryN = TaxonomicCategoryChineseExtension.ParseCategory(str);
-
-            if (categoryN.HasValue)
-            {
-                return (string.Empty, categoryN);
-            }
-            else
-            {
-                TaxonomicCategory category;
-                int categoryNameIndex;
-
-                if (TaxonomicCategoryChineseExtension.TryParseCategory(str, out category, out categoryNameIndex))
-                {
-                    if (categoryNameIndex > 0)
-                    {
-                        return (str[0..categoryNameIndex], category);
-                    }
-                    else
-                    {
-                        return (string.Empty, category);
-                    }
-                }
-                else
-                {
-                    return (str, null);
-                }
-            }
         }
 
         //
@@ -131,7 +103,57 @@ namespace TreeOfLife.Taxonomy.Extensions
         private static string _KeyWordWithoutCategory; // 关键字除了表示分类阶元（如果有）之外的部分。
         private static TaxonomicCategory? _KeyWordCategory; // 关键字中包含的分类阶元。
 
-        // 获取当前匹配条件下指定类群的匹配率。
+        // 获取对指定类群做全字符串匹配的匹配率。
+        private static double _GetMatchValueOfTaxonByFullStringMatch(Taxon taxon, string str)
+        {
+            double matchValue = 0;
+
+            if (!string.IsNullOrEmpty(taxon.ChineseName))
+            {
+                matchValue = _GetMatchValueOfTwoString(str, taxon.ChineseName);
+            }
+
+            if (matchValue < 1 && !string.IsNullOrEmpty(taxon.BotanicalName))
+            {
+                matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(str, taxon.BotanicalName));
+            }
+
+            if (matchValue < 1 && taxon.Tags.Count > 0)
+            {
+                foreach (var tag in taxon.Tags)
+                {
+                    if (!string.IsNullOrEmpty(tag))
+                    {
+                        matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(str, tag));
+
+                        if (matchValue >= 1)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (matchValue < 1 && taxon.Synonyms.Count > 0)
+            {
+                foreach (var synonym in taxon.Synonyms)
+                {
+                    if (!string.IsNullOrEmpty(synonym))
+                    {
+                        matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(str, synonym));
+
+                        if (matchValue >= 1)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return matchValue;
+        }
+
+        // 获取指定类群在当前匹配条件下模糊匹配的匹配率。
         private static double _GetMatchValueOfTaxon(Taxon taxon)
         {
             if (taxon == null)
@@ -143,10 +165,10 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             double matchValue = 0;
 
-            // 关键字"是"或者"包含"分类阶元名称的
-            if (_KeyWordCategory.HasValue)
+            // 关键字包含或者仅包含分类阶元名称的
+            if (_KeyWordCategory != null)
             {
-                // 关键字"是"分类阶元名称的
+                // 关键字仅包含分类阶元名称的
                 if (string.IsNullOrEmpty(_KeyWordWithoutCategory))
                 {
                     // 类群具有中文名的，将中文名的长度作为分母
@@ -176,55 +198,13 @@ namespace TreeOfLife.Taxonomy.Extensions
                         }
                     }
 
-                    // 未匹配到分类阶元，做全字符串匹配，并且匹配率降低1/2
+                    // 未匹配到分类阶元，做关键字的全字符串匹配，并且匹配率降低1/2
                     if (matchValue <= 0)
                     {
-                        if (!string.IsNullOrEmpty(taxon.ChineseName))
-                        {
-                            matchValue = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
-                        }
-
-                        if (matchValue < 1 && !string.IsNullOrEmpty(taxon.BotanicalName))
-                        {
-                            matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, taxon.BotanicalName));
-                        }
-
-                        if (matchValue < 1 && taxon.Tags.Count > 0)
-                        {
-                            foreach (var tag in taxon.Tags)
-                            {
-                                if (!string.IsNullOrEmpty(tag))
-                                {
-                                    matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, tag));
-
-                                    if (matchValue >= 1)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (matchValue < 1 && taxon.Synonyms.Count > 0)
-                        {
-                            foreach (var synonym in taxon.Synonyms)
-                            {
-                                if (!string.IsNullOrEmpty(synonym))
-                                {
-                                    matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, synonym));
-
-                                    if (matchValue >= 1)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        matchValue *= 0.5;
+                        matchValue = 0.5 * _GetMatchValueOfTaxonByFullStringMatch(taxon, _KeyWord);
                     }
                 }
-                // 关键字"包含"分类阶元名称，还包含除此之外的
+                // 关键字包含分类阶元名称，还包含除此之外的
                 else
                 {
                     double c = 0;
@@ -240,16 +220,16 @@ namespace TreeOfLife.Taxonomy.Extensions
                         c = 0.5;
                     }
 
-                    // 匹配到分类阶元，做名称部分匹配
+                    // 匹配到分类阶元，做部分中文名匹配
                     if (c > 0)
                     {
                         double mv = 0;
 
                         if (!string.IsNullOrEmpty(taxon.ChineseName))
                         {
-                            var split = _SplitChineseName(taxon.ChineseName);
+                            var split = TaxonomicCategoryChineseExtension.SplitChineseName(taxon.ChineseName);
 
-                            string chsNameWithoutCategory = (string.IsNullOrEmpty(split.chineseNameWithoutCategory) ? taxon.ChineseName : split.chineseNameWithoutCategory);
+                            string chsNameWithoutCategory = (string.IsNullOrEmpty(split.headPart) ? taxon.ChineseName : split.headPart);
 
                             if (!string.IsNullOrEmpty(chsNameWithoutCategory))
                             {
@@ -265,98 +245,33 @@ namespace TreeOfLife.Taxonomy.Extensions
                         matchValue = c * mv;
                     }
 
-                    // 未匹配到分类阶元，或者名称部分匹配失败，做全字符串匹配，并且匹配率降低1/2
+                    // 未匹配到分类阶元，或者部分中文名匹配失败，做部分关键字的全字符串匹配，并且匹配率降低1/2
                     if (matchValue <= 0)
                     {
-                        if (!string.IsNullOrEmpty(taxon.ChineseName))
-                        {
-                            matchValue = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
-                        }
-
-                        if (matchValue < 1 && !string.IsNullOrEmpty(taxon.BotanicalName))
-                        {
-                            matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, taxon.BotanicalName));
-                        }
-
-                        if (matchValue < 1 && taxon.Tags.Count > 0)
-                        {
-                            foreach (var tag in taxon.Tags)
-                            {
-                                if (!string.IsNullOrEmpty(tag))
-                                {
-                                    matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, tag));
-
-                                    if (matchValue >= 1)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (matchValue < 1 && taxon.Synonyms.Count > 0)
-                        {
-                            foreach (var synonym in taxon.Synonyms)
-                            {
-                                if (!string.IsNullOrEmpty(synonym))
-                                {
-                                    matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, synonym));
-
-                                    if (matchValue >= 1)
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        matchValue *= 0.5;
+                        matchValue = 0.5 * _GetMatchValueOfTaxonByFullStringMatch(taxon, _KeyWordWithoutCategory);
                     }
                 }
             }
-            // 关键字"不含"分类阶元名称的，做全字符串匹配
+            // 关键字不含分类阶元名称的
             else
             {
+                // 尝试做部分中文名匹配
                 if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
-                    matchValue = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
-                }
+                    var split = TaxonomicCategoryChineseExtension.SplitChineseName(taxon.ChineseName);
 
-                if (matchValue < 1 && !string.IsNullOrEmpty(taxon.BotanicalName))
-                {
-                    matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, taxon.BotanicalName));
-                }
+                    string chsNameWithoutCategory = (string.IsNullOrEmpty(split.headPart) ? taxon.ChineseName : split.headPart);
 
-                if (matchValue < 1 && taxon.Tags.Count > 0)
-                {
-                    foreach (var tag in taxon.Tags)
+                    if (!string.IsNullOrEmpty(chsNameWithoutCategory))
                     {
-                        if (!string.IsNullOrEmpty(tag))
-                        {
-                            matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, tag));
-
-                            if (matchValue >= 1)
-                            {
-                                break;
-                            }
-                        }
+                        matchValue = _GetMatchValueOfTwoString(_KeyWord, chsNameWithoutCategory);
                     }
                 }
 
-                if (matchValue < 1 && taxon.Synonyms.Count > 0)
+                // 做关键字的全字符串匹配
+                if (matchValue < 1)
                 {
-                    foreach (var synonym in taxon.Synonyms)
-                    {
-                        if (!string.IsNullOrEmpty(synonym))
-                        {
-                            matchValue = Math.Max(matchValue, _GetMatchValueOfTwoString(_KeyWord, synonym));
-
-                            if (matchValue >= 1)
-                            {
-                                break;
-                            }
-                        }
-                    }
+                    matchValue = Math.Max(matchValue, _GetMatchValueOfTaxonByFullStringMatch(taxon, _KeyWord));
                 }
             }
 
@@ -373,7 +288,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     double matchValue = _GetMatchValueOfTaxon(child);
 
                     // 丢弃匹配率过低的结果
-                    if (matchValue > 0.1)
+                    if (matchValue >= 0.1)
                     {
                         _SearchResults.Add(new _SearchResult() { Taxon = child, MatchValue = matchValue });
                     }
@@ -396,7 +311,7 @@ namespace TreeOfLife.Taxonomy.Extensions
             _SearchResults = new List<_SearchResult>();
 
             _KeyWord = keyWord;
-            (_KeyWordWithoutCategory, _KeyWordCategory) = _SplitChineseName(_KeyWord);
+            (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
 
             taxon._GetMatchedChildren();
 

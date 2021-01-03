@@ -43,8 +43,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         #region 类群信息
 
-        private Taxon _Taxon;
-
         private string _CategoryName;
         private string _TaxonName;
 
@@ -52,8 +50,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
         private string[] _Tags;
 
         private string _Desc;
-
-        public Taxon Taxon => _Taxon;
 
         public string CategoryName
         {
@@ -104,19 +100,19 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
         }
 
-        public void UpdateFromTaxon(Taxon taxon)
+        public void UpdateFromTaxon()
         {
-            _Taxon = taxon;
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            TaxonColor = _Taxon.GetThemeColor();
+            TaxonColor = currentTaxon.GetThemeColor();
 
-            CategoryName = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetChineseName());
-            TaxonName = _Taxon.GetShortName('\n');
+            CategoryName = (currentTaxon.IsAnonymous() ? string.Empty : currentTaxon.Category.GetChineseName());
+            TaxonName = currentTaxon.GetShortName('\n');
 
-            _Tags = _Taxon.Tags.ToArray();
-            _Synonyms = _Taxon.Synonyms.ToArray();
+            _Tags = currentTaxon.Tags.ToArray();
+            _Synonyms = currentTaxon.Synonyms.ToArray();
 
-            Desc = _Taxon.Description;
+            Desc = currentTaxon.Description;
         }
 
         #endregion

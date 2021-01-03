@@ -45,14 +45,14 @@ namespace TreeOfLife.Taxonomy
 
         public string BotanicalName
         {
-            get => _BotanicalName;
-            set => _BotanicalName = value;
+            get => (_BotanicalName ?? string.Empty);
+            set => _BotanicalName = (value ?? string.Empty);
         }
 
         public string ChineseName
         {
-            get => _ChineseName;
-            set => _ChineseName = value;
+            get => (_ChineseName ?? string.Empty);
+            set => _ChineseName = (value ?? string.Empty);
         }
 
         public List<string> Synonyms => _Synonyms;

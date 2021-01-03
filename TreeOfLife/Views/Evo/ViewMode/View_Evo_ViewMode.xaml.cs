@@ -52,12 +52,12 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         #region 类群
 
-        private Taxon _CurrentTaxon { get; set; }
-
         // 更新父类群。
         private void _UpdateParents()
         {
-            if (_CurrentTaxon.IsRoot)
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            if (currentTaxon.IsRoot)
             {
                 taxonNameButtonGroup_Parents.StartEditing();
                 taxonNameButtonGroup_Parents.Clear();
@@ -65,7 +65,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
             else
             {
-                var parents = _CurrentTaxon.GetSummaryParents(false);
+                var parents = currentTaxon.GetSummaryParents(false);
 
                 if (parents.Count > 0)
                 {
@@ -73,10 +73,10 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 }
                 else
                 {
-                    parents.Add(_CurrentTaxon.Parent);
+                    parents.Add(currentTaxon.Parent);
                 }
 
-                parents.Add(_CurrentTaxon);
+                parents.Add(currentTaxon);
 
                 Common.UpdateParents(taxonNameButtonGroup_Parents, parents);
             }
@@ -85,7 +85,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
         // 更新子类群。
         private void _UpdateChildren()
         {
-            var children = _CurrentTaxon.GetNamedChildren(true);
+            var children = Views.Common.CurrentTaxon.GetNamedChildren(true);
 
             Common.UpdateChildren(taxonNameButtonGroup_Children, children);
         }
@@ -93,18 +93,18 @@ namespace TreeOfLife.Views.Evo.ViewMode
         // 更新可见性。
         private void _UpdateVisibility()
         {
-            grid_Tags.Visibility = (_CurrentTaxon.Tags.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Parents.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
-            grid_Synonyms.Visibility = (_CurrentTaxon.Synonyms.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Desc.Visibility = (string.IsNullOrWhiteSpace(_CurrentTaxon.Description) ? Visibility.Collapsed : Visibility.Visible);
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            grid_Tags.Visibility = (currentTaxon.Tags.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_Desc.Visibility = (string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Collapsed : Visibility.Visible);
         }
 
-        public void SetTaxon(Taxon taxon)
+        public void UpdateCurrentTaxonInfo()
         {
-            _CurrentTaxon = taxon;
-
-            ViewModel.UpdateFromTaxon(taxon);
+            ViewModel.UpdateFromTaxon();
 
             tagGroup_Tags.Tags = ViewModel.Tags;
             tagGroup_Synonyms.Tags = ViewModel.Synonyms;

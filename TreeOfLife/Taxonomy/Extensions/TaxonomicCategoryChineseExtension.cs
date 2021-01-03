@@ -369,5 +369,37 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             return false;
         }
+
+        // 将类群的中文名分割为三部分，第一部分为中文名不含分类阶元的部分，第二部分为中文名表示分类阶元的部分，第三部分为分类阶元。
+        public static (string headPart, string tailPart, TaxonomicCategory? category) SplitChineseName(string name)
+        {
+            TaxonomicCategory? categoryN = ParseCategory(name);
+
+            if (categoryN != null)
+            {
+                return (string.Empty, name, categoryN);
+            }
+            else
+            {
+                TaxonomicCategory category;
+                int categoryNameIndex;
+
+                if (TryParseCategory(name, out category, out categoryNameIndex))
+                {
+                    if (categoryNameIndex > 0)
+                    {
+                        return (name[0..categoryNameIndex], name[categoryNameIndex..], category);
+                    }
+                    else
+                    {
+                        return (string.Empty, name, category);
+                    }
+                }
+                else
+                {
+                    return (name, string.Empty, null);
+                }
+            }
+        }
     }
 }

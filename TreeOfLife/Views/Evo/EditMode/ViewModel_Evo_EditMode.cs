@@ -43,8 +43,6 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         #region 类群信息
 
-        private Taxon _Taxon;
-
         private string _CategoryName;
         private string _TaxonName;
 
@@ -62,11 +60,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private void _UpdateTitle()
         {
-            if (_Taxon != null)
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            if (currentTaxon != null)
             {
                 TaxonomicCategory category = _Category;
 
-                TaxonColor = (_Taxon.IsRoot || category.IsPrimaryCategory() || category.IsSecondaryCategory() ? category.GetThemeColor() : _Taxon.Parent.GetThemeColor());
+                TaxonColor = (currentTaxon.IsRoot || category.IsPrimaryCategory() || category.IsSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
 
                 string name = _Name?.Trim();
                 string chsName = _ChsName?.Trim();
@@ -74,7 +74,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(chsName))
                 {
                     CategoryName = string.Empty;
-                    TaxonName = (_Taxon.IsRoot ? string.Empty : "(未命名)");
+                    TaxonName = (currentTaxon.IsRoot ? string.Empty : "(未命名)");
                 }
                 else
                 {
@@ -118,8 +118,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateColors();
             }
         }
-
-        public Taxon Taxon => _Taxon;
 
         public string CategoryName
         {
@@ -279,63 +277,66 @@ namespace TreeOfLife.Views.Evo.EditMode
             }
         }
 
-        public void UpdateFromTaxon(Taxon taxon)
+        public void UpdateFromTaxon()
         {
-            _Taxon = taxon;
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            TaxonColor = _Taxon.GetThemeColor();
+            TaxonColor = currentTaxon.GetThemeColor();
 
-            CategoryName = (_Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetChineseName());
-            TaxonName = _Taxon.GetShortName('\n');
+            CategoryName = (currentTaxon.IsAnonymous() ? string.Empty : currentTaxon.Category.GetChineseName());
+            TaxonName = currentTaxon.GetShortName('\n');
 
-            Name = _Taxon.BotanicalName;
-            ChsName = _Taxon.ChineseName;
+            Name = currentTaxon.BotanicalName;
+            ChsName = currentTaxon.ChineseName;
 
-            IsExtinct = _Taxon.IsExtinct;
-            IsUnsure = _Taxon.IsUnsure;
+            IsExtinct = currentTaxon.IsExtinct;
+            IsUnsure = currentTaxon.IsUnsure;
 
-            Category = _Taxon.Category;
+            Category = currentTaxon.Category;
 
-            Synonyms = string.Join(Environment.NewLine, _Taxon.Synonyms.ToArray());
-            Tags = string.Join(Environment.NewLine, _Taxon.Tags.ToArray());
-            Description = _Taxon.Description;
+            Synonyms = string.Join(Environment.NewLine, currentTaxon.Synonyms.ToArray());
+            Tags = string.Join(Environment.NewLine, currentTaxon.Tags.ToArray());
+            Description = currentTaxon.Description;
         }
 
         public void ApplyToTaxon()
         {
-            if (!_Taxon.IsRoot)
-            {
-                _Taxon.BotanicalName = _Name.Trim();
-                _Taxon.ChineseName = _ChsName.Trim();
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                _Taxon.IsExtinct = _IsExtinct;
-                _Taxon.IsUnsure = _IsUnsure;
+            if (!currentTaxon.IsRoot)
+            {
+                currentTaxon.BotanicalName = _Name.Trim();
+                currentTaxon.ChineseName = _ChsName.Trim();
+
+                currentTaxon.IsExtinct = _IsExtinct;
+                currentTaxon.IsUnsure = _IsUnsure;
 
                 // 只对具名类群应用分类阶元
-                if (_Taxon.BotanicalName.Length > 0 || _Taxon.ChineseName.Length > 0)
+                if (currentTaxon.BotanicalName.Length > 0 || currentTaxon.ChineseName.Length > 0)
                 {
-                    _Taxon.Category = _Category;
+                    currentTaxon.Category = _Category;
                 }
+                // 匿名类群的分类阶元始终为未分级
                 else
                 {
-                    _Taxon.Category = TaxonomicCategory.Unranked;
+                    currentTaxon.Category = TaxonomicCategory.Unranked;
                 }
 
-                _Taxon.Synonyms.Clear();
-                _Taxon.Synonyms.AddRange(
+                currentTaxon.Synonyms.Clear();
+                currentTaxon.Synonyms.AddRange(
                     from s in _Synonyms.Split(Environment.NewLine)
                     let synonym = s.Trim()
                     where !string.IsNullOrWhiteSpace(synonym)
                     select synonym);
 
-                _Taxon.Tags.Clear();
-                _Taxon.Tags.AddRange(
+                currentTaxon.Tags.Clear();
+                currentTaxon.Tags.AddRange(
                     from s in _Tags.Split(Environment.NewLine)
                     let tag = s.Trim()
                     where !string.IsNullOrWhiteSpace(tag)
                     select tag);
 
-                _Taxon.Description = _Description;
+                currentTaxon.Description = _Description;
             }
         }
 

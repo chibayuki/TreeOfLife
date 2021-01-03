@@ -330,8 +330,8 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             Taxon taxon = new Taxon()
             {
-                BotanicalName = _BotanicalName,
-                ChineseName = _ChineseName,
+                BotanicalName = _BotanicalName?.Trim(),
+                ChineseName = _ChineseName?.Trim(),
                 Description = _Description,
 
                 Category = _ConvertCategory(_Category),
@@ -342,6 +342,12 @@ namespace TreeOfLife.Packaging.Version1.Details
 
             taxon.Synonyms.AddRange(_Synonyms);
             taxon.Tags.AddRange(_Tags);
+
+            // 匿名类群的分类阶元始终为未分级
+            if (string.IsNullOrEmpty(taxon.BotanicalName) && string.IsNullOrEmpty(taxon.ChineseName))
+            {
+                taxon.Category = Taxonomy.TaxonomicCategory.Unranked;
+            }
 
             return taxon;
         }

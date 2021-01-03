@@ -56,7 +56,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             button_Back.Click += (s, e) => Views.Common.ExitEditMode();
 
-            categorySelector.MouseLeftButtonUp += (s, e) => ViewModel.Category = categorySelector.Category;
+            categorySelector.MouseLeftButtonUp += CategorySelector_MouseLeftButtonUp;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
@@ -89,6 +89,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon);
                 _UpdateParents();
                 _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
@@ -98,6 +99,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, 0);
                 _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
@@ -105,7 +107,9 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveUp.Margin = menuItemMargin;
             item_Children_MoveUp.Click += (s, e) =>
             {
-                Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1); _UpdateChildrenWithVisibility();
+                Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1);
+                _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
@@ -113,7 +117,9 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveDown.Margin = menuItemMargin;
             item_Children_MoveDown.Click += (s, e) =>
             {
-                Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1); _UpdateChildrenWithVisibility();
+                Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1);
+                _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -121,7 +127,9 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveBottom.Margin = menuItemMargin;
             item_Children_MoveBottom.Click += (s, e) =>
             {
-                Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1); _UpdateChildrenWithVisibility();
+                Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1);
+                _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
@@ -133,6 +141,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 if (Common.SelectedTaxon == Common.RightButtonTaxon) Common.SelectedTaxon = null;
                 Common.RightButtonTaxon = null;
                 _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
@@ -144,6 +153,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 if (Common.SelectedTaxon == Common.RightButtonTaxon) Common.SelectedTaxon = null;
                 Common.RightButtonTaxon = null;
                 _UpdateChildrenWithVisibility();
+                Views.Common.UpdateTree();
             };
 
             Action updateMenuItems_Children = () =>
@@ -211,9 +221,24 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         #region 回调函数
 
+        private void CategorySelector_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.Category = categorySelector.Category;
+
+            // 更新类群的中文名
+            if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
+            {
+                ViewModel.ChsName = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart + ViewModel.Category.GetChineseName();
+            }
+            else
+            {
+                ViewModel.ChsName = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+            }
+        }
+
         private void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
         {
-            Taxon parent = _CurrentTaxon.AddParentUplevel();
+            Taxon parent = Views.Common.CurrentTaxon.AddParentUplevel();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
@@ -225,11 +250,13 @@ namespace TreeOfLife.Views.Evo.EditMode
             //
 
             _UpdateParents();
+
+            Views.Common.UpdateTree();
         }
 
         private void Button_AddParentDownlevel_Click(object sender, RoutedEventArgs e)
         {
-            Taxon parent = _CurrentTaxon.AddParentDownlevel();
+            Taxon parent = Views.Common.CurrentTaxon.AddParentDownlevel();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
@@ -241,17 +268,21 @@ namespace TreeOfLife.Views.Evo.EditMode
             //
 
             _UpdateChildrenWithVisibility();
+
+            Views.Common.UpdateTree();
         }
 
         private void Button_AddChildren_Click(object sender, RoutedEventArgs e)
         {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
             if (string.IsNullOrEmpty(textBox_Children.Text))
             {
-                _CurrentTaxon.AddChild();
+                currentTaxon.AddChild();
             }
             else
             {
-                _CurrentTaxon.ParseChildren(textBox_Children.Text.Split(Environment.NewLine));
+                currentTaxon.ParseChildren(textBox_Children.Text.Split(Environment.NewLine));
 
                 textBox_Children.Clear();
             }
@@ -259,18 +290,20 @@ namespace TreeOfLife.Views.Evo.EditMode
             //
 
             _UpdateChildrenWithVisibility();
+
+            Views.Common.UpdateTree();
         }
 
         #endregion
 
         #region 类群
 
-        private Taxon _CurrentTaxon { get; set; }
-
         // 更新父类群。
         private void _UpdateParents()
         {
-            if (_CurrentTaxon.IsRoot)
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            if (currentTaxon.IsRoot)
             {
                 taxonNameButtonGroup_Parents.StartEditing();
                 taxonNameButtonGroup_Parents.Clear();
@@ -278,7 +311,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             }
             else
             {
-                var parents = _CurrentTaxon.GetSummaryParents(true);
+                var parents = currentTaxon.GetSummaryParents(true);
 
                 if (parents.Count > 0)
                 {
@@ -286,7 +319,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 }
                 else
                 {
-                    parents.Add(_CurrentTaxon.Parent);
+                    parents.Add(currentTaxon.Parent);
                 }
 
                 Common.UpdateParents(taxonNameButtonGroup_Parents, parents, _ContextMenu_Parent);
@@ -296,11 +329,13 @@ namespace TreeOfLife.Views.Evo.EditMode
         // 更新子类群。
         private void _UpdateChildren()
         {
-            var children = _CurrentTaxon.Children;
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var children = currentTaxon.Children;
 
             Common.UpdateChildren(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
 
-            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
         // 更新子类群及其可见性。
@@ -308,28 +343,28 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             _UpdateChildren();
 
-            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Children.Visibility = (Views.Common.CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
         // 更新可见性。
         private void _UpdateVisibility()
         {
-            grid_Name.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_State.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Category.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Synonyms.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Tags.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Desc.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Parents.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_AddParent.Visibility = (_CurrentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Children.Visibility = (_CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            grid_Name.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_State.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Category.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Synonyms.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Tags.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Desc.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_AddParent.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
+            grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
-        public void SetTaxon(Taxon taxon)
+        public void UpdateCurrentTaxonInfo()
         {
-            _CurrentTaxon = taxon;
-
-            ViewModel.UpdateFromTaxon(taxon);
+            ViewModel.UpdateFromTaxon();
 
             categorySelector.Category = ViewModel.Category;
             textBox_Parent.Clear();

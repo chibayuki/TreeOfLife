@@ -65,7 +65,7 @@ namespace TreeOfLife.Views.File
 
                 bool? open = ViewModel.Open();
 
-                if (open.HasValue)
+                if (open != null)
                 {
                     if (open.Value)
                     {
@@ -84,7 +84,7 @@ namespace TreeOfLife.Views.File
         {
             bool? save = ViewModel.Save();
 
-            if (save.HasValue)
+            if (save != null)
             {
                 if (save.Value)
                 {
@@ -101,7 +101,7 @@ namespace TreeOfLife.Views.File
         {
             bool? saveAs = ViewModel.SaveAs();
 
-            if (saveAs.HasValue)
+            if (saveAs != null)
             {
                 if (saveAs.Value)
                 {
