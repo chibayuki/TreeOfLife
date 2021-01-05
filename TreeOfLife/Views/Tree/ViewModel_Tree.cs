@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
-using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -49,12 +48,9 @@ namespace TreeOfLife.Views.Tree
 
             set
             {
-                if (_TreeText != value)
-                {
-                    _TreeText = value;
+                _TreeText = value;
 
-                    NotifyPropertyChanged(nameof(TreeText));
-                }
+                NotifyPropertyChanged(nameof(TreeText));
             }
         }
 
@@ -240,7 +236,7 @@ namespace TreeOfLife.Views.Tree
             }
         }
 
-        private Taxon _NamedTaxon = null;
+        private Taxon _NamedTaxon = null; // 当前类群或其最近的具名上级类群。
 
         public void UpdateTree()
         {
@@ -322,12 +318,9 @@ namespace TreeOfLife.Views.Tree
 
             set
             {
-                if (_TextBox_ForeGround != value)
-                {
-                    _TextBox_ForeGround = value;
+                _TextBox_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_ForeGround));
             }
         }
 
@@ -337,12 +330,9 @@ namespace TreeOfLife.Views.Tree
 
             set
             {
-                if (_TextBox_BackGround != value)
-                {
-                    _TextBox_BackGround = value;
+                _TextBox_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_BackGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_BackGround));
             }
         }
 
@@ -352,12 +342,9 @@ namespace TreeOfLife.Views.Tree
 
             set
             {
-                if (_TextBox_Selection != value)
-                {
-                    _TextBox_Selection = value;
+                _TextBox_Selection = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_Selection));
-                }
+                NotifyPropertyChanged(nameof(TextBox_Selection));
             }
         }
 
@@ -367,12 +354,9 @@ namespace TreeOfLife.Views.Tree
 
             set
             {
-                if (_TextBox_SelectionText != value)
-                {
-                    _TextBox_SelectionText = value;
+                _TextBox_SelectionText = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_SelectionText));
-                }
+                NotifyPropertyChanged(nameof(TextBox_SelectionText));
             }
         }
 

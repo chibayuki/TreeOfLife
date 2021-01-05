@@ -28,17 +28,17 @@
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <Grid Background="{Binding Pages_BackGround}">
-                <Grid x:Name="grid_File">
+                <Grid x:Name="grid_File" Visibility="{Binding PageVisibility_File}">
                     <File:View_File x:Name="view_File" Margin="25,0,25,0"/>
                 </Grid>
-                <Grid x:Name="grid_Evo">
+                <Grid x:Name="grid_Evo" Visibility="{Binding PageVisibility_Evo}">
                     <Evo_ViewMode:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
                     <Evo_EditMode:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
                 </Grid>
-                <Grid x:Name="grid_Search">
+                <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
                     <Search:View_Search x:Name="view_Search" Margin="25,0,25,0" />
                 </Grid>
-                <Grid x:Name="grid_About"/>
+                <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}"/>
             </Grid>
             <StackPanel Grid.Column="1" Background="{Binding PagesSide_BackGround}">
                 <Button x:Name="button_File" VerticalAlignment="Top" Content="文&#xD;&#xA;件" Padding="0,6,0,6" Background="{Binding PagesSide_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding PagesSide_ForeGround}" BorderThickness="0,0,0,0" />

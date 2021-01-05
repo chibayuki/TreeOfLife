@@ -47,12 +47,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_KeyWord != value)
-                {
-                    _KeyWord = value;
+                _KeyWord = value;
 
-                    NotifyPropertyChanged(nameof(KeyWord));
-                }
+                NotifyPropertyChanged(nameof(KeyWord));
             }
         }
 
@@ -101,12 +98,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_Button_ForeGround != value)
-                {
-                    _Button_ForeGround = value;
+                _Button_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(Button_ForeGround));
             }
         }
 
@@ -116,12 +110,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_Button_BackGround != value)
-                {
-                    _Button_BackGround = value;
+                _Button_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_BackGround));
-                }
+                NotifyPropertyChanged(nameof(Button_BackGround));
             }
         }
 
@@ -131,12 +122,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_SubTitle_ForeGround != value)
-                {
-                    _SubTitle_ForeGround = value;
+                _SubTitle_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
             }
         }
 
@@ -146,12 +134,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_SubTitle_BackGround != value)
-                {
-                    _SubTitle_BackGround = value;
+                _SubTitle_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 
@@ -161,12 +146,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_TextBox_ForeGround != value)
-                {
-                    _TextBox_ForeGround = value;
+                _TextBox_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_ForeGround));
             }
         }
 
@@ -176,12 +158,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_TextBox_BackGround != value)
-                {
-                    _TextBox_BackGround = value;
+                _TextBox_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_BackGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_BackGround));
             }
         }
 
@@ -191,12 +170,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_TextBox_Selection != value)
-                {
-                    _TextBox_Selection = value;
+                _TextBox_Selection = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_Selection));
-                }
+                NotifyPropertyChanged(nameof(TextBox_Selection));
             }
         }
 
@@ -206,12 +182,9 @@ namespace TreeOfLife.Views.Search
 
             set
             {
-                if (_TextBox_SelectionText != value)
-                {
-                    _TextBox_SelectionText = value;
+                _TextBox_SelectionText = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_SelectionText));
-                }
+                NotifyPropertyChanged(nameof(TextBox_SelectionText));
             }
         }
 

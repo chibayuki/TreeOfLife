@@ -23,7 +23,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             name = name.Trim();
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 List<char> chars = new List<char>(name);
 

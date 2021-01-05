@@ -57,12 +57,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_CategoryName != value)
-                {
-                    _CategoryName = value;
+                _CategoryName = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName));
-                }
+                NotifyPropertyChanged(nameof(CategoryName));
             }
         }
 
@@ -72,12 +69,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_TaxonName != value)
-                {
-                    _TaxonName = value;
+                _TaxonName = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName));
-                }
+                NotifyPropertyChanged(nameof(TaxonName));
             }
         }
 
@@ -91,12 +85,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_Desc != value)
-                {
-                    _Desc = value;
+                _Desc = value;
 
-                    NotifyPropertyChanged(nameof(Desc));
-                }
+                NotifyPropertyChanged(nameof(Desc));
             }
         }
 
@@ -152,12 +143,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_TaxonColor != value)
-                {
-                    _TaxonColor = value;
+                _TaxonColor = value;
 
-                    _UpdateColors();
-                }
+                _UpdateColors();
             }
         }
 
@@ -179,12 +167,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_Button_ForeGround != value)
-                {
-                    _Button_ForeGround = value;
+                _Button_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(Button_ForeGround));
             }
         }
 
@@ -194,12 +179,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_Button_BackGround != value)
-                {
-                    _Button_BackGround = value;
+                _Button_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_BackGround));
-                }
+                NotifyPropertyChanged(nameof(Button_BackGround));
             }
         }
 
@@ -209,12 +191,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_CategoryName_ForeGround != value)
-                {
-                    _CategoryName_ForeGround = value;
+                _CategoryName_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(CategoryName_ForeGround));
             }
         }
 
@@ -224,12 +203,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_CategoryName_BackGround != value)
-                {
-                    _CategoryName_BackGround = value;
+                _CategoryName_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName_BackGround));
-                }
+                NotifyPropertyChanged(nameof(CategoryName_BackGround));
             }
         }
 
@@ -239,12 +215,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_TaxonName_ForeGround != value)
-                {
-                    _TaxonName_ForeGround = value;
+                _TaxonName_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(TaxonName_ForeGround));
             }
         }
 
@@ -254,12 +227,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_TaxonName_BackGround != value)
-                {
-                    _TaxonName_BackGround = value;
+                _TaxonName_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName_BackGround));
-                }
+                NotifyPropertyChanged(nameof(TaxonName_BackGround));
             }
         }
 
@@ -269,12 +239,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_SubTitle_ForeGround != value)
-                {
-                    _SubTitle_ForeGround = value;
+                _SubTitle_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
             }
         }
 
@@ -284,12 +251,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_SubTitle_BackGround != value)
-                {
-                    _SubTitle_BackGround = value;
+                _SubTitle_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 
@@ -299,12 +263,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             set
             {
-                if (_Desc_BackGround != value)
-                {
-                    _Desc_BackGround = value;
+                _Desc_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(Desc_BackGround));
-                }
+                NotifyPropertyChanged(nameof(Desc_BackGround));
             }
         }
 

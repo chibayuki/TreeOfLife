@@ -330,8 +330,9 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             Taxon taxon = new Taxon()
             {
-                BotanicalName = _BotanicalName?.Trim(),
-                ChineseName = _ChineseName?.Trim(),
+                BotanicalName = _BotanicalName,
+                ChineseName = _ChineseName,
+
                 Description = _Description,
 
                 Category = _ConvertCategory(_Category),

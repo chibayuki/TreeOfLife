@@ -225,14 +225,22 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             ViewModel.Category = categorySelector.Category;
 
+            //
+
+            string chsNameWithoutCategory = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+
             // 更新类群的中文名
-            if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
+            if (ViewModel.Category.IsClade())
             {
-                ViewModel.ChsName = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart + ViewModel.Category.GetChineseName();
+                ViewModel.ChsName = chsNameWithoutCategory + "类";
+            }
+            else if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
+            {
+                ViewModel.ChsName = chsNameWithoutCategory + ViewModel.Category.GetChineseName();
             }
             else
             {
-                ViewModel.ChsName = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+                ViewModel.ChsName = chsNameWithoutCategory;
             }
         }
 

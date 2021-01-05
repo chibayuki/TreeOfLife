@@ -45,14 +45,16 @@ namespace TreeOfLife.Taxonomy
 
         public string BotanicalName
         {
+            // 确保不为 null 或 WhiteSpace
             get => (_BotanicalName ?? string.Empty);
-            set => _BotanicalName = (value ?? string.Empty);
+            set => _BotanicalName = (value?.Trim() ?? string.Empty);
         }
 
         public string ChineseName
         {
+            // 确保不为 null 或 WhiteSpace
             get => (_ChineseName ?? string.Empty);
-            set => _ChineseName = (value ?? string.Empty);
+            set => _ChineseName = (value?.Trim() ?? string.Empty);
         }
 
         public List<string> Synonyms => _Synonyms;

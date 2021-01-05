@@ -71,7 +71,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 string name = _Name?.Trim();
                 string chsName = _ChsName?.Trim();
 
-                if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(chsName))
+                if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
                 {
                     CategoryName = string.Empty;
                     TaxonName = (currentTaxon.IsRoot ? string.Empty : "(未命名)");
@@ -97,17 +97,17 @@ namespace TreeOfLife.Views.Evo.EditMode
                         taxonName.Append(' ');
                     }
 
-                    if (!string.IsNullOrWhiteSpace(chsName))
+                    if (!string.IsNullOrEmpty(chsName))
                     {
                         taxonName.Append(chsName);
 
-                        if (!string.IsNullOrWhiteSpace(name))
+                        if (!string.IsNullOrEmpty(name))
                         {
                             taxonName.Append('\n');
                             taxonName.Append(name);
                         }
                     }
-                    else if (!string.IsNullOrWhiteSpace(name))
+                    else if (!string.IsNullOrEmpty(name))
                     {
                         taxonName.Append(name);
                     }
@@ -125,12 +125,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_CategoryName != value)
-                {
-                    _CategoryName = value;
+                _CategoryName = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName));
-                }
+                NotifyPropertyChanged(nameof(CategoryName));
             }
         }
 
@@ -140,12 +137,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TaxonName != value)
-                {
-                    _TaxonName = value;
+                _TaxonName = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName));
-                }
+                NotifyPropertyChanged(nameof(TaxonName));
             }
         }
 
@@ -155,14 +149,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Name != value)
-                {
-                    _Name = value;
+                _Name = value;
 
-                    NotifyPropertyChanged(nameof(Name));
+                NotifyPropertyChanged(nameof(Name));
 
-                    _UpdateTitle();
-                }
+                //
+
+                _UpdateTitle();
             }
         }
 
@@ -172,14 +165,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_ChsName != value)
-                {
-                    _ChsName = value;
+                _ChsName = value;
 
-                    NotifyPropertyChanged(nameof(ChsName));
+                NotifyPropertyChanged(nameof(ChsName));
 
-                    _UpdateTitle();
-                }
+                //
+
+                _UpdateTitle();
             }
         }
 
@@ -189,14 +181,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_IsExtinct != value)
-                {
-                    _IsExtinct = value;
+                _IsExtinct = value;
 
-                    NotifyPropertyChanged(nameof(IsExtinct));
+                NotifyPropertyChanged(nameof(IsExtinct));
 
-                    _UpdateTitle();
-                }
+                //
+
+                _UpdateTitle();
             }
         }
 
@@ -206,14 +197,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_IsUnsure != value)
-                {
-                    _IsUnsure = value;
+                _IsUnsure = value;
 
-                    NotifyPropertyChanged(nameof(IsUnsure));
+                NotifyPropertyChanged(nameof(IsUnsure));
 
-                    _UpdateTitle();
-                }
+                //
+
+                _UpdateTitle();
             }
         }
 
@@ -223,12 +213,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Category != value)
-                {
-                    _Category = value;
+                _Category = value;
 
-                    _UpdateTitle();
-                }
+                _UpdateTitle();
             }
         }
 
@@ -238,12 +225,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Synonyms != value)
-                {
-                    _Synonyms = value;
+                _Synonyms = value;
 
-                    NotifyPropertyChanged(nameof(Synonyms));
-                }
+                NotifyPropertyChanged(nameof(Synonyms));
             }
         }
 
@@ -253,12 +237,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Tags != value)
-                {
-                    _Tags = value;
+                _Tags = value;
 
-                    NotifyPropertyChanged(nameof(Tags));
-                }
+                NotifyPropertyChanged(nameof(Tags));
             }
         }
 
@@ -268,12 +249,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Description != value)
-                {
-                    _Description = value;
+                _Description = value;
 
-                    NotifyPropertyChanged(nameof(Description));
-                }
+                NotifyPropertyChanged(nameof(Description));
             }
         }
 
@@ -325,15 +303,15 @@ namespace TreeOfLife.Views.Evo.EditMode
                 currentTaxon.Synonyms.Clear();
                 currentTaxon.Synonyms.AddRange(
                     from s in _Synonyms.Split(Environment.NewLine)
-                    let synonym = s.Trim()
-                    where !string.IsNullOrWhiteSpace(synonym)
+                    let synonym = s?.Trim()
+                    where !string.IsNullOrEmpty(synonym)
                     select synonym);
 
                 currentTaxon.Tags.Clear();
                 currentTaxon.Tags.AddRange(
                     from s in _Tags.Split(Environment.NewLine)
-                    let tag = s.Trim()
-                    where !string.IsNullOrWhiteSpace(tag)
+                    let tag = s?.Trim()
+                    where !string.IsNullOrEmpty(tag)
                     select tag);
 
                 currentTaxon.Description = _Description;
@@ -385,12 +363,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TaxonColor != value)
-                {
-                    _TaxonColor = value;
+                _TaxonColor = value;
 
-                    _UpdateColors();
-                }
+                _UpdateColors();
             }
         }
 
@@ -412,12 +387,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Button_ForeGround != value)
-                {
-                    _Button_ForeGround = value;
+                _Button_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(Button_ForeGround));
             }
         }
 
@@ -427,12 +399,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_Button_BackGround != value)
-                {
-                    _Button_BackGround = value;
+                _Button_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_BackGround));
-                }
+                NotifyPropertyChanged(nameof(Button_BackGround));
             }
         }
 
@@ -442,12 +411,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_CategoryName_ForeGround != value)
-                {
-                    _CategoryName_ForeGround = value;
+                _CategoryName_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(CategoryName_ForeGround));
             }
         }
 
@@ -457,12 +423,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_CategoryName_BackGround != value)
-                {
-                    _CategoryName_BackGround = value;
+                _CategoryName_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(CategoryName_BackGround));
-                }
+                NotifyPropertyChanged(nameof(CategoryName_BackGround));
             }
         }
 
@@ -472,12 +435,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TaxonName_ForeGround != value)
-                {
-                    _TaxonName_ForeGround = value;
+                _TaxonName_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(TaxonName_ForeGround));
             }
         }
 
@@ -487,12 +447,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TaxonName_BackGround != value)
-                {
-                    _TaxonName_BackGround = value;
+                _TaxonName_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TaxonName_BackGround));
-                }
+                NotifyPropertyChanged(nameof(TaxonName_BackGround));
             }
         }
 
@@ -502,12 +459,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_SubTitle_ForeGround != value)
-                {
-                    _SubTitle_ForeGround = value;
+                _SubTitle_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
             }
         }
 
@@ -517,12 +471,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_SubTitle_BackGround != value)
-                {
-                    _SubTitle_BackGround = value;
+                _SubTitle_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 
@@ -532,12 +483,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TextBox_ForeGround != value)
-                {
-                    _TextBox_ForeGround = value;
+                _TextBox_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_ForeGround));
             }
         }
 
@@ -547,12 +495,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TextBox_BackGround != value)
-                {
-                    _TextBox_BackGround = value;
+                _TextBox_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_BackGround));
-                }
+                NotifyPropertyChanged(nameof(TextBox_BackGround));
             }
         }
 
@@ -562,12 +507,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TextBox_Selection != value)
-                {
-                    _TextBox_Selection = value;
+                _TextBox_Selection = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_Selection));
-                }
+                NotifyPropertyChanged(nameof(TextBox_Selection));
             }
         }
 
@@ -577,12 +519,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_TextBox_SelectionText != value)
-                {
-                    _TextBox_SelectionText = value;
+                _TextBox_SelectionText = value;
 
-                    NotifyPropertyChanged(nameof(TextBox_SelectionText));
-                }
+                NotifyPropertyChanged(nameof(TextBox_SelectionText));
             }
         }
 
@@ -592,12 +531,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             set
             {
-                if (_CheckBox_ForeGround != value)
-                {
-                    _CheckBox_ForeGround = value;
+                _CheckBox_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(CheckBox_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(CheckBox_ForeGround));
             }
         }
 

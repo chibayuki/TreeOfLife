@@ -52,12 +52,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_FileName != value)
-                {
-                    _FileName = value;
+                _FileName = value;
 
-                    NotifyPropertyChanged(nameof(FileName));
-                }
+                NotifyPropertyChanged(nameof(FileName));
             }
         }
 
@@ -67,12 +64,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_FileSize != value)
-                {
-                    _FileSize = value;
+                _FileSize = value;
 
-                    NotifyPropertyChanged(nameof(FileSize));
-                }
+                NotifyPropertyChanged(nameof(FileSize));
             }
         }
 
@@ -82,12 +76,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_PackageSize != value)
-                {
-                    _PackageSize = value;
+                _PackageSize = value;
 
-                    NotifyPropertyChanged(nameof(PackageSize));
-                }
+                NotifyPropertyChanged(nameof(PackageSize));
             }
         }
 
@@ -97,12 +88,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_CreationTime != value)
-                {
-                    _CreationTime = value;
+                _CreationTime = value;
 
-                    NotifyPropertyChanged(nameof(CreationTime));
-                }
+                NotifyPropertyChanged(nameof(CreationTime));
             }
         }
 
@@ -112,12 +100,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_ModificationTime != value)
-                {
-                    _ModificationTime = value;
+                _ModificationTime = value;
 
-                    NotifyPropertyChanged(nameof(ModificationTime));
-                }
+                NotifyPropertyChanged(nameof(ModificationTime));
             }
         }
 
@@ -255,12 +240,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_Button_ForeGround != value)
-                {
-                    _Button_ForeGround = value;
+                _Button_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(Button_ForeGround));
             }
         }
 
@@ -270,12 +252,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_Button_BackGround != value)
-                {
-                    _Button_BackGround = value;
+                _Button_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(Button_BackGround));
-                }
+                NotifyPropertyChanged(nameof(Button_BackGround));
             }
         }
 
@@ -285,12 +264,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_SubTitle_ForeGround != value)
-                {
-                    _SubTitle_ForeGround = value;
+                _SubTitle_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
             }
         }
 
@@ -300,12 +276,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_SubTitle_BackGround != value)
-                {
-                    _SubTitle_BackGround = value;
+                _SubTitle_BackGround = value;
 
-                    NotifyPropertyChanged(nameof(SubTitle_BackGround));
-                }
+                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 
@@ -315,12 +288,9 @@ namespace TreeOfLife.Views.File
 
             set
             {
-                if (_FileInfo_ForeGround != value)
-                {
-                    _FileInfo_ForeGround = value;
+                _FileInfo_ForeGround = value;
 
-                    NotifyPropertyChanged(nameof(FileInfo_ForeGround));
-                }
+                NotifyPropertyChanged(nameof(FileInfo_ForeGround));
             }
         }
 

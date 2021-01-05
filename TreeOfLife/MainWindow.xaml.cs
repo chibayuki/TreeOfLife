@@ -30,6 +30,8 @@ using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
+using Pages = TreeOfLife.ViewModel_MainWindow.Pages;
+
 namespace TreeOfLife
 {
     /// <summary>
@@ -108,30 +110,15 @@ namespace TreeOfLife
 
         #region 页面切换
 
-        private enum Pages
-        {
-            File,
-            Evo,
-            Search,
-            About
-        }
-
-        private Pages? _CurrentPage = null;
-
         private void _SelectPage(Pages tabPage)
         {
-            if (_CurrentPage == null || _CurrentPage != tabPage)
+            if (ViewModel.CurrentPage == null || ViewModel.CurrentPage != tabPage)
             {
                 _SetEditMode(false);
 
                 //
 
-                _CurrentPage = tabPage;
-
-                grid_File.Visibility = (_CurrentPage.Value == Pages.File ? Visibility.Visible : Visibility.Collapsed);
-                grid_Evo.Visibility = (_CurrentPage.Value == Pages.Evo ? Visibility.Visible : Visibility.Collapsed);
-                grid_Search.Visibility = (_CurrentPage.Value == Pages.Search ? Visibility.Visible : Visibility.Collapsed);
-                grid_About.Visibility = (_CurrentPage.Value == Pages.About ? Visibility.Visible : Visibility.Collapsed);
+                ViewModel.CurrentPage = tabPage;
             }
         }
 

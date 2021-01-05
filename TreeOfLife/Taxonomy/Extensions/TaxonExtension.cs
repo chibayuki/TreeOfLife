@@ -28,7 +28,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             //
 
-            return (string.IsNullOrWhiteSpace(taxon.BotanicalName) && string.IsNullOrWhiteSpace(taxon.ChineseName));
+            return (string.IsNullOrEmpty(taxon.BotanicalName) && string.IsNullOrEmpty(taxon.ChineseName));
         }
 
         // 判断类群是否具名。
@@ -72,17 +72,17 @@ namespace TreeOfLife.Taxonomy.Extensions
                     taxonName.Append(' ');
                 }
 
-                if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
+                if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
                     taxonName.Append(taxon.ChineseName);
 
-                    if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                    if (!string.IsNullOrEmpty(taxon.BotanicalName))
                     {
                         taxonName.Append(separator);
                         taxonName.Append(taxon.BotanicalName);
                     }
                 }
-                else if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                else if (!string.IsNullOrEmpty(taxon.BotanicalName))
                 {
                     taxonName.Append(taxon.BotanicalName);
                 }
@@ -124,7 +124,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     taxonName.Append(' ');
                 }
 
-                if (!string.IsNullOrWhiteSpace(taxon.ChineseName))
+                if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
                     taxonName.Append(taxon.ChineseName);
                 }
@@ -133,7 +133,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     taxonName.Append(taxon.Category.GetChineseName());
                 }
 
-                if (!string.IsNullOrWhiteSpace(taxon.BotanicalName))
+                if (!string.IsNullOrEmpty(taxon.BotanicalName))
                 {
                     taxonName.Append(separator);
                     taxonName.Append(taxon.BotanicalName);

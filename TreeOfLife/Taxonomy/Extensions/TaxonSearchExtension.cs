@@ -310,7 +310,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             _SearchResults = new List<_SearchResult>();
 
-            _KeyWord = keyWord;
+            _KeyWord = keyWord.Trim();
             (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
 
             taxon._GetMatchedChildren();
