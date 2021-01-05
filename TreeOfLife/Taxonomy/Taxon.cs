@@ -168,6 +168,49 @@ namespace TreeOfLife.Taxonomy
 
         //
 
+#if DEBUG
+
+        public override string ToString()
+        {
+            StringBuilder taxonName = new StringBuilder();
+
+            if (_IsUnsure || _IsExtinct)
+            {
+                if (_IsUnsure)
+                {
+                    taxonName.Append('?');
+                }
+
+                if (_IsExtinct)
+                {
+                    taxonName.Append('†');
+                }
+
+                taxonName.Append(' ');
+            }
+
+            if (!string.IsNullOrEmpty(_ChineseName))
+            {
+                taxonName.Append(_ChineseName);
+
+                if (!string.IsNullOrEmpty(_BotanicalName))
+                {
+                    taxonName.Append(' ');
+                    taxonName.Append(_BotanicalName);
+                }
+            }
+            else if (!string.IsNullOrEmpty(_BotanicalName))
+            {
+                taxonName.Append(_BotanicalName);
+            }
+
+            return taxonName.ToString();
+        }
+
+#endif
+
+        //
+
         // 递归地修复当前类群、子类群与顶级类群的距离。
         private void _RepairLevel()
         {
