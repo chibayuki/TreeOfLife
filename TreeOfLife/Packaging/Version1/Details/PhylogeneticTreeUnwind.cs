@@ -95,7 +95,10 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             // 先按照层次升序排序，用于保证总是先创建父类群
             // 再按照索引升序排序，用于保证每个类群的次序与原先相同
-            var atoms = _Atoms.OrderBy(atom => atom.Level).ThenBy(atom => atom.Index);
+            var atoms = from atom in _Atoms
+                        orderby atom.Level ascending,
+                        atom.Index ascending
+                        select atom;
 
             foreach (PhylogeneticTreeUnwindAtom atom in atoms)
             {

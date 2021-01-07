@@ -228,6 +228,7 @@ namespace TreeOfLife.Taxonomy.Extensions
             { _Names.Unranked, TaxonomicCategory.Unranked },
 
             { _Names.Clade, TaxonomicCategory.Clade }, // 演化支
+            { "分支", TaxonomicCategory.Clade }, // 分支
             { "支", TaxonomicCategory.Clade }, // 支
 
             { _Names.Strain, TaxonomicCategory.Strain },
@@ -249,8 +250,8 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             { _Names.Infradivision, TaxonomicCategory.Infradivision },
             { _Names.Subdivision, TaxonomicCategory.Subdivision },
-            // { _Names.Division,  TaxonomicCategory.Division },
-            { "类", TaxonomicCategory.Clade }, // "类"一般指演化支
+            { _Names.Division,  TaxonomicCategory.Division },
+            // { "类", TaxonomicCategory.Clade }, // "类"虽然一般指演化支，但将其匹配为演化支会导致检索问题，仅在有匹配为演化支的需求处做特殊处理即可
             { _Names.Superdivision, TaxonomicCategory.Superdivision },
 
             { _Names.Infracohort, TaxonomicCategory.Infracohort },

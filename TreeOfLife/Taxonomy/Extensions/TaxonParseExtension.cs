@@ -69,7 +69,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                         {
                             int latinIndex = chars.Count - 1;
 
-                            while (latinIndex >= 0 && (char.IsLower(chars[latinIndex]) || char.IsUpper(chars[latinIndex]) || char.IsWhiteSpace(chars[latinIndex]) || char.IsDigit(chars[latinIndex]) || chars[latinIndex] == '-' || chars[latinIndex] == '.'))
+                            while (latinIndex >= 0 && (char.IsLower(chars[latinIndex]) || char.IsUpper(chars[latinIndex]) || char.IsWhiteSpace(chars[latinIndex]) || char.IsDigit(chars[latinIndex]) || chars[latinIndex] == '-' || chars[latinIndex] == '.' || chars[latinIndex] == '/'))
                             {
                                 latinIndex--;
                             }
@@ -92,7 +92,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                         {
                             int chsIndex = 0;
 
-                            while (chsIndex < chars.Count && (char.IsLower(chars[chsIndex]) || char.IsUpper(chars[chsIndex]) || char.IsWhiteSpace(chars[chsIndex]) || char.IsDigit(chars[chsIndex]) || chars[chsIndex] == '-' || chars[chsIndex] == '.'))
+                            while (chsIndex < chars.Count && (char.IsLower(chars[chsIndex]) || char.IsUpper(chars[chsIndex]) || char.IsWhiteSpace(chars[chsIndex]) || char.IsDigit(chars[chsIndex]) || chars[chsIndex] == '-' || chars[chsIndex] == '.' || chars[chsIndex] == '/'))
                             {
                                 chsIndex++;
                             }
@@ -127,7 +127,8 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                         if (TaxonomicCategoryChineseExtension.TryParseCategory(chsPart, out category, out categoryNameIndex))
                         {
-                            taxon.Category = category;
+                            // 特殊处理"类"，"类"一般指演化支
+                            taxon.Category = (category == TaxonomicCategory.Division ? TaxonomicCategory.Clade : category);
                             taxon.ChineseName = (categoryNameIndex == 0 ? string.Empty : chsPart);
                         }
                         else
