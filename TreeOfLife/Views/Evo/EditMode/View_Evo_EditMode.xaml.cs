@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M8.201231-0000
+Version 1.0.812.1000.M8.210108-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -227,20 +227,26 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            string chsNameWithoutCategory = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
-
             // 更新类群的中文名
-            if (ViewModel.Category.IsClade())
+            if (!string.IsNullOrEmpty(ViewModel.ChsName))
             {
-                ViewModel.ChsName = chsNameWithoutCategory + "类";
-            }
-            else if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
-            {
-                ViewModel.ChsName = chsNameWithoutCategory + ViewModel.Category.GetChineseName();
-            }
-            else
-            {
-                ViewModel.ChsName = chsNameWithoutCategory;
+                string chsNameWithoutCategory = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+
+                if (!string.IsNullOrEmpty(chsNameWithoutCategory))
+                {
+                    if (ViewModel.Category.IsClade())
+                    {
+                        ViewModel.ChsName = chsNameWithoutCategory + "类";
+                    }
+                    else if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
+                    {
+                        ViewModel.ChsName = chsNameWithoutCategory + ViewModel.Category.GetChineseName();
+                    }
+                    else
+                    {
+                        ViewModel.ChsName = chsNameWithoutCategory;
+                    }
+                }
             }
         }
 

@@ -4,12 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.800.1000</AssemblyVersion>
-    <FileVersion>1.0.800.1000</FileVersion>
+    <AssemblyVersion>1.0.812.1000</AssemblyVersion>
+    <FileVersion>1.0.812.1000</FileVersion>
     <Copyright>Copyright © 2020 chibayuki@foxmail.com</Copyright>
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
-    <Version>1.0.800.1000</Version>
+    <Version>1.0.812.1000</Version>
   </PropertyGroup>
 
   <ItemGroup>

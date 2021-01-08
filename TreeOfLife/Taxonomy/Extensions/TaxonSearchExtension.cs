@@ -2,7 +2,7 @@
 Copyright © 2020 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.800.1000.M8.201231-0000
+Version 1.0.812.1000.M8.210108-2100
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -111,7 +111,7 @@ namespace TreeOfLife.Taxonomy.Extensions
             // 特殊处理"类"字，使演化支类群只去除中文名结尾的"类"字
             if (taxon.Category.IsClade() && taxon.ChineseName.EndsWith("类"))
             {
-                return taxon.ChineseName[0..taxon.ChineseName.IndexOf("类")];
+                return taxon.ChineseName[..^1];
             }
             else
             {
@@ -135,21 +135,15 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 return _CategoryRelativity.Equals;
             }
+            // 仅基本分类阶元相同
+            else if (category1.BasicCategory() == category2.BasicCategory())
+            {
+                return _CategoryRelativity.Relevant;
+            }
+            // 分类阶元不相关
             else
             {
-                TaxonomicCategory basicCategory1 = category1.BasicCategory();
-                TaxonomicCategory basicCategory2 = category2.BasicCategory();
-
-                // 仅基本分类阶元相同
-                if (basicCategory1 == basicCategory2)
-                {
-                    return _CategoryRelativity.Relevant;
-                }
-                // 分类阶元不相关
-                else
-                {
-                    return _CategoryRelativity.Irrelevant;
-                }
+                return _CategoryRelativity.Irrelevant;
             }
         }
 
@@ -421,7 +415,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             if (_KeyWordCategory != null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
             {
-                _KeyWordWithoutCategoryAsClade = _KeyWord[0.._KeyWord.IndexOf("类")];
+                _KeyWordWithoutCategoryAsClade = _KeyWord[..^1];
             }
             else
             {
