@@ -18,7 +18,6 @@
 * 文件封装与版本控制
 * 语义分析与模糊搜索
 * 树操作、搜索以及序列化/反序列化的性能优化
-* MVVM，Singleton模式，Decorator模式，AbstractFactory模式
 
 ## 里程碑
 * Milestone 1 (Version 1.0.16.1000.M1.201110-2050, 未发布)
