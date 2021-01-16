@@ -1,8 +1,8 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2020 chibayuki@foxmail.com
+Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.812.1000.M8.210108-2100
+Version 1.0.900.1000.M9.210112-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,6 +26,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Reflection;
 
+using TreeOfLife.Packaging;
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
@@ -163,7 +164,16 @@ namespace TreeOfLife
             {
                 if (File.Exists(Phylogenesis.FileName))
                 {
-                    result = true;
+                    if (Phylogenesis.PackageVersion == PackageVersion.Latest.Version)
+                    {
+                        // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
+                        result = true;
+                    }
+                    // 如果文件版本不是最新，那么重新保存
+                    else
+                    {
+                        result = Phylogenesis.Save();
+                    }
                 }
                 // 如果文件已经保存，但又被手动删除，那么重新保存
                 else

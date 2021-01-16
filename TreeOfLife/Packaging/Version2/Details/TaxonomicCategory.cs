@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.Taxonomy
+namespace TreeOfLife.Packaging.Version2.Details
 {
     // 生物分类阶元。
     public enum TaxonomicCategory

@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version1.Details
+namespace TreeOfLife.Packaging.Version2.Details
 {
     // 系统发生树展开的表示演化关系的原子数据结构，表示一个类群。
     public class EvoAtom
@@ -277,50 +277,13 @@ namespace TreeOfLife.Packaging.Version1.Details
         [JsonPropertyName("ID")]
         public string ID
         {
-            get
-            {
-                if (_Level > 1)
-                {
-                    StringBuilder id = new StringBuilder();
-
-                    foreach (var parentIndex in _ParentsIndex)
-                    {
-                        id.Append(parentIndex);
-                        id.Append('-');
-                    }
-
-                    id.Append(_Index);
-
-                    return id.ToString();
-                }
-                else
-                {
-                    return _Index.ToString();
-                }
-            }
+            get => Common.IndexListToIdString(_ParentsIndex, _Index);
 
             set
             {
-                string[] id = value.Split('-');
+                Common.IdStringToIndexList(value, out _ParentsIndex, out _Index);
 
-                _Level = id.Length;
-
-                if (_Level > 1)
-                {
-                    _ParentsIndex = new List<int>(_Level - 1);
-
-                    for (int i = 0; i < _Level - 1; i++)
-                    {
-                        _ParentsIndex.Add(int.Parse(id[i]));
-                    }
-
-                    _Index = int.Parse(id[^1]);
-                }
-                else if (_Level == 1)
-                {
-                    _ParentsIndex = new List<int>();
-                    _Index = int.Parse(id[0]);
-                }
+                _Level = _ParentsIndex.Count + 1;
             }
         }
 
@@ -378,19 +341,8 @@ namespace TreeOfLife.Packaging.Version1.Details
                 _Level = taxon.Level,
                 _Index = taxon.Index,
 
-                _ParentsIndex = new List<int>(taxon.Level)
+                _ParentsIndex = Common.GetIndexListOfTaxon(taxon.Parent)
             };
-
-            Taxon parent = taxon.Parent;
-
-            while (!parent.IsRoot)
-            {
-                atom._ParentsIndex.Add(parent.Index);
-
-                parent = parent.Parent;
-            }
-
-            atom._ParentsIndex.Reverse();
 
             return atom;
         }

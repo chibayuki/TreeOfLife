@@ -1,8 +1,8 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2020 chibayuki@foxmail.com
+Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.812.1000.M8.210108-2100
+Version 1.0.900.1000.M9.210112-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,6 +35,8 @@ namespace TreeOfLife.Phylogeny
 
         public static long PackageSize => (_Package == null ? 0 : _Package.PackageSize);
 
+        public static int PackageVersion => (_Package == null ? 0 : _Package.Version.Version);
+
         public static DateTime CreationTime => (_Package == null ? DateTime.MinValue : _Package.Info.CreationTime);
 
         public static DateTime ModificationTime => (_Package == null ? DateTime.MinValue : _Package.Info.ModificationTime);
@@ -60,9 +62,7 @@ namespace TreeOfLife.Phylogeny
             try
 #endif
             {
-                IPackageContent packageContent;
-
-                _Package = Package.Open(fileName, out packageContent);
+                _Package = Package.Open(fileName, out IPackageContent packageContent);
 
                 _PhylogeneticTree = new PhylogeneticTree();
 

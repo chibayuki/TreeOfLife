@@ -18,12 +18,13 @@ using System.IO;
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version1.Details
+namespace TreeOfLife.Packaging.Version2.Details
 {
     // 系统发生树的展开。
     public class PhylogeneticTreeUnwind
     {
         private Evo _Evo = new Evo();
+        private Ref _Ref = new Ref();
 
         //
 
@@ -33,9 +34,9 @@ namespace TreeOfLife.Packaging.Version1.Details
 
         //
 
-        private static void _RecursiveFillAtoms(Taxon taxon, List<EvoAtom> evoAtoms)
+        private static void _RecursiveFillAtoms(Taxon taxon, List<EvoAtom> evoAtoms, List<RefAtom> refAtoms)
         {
-            if (taxon == null || evoAtoms == null)
+            if (taxon == null || evoAtoms == null || refAtoms == null)
             {
                 throw new ArgumentNullException();
             }
@@ -46,7 +47,12 @@ namespace TreeOfLife.Packaging.Version1.Details
             {
                 evoAtoms.Add(EvoAtom.FromTaxon(child));
 
-                _RecursiveFillAtoms(child, evoAtoms);
+                if (child.Excludes.Count > 0 || child.Includes.Count > 0)
+                {
+                    refAtoms.Add(RefAtom.FromTaxon(child));
+                }
+
+                _RecursiveFillAtoms(child, evoAtoms, refAtoms);
             }
         }
 
@@ -55,7 +61,7 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             PhylogeneticTreeUnwind unwind = new PhylogeneticTreeUnwind();
 
-            _RecursiveFillAtoms(tree.Root, unwind._Evo.Atoms);
+            _RecursiveFillAtoms(tree.Root, unwind._Evo.Atoms, unwind._Ref.Atoms);
 
             return unwind;
         }
@@ -90,9 +96,32 @@ namespace TreeOfLife.Packaging.Version1.Details
                            atom.Index ascending
                            select atom;
 
+            // 重建单系群关系
             foreach (var evoAtom in evoAtoms)
             {
                 evoAtom.ToTaxon().SetParent(_GetTaxonOfTree(tree, evoAtom.ParentsIndex));
+            }
+
+            // 重建并系群、复系群关系
+            foreach (var refAtom in _Ref.Atoms)
+            {
+                Common.IdStringToIndexList(refAtom.ID, out List<int> indexList);
+
+                Taxon taxon = _GetTaxonOfTree(tree, indexList);
+
+                foreach (var exclude in refAtom.Excludes)
+                {
+                    Common.IdStringToIndexList(exclude, out List<int> refIndexList);
+
+                    taxon.AddExclude(_GetTaxonOfTree(tree, refIndexList));
+                }
+
+                foreach (var include in refAtom.Includes)
+                {
+                    Common.IdStringToIndexList(include, out List<int> refIndexList);
+
+                    taxon.AddInclude(_GetTaxonOfTree(tree, refIndexList));
+                }
             }
         }
 
@@ -102,10 +131,17 @@ namespace TreeOfLife.Packaging.Version1.Details
             return Path.Combine(directory, "_evo");
         }
 
+        // Ref数据文件。
+        private static string _GetRefFileName(string directory)
+        {
+            return Path.Combine(directory, "_ref");
+        }
+
         // 序列化。
         public void Serialize(string directory)
         {
             _Evo.Serialize(_GetEvoFileName(directory));
+            _Ref.Serialize(_GetRefFileName(directory));
         }
 
         // 反序列化。
@@ -113,7 +149,8 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             return new PhylogeneticTreeUnwind()
             {
-                _Evo = Evo.Deserialize(_GetEvoFileName(directory))
+                _Evo = Evo.Deserialize(_GetEvoFileName(directory)),
+                _Ref = Ref.Deserialize(_GetRefFileName(directory))
             };
         }
     }

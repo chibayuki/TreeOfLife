@@ -1,8 +1,8 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2020 chibayuki@foxmail.com
+Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.812.1000.M8.210108-2100
+Version 1.0.900.1000.M9.210112-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -20,7 +20,7 @@ namespace TreeOfLife.Packaging
     // 包版本。
     public struct PackageVersion
     {
-        private const int _LatestVersion = 1; // 最新的版本。
+        private const int _LatestVersion = 2; // 最新的版本。
 
         private int _Version; // 版本。
 

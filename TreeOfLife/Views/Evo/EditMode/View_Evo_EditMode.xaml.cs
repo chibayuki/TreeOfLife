@@ -1,8 +1,8 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2020 chibayuki@foxmail.com
+Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.812.1000.M8.210108-2100
+Version 1.0.900.1000.M9.210112-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -160,7 +160,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                item_Children_SetParent.IsEnabled = (Common.SelectedTaxon != null && Common.SelectedTaxon != rightButtonTaxon.Parent && !Common.SelectedTaxon.InheritFrom(rightButtonTaxon));
+                item_Children_SetParent.IsEnabled = rightButtonTaxon.CanSetParent(Common.SelectedTaxon);
                 item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
                 item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
 

@@ -1,8 +1,8 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2020 chibayuki@foxmail.com
+Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.812.1000.M8.210108-2100
+Version 1.0.900.1000.M9.210112-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,6 +34,14 @@ namespace TreeOfLife.Taxonomy
 
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
+
+        //
+
+        private Taxon _ExcludeBy = null; // 排除当前类群的并系群。
+        private List<Taxon> _Excludes = new List<Taxon>(); // 当前类群作为并系群排除的类群。
+
+        private List<Taxon> _IncludeBy = null; // 包含当前类群的复系群。
+        private List<Taxon> _Includes = new List<Taxon>(); // 当前类群作为复系群包含的类群。
 
         //
 
@@ -131,13 +139,14 @@ namespace TreeOfLife.Taxonomy
 
             //
 
-            if (this == taxon)
-            {
-                return true;
-            }
-            else if (_Parent == null)
+            if (_Parent == null)
             {
                 return false;
+            }
+            // 任何类群都继承自身
+            else if (this == taxon)
+            {
+                return true;
             }
             else
             {
@@ -165,6 +174,25 @@ namespace TreeOfLife.Taxonomy
                 }
             }
         }
+
+        //
+
+        public Taxon ExcludeBy => _ExcludeBy;
+
+        public IReadOnlyList<Taxon> Excludes => _Excludes;
+
+        public IReadOnlyList<Taxon> IncludeBy => _IncludeBy;
+
+        public IReadOnlyList<Taxon> Includes => _Includes;
+
+        // 判断当前类群是否为单系群。
+        public bool IsMonophyly => (_Includes.Count <= 0 && _Excludes.Count <= 0);
+
+        // 判断当前类群是否为并系群。
+        public bool IsParaphyly => (_Includes.Count <= 0 && _Excludes.Count > 0);
+
+        // 判断当前类群是否为复系群。
+        public bool IsPolyphyly => (_Includes.Count > 0);
 
         //
 
@@ -268,6 +296,22 @@ namespace TreeOfLife.Taxonomy
             }
         }
 
+        // 判断当前类群是否可以变更父类群为指定的类群。
+        public bool CanSetParent(Taxon taxon)
+        {
+            // （1） 不能继承 null
+            // （2） 不能继承父类群（已经继承）
+            // （3） 不能继承子类群
+            if (taxon == null || taxon == _Parent || taxon.InheritFrom(this))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         // 变更父类群。
         public void SetParent(Taxon taxon)
         {
@@ -276,7 +320,7 @@ namespace TreeOfLife.Taxonomy
                 throw new ArgumentNullException();
             }
 
-            if (taxon == _Parent || taxon.InheritFrom(this))
+            if (!CanSetParent(taxon))
             {
                 throw new InvalidOperationException();
             }
@@ -305,7 +349,12 @@ namespace TreeOfLife.Taxonomy
                 throw new ArgumentNullException();
             }
 
-            if (taxon == _Parent || taxon.InheritFrom(this))
+            if (index < 0 || index > taxon._Children.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (!CanSetParent(taxon))
             {
                 throw new InvalidOperationException();
             }
@@ -447,7 +496,7 @@ namespace TreeOfLife.Taxonomy
                 _Children[i]._RecursiveRemoveChildren();
             }
 
-            // 直接将父类群设为 null 即可，调用_AtomDetachParent会导致递归失败
+            // 直接将父类群设为 null，然后清空子类群即可，不能调用 _AtomDetachParent，会导致上面的循环失败
             _Parent = null;
 
             _Children.Clear();
@@ -488,6 +537,266 @@ namespace TreeOfLife.Taxonomy
                 }
 
                 parent._RepairIndex();
+            }
+        }
+
+        //
+
+        // 判断当前类群是否可以作为并系群添加排除指定的类群。
+        public bool CanAddExclude(Taxon taxon)
+        {
+            // （1） 不能排除 null
+            // （2） 不能排除自身
+            // （3） 不能排除已被任何并系群排除的类群
+            // （4） 不能多次排除同一个类群
+            // （5） 不能排除不继承自身的类群
+            if (taxon == null || taxon == this || taxon._ExcludeBy != null || _Excludes.Contains(taxon) || !taxon.InheritFrom(this))
+            {
+                return false;
+            }
+            else
+            {
+                // （6） 不能排除与已排除的类群具有继承关系的类群
+                foreach (var exclude in _Excludes)
+                {
+                    if (taxon.InheritFrom(exclude) || exclude.InheritFrom(taxon))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        // 当前类群作为并系群添加排除一个类群。
+        public void AddExclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!CanAddExclude(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Excludes.Add(taxon);
+        }
+
+        // 当前类群作为并系群添加排除一个类群。
+        public void AddExclude(Taxon taxon, int index)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (index < 0 || index > taxon._Excludes.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (!CanAddExclude(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Excludes.Insert(index, taxon);
+        }
+
+        // 当前类群作为并系群删除排除一个类群。
+        public void RemoveExclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!_Excludes.Contains(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Excludes.Remove(taxon);
+            taxon._ExcludeBy = null;
+        }
+
+        // 当前类群作为并系群移动一个排除的类群。
+        public void MoveExclude(int oldIndex, int newIndex)
+        {
+            if (_Excludes.Count <= 0 || (oldIndex < 0 || oldIndex >= _Excludes.Count) || (newIndex < 0 || newIndex >= _Excludes.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
+            if (oldIndex != newIndex)
+            {
+                Taxon exclude = _Excludes[oldIndex];
+
+                _Excludes.RemoveAt(oldIndex);
+                _Excludes.Insert(newIndex, exclude);
+            }
+        }
+
+        // 当前类群作为并系群交换两个排除的类群。
+        public void SwapExclude(int index1, int index2)
+        {
+            if (_Excludes.Count <= 0 || (index1 < 0 || index1 >= _Excludes.Count) || (index2 < 0 || index2 >= _Excludes.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
+            if (index1 != index2)
+            {
+                Taxon exclude1 = _Excludes[index1];
+                Taxon exclude2 = _Excludes[index2];
+
+                _Excludes[index2] = exclude1;
+                _Excludes[index1] = exclude2;
+
+                exclude1._Index = index2;
+                exclude2._Index = index1;
+            }
+        }
+
+        // 判断当前类群是否可以作为复系群添加包含指定的类群。
+        public bool CanAddInclude(Taxon taxon)
+        {
+            // （1） 不能包含 null
+            // （2） 不能包含自身
+            // （3） 不能多次包含同一个类群
+            // （4） 不能包含继承自身的类群
+            // （5） 不能包含不继承自身父类群的类群
+            if (taxon == null || taxon == this || _Includes.Contains(taxon) || taxon.InheritFrom(this) || !taxon.InheritFrom(_Parent))
+            {
+                return false;
+            }
+            else
+            {
+                // （6） 不能包含与已包含的类群具有继承关系的类群
+                foreach (var include in _Includes)
+                {
+                    if (taxon.InheritFrom(include) || include.InheritFrom(taxon))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        // 当前类群作为复系群添加包含一个类群。
+        public void AddInclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!CanAddInclude(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Includes.Add(taxon);
+        }
+
+        // 当前类群作为复系群添加包含一个类群。
+        public void AddInclude(Taxon taxon, int index)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (index < 0 || index > taxon._Includes.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (!CanAddInclude(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Includes.Insert(index, taxon);
+        }
+
+        // 当前类群作为复系群删除包含一个类群。
+        public void RemoveInclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!_Includes.Contains(taxon))
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            _Includes.Remove(taxon);
+            taxon._IncludeBy.Remove(this);
+        }
+
+        // 当前类群作为复系群移动一个包含的类群。
+        public void MoveInclude(int oldIndex, int newIndex)
+        {
+            if (_Includes.Count <= 0 || (oldIndex < 0 || oldIndex >= _Includes.Count) || (newIndex < 0 || newIndex >= _Includes.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
+            if (oldIndex != newIndex)
+            {
+                Taxon include = _Includes[oldIndex];
+
+                _Includes.RemoveAt(oldIndex);
+                _Includes.Insert(newIndex, include);
+            }
+        }
+
+        // 当前类群作为复系群交换两个包含的类群。
+        public void SwapInclude(int index1, int index2)
+        {
+            if (_Includes.Count <= 0 || (index1 < 0 || index1 >= _Includes.Count) || (index2 < 0 || index2 >= _Includes.Count))
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            //
+
+            if (index1 != index2)
+            {
+                Taxon include1 = _Includes[index1];
+                Taxon include2 = _Includes[index2];
+
+                _Includes[index2] = include1;
+                _Includes[index1] = include2;
+
+                include1._Index = index2;
+                include2._Index = index1;
             }
         }
     }
