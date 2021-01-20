@@ -37,10 +37,10 @@ namespace TreeOfLife.Taxonomy
 
         //
 
-        private Taxon _ExcludeBy = null; // 排除当前类群的并系群。
+        private List<Taxon> _ExcludeBy = new List<Taxon>(); // 排除当前类群的并系群。
         private List<Taxon> _Excludes = new List<Taxon>(); // 当前类群作为并系群排除的类群。
 
-        private List<Taxon> _IncludeBy = null; // 包含当前类群的复系群。
+        private List<Taxon> _IncludeBy = new List<Taxon>(); // 包含当前类群的复系群。
         private List<Taxon> _Includes = new List<Taxon>(); // 当前类群作为复系群包含的类群。
 
         //
@@ -132,14 +132,8 @@ namespace TreeOfLife.Taxonomy
         // 判断当前类群是否继承自指定类群。
         public bool InheritFrom(Taxon taxon)
         {
-            if (taxon == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            //
-
-            if (_Parent == null)
+            // 任何类群都不继承 null（即使父类群是 null）
+            if (_Parent == null || taxon == null)
             {
                 return false;
             }
@@ -177,7 +171,7 @@ namespace TreeOfLife.Taxonomy
 
         //
 
-        public Taxon ExcludeBy => _ExcludeBy;
+        public IReadOnlyList<Taxon> ExcludeBy => _ExcludeBy;
 
         public IReadOnlyList<Taxon> Excludes => _Excludes;
 
@@ -308,6 +302,61 @@ namespace TreeOfLife.Taxonomy
             }
             else
             {
+                // 变更继承关系后，任何并系群不能出现（参见 CanAddExclude）：
+                // （4） 排除不继承自身的类群
+                //    -> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群不继承任一并系群
+                foreach (var excludeBy in _ExcludeBy)
+                {
+                    if (!taxon.InheritFrom(excludeBy))
+                    {
+                        return false;
+                    }
+                }
+
+                // （5） 排除与已排除的类群具有继承关系的类群
+                //    -> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群（或其父类群）也被任一并系群排除
+                foreach (var excludeBy in _ExcludeBy)
+                {
+                    foreach (var exclude in excludeBy._Excludes)
+                    {
+                        if (taxon.InheritFrom(exclude))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // 任何复系群不能出现（参见 CanAddInclude）：
+                // （6） 包含继承自身的类群
+                //    -> 意味着：试图继承一个复系群，但该类群已经被该复系群包含
+                if (taxon._Includes.Contains(this))
+                {
+                    return false;
+                }
+
+                // （7） 包含不继承自身父类群的类群
+                //    -> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群不继承任一复系群的父类群
+                foreach (var includeBy in _IncludeBy)
+                {
+                    if (!taxon.InheritFrom(includeBy._Parent))
+                    {
+                        return false;
+                    }
+                }
+
+                // （8） 包含与已包含的类群具有继承关系的类群
+                //    -> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群（或其父类群）也被任一复系群包含
+                foreach (var includeBy in _IncludeBy)
+                {
+                    foreach (var include in includeBy._Includes)
+                    {
+                        if (taxon.InheritFrom(include))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
                 return true;
             }
         }
@@ -547,16 +596,15 @@ namespace TreeOfLife.Taxonomy
         {
             // （1） 不能排除 null
             // （2） 不能排除自身
-            // （3） 不能排除已被任何并系群排除的类群
-            // （4） 不能多次排除同一个类群
-            // （5） 不能排除不继承自身的类群
-            if (taxon == null || taxon == this || taxon._ExcludeBy != null || _Excludes.Contains(taxon) || !taxon.InheritFrom(this))
+            // （3） 不能多次排除同一个类群
+            // （4） 不能排除不继承自身的类群
+            if (taxon == null || taxon == this || _Excludes.Contains(taxon) || !taxon.InheritFrom(this))
             {
                 return false;
             }
             else
             {
-                // （6） 不能排除与已排除的类群具有继承关系的类群
+                // （5） 不能排除与已排除的类群具有继承关系的类群
                 foreach (var exclude in _Excludes)
                 {
                     if (taxon.InheritFrom(exclude) || exclude.InheritFrom(taxon))
@@ -585,6 +633,7 @@ namespace TreeOfLife.Taxonomy
             //
 
             _Excludes.Add(taxon);
+            taxon._ExcludeBy.Add(this);
         }
 
         // 当前类群作为并系群添加排除一个类群。
@@ -608,6 +657,7 @@ namespace TreeOfLife.Taxonomy
             //
 
             _Excludes.Insert(index, taxon);
+            taxon._ExcludeBy.Add(this);
         }
 
         // 当前类群作为并系群删除排除一个类群。
@@ -626,7 +676,20 @@ namespace TreeOfLife.Taxonomy
             //
 
             _Excludes.Remove(taxon);
-            taxon._ExcludeBy = null;
+            taxon._ExcludeBy.Remove(this);
+        }
+
+        // 获取当前类群作为并系群排除指定类群的次序。
+        public int GetIndexOfExclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            return _Excludes.IndexOf(taxon);
         }
 
         // 当前类群作为并系群移动一个排除的类群。
@@ -714,6 +777,7 @@ namespace TreeOfLife.Taxonomy
             //
 
             _Includes.Add(taxon);
+            taxon._IncludeBy.Add(this);
         }
 
         // 当前类群作为复系群添加包含一个类群。
@@ -737,6 +801,7 @@ namespace TreeOfLife.Taxonomy
             //
 
             _Includes.Insert(index, taxon);
+            taxon._IncludeBy.Add(this);
         }
 
         // 当前类群作为复系群删除包含一个类群。
@@ -756,6 +821,19 @@ namespace TreeOfLife.Taxonomy
 
             _Includes.Remove(taxon);
             taxon._IncludeBy.Remove(this);
+        }
+
+        // 获取当前类群作为复系群包含指定类群的次序。
+        public int GetIndexOfInclude(Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            return _Includes.IndexOf(taxon);
         }
 
         // 当前类群作为复系群移动一个包含的类群。

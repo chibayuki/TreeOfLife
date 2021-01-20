@@ -224,6 +224,9 @@ namespace TreeOfLife
         // true=成功，false=失败
         private bool _Close()
         {
+            Views.Evo.Common.RightButtonTaxon = null;
+            Views.Evo.Common.SelectedTaxon = null;
+
             view_Search.ClearSearchResult();
 
             bool result = Phylogenesis.Close();
@@ -350,9 +353,6 @@ namespace TreeOfLife
                 _EditMode = editMode;
 
                 //
-
-                Views.Evo.Common.RightButtonTaxon = null;
-                Views.Evo.Common.SelectedTaxon = null;
 
                 view_Evo_ViewMode.Visibility = (!_EditMode.Value ? Visibility.Visible : Visibility.Collapsed);
                 view_Evo_EditMode.Visibility = (_EditMode.Value ? Visibility.Visible : Visibility.Collapsed);

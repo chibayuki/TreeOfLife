@@ -34,7 +34,14 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 判断类群是否具名。
         public static bool IsNamed(this Taxon taxon)
         {
-            return (!taxon.IsAnonymous());
+            if (taxon == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            return (!string.IsNullOrEmpty(taxon.BotanicalName) || !string.IsNullOrEmpty(taxon.ChineseName));
         }
 
         //
@@ -87,6 +94,15 @@ namespace TreeOfLife.Taxonomy.Extensions
                     taxonName.Append(taxon.BotanicalName);
                 }
 
+                if (taxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (taxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
+                }
+
                 return taxonName.ToString();
             }
         }
@@ -137,6 +153,15 @@ namespace TreeOfLife.Taxonomy.Extensions
                 {
                     taxonName.Append(separator);
                     taxonName.Append(taxon.BotanicalName);
+                }
+
+                if (taxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (taxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
                 }
 
                 return taxonName.ToString();

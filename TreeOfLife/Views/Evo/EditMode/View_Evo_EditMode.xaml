@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TreeOfLife.Views.Evo.EditMode"
              xmlns:Controls="clr-namespace:TreeOfLife.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="400">
+             d:DesignHeight="1300" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_EditMode/>
     </UserControl.DataContext>
@@ -70,6 +70,22 @@
                     <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <TextBox x:Name="textBox_Children" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
                     <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="30" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+                </Grid>
+                <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
+                    <Label Content="此并系群排除的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Margin="0,35,0,0" />
+                </Grid>
+                <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
+                    <Label Content="排除此类群的并系群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_ExcludeBy" Margin="0,35,0,0" />
+                </Grid>
+                <Grid x:Name="grid_Includes" Margin="0,25,0,0">
+                    <Label Content="此复系群包含的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Includes" Margin="0,35,0,0" />
+                </Grid>
+                <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">
+                    <Label Content="包含此类群的复系群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_IncludeBy" Margin="0,35,0,0" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

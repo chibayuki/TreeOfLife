@@ -58,7 +58,143 @@ namespace TreeOfLife.Views.Evo.EditMode
         private string _Tags;
         private string _Description;
 
-        private void _UpdateTitle()
+        public string CategoryName
+        {
+            get => _CategoryName;
+
+            set
+            {
+                _CategoryName = value;
+
+                NotifyPropertyChanged(nameof(CategoryName));
+            }
+        }
+
+        public string TaxonName
+        {
+            get => _TaxonName;
+
+            set
+            {
+                _TaxonName = value;
+
+                NotifyPropertyChanged(nameof(TaxonName));
+            }
+        }
+
+        public string Name
+        {
+            get => _Name;
+
+            set
+            {
+                _Name = value;
+
+                NotifyPropertyChanged(nameof(Name));
+
+                //
+
+                UpdateTitle();
+            }
+        }
+
+        public string ChsName
+        {
+            get => _ChsName;
+
+            set
+            {
+                _ChsName = value;
+
+                NotifyPropertyChanged(nameof(ChsName));
+
+                //
+
+                UpdateTitle();
+            }
+        }
+
+        public bool IsExtinct
+        {
+            get => _IsExtinct;
+
+            set
+            {
+                _IsExtinct = value;
+
+                NotifyPropertyChanged(nameof(IsExtinct));
+
+                //
+
+                UpdateTitle();
+            }
+        }
+
+        public bool IsUnsure
+        {
+            get => _IsUnsure;
+
+            set
+            {
+                _IsUnsure = value;
+
+                NotifyPropertyChanged(nameof(IsUnsure));
+
+                //
+
+                UpdateTitle();
+            }
+        }
+
+        public TaxonomicCategory Category
+        {
+            get => _Category;
+
+            set
+            {
+                _Category = value;
+
+                UpdateTitle();
+            }
+        }
+
+        public string Synonyms
+        {
+            get => _Synonyms;
+
+            set
+            {
+                _Synonyms = value;
+
+                NotifyPropertyChanged(nameof(Synonyms));
+            }
+        }
+
+        public string Tags
+        {
+            get => _Tags;
+
+            set
+            {
+                _Tags = value;
+
+                NotifyPropertyChanged(nameof(Tags));
+            }
+        }
+
+        public string Description
+        {
+            get => _Description;
+
+            set
+            {
+                _Description = value;
+
+                NotifyPropertyChanged(nameof(Description));
+            }
+        }
+
+        public void UpdateTitle()
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
@@ -112,146 +248,19 @@ namespace TreeOfLife.Views.Evo.EditMode
                         taxonName.Append(name);
                     }
 
+                    if (currentTaxon.IsPolyphyly)
+                    {
+                        taxonName.Append(" #");
+                    }
+                    else if (currentTaxon.IsParaphyly)
+                    {
+                        taxonName.Append(" *");
+                    }
+
                     TaxonName = taxonName.ToString();
                 }
 
                 _UpdateColors();
-            }
-        }
-
-        public string CategoryName
-        {
-            get => _CategoryName;
-
-            set
-            {
-                _CategoryName = value;
-
-                NotifyPropertyChanged(nameof(CategoryName));
-            }
-        }
-
-        public string TaxonName
-        {
-            get => _TaxonName;
-
-            set
-            {
-                _TaxonName = value;
-
-                NotifyPropertyChanged(nameof(TaxonName));
-            }
-        }
-
-        public string Name
-        {
-            get => _Name;
-
-            set
-            {
-                _Name = value;
-
-                NotifyPropertyChanged(nameof(Name));
-
-                //
-
-                _UpdateTitle();
-            }
-        }
-
-        public string ChsName
-        {
-            get => _ChsName;
-
-            set
-            {
-                _ChsName = value;
-
-                NotifyPropertyChanged(nameof(ChsName));
-
-                //
-
-                _UpdateTitle();
-            }
-        }
-
-        public bool IsExtinct
-        {
-            get => _IsExtinct;
-
-            set
-            {
-                _IsExtinct = value;
-
-                NotifyPropertyChanged(nameof(IsExtinct));
-
-                //
-
-                _UpdateTitle();
-            }
-        }
-
-        public bool IsUnsure
-        {
-            get => _IsUnsure;
-
-            set
-            {
-                _IsUnsure = value;
-
-                NotifyPropertyChanged(nameof(IsUnsure));
-
-                //
-
-                _UpdateTitle();
-            }
-        }
-
-        public TaxonomicCategory Category
-        {
-            get => _Category;
-
-            set
-            {
-                _Category = value;
-
-                _UpdateTitle();
-            }
-        }
-
-        public string Synonyms
-        {
-            get => _Synonyms;
-
-            set
-            {
-                _Synonyms = value;
-
-                NotifyPropertyChanged(nameof(Synonyms));
-            }
-        }
-
-        public string Tags
-        {
-            get => _Tags;
-
-            set
-            {
-                _Tags = value;
-
-                NotifyPropertyChanged(nameof(Tags));
-            }
-        }
-
-        public string Description
-        {
-            get => _Description;
-
-            set
-            {
-                _Description = value;
-
-                NotifyPropertyChanged(nameof(Description));
             }
         }
 

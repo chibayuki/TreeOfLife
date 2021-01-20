@@ -32,11 +32,6 @@ namespace TreeOfLife.Views.Evo.EditMode
     /// </summary>
     public partial class View_Evo_EditMode : UserControl
     {
-        private ContextMenu _ContextMenu_Parent;
-        private ContextMenu _ContextMenu_Children;
-
-        //
-
         public ViewModel_Evo_EditMode ViewModel => this.DataContext as ViewModel_Evo_EditMode;
 
         //
@@ -51,8 +46,26 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
+            label_CategoryName.ContextMenu = _ContextMenu_Current;
+            label_CategoryName.MouseRightButtonUp += (s, e) => { Common.RightButtonTaxon = Views.Common.CurrentTaxon; (label_CategoryName.ContextMenu.DataContext as Action)?.Invoke(); };
+
+            label_TaxonName.ContextMenu = _ContextMenu_Current;
+            label_TaxonName.MouseRightButtonUp += (s, e) => { Common.RightButtonTaxon = Views.Common.CurrentTaxon; (label_TaxonName.ContextMenu.DataContext as Action)?.Invoke(); };
+
             taxonNameButtonGroup_Children.GroupNameWidth = 0;
             taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
+
+            taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
+            taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
+
+            taxonNameButtonGroup_ExcludeBy.GroupNameWidth = 0;
+            taxonNameButtonGroup_ExcludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
+
+            taxonNameButtonGroup_Includes.GroupNameWidth = 0;
+            taxonNameButtonGroup_Includes.GroupMargin = new Thickness(0, 1, 0, 1);
+
+            taxonNameButtonGroup_IncludeBy.GroupNameWidth = 0;
+            taxonNameButtonGroup_IncludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
 
             button_Back.Click += (s, e) => Views.Common.ExitEditMode();
 
@@ -63,18 +76,115 @@ namespace TreeOfLife.Views.Evo.EditMode
             button_AddChildren.Click += Button_AddChildren_Click;
         }
 
+        private ContextMenu _ContextMenu_Current;
+        private ContextMenu _ContextMenu_Parent;
+        private ContextMenu _ContextMenu_Children;
+        private ContextMenu _ContextMenu_Excludes;
+        private ContextMenu _ContextMenu_ExcludeBy;
+        private ContextMenu _ContextMenu_Includes;
+        private ContextMenu _ContextMenu_IncludeBy;
+
+        private void _UpdateSelectOfMenuItem(MenuItem menuItem, Taxon taxon)
+        {
+            if (taxon == null)
+            {
+                menuItem.Header = "选择";
+            }
+            else
+            {
+                if (taxon.IsAnonymous())
+                {
+                    menuItem.Header = "选择 (已选择: \"(未命名)\")";
+                }
+                else
+                {
+                    string taxonName = taxon.GetLongName();
+
+                    if (taxonName.Length > 32)
+                    {
+                        menuItem.Header = string.Concat("选择 (已选择：\"", taxonName[0..32], "...\")");
+                    }
+                    else
+                    {
+                        menuItem.Header = string.Concat("选择 (已选择：\"", taxonName, "\")");
+                    }
+                }
+            }
+        }
+
         private void _InitContextMenus()
         {
             Thickness menuItemPadding = new Thickness(3, 6, 3, 6);
             Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
+
+            //
+
+            MenuItem item_Current_Select = new MenuItem() { Header = "选择" };
+            item_Current_Select.Padding = menuItemPadding;
+            item_Current_Select.Margin = menuItemMargin;
+            item_Current_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
+
+            MenuItem item_Current_SetParent = new MenuItem() { Header = "继承选择的类群" };
+            item_Current_SetParent.Padding = menuItemPadding;
+            item_Current_SetParent.Margin = menuItemMargin;
+            item_Current_SetParent.Click += (s, e) =>
+            {
+                Views.Common.CurrentTaxon.SetParent(Common.SelectedTaxon);
+                _UpdateParents();
+                Views.Common.UpdateTree();
+            };
+
+            MenuItem item_Current_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
+            item_Current_ExcludeBy.Padding = menuItemPadding;
+            item_Current_ExcludeBy.Margin = menuItemMargin;
+            item_Current_ExcludeBy.Click += (s, e) =>
+            {
+                Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon);
+                _UpdateExcludeByWithVisibility();
+            };
+
+            MenuItem item_Current_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
+            item_Current_IncludeBy.Padding = menuItemPadding;
+            item_Current_IncludeBy.Margin = menuItemMargin;
+            item_Current_IncludeBy.Click += (s, e) =>
+            {
+                Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon);
+                _UpdateIncludeByWithVisibility();
+            };
+
+            Action updateMenuItems_Current = () =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                item_Current_SetParent.IsEnabled = currentTaxon.CanSetParent(Common.SelectedTaxon);
+                item_Current_ExcludeBy.IsEnabled = Common.SelectedTaxon?.CanAddExclude(currentTaxon) ?? false;
+                item_Current_IncludeBy.IsEnabled = Common.SelectedTaxon?.CanAddInclude(currentTaxon) ?? false;
+
+                _UpdateSelectOfMenuItem(item_Current_Select, Common.SelectedTaxon);
+            };
+
+            _ContextMenu_Current = new ContextMenu();
+            _ContextMenu_Current.Items.Add(item_Current_Select);
+            _ContextMenu_Current.Items.Add(new Separator());
+            _ContextMenu_Current.Items.Add(item_Current_SetParent);
+            _ContextMenu_Current.Items.Add(item_Current_ExcludeBy);
+            _ContextMenu_Current.Items.Add(item_Current_IncludeBy);
+            _ContextMenu_Current.DataContext = updateMenuItems_Current;
+
+            //
 
             MenuItem item_Parent_Select = new MenuItem() { Header = "选择" };
             item_Parent_Select.Padding = menuItemPadding;
             item_Parent_Select.Margin = menuItemMargin;
             item_Parent_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
 
+            Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Select, Common.SelectedTaxon);
+
             _ContextMenu_Parent = new ContextMenu();
             _ContextMenu_Parent.Items.Add(item_Parent_Select);
+            _ContextMenu_Parent.DataContext = updateMenuItems_Parent;
+
+            //
 
             MenuItem item_Children_Select = new MenuItem() { Header = "选择" };
             item_Children_Select.Padding = menuItemPadding;
@@ -92,13 +202,33 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
+            MenuItem item_Children_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
+            item_Children_ExcludeBy.Padding = menuItemPadding;
+            item_Children_ExcludeBy.Margin = menuItemMargin;
+            item_Children_ExcludeBy.Click += (s, e) =>
+            {
+                Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon);
+                ViewModel.UpdateTitle();
+                if (Common.SelectedTaxon == Views.Common.CurrentTaxon) _UpdateExcludesWithVisibility();
+            };
+
+            MenuItem item_Children_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
+            item_Children_IncludeBy.Padding = menuItemPadding;
+            item_Children_IncludeBy.Margin = menuItemMargin;
+            item_Children_IncludeBy.Click += (s, e) =>
+            {
+                Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon);
+                ViewModel.UpdateTitle();
+                if (Common.SelectedTaxon == Views.Common.CurrentTaxon) _UpdateIncludesWithVisibility();
+            };
+
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
             item_Children_MoveTop.Padding = menuItemPadding;
             item_Children_MoveTop.Margin = menuItemMargin;
             item_Children_MoveTop.Click += (s, e) =>
             {
                 Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, 0);
-                _UpdateChildrenWithVisibility();
+                _UpdateChildren();
                 Views.Common.UpdateTree();
             };
 
@@ -108,7 +238,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveUp.Click += (s, e) =>
             {
                 Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index - 1);
-                _UpdateChildrenWithVisibility();
+                _UpdateChildren();
                 Views.Common.UpdateTree();
             };
 
@@ -118,7 +248,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveDown.Click += (s, e) =>
             {
                 Common.RightButtonTaxon?.Parent.SwapChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Index + 1);
-                _UpdateChildrenWithVisibility();
+                _UpdateChildren();
                 Views.Common.UpdateTree();
             };
 
@@ -128,7 +258,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             item_Children_MoveBottom.Click += (s, e) =>
             {
                 Common.RightButtonTaxon?.Parent.MoveChild(Common.RightButtonTaxon.Index, Common.RightButtonTaxon.Parent.Children.Count - 1);
-                _UpdateChildrenWithVisibility();
+                _UpdateChildren();
                 Views.Common.UpdateTree();
             };
 
@@ -161,33 +291,12 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
                 item_Children_SetParent.IsEnabled = rightButtonTaxon.CanSetParent(Common.SelectedTaxon);
+                item_Children_ExcludeBy.IsEnabled = Common.SelectedTaxon?.CanAddExclude(rightButtonTaxon) ?? false;
+                item_Children_IncludeBy.IsEnabled = Common.SelectedTaxon?.CanAddInclude(rightButtonTaxon) ?? false;
                 item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
                 item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
 
-                if (Common.SelectedTaxon == null)
-                {
-                    item_Parent_Select.Header = item_Children_Select.Header = "选择";
-                }
-                else
-                {
-                    if (Common.SelectedTaxon.IsAnonymous())
-                    {
-                        item_Parent_Select.Header = item_Children_Select.Header = "选择 (已选择: \"(未命名)\")";
-                    }
-                    else
-                    {
-                        string taxonName = Common.SelectedTaxon.GetLongName();
-
-                        if (taxonName.Length > 32)
-                        {
-                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName[0..32], "...\")");
-                        }
-                        else
-                        {
-                            item_Parent_Select.Header = item_Children_Select.Header = string.Concat("选择 (已选择：\"", taxonName, "\")");
-                        }
-                    }
-                }
+                _UpdateSelectOfMenuItem(item_Children_Select, Common.SelectedTaxon);
 
                 if (rightButtonTaxon.IsFinal)
                 {
@@ -205,7 +314,10 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             _ContextMenu_Children = new ContextMenu();
             _ContextMenu_Children.Items.Add(item_Children_Select);
+            _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_SetParent);
+            _ContextMenu_Children.Items.Add(item_Children_ExcludeBy);
+            _ContextMenu_Children.Items.Add(item_Children_IncludeBy);
             _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_MoveTop);
             _ContextMenu_Children.Items.Add(item_Children_MoveUp);
@@ -215,6 +327,178 @@ namespace TreeOfLife.Views.Evo.EditMode
             _ContextMenu_Children.Items.Add(item_Children_DeleteWithoutChildren);
             _ContextMenu_Children.Items.Add(item_Children_DeleteWithinChildren);
             _ContextMenu_Children.DataContext = updateMenuItems_Children;
+
+            //
+
+            MenuItem item_Excludes_MoveTop = new MenuItem() { Header = "移至最上" };
+            item_Excludes_MoveTop.Padding = menuItemPadding;
+            item_Excludes_MoveTop.Margin = menuItemMargin;
+            item_Excludes_MoveTop.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon), 0);
+                _UpdateExcludes();
+            };
+
+            MenuItem item_Excludes_MoveUp = new MenuItem() { Header = "上移" };
+            item_Excludes_MoveUp.Padding = menuItemPadding;
+            item_Excludes_MoveUp.Margin = menuItemMargin;
+            item_Excludes_MoveUp.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+                currentTaxon.SwapExclude(index, index - 1);
+                _UpdateExcludes();
+            };
+
+            MenuItem item_Excludes_MoveDown = new MenuItem() { Header = "下移" };
+            item_Excludes_MoveDown.Padding = menuItemPadding;
+            item_Excludes_MoveDown.Margin = menuItemMargin;
+            item_Excludes_MoveDown.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+                currentTaxon.SwapExclude(index, index + 1);
+                _UpdateExcludes();
+            };
+
+            MenuItem item_Excludes_MoveBottom = new MenuItem() { Header = "移至最下" };
+            item_Excludes_MoveBottom.Padding = menuItemPadding;
+            item_Excludes_MoveBottom.Margin = menuItemMargin;
+            item_Excludes_MoveBottom.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
+                _UpdateExcludes();
+            };
+
+            MenuItem item_Excludes_Remove = new MenuItem() { Header = "解除排除关系" };
+            item_Excludes_Remove.Padding = menuItemPadding;
+            item_Excludes_Remove.Margin = menuItemMargin;
+            item_Excludes_Remove.Click += (s, e) =>
+            {
+                Views.Common.CurrentTaxon.RemoveExclude(Common.RightButtonTaxon);
+                ViewModel.UpdateTitle();
+                _UpdateExcludesWithVisibility();
+            };
+
+            Action updateMenuItems_Excludes = () =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+
+                item_Excludes_MoveTop.IsEnabled = item_Excludes_MoveUp.IsEnabled = (index > 0);
+                item_Excludes_MoveBottom.IsEnabled = item_Excludes_MoveDown.IsEnabled = (index < currentTaxon.Excludes.Count - 1);
+            };
+
+            _ContextMenu_Excludes = new ContextMenu();
+            _ContextMenu_Excludes.Items.Add(item_Excludes_MoveTop);
+            _ContextMenu_Excludes.Items.Add(item_Excludes_MoveUp);
+            _ContextMenu_Excludes.Items.Add(item_Excludes_MoveDown);
+            _ContextMenu_Excludes.Items.Add(item_Excludes_MoveBottom);
+            _ContextMenu_Excludes.Items.Add(new Separator());
+            _ContextMenu_Excludes.Items.Add(item_Excludes_Remove);
+            _ContextMenu_Excludes.DataContext = updateMenuItems_Excludes;
+
+            //
+
+            MenuItem item_ExcludeBy_Remove = new MenuItem() { Header = "解除排除关系" };
+            item_ExcludeBy_Remove.Padding = menuItemPadding;
+            item_ExcludeBy_Remove.Margin = menuItemMargin;
+            item_ExcludeBy_Remove.Click += (s, e) =>
+            {
+                Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon);
+                _UpdateExcludeByWithVisibility();
+            };
+
+            _ContextMenu_ExcludeBy = new ContextMenu();
+            _ContextMenu_ExcludeBy.Items.Add(item_ExcludeBy_Remove);
+
+            //
+
+            MenuItem item_Includes_MoveTop = new MenuItem() { Header = "移至最上" };
+            item_Includes_MoveTop.Padding = menuItemPadding;
+            item_Includes_MoveTop.Margin = menuItemMargin;
+            item_Includes_MoveTop.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon), 0);
+                _UpdateIncludes();
+            };
+
+            MenuItem item_Includes_MoveUp = new MenuItem() { Header = "上移" };
+            item_Includes_MoveUp.Padding = menuItemPadding;
+            item_Includes_MoveUp.Margin = menuItemMargin;
+            item_Includes_MoveUp.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+                currentTaxon.SwapInclude(index, index - 1);
+                _UpdateIncludes();
+            };
+
+            MenuItem item_Includes_MoveDown = new MenuItem() { Header = "下移" };
+            item_Includes_MoveDown.Padding = menuItemPadding;
+            item_Includes_MoveDown.Margin = menuItemMargin;
+            item_Includes_MoveDown.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+                currentTaxon.SwapInclude(index, index + 1);
+                _UpdateIncludes();
+            };
+
+            MenuItem item_Includes_MoveBottom = new MenuItem() { Header = "移至最下" };
+            item_Includes_MoveBottom.Padding = menuItemPadding;
+            item_Includes_MoveBottom.Margin = menuItemMargin;
+            item_Includes_MoveBottom.Click += (s, e) =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
+                _UpdateIncludes();
+            };
+
+            MenuItem item_Includes_Remove = new MenuItem() { Header = "解除包含关系" };
+            item_Includes_Remove.Padding = menuItemPadding;
+            item_Includes_Remove.Margin = menuItemMargin;
+            item_Includes_Remove.Click += (s, e) =>
+            {
+                Views.Common.CurrentTaxon.RemoveInclude(Common.RightButtonTaxon);
+                ViewModel.UpdateTitle();
+                _UpdateIncludesWithVisibility();
+            };
+
+            Action updateMenuItems_Includes = () =>
+            {
+                Taxon currentTaxon = Views.Common.CurrentTaxon;
+                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+
+                item_Includes_MoveTop.IsEnabled = item_Includes_MoveUp.IsEnabled = (index > 0);
+                item_Includes_MoveBottom.IsEnabled = item_Includes_MoveDown.IsEnabled = (index < currentTaxon.Includes.Count - 1);
+            };
+
+            _ContextMenu_Includes = new ContextMenu();
+            _ContextMenu_Includes.Items.Add(item_Includes_MoveTop);
+            _ContextMenu_Includes.Items.Add(item_Includes_MoveUp);
+            _ContextMenu_Includes.Items.Add(item_Includes_MoveDown);
+            _ContextMenu_Includes.Items.Add(item_Includes_MoveBottom);
+            _ContextMenu_Includes.Items.Add(new Separator());
+            _ContextMenu_Includes.Items.Add(item_Includes_Remove);
+            _ContextMenu_Includes.DataContext = updateMenuItems_Includes;
+
+            //
+
+            MenuItem item_IncludeBy_Remove = new MenuItem() { Header = "解除包含关系" };
+            item_IncludeBy_Remove.Padding = menuItemPadding;
+            item_IncludeBy_Remove.Margin = menuItemMargin;
+            item_IncludeBy_Remove.Click += (s, e) =>
+            {
+                Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon);
+                _UpdateIncludeByWithVisibility();
+            };
+
+            _ContextMenu_IncludeBy = new ContextMenu();
+            _ContextMenu_IncludeBy.Items.Add(item_IncludeBy_Remove);
         }
 
         //
@@ -348,8 +632,6 @@ namespace TreeOfLife.Views.Evo.EditMode
             var children = currentTaxon.Children;
 
             Common.UpdateChildren(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
-
-            grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
         // 更新子类群及其可见性。
@@ -358,6 +640,78 @@ namespace TreeOfLife.Views.Evo.EditMode
             _UpdateChildren();
 
             grid_Children.Visibility = (Views.Common.CurrentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+        }
+
+        // 更新 Excludes。
+        private void _UpdateExcludes()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var excludes = currentTaxon.Excludes;
+
+            Common.UpdateChildren(taxonNameButtonGroup_Excludes, excludes, _ContextMenu_Excludes);
+        }
+
+        // 更新 Excludes 及其可见性。
+        private void _UpdateExcludesWithVisibility()
+        {
+            _UpdateExcludes();
+
+            grid_Excludes.Visibility = (Views.Common.CurrentTaxon.Excludes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+        }
+
+        // 更新 ExcludeBy。
+        private void _UpdateExcludeBy()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var excludeBy = currentTaxon.ExcludeBy;
+
+            Common.UpdateChildren(taxonNameButtonGroup_ExcludeBy, excludeBy, _ContextMenu_ExcludeBy);
+        }
+
+        // 更新 ExcludeBy 及其可见性。
+        private void _UpdateExcludeByWithVisibility()
+        {
+            _UpdateExcludeBy();
+
+            grid_ExcludeBy.Visibility = (Views.Common.CurrentTaxon.ExcludeBy.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+        }
+
+        // 更新 Includes。
+        private void _UpdateIncludes()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var Includes = currentTaxon.Includes;
+
+            Common.UpdateChildren(taxonNameButtonGroup_Includes, Includes, _ContextMenu_Includes);
+        }
+
+        // 更新 Includes 及其可见性。
+        private void _UpdateIncludesWithVisibility()
+        {
+            _UpdateIncludes();
+
+            grid_Includes.Visibility = (Views.Common.CurrentTaxon.Includes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+        }
+
+        // 更新 IncludeBy。
+        private void _UpdateIncludeBy()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var IncludeBy = currentTaxon.IncludeBy;
+
+            Common.UpdateChildren(taxonNameButtonGroup_IncludeBy, IncludeBy, _ContextMenu_IncludeBy);
+        }
+
+        // 更新 IncludeBy 及其可见性。
+        private void _UpdateIncludeByWithVisibility()
+        {
+            _UpdateIncludeBy();
+
+            grid_IncludeBy.Visibility = (Views.Common.CurrentTaxon.IncludeBy.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
         }
 
         // 更新可见性。
@@ -374,6 +728,10 @@ namespace TreeOfLife.Views.Evo.EditMode
             grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
             grid_AddParent.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
             grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Excludes.Visibility = (currentTaxon.Excludes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_ExcludeBy.Visibility = (currentTaxon.ExcludeBy.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_Includes.Visibility = (currentTaxon.Includes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_IncludeBy.Visibility = (currentTaxon.IncludeBy.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
         }
 
         public void UpdateCurrentTaxonInfo()
@@ -386,6 +744,10 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             _UpdateParents();
             _UpdateChildren();
+            _UpdateExcludes();
+            _UpdateExcludeBy();
+            _UpdateIncludes();
+            _UpdateIncludeBy();
             _UpdateVisibility();
         }
 
