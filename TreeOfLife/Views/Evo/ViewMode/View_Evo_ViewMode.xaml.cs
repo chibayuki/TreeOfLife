@@ -45,6 +45,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
             taxonNameButtonGroup_Children.GroupNameWidth = 0;
             taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
 
+            taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
+            taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
+
             button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
         }
 
@@ -85,9 +88,50 @@ namespace TreeOfLife.Views.Evo.ViewMode
         // 更新子类群。
         private void _UpdateChildren()
         {
-            var children = Views.Common.CurrentTaxon.GetNamedChildren(true);
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            List<Taxon> children = new List<Taxon>();
+
+            foreach (var child in currentTaxon.GetNamedChildren(true))
+            {
+                children.Add(child);
+
+                foreach (var exclude in child.Excludes)
+                {
+                    if (exclude.IsNamed())
+                    {
+                        children.Add(exclude);
+                    }
+                    else
+                    {
+                        children.AddRange(exclude.GetNamedChildren(true));
+                    }
+                }
+
+                foreach (var include in currentTaxon.Includes)
+                {
+                    if (include.IsNamed())
+                    {
+                        children.Add(include);
+                    }
+                    else
+                    {
+                        children.AddRange(include.GetNamedChildren(true));
+                    }
+                }
+            }
 
             Common.UpdateChildren(taxonNameButtonGroup_Children, children);
+        }
+
+        // 更新 Excludes。
+        private void _UpdateExcludes()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            var excludes = currentTaxon.Excludes;
+
+            Common.UpdateChildren(taxonNameButtonGroup_Excludes, excludes);
         }
 
         // 更新可见性。
@@ -98,6 +142,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             grid_Tags.Visibility = (currentTaxon.Tags.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
             grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Excludes.Visibility = (currentTaxon.Excludes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Desc.Visibility = (string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Collapsed : Visibility.Visible);
         }
@@ -112,6 +157,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             _UpdateParents();
             _UpdateChildren();
+            _UpdateExcludes();
             _UpdateVisibility();
         }
 

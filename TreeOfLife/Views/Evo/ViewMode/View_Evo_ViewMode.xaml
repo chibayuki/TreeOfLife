@@ -36,6 +36,10 @@
                     <Label Content="下属类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Margin="0,35,0,0" />
                 </Grid>
+                <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
+                    <Label Content="此并系群不包含，但是其演化支的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Margin="0,35,0,0" />
+                </Grid>
                 <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
                     <Label Content="异名" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TagGroup x:Name="tagGroup_Synonyms" Margin="0,35,0,0" />
