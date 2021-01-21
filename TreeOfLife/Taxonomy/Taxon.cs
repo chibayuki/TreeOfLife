@@ -7,6 +7,17 @@ Version 1.0.900.1000.M9.210112-0000
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define BAN_MULTI_IN_DEGREE // 禁止复数入度，即至多被一个并系群排除、至多被一个复系群包含
+
+// 数据结构概述：
+// 生物分类单元（类群）的数据结构是加权有向图，每个类群是图的一个节点，每个节点存储双向引用关系，
+// 权重是单系群、并系群、复系群的抽象，目前没有具体的数值表示，不同权重、不同方向的引用关系由不同的容器分别存储，
+// 单系群入度为 0..1（仅顶级类群为 0），入节点引用由 _Parent 对象表示，出度为 0..N，出节点引用由 _Children 集合表示，
+// 并系群、复系群的入度取决于上述宏 BAN_MULTI_IN_DEGREE，若禁止复数入度，则入度为 0..1，否则为 0..N，
+// 并系群入节点引用由 _ExcludeBy 集合表示，出节点引用由 _Excludes 集合表示，
+// 复系群入节点引用由 _IncludeBy 集合表示，出节点引用由 _Includes 集合表示，
+// 另，支持并系群、复系群之前的版本的数据结构是N叉树。
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -294,7 +305,7 @@ namespace TreeOfLife.Taxonomy
         public bool CanSetParent(Taxon taxon)
         {
             // （1） 不能继承 null
-            // （2） 不能继承父类群（已经继承）
+            // （2） 不能继承父类群（因为已经继承）
             // （3） 不能继承子类群
             if (taxon == null || taxon == _Parent || taxon.InheritFrom(this))
             {
@@ -596,9 +607,15 @@ namespace TreeOfLife.Taxonomy
         {
             // （1） 不能排除 null
             // （2） 不能排除自身
-            // （3） 不能多次排除同一个类群
+            // （3） 不能排除已被任一并系群排除的类群（禁止复数入度）或不能多次排除同一个类群（允许复数入度）
             // （4） 不能排除不继承自身的类群
-            if (taxon == null || taxon == this || _Excludes.Contains(taxon) || !taxon.InheritFrom(this))
+            if (taxon == null || taxon == this ||
+#if BAN_MULTI_IN_DEGREE
+                taxon._ExcludeBy.Count > 0
+#else
+                _Excludes.Contains(taxon)
+#endif
+                || !taxon.InheritFrom(this))
             {
                 return false;
             }
@@ -739,10 +756,16 @@ namespace TreeOfLife.Taxonomy
         {
             // （1） 不能包含 null
             // （2） 不能包含自身
-            // （3） 不能多次包含同一个类群
+            // （3） 不能包含已被任一复系群包含的类群（禁止复数入度）或不能多次包含同一个类群（允许复数入度）
             // （4） 不能包含继承自身的类群
             // （5） 不能包含不继承自身父类群的类群
-            if (taxon == null || taxon == this || _Includes.Contains(taxon) || taxon.InheritFrom(this) || !taxon.InheritFrom(_Parent))
+            if (taxon == null || taxon == this ||
+#if BAN_MULTI_IN_DEGREE
+                taxon._IncludeBy.Count > 0
+#else
+                _Includes.Contains(taxon)
+#endif
+                || taxon.InheritFrom(this) || !taxon.InheritFrom(_Parent))
             {
                 return false;
             }
