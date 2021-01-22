@@ -112,5 +112,35 @@ namespace TreeOfLife.Views.Evo
 
             control.FinishEditing();
         }
+
+        // 更新子类群控件。
+        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> children, ContextMenu menu = null)
+        {
+            control.StartEditing();
+            control.Clear();
+
+            for (int i = 0; i < children.Count; i++)
+            {
+                Taxon taxon = children[i].taxon;
+                int sign = children[i].sign;
+
+                control.AddGroup(string.Empty, taxon.GetThemeColor());
+
+                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon, Sign = sign };
+
+                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
+
+                if (menu != null)
+                {
+                    button.ContextMenu = menu;
+
+                    button.MouseRightButtonUp += (s, e) => { RightButtonTaxon = button.Taxon; (button.ContextMenu.DataContext as Action)?.Invoke(); };
+                }
+
+                control.AddButton(button, i);
+            }
+
+            control.FinishEditing();
+        }
     }
 }

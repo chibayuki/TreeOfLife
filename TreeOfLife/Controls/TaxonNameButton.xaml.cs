@@ -36,6 +36,7 @@ namespace TreeOfLife.Controls
     public partial class TaxonNameButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
+        private int _Sign = 0; // "符号"，0：单系群继承关系的类群，-1：并系群排除的类群，+1：复系群包含的类群。
 
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
 
@@ -82,7 +83,7 @@ namespace TreeOfLife.Controls
         private void _UpdateTaxon()
         {
             label_CategoryName.Content = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetChineseName());
-            label_TaxonName.Content = (_Taxon == null ? string.Empty : _Taxon.GetShortName());
+            label_TaxonName.Content = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
         }
 
         private void _UpdateCategoryNameWidth()
@@ -121,6 +122,21 @@ namespace TreeOfLife.Controls
             set
             {
                 _Taxon = value;
+
+                _UpdateTaxon();
+            }
+        }
+
+        public int Sign
+        {
+            get
+            {
+                return _Sign;
+            }
+
+            set
+            {
+                _Sign = value;
 
                 _UpdateTaxon();
             }

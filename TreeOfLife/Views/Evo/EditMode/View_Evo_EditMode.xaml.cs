@@ -92,23 +92,26 @@ namespace TreeOfLife.Views.Evo.EditMode
         private ContextMenu _ContextMenu_Includes;
         private ContextMenu _ContextMenu_IncludeBy;
 
-        private void _UpdateSelectOfMenuItem(MenuItem menuItem)
+        private void _UpdateSelectOfMenuItem(MenuItem select, MenuItem selected)
         {
-            if (menuItem != null)
+            if (select != null && selected != null)
             {
                 Taxon selectedTaxon = Common.SelectedTaxon;
 
-                menuItem.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
+                select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
+                selected.IsEnabled = false;
 
                 if (selectedTaxon == null)
                 {
-                    menuItem.Header = "选择";
+                    selected.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
+                    selected.Visibility = Visibility.Visible;
+
                     if (selectedTaxon.IsAnonymous())
                     {
-                        menuItem.Header = "选择 (已选择: \"(未命名)\")";
+                        selected.Header = "已选择: \"(未命名)\"";
                     }
                     else
                     {
@@ -116,11 +119,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
                         if (taxonName.Length > 32)
                         {
-                            menuItem.Header = string.Concat("选择 (已选择：\"", taxonName[0..32], "...\")");
+                            selected.Header = string.Concat("已选择：\"", taxonName[0..32], "...\"");
                         }
                         else
                         {
-                            menuItem.Header = string.Concat("选择 (已选择：\"", taxonName, "\")");
+                            selected.Header = string.Concat("已选择：\"", taxonName, "\"");
                         }
                     }
                 }
@@ -137,6 +140,13 @@ namespace TreeOfLife.Views.Evo.EditMode
             MenuItem item_Current_Select = new MenuItem()
             {
                 Header = "选择",
+                Padding = menuItemPadding,
+                Margin = menuItemMargin
+            };
+
+            MenuItem item_Current_Selected = new MenuItem()
+            {
+                IsEnabled = false,
                 Padding = menuItemPadding,
                 Margin = menuItemMargin
             };
@@ -189,7 +199,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             Action updateMenuItems_Current = () =>
             {
-                _UpdateSelectOfMenuItem(item_Current_Select);
+                _UpdateSelectOfMenuItem(item_Current_Select, item_Current_Selected);
 
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
                 Taxon selectedTaxon = Common.SelectedTaxon;
@@ -201,6 +211,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             _ContextMenu_Current = new ContextMenu();
             _ContextMenu_Current.Items.Add(item_Current_Select);
+            _ContextMenu_Current.Items.Add(item_Current_Selected);
             _ContextMenu_Current.Items.Add(new Separator());
             _ContextMenu_Current.Items.Add(item_Current_SetParent);
             _ContextMenu_Current.Items.Add(item_Current_ExcludeBy);
@@ -216,12 +227,20 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Margin = menuItemMargin
             };
 
+            MenuItem item_Parent_Selected = new MenuItem()
+            {
+                IsEnabled = false,
+                Padding = menuItemPadding,
+                Margin = menuItemMargin
+            };
+
             item_Parent_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
 
-            Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Select);
+            Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Select, item_Parent_Selected);
 
             _ContextMenu_Parent = new ContextMenu();
             _ContextMenu_Parent.Items.Add(item_Parent_Select);
+            _ContextMenu_Parent.Items.Add(item_Parent_Selected);
             _ContextMenu_Parent.DataContext = updateMenuItems_Parent;
 
             //
@@ -229,6 +248,13 @@ namespace TreeOfLife.Views.Evo.EditMode
             MenuItem item_Children_Select = new MenuItem()
             {
                 Header = "选择",
+                Padding = menuItemPadding,
+                Margin = menuItemMargin
+            };
+
+            MenuItem item_Children_Selected = new MenuItem()
+            {
+                IsEnabled = false,
                 Padding = menuItemPadding,
                 Margin = menuItemMargin
             };
@@ -418,7 +444,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             Action updateMenuItems_Children = () =>
             {
-                _UpdateSelectOfMenuItem(item_Children_Select);
+                _UpdateSelectOfMenuItem(item_Children_Select, item_Children_Selected);
 
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
                 Taxon selectedTaxon = Common.SelectedTaxon;
@@ -426,6 +452,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 item_Children_SetParent.IsEnabled = rightButtonTaxon.CanSetParent(selectedTaxon);
                 item_Children_ExcludeBy.IsEnabled = selectedTaxon?.CanAddExclude(rightButtonTaxon) ?? false;
                 item_Children_IncludeBy.IsEnabled = selectedTaxon?.CanAddInclude(rightButtonTaxon) ?? false;
+
                 item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
                 item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
 
@@ -445,6 +472,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             _ContextMenu_Children = new ContextMenu();
             _ContextMenu_Children.Items.Add(item_Children_Select);
+            _ContextMenu_Children.Items.Add(item_Children_Selected);
             _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_SetParent);
             _ContextMenu_Children.Items.Add(item_Children_ExcludeBy);

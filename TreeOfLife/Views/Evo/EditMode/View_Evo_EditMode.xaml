@@ -72,7 +72,7 @@
                     <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="30" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
-                    <Label Content="此并系群排除的下层类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Label Content="此并系群排除的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
@@ -80,7 +80,7 @@
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_ExcludeBy" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Includes" Margin="0,25,0,0">
-                    <Label Content="此复系群包含的外类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Label Content="此复系群包含的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Includes" Margin="0,35,0,0" />
                 </Grid>
                 <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">

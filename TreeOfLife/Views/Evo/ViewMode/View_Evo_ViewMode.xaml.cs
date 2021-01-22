@@ -90,33 +90,42 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            List<Taxon> children = new List<Taxon>();
+            List<(Taxon, int)> children = new List<(Taxon, int)>();
 
             foreach (var child in currentTaxon.GetNamedChildren(true))
             {
-                children.Add(child);
+                // 逐个添加当前类群的具名子类群
+                children.Add((child, 0));
 
+                // 若具名子类群是并系群，添加并系群排除的类群
                 foreach (var exclude in child.Excludes)
                 {
                     if (exclude.IsNamed())
                     {
-                        children.Add(exclude);
+                        children.Add((exclude, -1));
                     }
                     else
                     {
-                        children.AddRange(exclude.GetNamedChildren(true));
+                        foreach (var item in exclude.GetNamedChildren(true))
+                        {
+                            children.Add((item, -1));
+                        }
                     }
                 }
+            }
 
-                foreach (var include in currentTaxon.Includes)
+            // 若当前类群是复系群，添加复系群包含的类群
+            foreach (var include in currentTaxon.Includes)
+            {
+                if (include.IsNamed())
                 {
-                    if (include.IsNamed())
+                    children.Add((include, +1));
+                }
+                else
+                {
+                    foreach (var item in include.GetNamedChildren(true))
                     {
-                        children.Add(include);
-                    }
-                    else
-                    {
-                        children.AddRange(include.GetNamedChildren(true));
+                        children.Add((item, +1));
                     }
                 }
             }
@@ -129,7 +138,22 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            var excludes = currentTaxon.Excludes;
+            List<Taxon> excludes = new List<Taxon>();
+
+            foreach (var exclude in currentTaxon.Excludes)
+            {
+                if (exclude.IsNamed())
+                {
+                    excludes.Add(exclude);
+                }
+                else
+                {
+                    foreach (var item in exclude.GetNamedChildren(true))
+                    {
+                        excludes.Add(item);
+                    }
+                }
+            }
 
             Common.UpdateChildren(taxonNameButtonGroup_Excludes, excludes);
         }
@@ -141,7 +165,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             grid_Tags.Visibility = (currentTaxon.Tags.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Children.Visibility = (currentTaxon.IsFinal ? Visibility.Collapsed : Visibility.Visible);
+            grid_Children.Visibility = (taxonNameButtonGroup_Children.GetGroupCount() <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Excludes.Visibility = (currentTaxon.Excludes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
             grid_Desc.Visibility = (string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Collapsed : Visibility.Visible);
