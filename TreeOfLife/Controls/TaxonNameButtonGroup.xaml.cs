@@ -410,6 +410,12 @@ namespace TreeOfLife.Controls
             return _Groups[groupIndex].Buttons.Count;
         }
 
+        // 获取指定组的指定按钮关联的类群。
+        public Taxon GetTaxon(int groupIndex, int buttonIndex)
+        {
+            return _Groups[groupIndex].Buttons[buttonIndex].Taxon;
+        }
+
         // 添加一个组。
         public void AddGroup(string name, ColorX color, int groupIndex)
         {

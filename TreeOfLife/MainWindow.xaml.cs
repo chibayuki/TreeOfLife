@@ -119,6 +119,13 @@ namespace TreeOfLife
 
                 //
 
+                if (tabPage == Pages.Search)
+                {
+                    view_Search.TrimSearchResult();
+                }
+
+                //
+
                 ViewModel.CurrentPage = tabPage;
             }
         }

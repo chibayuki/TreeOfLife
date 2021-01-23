@@ -106,6 +106,32 @@ namespace TreeOfLife.Views.Search
             taxonNameButtonGroup_SearchResult.FinishEditing();
         }
 
+        // 裁剪搜索结果，去除已被删除的类群。
+        public void TrimSearchResult()
+        {
+            if (taxonNameButtonGroup_SearchResult.GetGroupCount() > 0)
+            {
+                taxonNameButtonGroup_SearchResult.StartEditing();
+
+                int i = 0;
+
+                while (i < taxonNameButtonGroup_SearchResult.GetGroupCount())
+                {
+                    if (taxonNameButtonGroup_SearchResult.GetTaxon(i, 0).IsRoot)
+                    {
+                        taxonNameButtonGroup_SearchResult.RemoveGroup(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                taxonNameButtonGroup_SearchResult.FinishEditing();
+            }
+        }
+
+        // 清空搜索结果。
         public void ClearSearchResult()
         {
             ViewModel.KeyWord = string.Empty;

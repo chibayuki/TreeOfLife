@@ -92,14 +92,14 @@ namespace TreeOfLife.Views.Evo.EditMode
         private ContextMenu _ContextMenu_Includes;
         private ContextMenu _ContextMenu_IncludeBy;
 
-        private void _UpdateSelectOfMenuItem(MenuItem select, MenuItem selected)
+        private void _UpdateSelectOfMenuItem(MenuItem selected, MenuItem select)
         {
-            if (select != null && selected != null)
+            if (selected != null && select != null)
             {
                 Taxon selectedTaxon = Common.SelectedTaxon;
 
-                select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
                 selected.IsEnabled = false;
+                select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
 
                 if (selectedTaxon == null)
                 {
@@ -135,18 +135,20 @@ namespace TreeOfLife.Views.Evo.EditMode
             Thickness menuItemPadding = new Thickness(3, 6, 3, 6);
             Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
 
+            Thickness selectedPadding = new Thickness(3, 1, 3, 1);
+            Brush selectedBackground = new SolidColorBrush(Color.FromRgb(224, 224, 224));
+
             //
+
+            MenuItem item_Current_Selected = new MenuItem()
+            {
+                Padding = selectedPadding,
+                Background = selectedBackground
+            };
 
             MenuItem item_Current_Select = new MenuItem()
             {
                 Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
-
-            MenuItem item_Current_Selected = new MenuItem()
-            {
-                IsEnabled = false,
                 Padding = menuItemPadding,
                 Margin = menuItemMargin
             };
@@ -199,7 +201,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             Action updateMenuItems_Current = () =>
             {
-                _UpdateSelectOfMenuItem(item_Current_Select, item_Current_Selected);
+                _UpdateSelectOfMenuItem(item_Current_Selected, item_Current_Select);
 
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
                 Taxon selectedTaxon = Common.SelectedTaxon;
@@ -210,8 +212,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             };
 
             _ContextMenu_Current = new ContextMenu();
-            _ContextMenu_Current.Items.Add(item_Current_Select);
             _ContextMenu_Current.Items.Add(item_Current_Selected);
+            _ContextMenu_Current.Items.Add(item_Current_Select);
             _ContextMenu_Current.Items.Add(new Separator());
             _ContextMenu_Current.Items.Add(item_Current_SetParent);
             _ContextMenu_Current.Items.Add(item_Current_ExcludeBy);
@@ -220,6 +222,12 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
+            MenuItem item_Parent_Selected = new MenuItem()
+            {
+                Padding = selectedPadding,
+                Background = selectedBackground
+            };
+
             MenuItem item_Parent_Select = new MenuItem()
             {
                 Header = "选择",
@@ -227,34 +235,26 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Margin = menuItemMargin
             };
 
-            MenuItem item_Parent_Selected = new MenuItem()
-            {
-                IsEnabled = false,
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
-
             item_Parent_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
 
-            Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Select, item_Parent_Selected);
+            Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Selected, item_Parent_Select);
 
             _ContextMenu_Parent = new ContextMenu();
-            _ContextMenu_Parent.Items.Add(item_Parent_Select);
             _ContextMenu_Parent.Items.Add(item_Parent_Selected);
+            _ContextMenu_Parent.Items.Add(item_Parent_Select);
             _ContextMenu_Parent.DataContext = updateMenuItems_Parent;
 
             //
 
+            MenuItem item_Children_Selected = new MenuItem()
+            {
+                Padding = selectedPadding,
+                Background = selectedBackground
+            };
+
             MenuItem item_Children_Select = new MenuItem()
             {
                 Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
-
-            MenuItem item_Children_Selected = new MenuItem()
-            {
-                IsEnabled = false,
                 Padding = menuItemPadding,
                 Margin = menuItemMargin
             };
@@ -444,7 +444,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             Action updateMenuItems_Children = () =>
             {
-                _UpdateSelectOfMenuItem(item_Children_Select, item_Children_Selected);
+                _UpdateSelectOfMenuItem(item_Children_Selected, item_Children_Select);
 
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
                 Taxon selectedTaxon = Common.SelectedTaxon;
@@ -471,8 +471,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             };
 
             _ContextMenu_Children = new ContextMenu();
-            _ContextMenu_Children.Items.Add(item_Children_Select);
             _ContextMenu_Children.Items.Add(item_Children_Selected);
+            _ContextMenu_Children.Items.Add(item_Children_Select);
             _ContextMenu_Children.Items.Add(new Separator());
             _ContextMenu_Children.Items.Add(item_Children_SetParent);
             _ContextMenu_Children.Items.Add(item_Children_ExcludeBy);
