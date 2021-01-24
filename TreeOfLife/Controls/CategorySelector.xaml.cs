@@ -115,15 +115,15 @@ namespace TreeOfLife.Controls
                 _GroupPanel.SizeChanged += _UpdateHeight;
             }
 
-            public void UpdateLayout(Thickness groupPadding, Thickness buttonPadding)
+            public void UpdateLayout(Thickness groupMargin, Thickness buttonMargin)
             {
                 if (_Buttons.Count > 0)
                 {
-                    _GroupPanel.Margin = groupPadding;
+                    _GroupPanel.Margin = groupMargin;
 
                     foreach (var button in _Buttons)
                     {
-                        button.Margin = buttonPadding;
+                        button.Margin = buttonMargin;
                     }
                 }
                 else
@@ -539,7 +539,7 @@ namespace TreeOfLife.Controls
 
         private void _UpdateLayout()
         {
-            _Level1Group.UpdateLayout(_GroupMargin, _ButtonMargin);
+            _Level1Group.UpdateLayout(new Thickness(_GroupMargin.Left, 0, _GroupMargin.Right, _GroupMargin.Bottom), _ButtonMargin);
 
             foreach (var group in _Level2Groups.Values)
             {
@@ -548,7 +548,7 @@ namespace TreeOfLife.Controls
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.UpdateLayout(_GroupMargin, _ButtonMargin);
+                group.UpdateLayout(new Thickness(_GroupMargin.Left, _GroupMargin.Top, _GroupMargin.Right, 0), _ButtonMargin);
             }
         }
 

@@ -21,15 +21,21 @@
             </Grid.Effect>
             <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
             <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" Margin="80,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" BorderBrush="{Binding CategoryName_BackGround}" BorderThickness="0,1,1,1" />
-            <Button x:Name="button_Back" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+            <Button x:Name="button_Back" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
                 <Grid x:Name="grid_Name" Margin="0,25,0,0">
-                    <Label Content="学名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Label Content="中文名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="0,35,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="4" Text="{Binding Name}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-                    <TextBox HorizontalAlignment="Stretch" Margin="80,35,0,0" VerticalAlignment="Top" Height="25" Padding="4" Text="{Binding ChsName}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
+                    <StackPanel>
+                        <Grid>
+                            <Label Content="学名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                            <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="4" Text="{Binding Name}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Label Content="中文名" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Margin="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                            <TextBox HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="4" Text="{Binding ChsName}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_State" Margin="0,25,0,0">
                     <Label Content="状态" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
@@ -38,7 +44,13 @@
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">
                     <Label Content="分级" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:CategorySelector x:Name="categorySelector" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top"/>
+                    <StackPanel Margin="80,0,0,0">
+                        <Controls:CategorySelector x:Name="categorySelector" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                        <Grid x:Name="grid_Rename" Margin="0,5,0,0">
+                            <Label x:Name="label_Rename" Content="更新中文名为:" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,0,0" />
+                            <Button x:Name="button_Rename" Content="更新" HorizontalAlignment="Right" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
                     <Label Content="异名" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
@@ -59,8 +71,8 @@
                 <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
                     <Label Content="插入&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <TextBox x:Name="textBox_Parent" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="25" Padding="4" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-                    <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="30" Margin="80,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
-                    <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="30" Margin="0,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+                    <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="25" Margin="80,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+                    <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="25" Margin="0,35,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Label Content="下级类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
@@ -69,7 +81,7 @@
                 <Grid Margin="0,25,0,0">
                     <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
                     <TextBox x:Name="textBox_Children" HorizontalAlignment="Stretch" Margin="80,0,0,0" VerticalAlignment="Top" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-                    <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="90" Height="30" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
+                    <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" VerticalAlignment="Top" Width="85" Height="25" Margin="0,95,0,0" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" />
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
                     <Label Content="此并系群排除的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />

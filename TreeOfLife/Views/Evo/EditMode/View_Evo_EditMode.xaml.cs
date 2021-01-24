@@ -78,6 +78,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             button_Back.Click += (s, e) => Views.Common.ExitEditMode();
 
             categorySelector.MouseLeftButtonUp += CategorySelector_MouseLeftButtonUp;
+            button_Rename.Click += Button_Rename_Click;
+            grid_Rename.Visibility = Visibility.Collapsed;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
@@ -740,13 +742,16 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         #region 回调函数
 
+        private string _ChsRename = string.Empty; // 可更新的中文名。
+
         private void CategorySelector_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ViewModel.Category = categorySelector.Category;
 
             //
 
-            // 更新类群的中文名
+            _ChsRename = ViewModel.ChsName;
+
             if (!string.IsNullOrEmpty(ViewModel.ChsName))
             {
                 string chsNameWithoutCategory = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
@@ -755,18 +760,36 @@ namespace TreeOfLife.Views.Evo.EditMode
                 {
                     if (ViewModel.Category.IsClade())
                     {
-                        ViewModel.ChsName = chsNameWithoutCategory + "类";
+                        _ChsRename = chsNameWithoutCategory + "类";
                     }
                     else if (ViewModel.Category.IsPrimaryCategory() || ViewModel.Category.IsSecondaryCategory())
                     {
-                        ViewModel.ChsName = chsNameWithoutCategory + ViewModel.Category.GetChineseName();
+                        _ChsRename = chsNameWithoutCategory + ViewModel.Category.GetChineseName();
                     }
                     else
                     {
-                        ViewModel.ChsName = chsNameWithoutCategory;
+                        _ChsRename = chsNameWithoutCategory;
                     }
                 }
             }
+
+            if (_ChsRename != ViewModel.ChsName)
+            {
+                label_Rename.Content = "更新中文名为: " + _ChsRename;
+
+                grid_Rename.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid_Rename.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Button_Rename_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ChsName = _ChsRename;
+
+            grid_Rename.Visibility = Visibility.Collapsed;
         }
 
         private void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
@@ -974,6 +997,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             ViewModel.UpdateFromTaxon();
 
             categorySelector.Category = ViewModel.Category;
+            grid_Rename.Visibility = Visibility.Collapsed;
+
             textBox_Parent.Clear();
             textBox_Children.Clear();
 
