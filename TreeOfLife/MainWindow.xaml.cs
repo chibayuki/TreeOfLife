@@ -182,10 +182,21 @@ namespace TreeOfLife
                         result = Phylogenesis.Save();
                     }
                 }
-                // 如果文件已经保存，但又被手动删除，那么重新保存
+                // 如果文件已经保存，但不存在（被删除/移动存储介质弹出），那么重新保存
                 else
                 {
                     result = Phylogenesis.Save();
+
+                    // 如果保存失败，那么另存为
+                    if (!result.Value)
+                    {
+                        bool? r = _SaveFileDialog.ShowDialog();
+
+                        if (r ?? false)
+                        {
+                            result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                        }
+                    }
                 }
             }
             else

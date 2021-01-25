@@ -210,7 +210,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
                 {
                     CategoryName = string.Empty;
-                    TaxonName = (currentTaxon.IsRoot ? string.Empty : "(未命名)");
+                    TaxonName = "(未命名)";
                 }
                 else
                 {
@@ -259,8 +259,6 @@ namespace TreeOfLife.Views.Evo.EditMode
 
                     TaxonName = taxonName.ToString();
                 }
-
-                _UpdateColors();
             }
         }
 
