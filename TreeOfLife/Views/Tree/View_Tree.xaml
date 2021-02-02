@@ -11,6 +11,11 @@
     </UserControl.DataContext>
     <Grid>
         <TextBox x:Name="textBox_EvoTree" Padding="6,6,6,6" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" Text="{Binding TreeText}" BorderThickness="0,0,0,0" />
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <StackPanel x:Name="stackPanel_SubTree"/>
+            </Grid>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>

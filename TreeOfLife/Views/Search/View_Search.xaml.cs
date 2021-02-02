@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.915.1000.M9.210129-2000
+Version 1.0.1000.1000.M10.210130-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,6 +49,8 @@ namespace TreeOfLife.Views.Search
 
             //
 
+            this.IsVisibleChanged += (s, e) => { if (this.IsVisible) _TrimSearchResult(); };
+
             button_Search.Click += (s, e) => _SearchAndUpdateResult();
         }
 
@@ -56,6 +58,7 @@ namespace TreeOfLife.Views.Search
 
         #region 搜索
 
+        // 搜索并更新结果。
         private void _SearchAndUpdateResult()
         {
             taxonNameButtonGroup_SearchResult.StartEditing();
@@ -107,7 +110,7 @@ namespace TreeOfLife.Views.Search
         }
 
         // 裁剪搜索结果，去除已被删除的类群。
-        public void TrimSearchResult()
+        private void _TrimSearchResult()
         {
             if (taxonNameButtonGroup_SearchResult.GetGroupCount() > 0)
             {

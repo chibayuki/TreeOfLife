@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.915.1000.M9.210129-2000
+Version 1.0.1000.1000.M10.210130-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -21,6 +21,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using TreeOfLife.Controls;
+using TreeOfLife.Taxonomy;
+using TreeOfLife.Taxonomy.Extensions;
 
 namespace TreeOfLife.Views.Tree
 {
@@ -45,6 +49,250 @@ namespace TreeOfLife.Views.Tree
         public void UpdateTree()
         {
             ViewModel.UpdateTree();
+        }
+
+        #endregion
+
+        #region 系统发生树
+
+        private class _TreeNode
+        {
+            public _TreeNode Parent { get; set; } = null;
+            public List<_TreeNode> Children { get; } = new List<_TreeNode>();
+
+            public Taxon Taxon { get; set; } = null;
+            public TreeNodeButton Button { get; set; } = null;
+
+            public double Width => Button?.Width ?? double.NaN;
+            public double Height => Button?.Height ?? double.NaN;
+            public double Left { get; set; } = 0;
+            public double Top { get; set; } = 0;
+            public double Right => Left + Width;
+            public double Bottom => Top + Height;
+            /*public double VCenter
+            {
+                get => Top + Height / 2;
+                set => Top = value - Height / 2;
+            }*/
+        }
+
+        private _TreeNode _SubTreeRoot = null; // 子树的根节点。
+
+        private int _ParentLevels = 1; // 向上追溯的具名父类群的层数。
+        private int _ChildrenLevels = 3; // 向下追溯的具名子类群的层数。
+        private int _SiblingLevels = 0; // 旁系群向下追溯的具名子类群的层数。
+
+        // 生成一个子树节点。
+        private _TreeNode _GenerateTreeNode(Taxon taxon)
+        {
+            return new _TreeNode() { Taxon = taxon, Button = new TreeNodeButton() { Taxon = taxon, VerticalAlignment = VerticalAlignment.Stretch } };
+        }
+
+        private int _CurrentChildrenDepth; // 当前递归深度。
+
+        // 构造子树的子类群部分。
+        private void _BuildSubTreeForChildren(_TreeNode node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            {
+                _CurrentChildrenDepth++;
+            }
+
+            if (_CurrentChildrenDepth < _ChildrenLevels)
+            {
+                foreach (var child in node.Taxon.Children)
+                {
+                    _TreeNode childNode = _GenerateTreeNode(child);
+
+                    node.Children.Add(childNode);
+                    childNode.Parent = node;
+
+                    _BuildSubTreeForChildren(childNode);
+                }
+            }
+
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            {
+                _CurrentChildrenDepth--;
+            }
+        }
+
+        private int _CurrentSiblingsDepth; // 当前递归深度。
+
+        // 构造子树的旁系群部分。
+        private void _BuildSubTreeForSiblings(_TreeNode node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            {
+                _CurrentSiblingsDepth++;
+            }
+
+            if (_CurrentSiblingsDepth < _SiblingLevels)
+            {
+                foreach (var child in node.Taxon.Children)
+                {
+                    _TreeNode childNode = _GenerateTreeNode(child);
+
+                    node.Children.Add(childNode);
+                    childNode.Parent = node;
+
+                    _BuildSubTreeForSiblings(childNode);
+                }
+            }
+
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            {
+                _CurrentSiblingsDepth--;
+            }
+        }
+
+        // 构造子树。
+        private void _BuildSubTree(_TreeNode node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (node.Taxon == _NamedTaxon)
+            {
+                _CurrentChildrenDepth = -1;
+
+                _BuildSubTreeForChildren(node);
+            }
+            else if (node.Taxon.IsNamed() && !_NamedTaxon.InheritFrom(node.Taxon))
+            {
+                _CurrentSiblingsDepth = -1;
+
+                _BuildSubTreeForSiblings(node);
+            }
+            else
+            {
+                foreach (var child in node.Taxon.Children)
+                {
+                    _TreeNode childNode = _GenerateTreeNode(child);
+
+                    node.Children.Add(childNode);
+                    childNode.Parent = node;
+
+                    _BuildSubTree(childNode);
+                }
+            }
+        }
+
+        // 计算所有节点的属性。
+        private void _CalcTreeNodeAttr(_TreeNode node)
+        {
+            if (node != null)
+            {
+                node.Button.IsRoot = (node.Parent == null);
+                node.Button.IsFinal = (node.Children.Count <= 0);
+
+                if (node.Button.IsRoot)
+                {
+                    node.Button.IsFirst = true;
+                    node.Button.IsLast = true;
+                }
+                else
+                {
+                    node.Button.IsFirst = (node.Parent.Children.IndexOf(node) <= 0);
+                    node.Button.IsLast = (node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1);
+                }
+
+                node.Button.ShowButton = node.Taxon.IsNamed();
+
+                if (node.Children != null)
+                {
+                    foreach (var child in node.Children)
+                    {
+                        _CalcTreeNodeAttr(child);
+                    }
+                }
+            }
+        }
+
+        // 将所有节点添加到容器控件。
+        private static void _AddTreeNodeButton(Panel panel, _TreeNode node)
+        {
+            if (node != null)
+            {
+                StackPanel stackPanelH = new StackPanel() { Orientation = Orientation.Horizontal };
+                stackPanelH.Children.Add(node.Button);
+                panel.Children.Add(stackPanelH);
+
+                if (node.Children != null)
+                {
+                    StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
+                    stackPanelH.Children.Add(stackPanelV);
+
+                    foreach (var child in node.Children)
+                    {
+                        _AddTreeNodeButton(stackPanelV, child);
+                    }
+                }
+            }
+        }
+
+        private Taxon _NamedTaxon = null; // 当前类群或其最近的具名上级类群。
+
+        public void UpdateSubTree()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
+            {
+                _NamedTaxon = currentTaxon.GetNamedParent();
+
+                if (_NamedTaxon == null)
+                {
+                    _NamedTaxon = currentTaxon.Root;
+                }
+            }
+            else
+            {
+                _NamedTaxon = currentTaxon;
+            }
+
+            Taxon parent = _NamedTaxon;
+
+            for (int i = 0; i < _ParentLevels; i++)
+            {
+                parent = parent.GetNamedParent();
+
+                if (parent == null)
+                {
+                    parent = _NamedTaxon.Root;
+
+                    break;
+                }
+            }
+
+            stackPanel_SubTree.Children.Clear();
+
+            _SubTreeRoot = _GenerateTreeNode(parent);
+
+            _BuildSubTree(_SubTreeRoot);
+
+            //
+
+            _CalcTreeNodeAttr(_SubTreeRoot);
+            _AddTreeNodeButton(stackPanel_SubTree, _SubTreeRoot);
         }
 
         #endregion

@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.915.1000.M9.210129-2000
+Version 1.0.1000.1000.M10.210130-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -116,13 +116,6 @@ namespace TreeOfLife
             if (ViewModel.CurrentPage == null || ViewModel.CurrentPage != tabPage)
             {
                 _SetEditMode(false);
-
-                //
-
-                if (tabPage == Pages.Search)
-                {
-                    view_Search.TrimSearchResult();
-                }
 
                 //
 
@@ -438,12 +431,13 @@ namespace TreeOfLife
 
         #endregion
 
-        #region 系统发生树（临时）
+        #region 系统发生树
 
         // 更新系统发生树。
         private void _UpdateTree()
         {
-            view_Tree.UpdateTree();
+            //view_Tree.UpdateTree();
+            view_Tree.UpdateSubTree();
         }
 
         #endregion
