@@ -53,12 +53,10 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTaxon()
         {
-            StringBuilder sb = new StringBuilder();
-
-
             if (_IsRoot)
             {
                 grid_LeftPart.Visibility = Visibility.Collapsed;
+                grid_RightPart.Visibility = Visibility.Visible;
             }
             else
             {
@@ -92,6 +90,7 @@ namespace TreeOfLife.Controls
                 }
 
                 grid_LeftPart.Visibility = Visibility.Visible;
+                grid_RightPart.Visibility = (_IsFinal || !_ShowButton ? Visibility.Collapsed : Visibility.Visible);
             }
 
             if (_ShowButton && _Taxon != null)
@@ -104,8 +103,6 @@ namespace TreeOfLife.Controls
             {
                 grid_MiddlePart.Visibility = Visibility.Collapsed;
             }
-
-            grid_RightPart.Visibility = (_IsFinal ? Visibility.Collapsed : Visibility.Visible);
         }
 
         public Taxon Taxon
