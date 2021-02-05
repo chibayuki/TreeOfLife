@@ -51,42 +51,88 @@ namespace TreeOfLife.Controls
         private bool _IsLast;
         private bool _ShowButton;
 
+        private enum _NodeEntranceType
+        {
+            Single,
+            First,
+            Last,
+            Normal
+        }
+
+        private void _UpdateEntrance(_NodeEntranceType entranceType)
+        {
+            switch (entranceType)
+            {
+                case _NodeEntranceType.Single:
+                    grid_Single.Visibility = Visibility.Visible;
+                    grid_First.Visibility = Visibility.Collapsed;
+                    grid_Last.Visibility = Visibility.Collapsed;
+                    grid_Normal.Visibility = Visibility.Collapsed;
+                    break;
+
+                case _NodeEntranceType.First:
+                    grid_Single.Visibility = Visibility.Collapsed;
+                    grid_First.Visibility = Visibility.Visible;
+                    grid_Last.Visibility = Visibility.Collapsed;
+                    grid_Normal.Visibility = Visibility.Collapsed;
+                    break;
+                case _NodeEntranceType.Last:
+                    grid_Single.Visibility = Visibility.Collapsed;
+                    grid_First.Visibility = Visibility.Collapsed;
+                    grid_Last.Visibility = Visibility.Visible;
+                    grid_Normal.Visibility = Visibility.Collapsed;
+                    break;
+
+                case _NodeEntranceType.Normal:
+                    grid_Single.Visibility = Visibility.Collapsed;
+                    grid_First.Visibility = Visibility.Collapsed;
+                    grid_Last.Visibility = Visibility.Collapsed;
+                    grid_Normal.Visibility = Visibility.Visible;
+                    break;
+
+                default:
+                    grid_Single.Visibility = Visibility.Collapsed;
+                    grid_First.Visibility = Visibility.Collapsed;
+                    grid_Last.Visibility = Visibility.Collapsed;
+                    grid_Normal.Visibility = Visibility.Collapsed;
+                    break;
+            }
+        }
+
         private void _UpdateTaxon()
         {
             if (_IsRoot)
             {
-                grid_LeftPart.Visibility = Visibility.Collapsed;
-                grid_RightPart.Visibility = Visibility.Visible;
+                if(_ShowButton)
+                {
+                    _UpdateEntrance(_NodeEntranceType.Single);
+
+                    grid_LeftPart.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_LeftPart.Visibility = Visibility.Collapsed;
+                }
+
+                grid_RightPart.Visibility = (_IsFinal ? Visibility.Collapsed : Visibility.Visible);
             }
             else
             {
                 if (_IsFirst && _IsLast)
                 {
-                    grid_Single.Visibility = Visibility.Visible;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Collapsed;
+                    _UpdateEntrance(_NodeEntranceType.Single);
                 }
                 else if (_IsFirst)
                 {
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Visible;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Collapsed;
+                    _UpdateEntrance(_NodeEntranceType.First);
                 }
                 else if (_IsLast)
                 {
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Visible;
-                    grid_Normal.Visibility = Visibility.Collapsed;
+                    _UpdateEntrance(_NodeEntranceType.Last);
                 }
                 else
                 {
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Visible;
+                    _UpdateEntrance(_NodeEntranceType.Normal);
                 }
 
                 grid_LeftPart.Visibility = Visibility.Visible;

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TreeOfLife.Views.Evo.ViewMode"
              xmlns:Controls="clr-namespace:TreeOfLife.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="400">
+             d:DesignHeight="600" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_ViewMode/>
     </UserControl.DataContext>
@@ -16,12 +16,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="1" BlurRadius="10" Opacity="0.5" Direction="270"/>
             </Grid.Effect>
-            <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
-            <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" Margin="80,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" BorderBrush="{Binding CategoryName_BackGround}" BorderThickness="0,1,1,1" />
-            <Button x:Name="button_Edit" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3" />
+            <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding CategoryName_BackGround}" Foreground="{Binding CategoryName_ForeGround}" FontSize="15" />
+            <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Background="{Binding TaxonName_BackGround}" Foreground="{Binding TaxonName_ForeGround}" FontSize="15" BorderBrush="{Binding CategoryName_BackGround}" BorderThickness="0,1,1,1" Grid.Column="1" />
+            <Button x:Name="button_Edit" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3" Grid.Column="1" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
@@ -29,20 +33,40 @@
                     <Controls:TagGroup x:Name="tagGroup_Tags" />
                 </Grid>
                 <Grid x:Name="grid_Parents" Margin="0,25,0,0">
-                    <Label Content="科学分类" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Margin="0,35,0,0" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="科学分类" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2" />
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
-                    <Label Content="下属类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Margin="0,35,0,0" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="下属类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2" />
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
-                    <Label Content="此并系群不包含，但是其演化支的类群" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Margin="0,35,0,0" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="此并系群不包含，但是其演化支的类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2" />
                 </Grid>
                 <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
-                    <Label Content="异名" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:TagGroup x:Name="tagGroup_Synonyms" Margin="0,35,0,0" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="异名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
+                    <Controls:TagGroup x:Name="tagGroup_Synonyms" Grid.Row="2" />
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
                     <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0,0,0,0" Text="{Binding Desc}" TextWrapping="Wrap" Foreground="{Binding Desc_BackGround}" />

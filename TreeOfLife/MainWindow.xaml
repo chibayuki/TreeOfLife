@@ -19,9 +19,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="480"/>
         </Grid.ColumnDefinitions>
-        <Grid>
-            <Tree:View_Tree x:Name="view_Tree" />
-        </Grid>
+        <Tree:View_Tree x:Name="view_Tree" />
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
