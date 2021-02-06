@@ -22,14 +22,16 @@ namespace TreeOfLife.Views
 {
     public static class Common
     {
-        public static Taxon CurrentTaxon { get; set; }
+        public static Taxon CurrentTaxon { get; set; } = null; // 当前选择的类群。
 
-        public static Action<Taxon> SetCurrentTaxon { get; set; }
+        public static Action<Taxon> SetCurrentTaxon { get; set; } = null;
 
-        public static Action EnterEditMode { get; set; }
-        public static Action ExitEditMode { get; set; }
+        public static bool? EditMode { get; set; } = null; // 是否为编辑模式。
 
-        public static Action UpdateTree { get; set; }
+        public static Action EnterEditMode { get; set; } = null;
+        public static Action ExitEditMode { get; set; } = null;
+
+        public static Action UpdateTree { get; set; } = null;
 
         //
 

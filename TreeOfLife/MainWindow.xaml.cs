@@ -113,7 +113,7 @@ namespace TreeOfLife
 
         private void _SelectPage(Pages tabPage)
         {
-            if (ViewModel.CurrentPage == null || ViewModel.CurrentPage != tabPage)
+            if (ViewModel.CurrentPage != tabPage)
             {
                 _SetEditMode(false);
 
@@ -337,7 +337,7 @@ namespace TreeOfLife
         // 更新当前类群的所有信息。
         private void _UpdateCurrentTaxonInfo()
         {
-            if (_EditMode ?? false)
+            if (Views.Common.EditMode ?? false)
             {
                 view_Evo_EditMode.UpdateCurrentTaxonInfo();
             }
@@ -347,36 +347,35 @@ namespace TreeOfLife
             }
         }
 
-        private bool? _EditMode = null; // 是否为编辑模式。
-
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
         {
-            if (_EditMode == null || _EditMode != editMode)
+            if (Views.Common.EditMode != editMode)
             {
-                if (_EditMode ?? false)
+                if (Views.Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
                 }
 
                 //
 
-                _EditMode = editMode;
+                Views.Common.EditMode = editMode;
 
                 //
 
-                view_Evo_ViewMode.Visibility = (!_EditMode.Value ? Visibility.Visible : Visibility.Collapsed);
-                view_Evo_EditMode.Visibility = (_EditMode.Value ? Visibility.Visible : Visibility.Collapsed);
+                view_Evo_ViewMode.Visibility = (!editMode ? Visibility.Visible : Visibility.Collapsed);
+                view_Evo_EditMode.Visibility = (editMode ? Visibility.Visible : Visibility.Collapsed);
 
                 //
 
-                if (_EditMode.Value)
+                if (editMode)
                 {
                     _Saved = false;
 
                     //
 
                     _UpdateCurrentTaxonInfo();
+                    _UpdateTree();
                 }
                 else
                 {
@@ -406,6 +405,7 @@ namespace TreeOfLife
         // 设置当前选择的类群。
         private void _SetCurrentTaxon(Taxon taxon)
         {
+            // 防止选择已删除的类群。
             if (taxon.IsRoot && taxon != Phylogenesis.Root)
             {
                 throw new InvalidOperationException();
@@ -415,7 +415,7 @@ namespace TreeOfLife
 
             if (Views.Common.CurrentTaxon != taxon)
             {
-                if (_EditMode ?? false)
+                if (Views.Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
                 }

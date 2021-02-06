@@ -35,13 +35,14 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class TreeNodeButton : UserControl
     {
-        private Taxon _Taxon;
+        private Taxon _Taxon = null; // 类群。
+        private int _Sign = 0; // "符号"，0：单系群继承关系的类群，-1：并系群排除的类群，+1：复系群包含的类群。
 
-        private bool _IsRoot;
-        private bool _IsFinal;
-        private bool _IsFirst;
-        private bool _IsLast;
-        private bool _ShowButton;
+        private bool _IsRoot = false;
+        private bool _IsFinal = false;
+        private bool _IsFirst = false;
+        private bool _IsLast = false;
+        private bool _ShowButton = false;
 
         private bool _Checked = false; // 是否处于已选择状态。
 
@@ -177,7 +178,7 @@ namespace TreeOfLife.Controls
 
             if (_ShowButton && _Taxon != null)
             {
-                label_TaxonName.Content = _Taxon.GetLongName();
+                label_TaxonName.Content = (_Sign == 0 ? _Taxon.GetLongName() : _Taxon.GetLongName() + (_Sign < 0 ? " [-]" : " [+]"));
 
                 grid_MiddlePart.Visibility = Visibility.Visible;
             }
@@ -203,6 +204,21 @@ namespace TreeOfLife.Controls
                 //
 
                 _Taxon = value;
+
+                _UpdateTaxon();
+            }
+        }
+
+        public int Sign
+        {
+            get
+            {
+                return _Sign;
+            }
+
+            set
+            {
+                _Sign = value;
 
                 _UpdateTaxon();
             }

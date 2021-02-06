@@ -44,15 +44,6 @@ namespace TreeOfLife.Views.Tree
 
         //
 
-        #region 系统发生树（临时）
-
-        public void UpdateTree()
-        {
-            ViewModel.UpdateTree();
-        }
-
-        #endregion
-
         #region 系统发生树
 
         private class _TreeNode
@@ -61,6 +52,7 @@ namespace TreeOfLife.Views.Tree
             public List<_TreeNode> Children { get; } = new List<_TreeNode>();
 
             public Taxon Taxon { get; set; } = null;
+            public int Sign { get; set; } = 0;
             public TreeNodeButton Button { get; set; } = null;
 
             public double Width => Button?.Width ?? double.NaN;
@@ -69,11 +61,6 @@ namespace TreeOfLife.Views.Tree
             public double Top { get; set; } = 0;
             public double Right => Left + Width;
             public double Bottom => Top + Height;
-            /*public double VCenter
-            {
-                get => Top + Height / 2;
-                set => Top = value - Height / 2;
-            }*/
         }
 
         private _TreeNode _SubTreeRoot = null; // 子树的根节点。
@@ -86,6 +73,74 @@ namespace TreeOfLife.Views.Tree
         private _TreeNode _GenerateTreeNode(Taxon taxon)
         {
             return new _TreeNode() { Taxon = taxon, Button = new TreeNodeButton() { Taxon = taxon, VerticalAlignment = VerticalAlignment.Stretch } };
+        }
+
+        // 构造子树的并系群部分。
+        private void _BuildSubTreeForExcludes(_TreeNode node, Taxon child)
+        {
+            if (node == null || child == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            foreach (var exclude in child.Excludes)
+            {
+                if (exclude.IsNamed())
+                {
+                    _TreeNode excludeNode = _GenerateTreeNode(exclude);
+                    excludeNode.Sign = -1;
+
+                    node.Children.Add(excludeNode);
+                    excludeNode.Parent = node;
+                }
+                else
+                {
+                    foreach (var item in exclude.GetNamedChildren(true))
+                    {
+                        _TreeNode excludeNode = _GenerateTreeNode(item);
+                        excludeNode.Sign = -1;
+
+                        node.Children.Add(excludeNode);
+                        excludeNode.Parent = node;
+                    }
+                }
+            }
+        }
+
+        // 构造子树的复系群部分。
+        private void _BuildSubTreeForIncludes(_TreeNode node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            foreach (var include in node.Taxon.Includes)
+            {
+                if (include.IsNamed())
+                {
+                    _TreeNode includeNode = _GenerateTreeNode(include);
+                    includeNode.Sign = +1;
+
+                    node.Children.Add(includeNode);
+                    includeNode.Parent = node;
+                }
+                else
+                {
+                    foreach (var item in include.GetNamedChildren(true))
+                    {
+                        _TreeNode includeNode = _GenerateTreeNode(item);
+                        includeNode.Sign = +1;
+
+                        node.Children.Add(includeNode);
+                        includeNode.Parent = node;
+                    }
+                }
+            }
         }
 
         private int _CurrentChildrenDepth; // 当前递归深度。
@@ -115,6 +170,18 @@ namespace TreeOfLife.Views.Tree
                     childNode.Parent = node;
 
                     _BuildSubTreeForChildren(childNode);
+
+                    if (!(Common.EditMode ?? false))
+                    {
+                        // 若子类群是并系群，添加并系群排除的类群
+                        _BuildSubTreeForExcludes(node, child);
+                    }
+                }
+
+                if (!(Common.EditMode ?? false))
+                {
+                    // 若当前类群是复系群，添加复系群包含的类群
+                    _BuildSubTreeForIncludes(node);
                 }
             }
 
@@ -151,6 +218,18 @@ namespace TreeOfLife.Views.Tree
                     childNode.Parent = node;
 
                     _BuildSubTreeForSiblings(childNode);
+
+                    if (!(Common.EditMode ?? false))
+                    {
+                        // 若子类群是并系群，添加并系群排除的类群
+                        _BuildSubTreeForExcludes(node, child);
+                    }
+                }
+
+                if (!(Common.EditMode ?? false))
+                {
+                    // 若当前类群是复系群，添加复系群包含的类群
+                    _BuildSubTreeForIncludes(node);
                 }
             }
 
@@ -192,6 +271,18 @@ namespace TreeOfLife.Views.Tree
                     childNode.Parent = node;
 
                     _BuildSubTree(childNode);
+
+                    if (!(Common.EditMode ?? false))
+                    {
+                        // 若子类群是并系群，添加并系群排除的类群
+                        _BuildSubTreeForExcludes(node, child);
+                    }
+                }
+
+                if (!(Common.EditMode ?? false))
+                {
+                    // 若当前类群是复系群，添加复系群包含的类群
+                    _BuildSubTreeForIncludes(node);
                 }
             }
         }
@@ -201,6 +292,8 @@ namespace TreeOfLife.Views.Tree
         {
             if (node != null)
             {
+                node.Button.Sign = node.Sign;
+
                 node.Button.IsRoot = (node.Parent == null);
                 node.Button.IsFinal = (node.Children.Count <= 0);
 
@@ -215,7 +308,7 @@ namespace TreeOfLife.Views.Tree
                     node.Button.IsLast = (node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1);
                 }
 
-                node.Button.ShowButton = node.Taxon.IsNamed();
+                node.Button.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
 
                 node.Button.Checked = (node.Taxon == Common.CurrentTaxon);
                 node.Button.ThemeColor = node.Taxon.GetThemeColor();
