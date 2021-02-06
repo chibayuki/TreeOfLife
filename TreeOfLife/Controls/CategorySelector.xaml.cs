@@ -65,10 +65,7 @@ namespace TreeOfLife.Controls
 
             public bool IsDarkTheme
             {
-                get
-                {
-                    return _IsDarkTheme;
-                }
+                get => _IsDarkTheme;
 
                 set
                 {
@@ -640,10 +637,7 @@ namespace TreeOfLife.Controls
 
         private CategoryNameButton _CurrentLevel1Button
         {
-            get
-            {
-                return _Level1Button;
-            }
+            get => _Level1Button;
 
             set
             {
@@ -667,10 +661,7 @@ namespace TreeOfLife.Controls
 
         private _Group _CurrentLevel2Group
         {
-            get
-            {
-                return _Level2Group;
-            }
+            get => _Level2Group;
 
             set
             {
@@ -696,10 +687,7 @@ namespace TreeOfLife.Controls
 
         private _Group _CurrentLevel3Group
         {
-            get
-            {
-                return _Level3Group;
-            }
+            get => _Level3Group;
 
             set
             {
@@ -727,10 +715,7 @@ namespace TreeOfLife.Controls
 
         public Thickness GroupMargin
         {
-            get
-            {
-                return _GroupMargin;
-            }
+            get => _GroupMargin;
 
             set
             {
@@ -742,10 +727,7 @@ namespace TreeOfLife.Controls
 
         public Thickness ButtonMargin
         {
-            get
-            {
-                return _ButtonMargin;
-            }
+            get => _ButtonMargin;
 
             set
             {
@@ -757,10 +739,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {
@@ -772,10 +751,7 @@ namespace TreeOfLife.Controls
 
         public TaxonomicCategory Category
         {
-            get
-            {
-                return _Category;
-            }
+            get => _Category;
 
             set
             {

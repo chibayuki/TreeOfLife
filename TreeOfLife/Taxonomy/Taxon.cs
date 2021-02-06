@@ -745,9 +745,6 @@ namespace TreeOfLife.Taxonomy
 
                 _Excludes[index2] = exclude1;
                 _Excludes[index1] = exclude2;
-
-                exclude1._Index = index2;
-                exclude2._Index = index1;
             }
         }
 
@@ -895,9 +892,6 @@ namespace TreeOfLife.Taxonomy
 
                 _Includes[index2] = include1;
                 _Includes[index1] = include2;
-
-                include1._Index = index2;
-                include2._Index = index1;
             }
         }
     }

@@ -75,11 +75,11 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Brush _Border => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _Border => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _Foreground => new SolidColorBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+        private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
-        private Brush _Background => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
+        private Brush _Background => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
         private void _UpdateColor()
         {
@@ -155,22 +155,10 @@ namespace TreeOfLife.Controls
             }
             else
             {
-                if (_IsFirst && _IsLast)
-                {
-                    _UpdateEntrance(_NodeEntranceType.Single);
-                }
-                else if (_IsFirst)
-                {
-                    _UpdateEntrance(_NodeEntranceType.First);
-                }
-                else if (_IsLast)
-                {
-                    _UpdateEntrance(_NodeEntranceType.Last);
-                }
-                else
-                {
-                    _UpdateEntrance(_NodeEntranceType.Normal);
-                }
+                if (_IsFirst && _IsLast) _UpdateEntrance(_NodeEntranceType.Single);
+                else if (_IsFirst) _UpdateEntrance(_NodeEntranceType.First);
+                else if (_IsLast) _UpdateEntrance(_NodeEntranceType.Last);
+                else _UpdateEntrance(_NodeEntranceType.Normal);
 
                 grid_LeftPart.Visibility = Visibility.Visible;
                 grid_RightPart.Visibility = (_IsFinal || !_ShowButton ? Visibility.Collapsed : Visibility.Visible);
@@ -211,10 +199,7 @@ namespace TreeOfLife.Controls
 
         public int Sign
         {
-            get
-            {
-                return _Sign;
-            }
+            get => _Sign;
 
             set
             {
@@ -286,10 +271,7 @@ namespace TreeOfLife.Controls
 
         public bool Checked
         {
-            get
-            {
-                return _Checked;
-            }
+            get => _Checked;
 
             set
             {
@@ -301,10 +283,7 @@ namespace TreeOfLife.Controls
 
         public ColorX ThemeColor
         {
-            get
-            {
-                return _ThemeColor;
-            }
+            get => _ThemeColor;
 
             set
             {
@@ -316,10 +295,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {

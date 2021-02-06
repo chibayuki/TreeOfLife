@@ -66,10 +66,7 @@ namespace TreeOfLife.Controls
 
             public string Name
             {
-                get
-                {
-                    return _Name;
-                }
+                get => _Name;
 
                 set
                 {
@@ -81,10 +78,7 @@ namespace TreeOfLife.Controls
 
             public ColorX ThemeColor
             {
-                get
-                {
-                    return _ThemeColor;
-                }
+                get => _ThemeColor;
 
                 set
                 {
@@ -96,10 +90,7 @@ namespace TreeOfLife.Controls
 
             public bool IsDarkTheme
             {
-                get
-                {
-                    return _IsDarkTheme;
-                }
+                get => _IsDarkTheme;
 
                 set
                 {
@@ -290,10 +281,7 @@ namespace TreeOfLife.Controls
 
         public double GroupNameWidth
         {
-            get
-            {
-                return _GroupNameWidth;
-            }
+            get => _GroupNameWidth;
 
             set
             {
@@ -308,10 +296,7 @@ namespace TreeOfLife.Controls
 
         public Thickness GroupMargin
         {
-            get
-            {
-                return _GroupMargin;
-            }
+            get => _GroupMargin;
 
             set
             {
@@ -326,10 +311,7 @@ namespace TreeOfLife.Controls
 
         public double CategoryNameWidth
         {
-            get
-            {
-                return _CategoryNameWidth;
-            }
+            get => _CategoryNameWidth;
 
             set
             {
@@ -344,10 +326,7 @@ namespace TreeOfLife.Controls
 
         public double ButtonHeight
         {
-            get
-            {
-                return _ButtonHeight;
-            }
+            get => _ButtonHeight;
 
             set
             {
@@ -362,10 +341,7 @@ namespace TreeOfLife.Controls
 
         public Thickness ButtonMargin
         {
-            get
-            {
-                return _ButtonMargin;
-            }
+            get => _ButtonMargin;
 
             set
             {
@@ -380,10 +356,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {

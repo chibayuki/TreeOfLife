@@ -66,9 +66,9 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Brush _Foreground => new SolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _Foreground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _Background => new SolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+        private Brush _Background => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
 
         private void _UpdateColor()
         {
@@ -85,10 +85,7 @@ namespace TreeOfLife.Controls
 
         public string Text
         {
-            get
-            {
-                return _Text;
-            }
+            get => _Text;
 
             set
             {
@@ -100,10 +97,7 @@ namespace TreeOfLife.Controls
 
         public ColorX ThemeColor
         {
-            get
-            {
-                return _ThemeColor;
-            }
+            get => _ThemeColor;
 
             set
             {
@@ -115,10 +109,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {

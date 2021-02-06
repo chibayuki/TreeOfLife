@@ -90,10 +90,7 @@ namespace TreeOfLife.Controls
 
         public Thickness TagMargin
         {
-            get
-            {
-                return _TagMargin;
-            }
+            get => _TagMargin;
 
             set
             {
@@ -105,10 +102,7 @@ namespace TreeOfLife.Controls
 
         public ColorX ThemeColor
         {
-            get
-            {
-                return _ThemeColor;
-            }
+            get => _ThemeColor;
 
             set
             {
@@ -120,10 +114,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {

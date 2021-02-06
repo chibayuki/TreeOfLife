@@ -22,60 +22,37 @@ namespace TreeOfLife.Taxonomy.Extensions
     // 生物分类单元（类群）的UI相关扩展方法。
     public static class TaxonUIExtension
     {
+        private static ColorX _DomainColor = ColorX.FromHSL(235, 50, 50);
+        private static ColorX _KingdomColor = ColorX.FromHSL(160, 50, 50);
+        private static ColorX _PhylumColor = ColorX.FromHSL(285, 50, 50);
+        private static ColorX _ClassColor = ColorX.FromHSL(195, 50, 50);
+        private static ColorX _OrderColor = ColorX.FromHSL(350, 50, 50);
+        private static ColorX _FamilyColor = ColorX.FromHSL(50, 50, 50);
+        private static ColorX _GenusColor = ColorX.FromHSL(25, 50, 50);
+        private static ColorX _SpeciesColor = ColorX.FromHSL(90, 50, 50);
+        private static ColorX _SecondaryColor = Color.Black;
+        private static ColorX _OthersColor = Color.Black;
+
         // 获取分类阶元的主题颜色。
         public static ColorX GetThemeColor(this TaxonomicCategory category)
         {
             if (category.IsPrimaryCategory())
             {
-                double hue = 0;
-
-                if (category.IsDomain())
-                {
-                    hue = 235;
-                }
-                else if (category.IsKingdom())
-                {
-                    hue = 160;
-                }
-                else if (category.IsPhylum())
-                {
-                    hue = 285;
-                }
-                else if (category.IsClass())
-                {
-                    hue = 195;
-                }
-                else if (category.IsOrder())
-                {
-                    hue = 350;
-                }
-                else if (category.IsFamily())
-                {
-                    hue = 50;
-                }
-                else if (category.IsGenus())
-                {
-                    hue = 25;
-                }
-                else if (category.IsSpecies())
-                {
-                    hue = 90;
-                }
-
-                return ColorX.FromHSL(hue, 50, 50);
+                if (category.IsDomain()) return _DomainColor;
+                else if (category.IsKingdom()) return _KingdomColor;
+                else if (category.IsPhylum()) return _PhylumColor;
+                else if (category.IsClass()) return _ClassColor;
+                else if (category.IsOrder()) return _OrderColor;
+                else if (category.IsFamily()) return _FamilyColor;
+                else if (category.IsGenus()) return _GenusColor;
+                else if (category.IsSpecies()) return _SpeciesColor;
             }
             else if (category.IsSecondaryCategory())
             {
-                return Color.Black;
+                return _SecondaryColor;
             }
-            else if (category.IsClade() || category.IsUnranked())
-            {
-                return Color.Black;
-            }
-            else
-            {
-                return Color.Black;
-            }
+
+            return _OthersColor;
         }
 
         // 获取类群的主题颜色。

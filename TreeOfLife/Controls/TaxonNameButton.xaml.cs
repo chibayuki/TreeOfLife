@@ -92,13 +92,13 @@ namespace TreeOfLife.Controls
             label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 0, 0, 0);
         }
 
-        private Brush _CategoryNameForeground => new SolidColorBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _TaxonNameForeground => new SolidColorBrush(_ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
+        private Brush _TaxonNameForeground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
 
-        private Brush _TaxonNameBackground => new SolidColorBrush(_ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
+        private Brush _TaxonNameBackground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
         private void _UpdateColor()
         {
@@ -114,10 +114,7 @@ namespace TreeOfLife.Controls
 
         public Taxon Taxon
         {
-            get
-            {
-                return _Taxon;
-            }
+            get => _Taxon;
 
             set
             {
@@ -129,10 +126,7 @@ namespace TreeOfLife.Controls
 
         public int Sign
         {
-            get
-            {
-                return _Sign;
-            }
+            get => _Sign;
 
             set
             {
@@ -144,10 +138,7 @@ namespace TreeOfLife.Controls
 
         public double CategoryNameWidth
         {
-            get
-            {
-                return _CategoryNameWidth;
-            }
+            get => _CategoryNameWidth;
 
             set
             {
@@ -159,10 +150,7 @@ namespace TreeOfLife.Controls
 
         public bool Checked
         {
-            get
-            {
-                return _Checked;
-            }
+            get => _Checked;
 
             set
             {
@@ -174,10 +162,7 @@ namespace TreeOfLife.Controls
 
         public ColorX ThemeColor
         {
-            get
-            {
-                return _ThemeColor;
-            }
+            get => _ThemeColor;
 
             set
             {
@@ -189,10 +174,7 @@ namespace TreeOfLife.Controls
 
         public bool IsDarkTheme
         {
-            get
-            {
-                return _IsDarkTheme;
-            }
+            get => _IsDarkTheme;
 
             set
             {
