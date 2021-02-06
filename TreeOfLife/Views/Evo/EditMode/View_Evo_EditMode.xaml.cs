@@ -1028,6 +1028,10 @@ namespace TreeOfLife.Views.Evo.EditMode
                 categorySelector.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Excludes.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_ExcludeBy.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Includes.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_IncludeBy.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }

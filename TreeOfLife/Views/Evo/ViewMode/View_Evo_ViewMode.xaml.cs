@@ -203,6 +203,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 tagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_Excludes.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }

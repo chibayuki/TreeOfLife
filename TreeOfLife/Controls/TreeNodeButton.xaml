@@ -10,35 +10,36 @@
         <StackPanel Orientation="Horizontal">
             <Grid x:Name="grid_LeftPart">
                 <Grid x:Name="grid_Single">
-                    <Label Width="25" Height="1" Background="Gray" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
                 </Grid>
                 <Grid x:Name="grid_First">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Width="25" Height="1" Background="Gray" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
-                    <Label Width="1" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="1"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
+                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="1"/>
                 </Grid>
                 <Grid x:Name="grid_Last">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Width="25" Height="1" Background="Gray" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
-                    <Label Width="1" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="0"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2"/>
+                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="0"/>
                 </Grid>
                 <Grid x:Name="grid_Normal">
-                    <Label Width="25" Height="1" Background="Gray" VerticalAlignment="Center" Grid.Row="1"/>
-                    <Label Width="1" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="1"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center" Grid.Row="1"/>
+                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="1"/>
                 </Grid>
             </Grid>
             <Grid x:Name="grid_MiddlePart">
-                <Label x:Name="label_TaxonName" Content="TaxonName" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" />
+                <Label x:Name="label_TaxonName" Content="TaxonName" HorizontalAlignment="Stretch" VerticalAlignment="Center"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" BorderThickness="1,1,1,1" Margin="0,3,0,3" />
             </Grid>
             <Grid x:Name="grid_RightPart">
-                <Label Width="25" Height="1" Background="Gray" VerticalAlignment="Center" Grid.Row="1"/>
+                <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center" Grid.Row="1"/>
             </Grid>
         </StackPanel>
+        
     </Grid>
 </UserControl>

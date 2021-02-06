@@ -98,21 +98,6 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public bool IsDarkTheme
-        {
-            get
-            {
-                return _IsDarkTheme;
-            }
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColor();
-            }
-        }
-
         public ColorX ThemeColor
         {
             get
@@ -123,6 +108,21 @@ namespace TreeOfLife.Controls
             set
             {
                 _ThemeColor = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get
+            {
+                return _IsDarkTheme;
+            }
+
+            set
+            {
+                _IsDarkTheme = value;
 
                 _UpdateColor();
             }

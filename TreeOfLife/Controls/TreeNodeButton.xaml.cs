@@ -22,8 +22,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
+
+using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
@@ -32,17 +35,6 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class TreeNodeButton : UserControl
     {
-        public TreeNodeButton()
-        {
-            InitializeComponent();
-
-            //
-
-            _UpdateTaxon();
-        }
-
-        //
-
         private Taxon _Taxon;
 
         private bool _IsRoot;
@@ -50,6 +42,50 @@ namespace TreeOfLife.Controls
         private bool _IsFirst;
         private bool _IsLast;
         private bool _ShowButton;
+
+        private bool _Checked = false; // 是否处于已选择状态。
+
+        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        //
+
+        public TreeNodeButton()
+        {
+            InitializeComponent();
+
+            //
+
+            this.Loaded += (s, e) =>
+            {
+                label_TaxonName.FontFamily = this.FontFamily;
+                label_TaxonName.FontSize = this.FontSize;
+                label_TaxonName.FontStyle = this.FontStyle;
+                label_TaxonName.FontWeight = this.FontWeight;
+
+                _UpdateColor();
+                _UpdateTaxon();
+            };
+
+            label_TaxonName.MouseUp += (s, e) => base.OnMouseUp(e);
+            label_TaxonName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
+            label_TaxonName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
+        }
+
+        //
+
+        private Brush _Border => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+
+        private Brush _Foreground => new SolidColorBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+
+        private Brush _Background => new SolidColorBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
+
+        private void _UpdateColor()
+        {
+            label_TaxonName.Foreground = _Foreground;
+            label_TaxonName.Background = _Background;
+            label_TaxonName.BorderBrush = _Border;
+        }
 
         private enum _NodeEntranceType
         {
@@ -103,7 +139,7 @@ namespace TreeOfLife.Controls
         {
             if (_IsRoot)
             {
-                if(_ShowButton)
+                if (_ShowButton)
                 {
                     _UpdateEntrance(_NodeEntranceType.Single);
 
@@ -150,6 +186,8 @@ namespace TreeOfLife.Controls
                 grid_MiddlePart.Visibility = Visibility.Collapsed;
             }
         }
+
+        //
 
         public Taxon Taxon
         {
@@ -227,6 +265,51 @@ namespace TreeOfLife.Controls
                 _ShowButton = value;
 
                 _UpdateTaxon();
+            }
+        }
+
+        public bool Checked
+        {
+            get
+            {
+                return _Checked;
+            }
+
+            set
+            {
+                _Checked = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public ColorX ThemeColor
+        {
+            get
+            {
+                return _ThemeColor;
+            }
+
+            set
+            {
+                _ThemeColor = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get
+            {
+                return _IsDarkTheme;
+            }
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateColor();
             }
         }
     }

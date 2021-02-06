@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
-        <Label x:Name="label_CategoryName" Content="CategoryName" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" />
-        <Label x:Name="label_TaxonName" Content="TaxonName" Margin="100,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" BorderThickness="0,1,1,1" />
+        <Label x:Name="label_CategoryName" Content="CategoryName" HorizontalAlignment="Left" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" />
+        <Label x:Name="label_TaxonName" Content="TaxonName" Margin="100,0,0,0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" BorderThickness="0,1,1,1" />
     </Grid>
 </UserControl>

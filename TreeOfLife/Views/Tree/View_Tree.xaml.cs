@@ -196,8 +196,8 @@ namespace TreeOfLife.Views.Tree
             }
         }
 
-        // 计算所有节点的属性。
-        private void _CalcTreeNodeAttr(_TreeNode node)
+        // 更新所有节点的属性。
+        private void _UpdateTreeNodeAttr(_TreeNode node)
         {
             if (node != null)
             {
@@ -217,11 +217,17 @@ namespace TreeOfLife.Views.Tree
 
                 node.Button.ShowButton = node.Taxon.IsNamed();
 
+                node.Button.Checked = (node.Taxon == Common.CurrentTaxon);
+                node.Button.ThemeColor = node.Taxon.GetThemeColor();
+                node.Button.IsDarkTheme = _IsDarkTheme;
+
+                node.Button.MouseLeftButtonUp += (s, e) => Common.SetCurrentTaxon(node.Taxon);
+
                 if (node.Children != null)
                 {
                     foreach (var child in node.Children)
                     {
-                        _CalcTreeNodeAttr(child);
+                        _UpdateTreeNodeAttr(child);
                     }
                 }
             }
@@ -291,13 +297,29 @@ namespace TreeOfLife.Views.Tree
 
             //
 
-            _CalcTreeNodeAttr(_SubTreeRoot);
+            _UpdateTreeNodeAttr(_SubTreeRoot);
             _AddTreeNodeButton(stackPanel_SubTree, _SubTreeRoot);
         }
 
         #endregion
 
         #region 主题
+
+        private void _UpdateTreeNodeTheme(_TreeNode node)
+        {
+            if (node != null)
+            {
+                node.Button.IsDarkTheme = _IsDarkTheme;
+
+                if (node.Children != null)
+                {
+                    foreach (var child in node.Children)
+                    {
+                        _UpdateTreeNodeTheme(child);
+                    }
+                }
+            }
+        }
 
         private bool _IsDarkTheme = false;
 
@@ -308,6 +330,8 @@ namespace TreeOfLife.Views.Tree
             set
             {
                 _IsDarkTheme = value;
+
+                _UpdateTreeNodeTheme(_SubTreeRoot);
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }
