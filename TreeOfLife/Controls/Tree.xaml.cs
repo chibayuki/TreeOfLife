@@ -22,19 +22,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
     // 树控件的节点信息。
-    public class TreeNode
+    public class TreeNodeItem
     {
-        public TreeNode Parent { get; set; } = null;
-        public List<TreeNode> Children { get; } = new List<TreeNode>();
+        public TreeNodeItem Parent { get; set; } = null;
+        public List<TreeNodeItem> Children { get; } = new List<TreeNodeItem>();
 
         public Taxon Taxon { get; set; } = null;
         public int Sign { get; set; } = 0;
@@ -46,6 +44,8 @@ namespace TreeOfLife.Controls
         public bool ShowButton { get; set; } = false;
         public bool Checked { get; set; } = false;
 
+        public ContextMenu ContextMenu { get; set; } = null;
+
         public ColorX ThemeColor { get; set; } = ColorX.FromRGB(128, 128, 128);
     }
 
@@ -56,7 +56,7 @@ namespace TreeOfLife.Controls
     {
         private class _TreeNode
         {
-            public _TreeNode(TreeNode node)
+            public _TreeNode(TreeNodeItem node)
             {
                 Button = new TreeNodeButton()
                 {
@@ -72,9 +72,13 @@ namespace TreeOfLife.Controls
                     ShowButton = node.ShowButton,
                     Checked = node.Checked,
 
+                    ContextMenu = node.ContextMenu,
+
                     ThemeColor = node.ThemeColor
                 };
             }
+
+            //
 
             public _TreeNode Parent { get; set; } = null;
             public List<_TreeNode> Children { get; } = new List<_TreeNode>();
@@ -83,7 +87,7 @@ namespace TreeOfLife.Controls
 
             //
 
-            public static _TreeNode BuildTree(TreeNode node)
+            public static _TreeNode BuildTree(TreeNodeItem node)
             {
                 if (node == null)
                 {
@@ -178,6 +182,29 @@ namespace TreeOfLife.Controls
             }
         }
 
+        //
+
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateTreeNodeTheme(_RootNode);
+            }
+        }
+
+        //
+
+        public void Clear()
+        {
+            stackPanel_Tree.Children.Clear();
+
+            _RootNode = null;
+        }
+
         private static void _AddTreeNodeButton(Panel panel, _TreeNode node)
         {
             if (node != null)
@@ -199,31 +226,19 @@ namespace TreeOfLife.Controls
             }
         }
 
-        //
-
-        public void UpdateTree(TreeNode rootNode)
+        public void UpdateContent(TreeNodeItem rootNode)
         {
             stackPanel_Tree.Children.Clear();
 
-            if (rootNode != null)
+            if (rootNode == null)
+            {
+                _RootNode = null;
+            }
+            else
             {
                 _RootNode = _TreeNode.BuildTree(rootNode);
 
                 _AddTreeNodeButton(stackPanel_Tree, _RootNode);
-            }
-        }
-
-        //
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateTreeNodeTheme(_RootNode);
             }
         }
 

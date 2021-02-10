@@ -49,20 +49,40 @@ namespace TreeOfLife.Views.Search
 
             //
 
-            this.IsVisibleChanged += (s, e) => { if (this.IsVisible) _TrimSearchResult(); };
+            this.IsVisibleChanged += (s, e) =>
+            {
+                if (this.IsVisible)
+                {
+                    _TrimSearchResult();
+                }
+            };
 
             button_Search.Click += (s, e) => _SearchAndUpdateResult();
+
+            taxonNameButtonGroup_SearchResult.MouseLeftButtonClick += (s, e) =>
+            {
+                if (e.Taxon.IsRoot)
+                {
+                    MessageBox.Show("该类群已经被删除。");
+                }
+                else
+                {
+                    Common.SetCurrentTaxon(e.Taxon);
+                    ViewModel.ClickSearchResult();
+                }
+            };
         }
 
         //
 
         #region 搜索
 
+        private List<TaxonNameItem> _SearchResult = new List<TaxonNameItem>();
+
         // 搜索并更新结果。
         private void _SearchAndUpdateResult()
         {
-            taxonNameButtonGroup_SearchResult.StartEditing();
-            taxonNameButtonGroup_SearchResult.Clear();
+            _SearchResult.Clear();
 
             IReadOnlyList<Taxon> searchResult;
 
@@ -85,44 +105,25 @@ namespace TreeOfLife.Views.Search
                 {
                     Taxon taxon = searchResult[i];
 
-                    taxonNameButtonGroup_SearchResult.AddGroup(string.Empty, taxon.GetThemeColor());
-
-                    TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
-
-                    button.MouseLeftButtonUp += (s, e) =>
-                    {
-                        if (taxon.IsRoot)
-                        {
-                            MessageBox.Show("该类群已经被删除。");
-                        }
-                        else
-                        {
-                            Common.SetCurrentTaxon(taxon);
-                            ViewModel.ClickSearchResult();
-                        }
-                    };
-
-                    taxonNameButtonGroup_SearchResult.AddButton(button, i);
+                    _SearchResult.Add(new TaxonNameItem() { Taxon = taxon, ThemeColor = taxon.GetThemeColor() });
                 }
             }
 
-            taxonNameButtonGroup_SearchResult.FinishEditing();
+            taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
         }
 
         // 裁剪搜索结果，去除已被删除的类群。
         private void _TrimSearchResult()
         {
-            if (taxonNameButtonGroup_SearchResult.GetGroupCount() > 0)
+            if (_SearchResult.Count > 0)
             {
-                taxonNameButtonGroup_SearchResult.StartEditing();
-
                 int i = 0;
 
-                while (i < taxonNameButtonGroup_SearchResult.GetGroupCount())
+                while (i < _SearchResult.Count)
                 {
-                    if (taxonNameButtonGroup_SearchResult.GetTaxon(i, 0).IsRoot)
+                    if (_SearchResult[i].Taxon.IsRoot)
                     {
-                        taxonNameButtonGroup_SearchResult.RemoveGroup(i);
+                        _SearchResult.RemoveAt(i);
                     }
                     else
                     {
@@ -130,7 +131,7 @@ namespace TreeOfLife.Views.Search
                     }
                 }
 
-                taxonNameButtonGroup_SearchResult.FinishEditing();
+                taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
             }
         }
 
@@ -139,11 +140,11 @@ namespace TreeOfLife.Views.Search
         {
             ViewModel.KeyWord = string.Empty;
 
-            if (taxonNameButtonGroup_SearchResult.GetGroupCount() > 0)
+            if (_SearchResult.Count > 0)
             {
-                taxonNameButtonGroup_SearchResult.StartEditing();
-                taxonNameButtonGroup_SearchResult.Clear();
-                taxonNameButtonGroup_SearchResult.FinishEditing();
+                _SearchResult.Clear();
+
+                taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
             }
         }
 
@@ -160,6 +161,8 @@ namespace TreeOfLife.Views.Search
             set
             {
                 _IsDarkTheme = value;
+
+                taxonNameButtonGroup_SearchResult.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }

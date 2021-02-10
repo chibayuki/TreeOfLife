@@ -20,6 +20,8 @@ using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
+using ColorX = Com.Chromatics.ColorX;
+
 namespace TreeOfLife.Views.Evo
 {
     public static class Common
@@ -32,8 +34,7 @@ namespace TreeOfLife.Views.Evo
         // 更新父类群控件。
         public static void UpdateParents(TaxonNameButtonGroup control, IReadOnlyList<Taxon> parents, ContextMenu contextMenu = null)
         {
-            control.StartEditing();
-            control.Clear();
+            var groups = new List<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)>();
 
             int groupIndex = 0;
             TaxonomicCategory categoryOfGroup = TaxonomicCategory.Unranked;
@@ -46,7 +47,7 @@ namespace TreeOfLife.Views.Evo
                 {
                     categoryOfGroup = taxon.Category.BasicCategory();
 
-                    control.AddGroup(((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor());
+                    groups.Add((((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor(), new List<TaxonNameItem>()));
                 }
                 else
                 {
@@ -56,70 +57,64 @@ namespace TreeOfLife.Views.Evo
                     {
                         categoryOfGroup = basicCategory;
 
-                        control.AddGroup(categoryOfGroup.GetChineseName(), taxon.GetThemeColor());
+                        groups.Add((categoryOfGroup.GetChineseName(), taxon.GetThemeColor(), new List<TaxonNameItem>()));
 
                         groupIndex++;
                     }
                 }
 
-                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon, ContextMenu = contextMenu };
-
-                if (taxon == Views.Common.CurrentTaxon)
+                ((List<TaxonNameItem>)groups[groupIndex].items).Add(new TaxonNameItem()
                 {
-                    button.Checked = true;
-                }
-
-                control.AddButton(button, groupIndex);
+                    Taxon = taxon,
+                    ThemeColor = taxon.GetThemeColor(),
+                    ContextMenu = contextMenu,
+                    Checked = (taxon == Views.Common.CurrentTaxon)
+                });
             }
 
-            control.FinishEditing();
+            control.UpdateContent(groups);
         }
 
         // 更新子类群控件。
         public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<Taxon> children, ContextMenu contextMenu = null)
         {
-            control.StartEditing();
-            control.Clear();
+            List<TaxonNameItem> items = new List<TaxonNameItem>();
 
             for (int i = 0; i < children.Count; i++)
             {
                 Taxon taxon = children[i];
 
-                control.AddGroup(string.Empty, taxon.GetThemeColor());
-                control.AddButton(new TaxonNameButton() { Taxon = taxon, ContextMenu = contextMenu }, i);
+                items.Add(new TaxonNameItem()
+                {
+                    Taxon = taxon,
+                    ThemeColor = taxon.GetThemeColor(),
+                    ContextMenu = contextMenu
+                });
             }
 
-            control.FinishEditing();
+            control.UpdateContent(items);
         }
 
         // 更新子类群控件。
-        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> children, ContextMenu menu = null)
+        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> children, ContextMenu contextMenu = null)
         {
-            control.StartEditing();
-            control.Clear();
+            List<TaxonNameItem> items = new List<TaxonNameItem>();
 
             for (int i = 0; i < children.Count; i++)
             {
                 Taxon taxon = children[i].taxon;
                 int sign = children[i].sign;
 
-                control.AddGroup(string.Empty, taxon.GetThemeColor());
-
-                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon, Sign = sign };
-
-                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
-
-                if (menu != null)
+                items.Add(new TaxonNameItem()
                 {
-                    button.ContextMenu = menu;
-
-                    button.MouseRightButtonUp += (s, e) => { RightButtonTaxon = button.Taxon; (button.ContextMenu.DataContext as Action)?.Invoke(); };
-                }
-
-                control.AddButton(button, i);
+                    Taxon = taxon,
+                    Sign = sign,
+                    ThemeColor = taxon.GetThemeColor(),
+                    ContextMenu = contextMenu
+                });
             }
 
-            control.FinishEditing();
+            control.UpdateContent(items);
         }
     }
 }

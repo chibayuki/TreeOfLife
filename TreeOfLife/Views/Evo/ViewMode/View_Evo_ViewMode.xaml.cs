@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -66,9 +67,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             if (currentTaxon.IsRoot)
             {
-                taxonNameButtonGroup_Parents.StartEditing();
                 taxonNameButtonGroup_Parents.Clear();
-                taxonNameButtonGroup_Parents.FinishEditing();
             }
             else
             {

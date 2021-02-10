@@ -23,6 +23,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TreeOfLife.Controls;
+using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -50,14 +51,14 @@ namespace TreeOfLife.Views.Tree
 
         #region 系统发生树
 
-        private TreeNode _SubTreeRoot = null; // 子树的根节点。
+        private TreeNodeItem _SubTreeRoot = null; // 子树的根节点。
 
         private int _ParentLevels = 1; // 向上追溯的具名父类群的层数。
         private int _ChildrenLevels = 3; // 向下追溯的具名子类群的层数。
         private int _SiblingLevels = 0; // 旁系群向下追溯的具名子类群的层数。
 
         // 构造子树的并系群部分。
-        private void _BuildSubTreeForExcludes(TreeNode node, Taxon child)
+        private void _BuildSubTreeForExcludes(TreeNodeItem node, Taxon child)
         {
             if (node == null || child == null)
             {
@@ -70,7 +71,7 @@ namespace TreeOfLife.Views.Tree
             {
                 if (exclude.IsNamed())
                 {
-                    TreeNode excludeNode = new TreeNode() { Taxon = exclude };
+                    TreeNodeItem excludeNode = new TreeNodeItem() { Taxon = exclude };
                     excludeNode.Sign = -1;
 
                     node.Children.Add(excludeNode);
@@ -80,7 +81,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     foreach (var item in exclude.GetNamedChildren(true))
                     {
-                        TreeNode excludeNode = new TreeNode() { Taxon = item };
+                        TreeNodeItem excludeNode = new TreeNodeItem() { Taxon = item };
                         excludeNode.Sign = -1;
 
                         node.Children.Add(excludeNode);
@@ -91,7 +92,7 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 构造子树的复系群部分。
-        private void _BuildSubTreeForIncludes(TreeNode node)
+        private void _BuildSubTreeForIncludes(TreeNodeItem node)
         {
             if (node == null)
             {
@@ -104,7 +105,7 @@ namespace TreeOfLife.Views.Tree
             {
                 if (include.IsNamed())
                 {
-                    TreeNode includeNode = new TreeNode() { Taxon = include };
+                    TreeNodeItem includeNode = new TreeNodeItem() { Taxon = include };
                     includeNode.Sign = +1;
 
                     node.Children.Add(includeNode);
@@ -114,7 +115,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     foreach (var item in include.GetNamedChildren(true))
                     {
-                        TreeNode includeNode = new TreeNode() { Taxon = item };
+                        TreeNodeItem includeNode = new TreeNodeItem() { Taxon = item };
                         includeNode.Sign = +1;
 
                         node.Children.Add(includeNode);
@@ -127,7 +128,7 @@ namespace TreeOfLife.Views.Tree
         private int _CurrentChildrenDepth; // 当前递归深度。
 
         // 构造子树的子类群部分。
-        private void _BuildSubTreeForChildren(TreeNode node)
+        private void _BuildSubTreeForChildren(TreeNodeItem node)
         {
             if (node == null)
             {
@@ -145,7 +146,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    TreeNode childNode = new TreeNode() { Taxon = child };
+                    TreeNodeItem childNode = new TreeNodeItem() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -175,7 +176,7 @@ namespace TreeOfLife.Views.Tree
         private int _CurrentSiblingsDepth; // 当前递归深度。
 
         // 构造子树的旁系群部分。
-        private void _BuildSubTreeForSiblings(TreeNode node)
+        private void _BuildSubTreeForSiblings(TreeNodeItem node)
         {
             if (node == null)
             {
@@ -193,7 +194,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    TreeNode childNode = new TreeNode() { Taxon = child };
+                    TreeNodeItem childNode = new TreeNodeItem() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -221,7 +222,7 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 构造子树。
-        private void _BuildSubTree(TreeNode node)
+        private void _BuildSubTree(TreeNodeItem node)
         {
             if (node == null)
             {
@@ -246,7 +247,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    TreeNode childNode = new TreeNode() { Taxon = child };
+                    TreeNodeItem childNode = new TreeNodeItem() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -269,7 +270,7 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 更新所有节点的属性。
-        private void _UpdateTreeNodeAttr(TreeNode node)
+        private void _UpdateTreeNodeAttr(TreeNodeItem node)
         {
             if (node != null)
             {
@@ -309,45 +310,54 @@ namespace TreeOfLife.Views.Tree
         // 更新子树。
         public void UpdateSubTree()
         {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
+            if (Phylogenesis.Root.IsFinal)
             {
-                _NamedTaxon = currentTaxon.GetNamedParent();
+                _NamedTaxon = Phylogenesis.Root;
 
-                if (_NamedTaxon == null)
-                {
-                    _NamedTaxon = currentTaxon.Root;
-                }
+                _SubTreeRoot = new TreeNodeItem() { Taxon = _NamedTaxon };
             }
             else
             {
-                _NamedTaxon = currentTaxon;
-            }
+                Taxon currentTaxon = Common.CurrentTaxon;
 
-            Taxon parent = _NamedTaxon;
-
-            for (int i = 0; i < _ParentLevels; i++)
-            {
-                parent = parent.GetNamedParent();
-
-                if (parent == null)
+                if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
                 {
-                    parent = _NamedTaxon.Root;
+                    _NamedTaxon = currentTaxon.GetNamedParent();
 
-                    break;
+                    if (_NamedTaxon == null)
+                    {
+                        _NamedTaxon = currentTaxon.Root;
+                    }
                 }
+                else
+                {
+                    _NamedTaxon = currentTaxon;
+                }
+
+                Taxon parent = _NamedTaxon;
+
+                for (int i = 0; i < _ParentLevels; i++)
+                {
+                    parent = parent.GetNamedParent();
+
+                    if (parent == null)
+                    {
+                        parent = _NamedTaxon.Root;
+
+                        break;
+                    }
+                }
+
+                _SubTreeRoot = new TreeNodeItem() { Taxon = parent };
+
+                _BuildSubTree(_SubTreeRoot);
             }
-
-            _SubTreeRoot = new TreeNode() { Taxon = parent };
-
-            _BuildSubTree(_SubTreeRoot);
 
             //
 
             _UpdateTreeNodeAttr(_SubTreeRoot);
 
-            tree.UpdateTree(_SubTreeRoot);
+            tree.UpdateContent(_SubTreeRoot);
         }
 
         #endregion

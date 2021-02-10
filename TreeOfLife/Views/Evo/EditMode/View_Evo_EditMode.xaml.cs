@@ -899,9 +899,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             if (currentTaxon.IsRoot)
             {
-                taxonNameButtonGroup_Parents.StartEditing();
                 taxonNameButtonGroup_Parents.Clear();
-                taxonNameButtonGroup_Parents.FinishEditing();
             }
             else
             {

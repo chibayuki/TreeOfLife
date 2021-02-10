@@ -30,6 +30,18 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
+    public class TaxonNameItem
+    {
+        public Taxon Taxon { get; set; } = null;
+        public int Sign { get; set; } = 0;
+
+        public bool Checked { get; set; } = false;
+
+        public ContextMenu ContextMenu { get; set; } = null;
+
+        public ColorX ThemeColor { get; set; } = ColorX.FromRGB(128, 128, 128);
+    }
+
     /// <summary>
     /// TaxonNameButtonGroup.xaml 的交互逻辑
     /// </summary>
@@ -46,12 +58,8 @@ namespace TreeOfLife.Controls
             private Label _NameLabel = new Label();
             private List<TaxonNameButton> _Buttons = new List<TaxonNameButton>();
 
-            public _Group(string name, ColorX themeColor, bool isDarkTheme)
+            public _Group()
             {
-                _Name = name;
-                _ThemeColor = themeColor;
-                _IsDarkTheme = isDarkTheme;
-
                 _GroupPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _GroupPanel.VerticalAlignment = VerticalAlignment.Top;
                 _GroupPanel.ColumnDefinitions.Add(new ColumnDefinition());
@@ -96,7 +104,7 @@ namespace TreeOfLife.Controls
                 {
                     _IsDarkTheme = value;
 
-                    UpdateColor();
+                    UpdateTheme();
                 }
             }
 
@@ -130,11 +138,16 @@ namespace TreeOfLife.Controls
             {
                 _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
                 _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            }
+
+            public void UpdateTheme()
+            {
+                _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
+                _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in _Buttons)
                 {
                     button.IsDarkTheme = _IsDarkTheme;
-                    button.ThemeColor = _ThemeColor;
                 }
             }
 
@@ -214,8 +227,6 @@ namespace TreeOfLife.Controls
         private Thickness _ButtonMargin = new Thickness(4, 1, 0, 1); // 按钮外边距。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
-        private bool _Editing = false; // 是否正在编辑。
-
         //
 
         public TaxonNameButtonGroup()
@@ -227,8 +238,6 @@ namespace TreeOfLife.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateFont();
-                _UpdateColor();
-                _UpdateControls();
                 _UpdateLayout();
             };
 
@@ -258,38 +267,20 @@ namespace TreeOfLife.Controls
             }
         }
 
-        private void _UpdateColor()
+        private void _UpdateTheme()
         {
             foreach (var group in _Groups)
             {
                 group.IsDarkTheme = _IsDarkTheme;
-                group.UpdateColor();
-            }
-        }
-
-        private void _UpdateControls()
-        {
-            stackPanel_Groups.Children.Clear();
-
-            foreach (var group in _Groups)
-            {
-                group.UpdateControls();
-
-                stackPanel_Groups.Children.Add(group.GroupPanel);
             }
         }
 
         private void _UpdateLayout()
         {
-            double height = (_GroupMargin.Top + _GroupMargin.Bottom) * _Groups.Count;
-
             foreach (var group in _Groups)
             {
                 group.UpdateLayout(_GroupNameWidth, _GroupMargin, _CategoryNameWidth, _ButtonHeight, _ButtonMargin);
-                height += group.GroupPanel.Height;
             }
-
-            this.Height = (_Groups.Count > 0 ? height : 0);
         }
 
         //
@@ -302,10 +293,7 @@ namespace TreeOfLife.Controls
             {
                 _GroupNameWidth = value;
 
-                if (!_Editing)
-                {
-                    _UpdateLayout();
-                }
+                _UpdateLayout();
             }
         }
 
@@ -317,10 +305,7 @@ namespace TreeOfLife.Controls
             {
                 _GroupMargin = value;
 
-                if (!_Editing)
-                {
-                    _UpdateLayout();
-                }
+                _UpdateLayout();
             }
         }
 
@@ -332,10 +317,7 @@ namespace TreeOfLife.Controls
             {
                 _CategoryNameWidth = value;
 
-                if (!_Editing)
-                {
-                    _UpdateLayout();
-                }
+                _UpdateLayout();
             }
         }
 
@@ -347,10 +329,7 @@ namespace TreeOfLife.Controls
             {
                 _ButtonHeight = value;
 
-                if (!_Editing)
-                {
-                    _UpdateLayout();
-                }
+                _UpdateLayout();
             }
         }
 
@@ -362,10 +341,7 @@ namespace TreeOfLife.Controls
             {
                 _ButtonMargin = value;
 
-                if (!_Editing)
-                {
-                    _UpdateLayout();
-                }
+                _UpdateLayout();
             }
         }
 
@@ -377,10 +353,7 @@ namespace TreeOfLife.Controls
             {
                 _IsDarkTheme = value;
 
-                if (!_Editing)
-                {
-                    _UpdateColor();
-                }
+                _UpdateTheme();
             }
         }
 
@@ -404,121 +377,119 @@ namespace TreeOfLife.Controls
             return _Groups[groupIndex].Buttons[buttonIndex].Taxon;
         }
 
-        // 添加一个组。
-        public void AddGroup(string name, ColorX color, int groupIndex)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups.Insert(groupIndex, new _Group(name, color, _IsDarkTheme));
-        }
-
-        // 添加一个组。
-        public void AddGroup(string name, ColorX color)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups.Add(new _Group(name, color, _IsDarkTheme));
-        }
-
-        // 删除一个组。
-        public void RemoveGroup(int groupIndex)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups.RemoveAt(groupIndex);
-        }
-
-        // 添加一个按钮。
-        public void AddButton(TaxonNameButton button, int groupIndex, int buttonIndex)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups[groupIndex].Buttons.Insert(buttonIndex, button);
-        }
-
-        // 添加一个按钮。
-        public void AddButton(TaxonNameButton button, int groupIndex)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups[groupIndex].Buttons.Add(button);
-        }
-
-        // 删除一个按钮。
-        public void RemoveButton(int groupIndex, int buttonIndex)
-        {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            _Groups[groupIndex].Buttons.RemoveAt(buttonIndex);
-        }
-
-        // 删除所有组与按钮。
         public void Clear()
         {
-            if (!_Editing)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
+            stackPanel_Groups.Children.Clear();
 
             _Groups.Clear();
         }
 
-        // 开始编辑。
-        public void StartEditing()
+        private void _AddGroupsAndButtons()
         {
-            if (!_Editing)
+            foreach (var group in _Groups)
             {
-                _Editing = true;
+                group.UpdateControls();
+
+                stackPanel_Groups.Children.Add(group.GroupPanel);
             }
         }
 
-        // 完成编辑。
-        public void FinishEditing()
+        public void UpdateContent(IEnumerable<TaxonNameItem> items)
         {
-            if (_Editing)
+            stackPanel_Groups.Children.Clear();
+
+            _Groups.Clear();
+
+            if (items != null && items.Any())
             {
-                stackPanel_Groups.Visibility = Visibility.Hidden;
+                _GroupNameWidth = 0;
 
+                _Groups.Add(new _Group());
+
+                foreach (var item in items)
+                {
+                    _Groups[0].Buttons.Add(new TaxonNameButton()
+                    {
+                        Taxon = item.Taxon,
+                        Sign = item.Sign,
+                        Checked = item.Checked,
+                        ContextMenu = item.ContextMenu,
+                        ThemeColor = item.ThemeColor,
+                        IsDarkTheme = _IsDarkTheme
+                    }); ;
+                }
+
+                _AddGroupsAndButtons();
                 _UpdateFont();
-                _UpdateColor();
-                _UpdateControls();
                 _UpdateLayout();
+            }
+        }
 
-                stackPanel_Groups.Visibility = Visibility.Visible;
+        public void UpdateContent(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)
+        {
+            stackPanel_Groups.Children.Clear();
 
-                _Editing = false;
+            _Groups.Clear();
+
+            if (items != null && items.Any())
+            {
+                _Groups.Add(new _Group() { Name = groupName, ThemeColor = groupColor });
+
+                foreach (var item in items)
+                {
+                    _Groups[0].Buttons.Add(new TaxonNameButton()
+                    {
+                        Taxon = item.Taxon,
+                        Sign = item.Sign,
+                        Checked = item.Checked,
+                        ContextMenu = item.ContextMenu,
+                        ThemeColor = item.ThemeColor,
+                        IsDarkTheme = _IsDarkTheme
+                    });
+                }
+
+                _AddGroupsAndButtons();
+                _UpdateFont();
+                _UpdateLayout();
+            }
+        }
+
+        public void UpdateContent(IEnumerable<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)> groups)
+        {
+            stackPanel_Groups.Children.Clear();
+
+            _Groups.Clear();
+
+            if (groups != null && groups.Any())
+            {
+                int groupIndex = 0;
+
+                foreach (var group in groups)
+                {
+                    if (group.items != null && group.items.Any())
+                    {
+                        _Groups.Add(new _Group() { Name = group.groupName, ThemeColor = group.groupColor });
+
+                        foreach (var item in group.items)
+                        {
+                            _Groups[groupIndex].Buttons.Add(new TaxonNameButton()
+                            {
+                                Taxon = item.Taxon,
+                                Sign = item.Sign,
+                                Checked = item.Checked,
+                                ContextMenu = item.ContextMenu,
+                                ThemeColor = item.ThemeColor,
+                                IsDarkTheme = _IsDarkTheme
+                            });
+                        }
+
+                        groupIndex++;
+                    }
+                }
+
+                _AddGroupsAndButtons();
+                _UpdateFont();
+                _UpdateLayout();
             }
         }
 

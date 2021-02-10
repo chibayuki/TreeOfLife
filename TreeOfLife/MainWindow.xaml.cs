@@ -436,7 +436,6 @@ namespace TreeOfLife
         // 更新系统发生树。
         private void _UpdateTree()
         {
-            //view_Tree.UpdateTree();
             view_Tree.UpdateSubTree();
         }
 
