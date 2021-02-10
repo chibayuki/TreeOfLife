@@ -53,20 +53,9 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                label_CategoryName.FontFamily = this.FontFamily;
-                label_CategoryName.FontSize = this.FontSize;
-                label_CategoryName.FontStyle = this.FontStyle;
-                label_CategoryName.FontWeight = this.FontWeight;
-                label_CategoryName.MinWidth = this.MinWidth;
-                label_CategoryName.MaxWidth = this.MaxWidth;
-
                 _UpdateColor();
                 _UpdateCategory();
             };
-
-            label_CategoryName.MouseUp += (s, e) => base.OnMouseUp(e);
-            label_CategoryName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
-            label_CategoryName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //

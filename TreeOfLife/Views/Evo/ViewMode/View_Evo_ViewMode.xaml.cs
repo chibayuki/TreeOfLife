@@ -42,13 +42,17 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             //
 
+            button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
+
+            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+
             taxonNameButtonGroup_Children.GroupNameWidth = 0;
             taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
 
             taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
             taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
+            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
         }
 
         //

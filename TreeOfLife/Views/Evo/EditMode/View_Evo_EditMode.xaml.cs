@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -46,6 +47,8 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
+            button_Back.Click += (s, e) => Views.Common.ExitEditMode();
+
             label_CategoryName.ContextMenu = _ContextMenu_Current;
             label_CategoryName.MouseRightButtonUp += (s, e) =>
             {
@@ -60,30 +63,65 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (label_TaxonName.ContextMenu.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Children.GroupNameWidth = 0;
-            taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
-            taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            taxonNameButtonGroup_ExcludeBy.GroupNameWidth = 0;
-            taxonNameButtonGroup_ExcludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            taxonNameButtonGroup_Includes.GroupNameWidth = 0;
-            taxonNameButtonGroup_Includes.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            taxonNameButtonGroup_IncludeBy.GroupNameWidth = 0;
-            taxonNameButtonGroup_IncludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            button_Back.Click += (s, e) => Views.Common.ExitEditMode();
-
-            categorySelector.MouseLeftButtonUp += CategorySelector_MouseLeftButtonUp;
+            categorySelector.MouseLeftButtonClick += CategorySelector_MouseLeftButtonClick;
             button_Rename.Click += Button_Rename_Click;
             grid_Rename.Visibility = Visibility.Collapsed;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
             button_AddChildren.Click += Button_AddChildren_Click;
+
+            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Parents.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_Parent.DataContext as Action)?.Invoke();
+            };
+
+            taxonNameButtonGroup_Children.GroupNameWidth = 0;
+            taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Children.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_Children.DataContext as Action)?.Invoke();
+            };
+
+            taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
+            taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Excludes.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_Excludes.DataContext as Action)?.Invoke();
+            };
+
+            taxonNameButtonGroup_ExcludeBy.GroupNameWidth = 0;
+            taxonNameButtonGroup_ExcludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_ExcludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_ExcludeBy.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_ExcludeBy.DataContext as Action)?.Invoke();
+            };
+
+            taxonNameButtonGroup_Includes.GroupNameWidth = 0;
+            taxonNameButtonGroup_Includes.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_Includes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Includes.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_Includes.DataContext as Action)?.Invoke();
+            };
+
+            taxonNameButtonGroup_IncludeBy.GroupNameWidth = 0;
+            taxonNameButtonGroup_IncludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
+            taxonNameButtonGroup_IncludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_IncludeBy.MouseRightButtonClick += (s, e) =>
+            {
+                Common.RightButtonTaxon = e.Taxon;
+                (_ContextMenu_IncludeBy.DataContext as Action)?.Invoke();
+            };
         }
 
         private ContextMenu _ContextMenu_Current;
@@ -744,7 +782,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private string _ChsRename = string.Empty; // 可更新的中文名。
 
-        private void CategorySelector_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CategorySelector_MouseLeftButtonClick(object sender, CategoryNameButton e)
         {
             ViewModel.Category = categorySelector.Category;
 

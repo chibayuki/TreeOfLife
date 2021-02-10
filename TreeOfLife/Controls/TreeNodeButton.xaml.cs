@@ -43,7 +43,6 @@ namespace TreeOfLife.Controls
         private bool _IsFirst = false;
         private bool _IsLast = false;
         private bool _ShowButton = false;
-
         private bool _Checked = false; // 是否处于已选择状态。
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
@@ -59,18 +58,9 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                label_TaxonName.FontFamily = this.FontFamily;
-                label_TaxonName.FontSize = this.FontSize;
-                label_TaxonName.FontStyle = this.FontStyle;
-                label_TaxonName.FontWeight = this.FontWeight;
-
                 _UpdateColor();
                 _UpdateTaxon();
             };
-
-            label_TaxonName.MouseUp += (s, e) => base.OnMouseUp(e);
-            label_TaxonName.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
-            label_TaxonName.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //
@@ -174,6 +164,13 @@ namespace TreeOfLife.Controls
             {
                 grid_MiddlePart.Visibility = Visibility.Collapsed;
             }
+        }
+
+        internal bool VerifyMousePosition()
+        {
+            Point p = Mouse.GetPosition(label_TaxonName);
+
+            return (p.X >= 0 && p.X < label_TaxonName.ActualWidth && p.Y >= 0 && p.Y < label_TaxonName.ActualHeight);
         }
 
         //

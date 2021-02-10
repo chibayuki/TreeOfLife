@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label x:Name="label_CategoryName" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="6,3,6,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="label_CategoryName" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="6,3,6,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" MinWidth="{Binding MinWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" MaxWidth="{Binding MaxWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" MinHeight="{Binding MinHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" MaxHeight="{Binding MaxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CategoryNameButton}}}" />
 
     </Grid>
 </UserControl>

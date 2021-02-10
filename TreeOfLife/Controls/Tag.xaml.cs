@@ -48,20 +48,9 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                label_Tag.FontFamily = this.FontFamily;
-                label_Tag.FontSize = this.FontSize;
-                label_Tag.FontStyle = this.FontStyle;
-                label_Tag.FontWeight = this.FontWeight;
-                label_Tag.MinWidth = this.MinWidth;
-                label_Tag.MaxWidth = this.MaxWidth;
-
                 _UpdateColor();
                 _UpdateText();
             };
-
-            label_Tag.MouseUp += (s, e) => base.OnMouseUp(e);
-            label_Tag.MouseLeftButtonUp += (s, e) => base.OnMouseLeftButtonUp(e);
-            label_Tag.MouseRightButtonUp += (s, e) => base.OnMouseRightButtonUp(e);
         }
 
         //

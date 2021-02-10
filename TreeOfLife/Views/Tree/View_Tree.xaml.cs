@@ -40,43 +40,24 @@ namespace TreeOfLife.Views.Tree
         public View_Tree()
         {
             InitializeComponent();
+
+            //
+
+            tree.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
         }
 
         //
 
         #region 系统发生树
 
-        private class _TreeNode
-        {
-            public _TreeNode Parent { get; set; } = null;
-            public List<_TreeNode> Children { get; } = new List<_TreeNode>();
-
-            public Taxon Taxon { get; set; } = null;
-            public int Sign { get; set; } = 0;
-            public TreeNodeButton Button { get; set; } = null;
-
-            public double Width => Button?.Width ?? double.NaN;
-            public double Height => Button?.Height ?? double.NaN;
-            public double Left { get; set; } = 0;
-            public double Top { get; set; } = 0;
-            public double Right => Left + Width;
-            public double Bottom => Top + Height;
-        }
-
-        private _TreeNode _SubTreeRoot = null; // 子树的根节点。
+        private TreeNode _SubTreeRoot = null; // 子树的根节点。
 
         private int _ParentLevels = 1; // 向上追溯的具名父类群的层数。
         private int _ChildrenLevels = 3; // 向下追溯的具名子类群的层数。
         private int _SiblingLevels = 0; // 旁系群向下追溯的具名子类群的层数。
 
-        // 生成一个子树节点。
-        private _TreeNode _GenerateTreeNode(Taxon taxon)
-        {
-            return new _TreeNode() { Taxon = taxon, Button = new TreeNodeButton() { Taxon = taxon, VerticalAlignment = VerticalAlignment.Stretch } };
-        }
-
         // 构造子树的并系群部分。
-        private void _BuildSubTreeForExcludes(_TreeNode node, Taxon child)
+        private void _BuildSubTreeForExcludes(TreeNode node, Taxon child)
         {
             if (node == null || child == null)
             {
@@ -89,7 +70,7 @@ namespace TreeOfLife.Views.Tree
             {
                 if (exclude.IsNamed())
                 {
-                    _TreeNode excludeNode = _GenerateTreeNode(exclude);
+                    TreeNode excludeNode = new TreeNode() { Taxon = exclude };
                     excludeNode.Sign = -1;
 
                     node.Children.Add(excludeNode);
@@ -99,7 +80,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     foreach (var item in exclude.GetNamedChildren(true))
                     {
-                        _TreeNode excludeNode = _GenerateTreeNode(item);
+                        TreeNode excludeNode = new TreeNode() { Taxon = item };
                         excludeNode.Sign = -1;
 
                         node.Children.Add(excludeNode);
@@ -110,7 +91,7 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 构造子树的复系群部分。
-        private void _BuildSubTreeForIncludes(_TreeNode node)
+        private void _BuildSubTreeForIncludes(TreeNode node)
         {
             if (node == null)
             {
@@ -123,7 +104,7 @@ namespace TreeOfLife.Views.Tree
             {
                 if (include.IsNamed())
                 {
-                    _TreeNode includeNode = _GenerateTreeNode(include);
+                    TreeNode includeNode = new TreeNode() { Taxon = include };
                     includeNode.Sign = +1;
 
                     node.Children.Add(includeNode);
@@ -133,7 +114,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     foreach (var item in include.GetNamedChildren(true))
                     {
-                        _TreeNode includeNode = _GenerateTreeNode(item);
+                        TreeNode includeNode = new TreeNode() { Taxon = item };
                         includeNode.Sign = +1;
 
                         node.Children.Add(includeNode);
@@ -146,7 +127,7 @@ namespace TreeOfLife.Views.Tree
         private int _CurrentChildrenDepth; // 当前递归深度。
 
         // 构造子树的子类群部分。
-        private void _BuildSubTreeForChildren(_TreeNode node)
+        private void _BuildSubTreeForChildren(TreeNode node)
         {
             if (node == null)
             {
@@ -164,7 +145,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    _TreeNode childNode = _GenerateTreeNode(child);
+                    TreeNode childNode = new TreeNode() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -194,7 +175,7 @@ namespace TreeOfLife.Views.Tree
         private int _CurrentSiblingsDepth; // 当前递归深度。
 
         // 构造子树的旁系群部分。
-        private void _BuildSubTreeForSiblings(_TreeNode node)
+        private void _BuildSubTreeForSiblings(TreeNode node)
         {
             if (node == null)
             {
@@ -212,7 +193,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    _TreeNode childNode = _GenerateTreeNode(child);
+                    TreeNode childNode = new TreeNode() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -240,7 +221,7 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 构造子树。
-        private void _BuildSubTree(_TreeNode node)
+        private void _BuildSubTree(TreeNode node)
         {
             if (node == null)
             {
@@ -265,7 +246,7 @@ namespace TreeOfLife.Views.Tree
             {
                 foreach (var child in node.Taxon.Children)
                 {
-                    _TreeNode childNode = _GenerateTreeNode(child);
+                    TreeNode childNode = new TreeNode() { Taxon = child };
 
                     node.Children.Add(childNode);
                     childNode.Parent = node;
@@ -288,33 +269,30 @@ namespace TreeOfLife.Views.Tree
         }
 
         // 更新所有节点的属性。
-        private void _UpdateTreeNodeAttr(_TreeNode node)
+        private void _UpdateTreeNodeAttr(TreeNode node)
         {
             if (node != null)
             {
-                node.Button.Sign = node.Sign;
+                node.Sign = node.Sign;
 
-                node.Button.IsRoot = (node.Parent == null);
-                node.Button.IsFinal = (node.Children.Count <= 0);
+                node.IsRoot = (node.Parent == null);
+                node.IsFinal = (node.Children.Count <= 0);
 
-                if (node.Button.IsRoot)
+                if (node.IsRoot)
                 {
-                    node.Button.IsFirst = true;
-                    node.Button.IsLast = true;
+                    node.IsFirst = true;
+                    node.IsLast = true;
                 }
                 else
                 {
-                    node.Button.IsFirst = (node.Parent.Children.IndexOf(node) <= 0);
-                    node.Button.IsLast = (node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1);
+                    node.IsFirst = (node.Parent.Children.IndexOf(node) <= 0);
+                    node.IsLast = (node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1);
                 }
 
-                node.Button.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
+                node.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
 
-                node.Button.Checked = (node.Taxon == Common.CurrentTaxon);
-                node.Button.ThemeColor = node.Taxon.GetThemeColor();
-                node.Button.IsDarkTheme = _IsDarkTheme;
-
-                node.Button.MouseLeftButtonUp += (s, e) => Common.SetCurrentTaxon(node.Taxon);
+                node.Checked = (node.Taxon == Common.CurrentTaxon);
+                node.ThemeColor = node.Taxon.GetThemeColor();
 
                 if (node.Children != null)
                 {
@@ -326,30 +304,9 @@ namespace TreeOfLife.Views.Tree
             }
         }
 
-        // 将所有节点添加到容器控件。
-        private static void _AddTreeNodeButton(Panel panel, _TreeNode node)
-        {
-            if (node != null)
-            {
-                StackPanel stackPanelH = new StackPanel() { Orientation = Orientation.Horizontal };
-                stackPanelH.Children.Add(node.Button);
-                panel.Children.Add(stackPanelH);
-
-                if (node.Children != null)
-                {
-                    StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
-                    stackPanelH.Children.Add(stackPanelV);
-
-                    foreach (var child in node.Children)
-                    {
-                        _AddTreeNodeButton(stackPanelV, child);
-                    }
-                }
-            }
-        }
-
         private Taxon _NamedTaxon = null; // 当前类群或其最近的具名上级类群。
 
+        // 更新子树。
         public void UpdateSubTree()
         {
             Taxon currentTaxon = Common.CurrentTaxon;
@@ -382,37 +339,20 @@ namespace TreeOfLife.Views.Tree
                 }
             }
 
-            stackPanel_SubTree.Children.Clear();
-
-            _SubTreeRoot = _GenerateTreeNode(parent);
+            _SubTreeRoot = new TreeNode() { Taxon = parent };
 
             _BuildSubTree(_SubTreeRoot);
 
             //
 
             _UpdateTreeNodeAttr(_SubTreeRoot);
-            _AddTreeNodeButton(stackPanel_SubTree, _SubTreeRoot);
+
+            tree.UpdateTree(_SubTreeRoot);
         }
 
         #endregion
 
         #region 主题
-
-        private void _UpdateTreeNodeTheme(_TreeNode node)
-        {
-            if (node != null)
-            {
-                node.Button.IsDarkTheme = _IsDarkTheme;
-
-                if (node.Children != null)
-                {
-                    foreach (var child in node.Children)
-                    {
-                        _UpdateTreeNodeTheme(child);
-                    }
-                }
-            }
-        }
 
         private bool _IsDarkTheme = false;
 
@@ -424,7 +364,7 @@ namespace TreeOfLife.Views.Tree
             {
                 _IsDarkTheme = value;
 
-                _UpdateTreeNodeTheme(_SubTreeRoot);
+                tree.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }

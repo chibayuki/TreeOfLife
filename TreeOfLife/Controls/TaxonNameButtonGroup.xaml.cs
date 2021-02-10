@@ -231,6 +231,21 @@ namespace TreeOfLife.Controls
                 _UpdateControls();
                 _UpdateLayout();
             };
+
+            stackPanel_Groups.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is TaxonNameButton source)
+                {
+                    MouseLeftButtonClick?.Invoke(this, source);
+                }
+            }));
+            stackPanel_Groups.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is TaxonNameButton source)
+                {
+                    MouseRightButtonClick?.Invoke(this, source);
+                }
+            }));
         }
 
         //
@@ -506,5 +521,11 @@ namespace TreeOfLife.Controls
                 _Editing = false;
             }
         }
+
+        //
+
+        public EventHandler<TaxonNameButton> MouseLeftButtonClick;
+
+        public EventHandler<TaxonNameButton> MouseRightButtonClick;
     }
 }

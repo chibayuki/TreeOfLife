@@ -30,7 +30,7 @@ namespace TreeOfLife.Views.Evo
         //
 
         // 更新父类群控件。
-        public static void UpdateParents(TaxonNameButtonGroup control, IReadOnlyList<Taxon> parents, ContextMenu menu = null)
+        public static void UpdateParents(TaxonNameButtonGroup control, IReadOnlyList<Taxon> parents, ContextMenu contextMenu = null)
         {
             control.StartEditing();
             control.Clear();
@@ -62,16 +62,7 @@ namespace TreeOfLife.Views.Evo
                     }
                 }
 
-                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
-
-                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
-
-                if (menu != null)
-                {
-                    button.ContextMenu = menu;
-
-                    button.MouseRightButtonUp += (s, e) => { RightButtonTaxon = button.Taxon; (button.ContextMenu.DataContext as Action)?.Invoke(); };
-                }
+                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon, ContextMenu = contextMenu };
 
                 if (taxon == Views.Common.CurrentTaxon)
                 {
@@ -85,7 +76,7 @@ namespace TreeOfLife.Views.Evo
         }
 
         // 更新子类群控件。
-        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<Taxon> children, ContextMenu menu = null)
+        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<Taxon> children, ContextMenu contextMenu = null)
         {
             control.StartEditing();
             control.Clear();
@@ -95,19 +86,7 @@ namespace TreeOfLife.Views.Evo
                 Taxon taxon = children[i];
 
                 control.AddGroup(string.Empty, taxon.GetThemeColor());
-
-                TaxonNameButton button = new TaxonNameButton() { Taxon = taxon };
-
-                button.MouseLeftButtonUp += (s, e) => Views.Common.SetCurrentTaxon(taxon);
-
-                if (menu != null)
-                {
-                    button.ContextMenu = menu;
-
-                    button.MouseRightButtonUp += (s, e) => { RightButtonTaxon = button.Taxon; (button.ContextMenu.DataContext as Action)?.Invoke(); };
-                }
-
-                control.AddButton(button, i);
+                control.AddButton(new TaxonNameButton() { Taxon = taxon, ContextMenu = contextMenu }, i);
             }
 
             control.FinishEditing();

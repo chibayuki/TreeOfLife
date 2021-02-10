@@ -79,7 +79,7 @@ namespace TreeOfLife.Controls
 
             public List<CategoryNameButton> Buttons => _Buttons;
 
-            public void UpdateFont(FontFamily fontFamily, double fontSize, FontStyle fontStyle, FontWeight fontWeight)
+            public void UpdateFont(FontFamily fontFamily, double fontSize, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch)
             {
                 foreach (var button in _Buttons)
                 {
@@ -87,6 +87,7 @@ namespace TreeOfLife.Controls
                     button.FontSize = fontSize;
                     button.FontStyle = fontStyle;
                     button.FontWeight = fontWeight;
+                    button.FontStretch = fontStretch;
                 }
             }
 
@@ -173,6 +174,21 @@ namespace TreeOfLife.Controls
                 _UpdateCategory();
                 _UpdateLayout();
             };
+
+            stackPanel_Levels.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is CategoryNameButton source)
+                {
+                    MouseLeftButtonClick?.Invoke(this, source);
+                }
+            }));
+            stackPanel_Levels.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is CategoryNameButton source)
+                {
+                    MouseRightButtonClick?.Invoke(this, source);
+                }
+            }));
         }
 
         private void _InitLevel1()
@@ -503,16 +519,16 @@ namespace TreeOfLife.Controls
 
         private void _UpdateFont()
         {
-            _Level1Group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
+            _Level1Group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight, this.FontStretch);
 
             foreach (var group in _Level2Groups.Values)
             {
-                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
+                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight, this.FontStretch);
             }
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight);
+                group.UpdateFont(this.FontFamily, this.FontSize, this.FontStyle, this.FontWeight, this.FontStretch);
             }
         }
 
@@ -760,5 +776,11 @@ namespace TreeOfLife.Controls
                 _UpdateCategory();
             }
         }
+
+        //
+
+        public EventHandler<CategoryNameButton> MouseLeftButtonClick;
+
+        public EventHandler<CategoryNameButton> MouseRightButtonClick;
     }
 }

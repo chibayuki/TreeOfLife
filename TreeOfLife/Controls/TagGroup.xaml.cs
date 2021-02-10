@@ -51,6 +51,21 @@ namespace TreeOfLife.Controls
                 _UpdateFont();
                 _UpdateColor();
             };
+
+            wrapPanel_Tags.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is Tag source)
+                {
+                    MouseLeftButtonClick?.Invoke(this, source);
+                }
+            }));
+            wrapPanel_Tags.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is Tag source)
+                {
+                    MouseRightButtonClick?.Invoke(this, source);
+                }
+            }));
         }
 
         //
@@ -63,6 +78,7 @@ namespace TreeOfLife.Controls
                 tag.FontSize = this.FontSize;
                 tag.FontStyle = this.FontStyle;
                 tag.FontWeight = this.FontWeight;
+                tag.FontStretch = this.FontStretch;
             }
         }
 
@@ -150,5 +166,11 @@ namespace TreeOfLife.Controls
                 wrapPanel_Tags.Visibility = Visibility.Visible;
             }
         }
+
+        //
+
+        public EventHandler<Tag> MouseLeftButtonClick;
+
+        public EventHandler<Tag> MouseRightButtonClick;
     }
 }
