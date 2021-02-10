@@ -71,7 +71,6 @@ namespace TreeOfLife.Controls
         private void _UpdateCategoryNameWidth()
         {
             label_CategoryName.Width = _CategoryNameWidth;
-            label_TaxonName.Margin = new Thickness(_CategoryNameWidth, 0, 0, 0);
         }
 
         private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());

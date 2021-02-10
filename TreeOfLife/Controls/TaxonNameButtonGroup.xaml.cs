@@ -54,20 +54,16 @@ namespace TreeOfLife.Controls
             private ColorX _ThemeColor; // 主题颜色。
             private bool _IsDarkTheme = false; // 是否为暗色主题。
 
-            private Grid _GroupPanel = new Grid();
             private Label _NameLabel = new Label();
             private List<TaxonNameButton> _Buttons = new List<TaxonNameButton>();
 
             public _Group()
             {
-                _GroupPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                _GroupPanel.VerticalAlignment = VerticalAlignment.Top;
-                _GroupPanel.ColumnDefinitions.Add(new ColumnDefinition());
-                _GroupPanel.ColumnDefinitions.Add(new ColumnDefinition());
-
                 _NameLabel.Padding = new Thickness(0);
                 _NameLabel.Margin = new Thickness(0);
                 _NameLabel.Content = _Name;
+                _NameLabel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _NameLabel.VerticalAlignment = VerticalAlignment.Stretch;
                 _NameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 _NameLabel.VerticalContentAlignment = VerticalAlignment.Center;
             }
@@ -92,127 +88,18 @@ namespace TreeOfLife.Controls
                 {
                     _ThemeColor = value;
 
-                    UpdateColor();
+                    _UpdateColor();
                 }
             }
 
-            public bool IsDarkTheme
-            {
-                get => _IsDarkTheme;
-
-                set
-                {
-                    _IsDarkTheme = value;
-
-                    UpdateTheme();
-                }
-            }
-
-            public Panel GroupPanel => _GroupPanel;
+            public Label NameLabel => _NameLabel;
 
             public List<TaxonNameButton> Buttons => _Buttons;
 
-            public void UpdateFont(FontFamily fontFamily, double fontSize)
-            {
-                _NameLabel.FontFamily = fontFamily;
-                _NameLabel.FontSize = fontSize;
-                _NameLabel.FontStyle = FontStyles.Normal;
-                _NameLabel.FontWeight = FontWeights.Normal;
-
-                foreach (var button in _Buttons)
-                {
-                    Taxon taxon = button.Taxon;
-
-                    TaxonomicCategory category = taxon.Category;
-                    bool basicPrimary = category.IsBasicPrimaryCategory();
-                    bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
-
-                    button.FontFamily = fontFamily;
-                    button.FontSize = fontSize;
-                    button.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-                    button.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
-                }
-            }
-
-            public void UpdateColor()
+            private void _UpdateColor()
             {
                 _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
                 _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            }
-
-            public void UpdateTheme()
-            {
-                _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-
-                foreach (var button in _Buttons)
-                {
-                    button.IsDarkTheme = _IsDarkTheme;
-                }
-            }
-
-            public void UpdateControls()
-            {
-                _GroupPanel.Children.Clear();
-                _GroupPanel.RowDefinitions.Clear();
-
-                for (int i = 0; i < _Buttons.Count; i++)
-                {
-                    TaxonNameButton button = _Buttons[i];
-
-                    _GroupPanel.RowDefinitions.Add(new RowDefinition());
-                    _GroupPanel.Children.Add(button);
-                    Grid.SetColumn(button, 1);
-                    Grid.SetRow(button, i);
-                }
-
-                _GroupPanel.Children.Add(_NameLabel);
-
-                if (_Buttons.Count > 0)
-                {
-                    Grid.SetRowSpan(_NameLabel, _Buttons.Count);
-                }
-            }
-
-            public void UpdateLayout(double groupNameWidth, Thickness groupPadding, double categoryNameWidth, double buttonHeight, Thickness buttonPadding)
-            {
-                if (_Buttons.Count > 0)
-                {
-                    buttonPadding.Right = 0;
-
-                    if (groupNameWidth <= 0)
-                    {
-                        buttonPadding.Left = 0;
-                    }
-
-                    _NameLabel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    _NameLabel.VerticalAlignment = VerticalAlignment.Stretch;
-
-                    _GroupPanel.Margin = groupPadding;
-                    _GroupPanel.Height = _Buttons.Count * (buttonHeight + (buttonPadding.Top + buttonPadding.Bottom));
-                    _GroupPanel.ColumnDefinitions[0].Width = new GridLength(groupNameWidth, GridUnitType.Pixel);
-
-                    for (int i = 0; i < _Buttons.Count; i++)
-                    {
-                        TaxonNameButton button = _Buttons[i];
-
-                        if (_Buttons.Count == 1) button.Margin = new Thickness(buttonPadding.Left, 0, buttonPadding.Right, 0);
-                        else if (i == 0) button.Margin = new Thickness(buttonPadding.Left, 0, buttonPadding.Right, buttonPadding.Bottom);
-                        else if (i == _Buttons.Count - 1) button.Margin = new Thickness(buttonPadding.Left, buttonPadding.Top, buttonPadding.Right, 0);
-                        else button.Margin = buttonPadding;
-
-                        button.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        button.VerticalAlignment = VerticalAlignment.Stretch;
-                        button.CategoryNameWidth = categoryNameWidth;
-
-                        _GroupPanel.RowDefinitions[i].Height = new GridLength(buttonHeight + (buttonPadding.Top + buttonPadding.Bottom), GridUnitType.Pixel);
-                    }
-                }
-                else
-                {
-                    _GroupPanel.Margin = new Thickness(0);
-                    _GroupPanel.Height = 0;
-                }
             }
         }
 
@@ -223,7 +110,6 @@ namespace TreeOfLife.Controls
         private double _GroupNameWidth = 30; // 组名称宽度。
         private Thickness _GroupMargin = new Thickness(2); // 组外边距。
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
-        private double _ButtonHeight = 22; // 按钮高度。
         private Thickness _ButtonMargin = new Thickness(4, 1, 0, 1); // 按钮外边距。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
@@ -263,7 +149,26 @@ namespace TreeOfLife.Controls
         {
             foreach (var group in _Groups)
             {
-                group.UpdateFont(this.FontFamily, this.FontSize);
+                group.NameLabel.FontFamily = this.FontFamily;
+                group.NameLabel.FontSize = this.FontSize;
+                group.NameLabel.FontStyle = FontStyles.Normal;
+                group.NameLabel.FontWeight = FontWeights.Normal;
+                group.NameLabel.FontStretch = this.FontStretch;
+
+                foreach (var button in group.Buttons)
+                {
+                    Taxon taxon = button.Taxon;
+
+                    TaxonomicCategory category = taxon.Category;
+                    bool basicPrimary = category.IsBasicPrimaryCategory();
+                    bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+
+                    button.FontFamily = this.FontFamily;
+                    button.FontSize = this.FontSize;
+                    button.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
+                    button.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+                    button.FontStretch = this.FontStretch;
+                }
             }
         }
 
@@ -271,7 +176,13 @@ namespace TreeOfLife.Controls
         {
             foreach (var group in _Groups)
             {
-                group.IsDarkTheme = _IsDarkTheme;
+                group.NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
+                group.NameLabel.Background = new SolidColorBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
+
+                foreach (var button in group.Buttons)
+                {
+                    button.IsDarkTheme = _IsDarkTheme;
+                }
             }
         }
 
@@ -279,7 +190,49 @@ namespace TreeOfLife.Controls
         {
             foreach (var group in _Groups)
             {
-                group.UpdateLayout(_GroupNameWidth, _GroupMargin, _CategoryNameWidth, _ButtonHeight, _ButtonMargin);
+                Thickness groupMargin = _GroupMargin;
+
+                groupMargin.Right = 0;
+
+                if (_GroupNameWidth <= 0)
+                {
+                    groupMargin.Left = 0;
+                }
+                else
+                {
+                    group.NameLabel.Margin = new Thickness(0, 0, _ButtonMargin.Left, 0);
+                }
+
+                group.NameLabel.Width = _GroupNameWidth;
+
+                ((Panel)group.NameLabel.Parent).Margin = groupMargin;
+
+                for (int i = 0; i < group.Buttons.Count; i++)
+                {
+                    Thickness buttonMargin = _ButtonMargin;
+
+                    buttonMargin.Left = 0;
+                    buttonMargin.Right = 0;
+
+                    if (group.Buttons.Count == 1)
+                    {
+                        buttonMargin.Top = 0;
+                        buttonMargin.Bottom = 0;
+                    }
+                    else if (i == 0)
+                    {
+                        buttonMargin.Top = 0;
+                    }
+                    else if (i == group.Buttons.Count - 1)
+                    {
+                        buttonMargin.Bottom = 0;
+                    }
+
+                    TaxonNameButton button = group.Buttons[i];
+
+                    button.Margin = buttonMargin;
+                    button.CategoryNameWidth = _CategoryNameWidth;
+                }
             }
         }
 
@@ -316,18 +269,6 @@ namespace TreeOfLife.Controls
             set
             {
                 _CategoryNameWidth = value;
-
-                _UpdateLayout();
-            }
-        }
-
-        public double ButtonHeight
-        {
-            get => _ButtonHeight;
-
-            set
-            {
-                _ButtonHeight = value;
 
                 _UpdateLayout();
             }
@@ -388,9 +329,18 @@ namespace TreeOfLife.Controls
         {
             foreach (var group in _Groups)
             {
-                group.UpdateControls();
+                DockPanel dockPanel = new DockPanel();
+                StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
 
-                stackPanel_Groups.Children.Add(group.GroupPanel);
+                dockPanel.Children.Add(group.NameLabel);
+                dockPanel.Children.Add(stackPanelV);
+
+                foreach (var button in group.Buttons)
+                {
+                    stackPanelV.Children.Add(button);
+                }
+
+                stackPanel_Groups.Children.Add(dockPanel);
             }
         }
 
@@ -416,7 +366,7 @@ namespace TreeOfLife.Controls
                         ContextMenu = item.ContextMenu,
                         ThemeColor = item.ThemeColor,
                         IsDarkTheme = _IsDarkTheme
-                    }); ;
+                    });
                 }
 
                 _AddGroupsAndButtons();
