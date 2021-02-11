@@ -76,9 +76,9 @@ namespace TreeOfLife.Controls
             {
                 tag.FontFamily = this.FontFamily;
                 tag.FontSize = this.FontSize;
+                tag.FontStretch = this.FontStretch;
                 tag.FontStyle = this.FontStyle;
                 tag.FontWeight = this.FontWeight;
-                tag.FontStretch = this.FontStretch;
             }
         }
 

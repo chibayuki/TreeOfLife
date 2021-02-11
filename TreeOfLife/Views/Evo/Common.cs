@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using System.Windows;
 using System.Windows.Controls;
 
 using TreeOfLife.Controls;
@@ -66,9 +67,8 @@ namespace TreeOfLife.Views.Evo
                 ((List<TaxonNameItem>)groups[groupIndex].items).Add(new TaxonNameItem()
                 {
                     Taxon = taxon,
-                    ThemeColor = taxon.GetThemeColor(),
-                    ContextMenu = contextMenu,
-                    Checked = (taxon == Views.Common.CurrentTaxon)
+                    Checked = (taxon == Views.Common.CurrentTaxon),
+                    Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }
 
@@ -87,8 +87,7 @@ namespace TreeOfLife.Views.Evo
                 items.Add(new TaxonNameItem()
                 {
                     Taxon = taxon,
-                    ThemeColor = taxon.GetThemeColor(),
-                    ContextMenu = contextMenu
+                    Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }
 
@@ -109,8 +108,7 @@ namespace TreeOfLife.Views.Evo
                 {
                     Taxon = taxon,
                     Sign = sign,
-                    ThemeColor = taxon.GetThemeColor(),
-                    ContextMenu = contextMenu
+                    Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }
 

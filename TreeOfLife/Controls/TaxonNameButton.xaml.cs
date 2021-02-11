@@ -55,12 +55,18 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                _UpdateColor();
                 _UpdateTaxon();
+                _UpdateFont();
+                _UpdateColor();
             };
         }
 
         //
+
+        private void _UpdateCategoryNameWidth()
+        {
+            label_CategoryName.Width = _CategoryNameWidth;
+        }
 
         private void _UpdateTaxon()
         {
@@ -68,9 +74,15 @@ namespace TreeOfLife.Controls
             label_TaxonName.Content = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
         }
 
-        private void _UpdateCategoryNameWidth()
+        private void _UpdateFont()
         {
-            label_CategoryName.Width = _CategoryNameWidth;
+            TaxonomicCategory category = _Taxon.Category;
+
+            bool basicPrimary = category.IsBasicPrimaryCategory();
+            bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+
+            label_CategoryName.FontStyle = label_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
+            label_CategoryName.FontWeight = label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
         private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
@@ -83,6 +95,8 @@ namespace TreeOfLife.Controls
 
         private void _UpdateColor()
         {
+            _ThemeColor = _Taxon.GetThemeColor();
+
             label_CategoryName.Foreground = _CategoryNameForeground;
             label_CategoryName.Background = _CategoryNameBackground;
 
@@ -99,9 +113,18 @@ namespace TreeOfLife.Controls
 
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                //
+
                 _Taxon = value;
 
                 _UpdateTaxon();
+                _UpdateFont();
+                _UpdateColor();
             }
         }
 
@@ -136,18 +159,6 @@ namespace TreeOfLife.Controls
             set
             {
                 _Checked = value;
-
-                _UpdateColor();
-            }
-        }
-
-        public ColorX ThemeColor
-        {
-            get => _ThemeColor;
-
-            set
-            {
-                _ThemeColor = value;
 
                 _UpdateColor();
             }

@@ -85,9 +85,9 @@ namespace TreeOfLife.Controls
                 {
                     button.FontFamily = fontFamily;
                     button.FontSize = fontSize;
+                    button.FontStretch = fontStretch;
                     button.FontStyle = fontStyle;
                     button.FontWeight = fontWeight;
-                    button.FontStretch = fontStretch;
                 }
             }
 

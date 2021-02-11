@@ -105,7 +105,7 @@ namespace TreeOfLife.Views.Search
                 {
                     Taxon taxon = searchResult[i];
 
-                    _SearchResult.Add(new TaxonNameItem() { Taxon = taxon, ThemeColor = taxon.GetThemeColor() });
+                    _SearchResult.Add(new TaxonNameItem() { Taxon = taxon });
                 }
             }
 
@@ -144,7 +144,7 @@ namespace TreeOfLife.Views.Search
             {
                 _SearchResult.Clear();
 
-                taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
+                taxonNameButtonGroup_SearchResult.Clear();
             }
         }
 

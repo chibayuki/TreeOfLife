@@ -44,9 +44,7 @@ namespace TreeOfLife.Controls
         public bool ShowButton { get; set; } = false;
         public bool Checked { get; set; } = false;
 
-        public ContextMenu ContextMenu { get; set; } = null;
-
-        public ColorX ThemeColor { get; set; } = ColorX.FromRGB(128, 128, 128);
+        public IEnumerable<(DependencyProperty dp, object value)> Properties { get; set; } = null;
     }
 
     /// <summary>
@@ -58,6 +56,13 @@ namespace TreeOfLife.Controls
         {
             public _TreeNode(TreeNodeItem node)
             {
+                if (node == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                //
+
                 Button = new TreeNodeButton()
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
@@ -70,12 +75,18 @@ namespace TreeOfLife.Controls
                     IsFirst = node.IsFirst,
                     IsLast = node.IsLast,
                     ShowButton = node.ShowButton,
-                    Checked = node.Checked,
-
-                    ContextMenu = node.ContextMenu,
-
-                    ThemeColor = node.ThemeColor
+                    Checked = node.Checked
                 };
+
+                var properties = node.Properties;
+
+                if (properties != null)
+                {
+                    foreach (var property in properties)
+                    {
+                        Button.SetValue(property.dp, property.value);
+                    }
+                }
             }
 
             //
@@ -130,14 +141,14 @@ namespace TreeOfLife.Controls
 
             stackPanel_Tree.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is TreeNodeButton source)
+                if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
                 }
             }));
             stackPanel_Tree.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is TreeNodeButton source)
+                if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
                 {
                     MouseRightButtonClick?.Invoke(this, source);
                 }
@@ -152,8 +163,6 @@ namespace TreeOfLife.Controls
             {
                 node.Button.FontFamily = this.FontFamily;
                 node.Button.FontSize = this.FontSize;
-                node.Button.FontStyle = this.FontStyle;
-                node.Button.FontWeight = this.FontWeight;
                 node.Button.FontStretch = this.FontStretch;
 
                 if (node.Children != null)

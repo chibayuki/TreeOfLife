@@ -291,9 +291,7 @@ namespace TreeOfLife.Views.Tree
                 }
 
                 node.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
-
                 node.Checked = (node.Taxon == Common.CurrentTaxon);
-                node.ThemeColor = node.Taxon.GetThemeColor();
 
                 if (node.Children != null)
                 {

@@ -37,9 +37,7 @@ namespace TreeOfLife.Controls
 
         public bool Checked { get; set; } = false;
 
-        public ContextMenu ContextMenu { get; set; } = null;
-
-        public ColorX ThemeColor { get; set; } = ColorX.FromRGB(128, 128, 128);
+        public IEnumerable<(DependencyProperty dp, object value)> Properties { get; set; } = null;
     }
 
     /// <summary>
@@ -49,58 +47,63 @@ namespace TreeOfLife.Controls
     {
         private class _Group
         {
-            private string _Name; // 组名称。
-
-            private ColorX _ThemeColor; // 主题颜色。
-            private bool _IsDarkTheme = false; // 是否为暗色主题。
-
             private Label _NameLabel = new Label();
             private List<TaxonNameButton> _Buttons = new List<TaxonNameButton>();
 
-            public _Group()
+            //
+
+            public _Group(IEnumerable<TaxonNameItem> items)
             {
+                if (items == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                //
+
                 _NameLabel.Padding = new Thickness(0);
                 _NameLabel.Margin = new Thickness(0);
-                _NameLabel.Content = _Name;
                 _NameLabel.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _NameLabel.VerticalAlignment = VerticalAlignment.Stretch;
                 _NameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 _NameLabel.VerticalContentAlignment = VerticalAlignment.Center;
-            }
 
-            public string Name
-            {
-                get => _Name;
-
-                set
+                foreach (var item in items)
                 {
-                    _Name = value;
+                    TaxonNameButton button = new TaxonNameButton()
+                    {
+                        Taxon = item.Taxon,
+                        Sign = item.Sign,
+                        Checked = item.Checked
+                    };
 
-                    _NameLabel.Content = _Name;
+                    var properties = item.Properties;
+
+                    if (properties != null)
+                    {
+                        foreach (var property in properties)
+                        {
+                            button.SetValue(property.dp, property.value);
+                        }
+                    }
+
+                    _Buttons.Add(button);
                 }
             }
 
-            public ColorX ThemeColor
+            //
+
+            public string GroupName
             {
-                get => _ThemeColor;
-
-                set
-                {
-                    _ThemeColor = value;
-
-                    _UpdateColor();
-                }
+                get => _NameLabel.Content as string;
+                set => _NameLabel.Content = value;
             }
+
+            public ColorX ThemeColor { get; set; } = ColorX.FromRGB(128, 128, 128);
 
             public Label NameLabel => _NameLabel;
 
             public List<TaxonNameButton> Buttons => _Buttons;
-
-            private void _UpdateColor()
-            {
-                _NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                _NameLabel.Background = new SolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            }
         }
 
         //
@@ -124,6 +127,7 @@ namespace TreeOfLife.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateFont();
+                _UpdateColor();
                 _UpdateLayout();
             };
 
@@ -151,28 +155,20 @@ namespace TreeOfLife.Controls
             {
                 group.NameLabel.FontFamily = this.FontFamily;
                 group.NameLabel.FontSize = this.FontSize;
+                group.NameLabel.FontStretch = this.FontStretch;
                 group.NameLabel.FontStyle = FontStyles.Normal;
                 group.NameLabel.FontWeight = FontWeights.Normal;
-                group.NameLabel.FontStretch = this.FontStretch;
 
                 foreach (var button in group.Buttons)
                 {
-                    Taxon taxon = button.Taxon;
-
-                    TaxonomicCategory category = taxon.Category;
-                    bool basicPrimary = category.IsBasicPrimaryCategory();
-                    bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
-
                     button.FontFamily = this.FontFamily;
                     button.FontSize = this.FontSize;
-                    button.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-                    button.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
                     button.FontStretch = this.FontStretch;
                 }
             }
         }
 
-        private void _UpdateTheme()
+        private void _UpdateColor()
         {
             foreach (var group in _Groups)
             {
@@ -294,7 +290,7 @@ namespace TreeOfLife.Controls
             {
                 _IsDarkTheme = value;
 
-                _UpdateTheme();
+                _UpdateColor();
             }
         }
 
@@ -354,23 +350,11 @@ namespace TreeOfLife.Controls
             {
                 _GroupNameWidth = 0;
 
-                _Groups.Add(new _Group());
-
-                foreach (var item in items)
-                {
-                    _Groups[0].Buttons.Add(new TaxonNameButton()
-                    {
-                        Taxon = item.Taxon,
-                        Sign = item.Sign,
-                        Checked = item.Checked,
-                        ContextMenu = item.ContextMenu,
-                        ThemeColor = item.ThemeColor,
-                        IsDarkTheme = _IsDarkTheme
-                    });
-                }
+                _Groups.Add(new _Group(items));
 
                 _AddGroupsAndButtons();
                 _UpdateFont();
+                _UpdateColor();
                 _UpdateLayout();
             }
         }
@@ -383,23 +367,11 @@ namespace TreeOfLife.Controls
 
             if (items != null && items.Any())
             {
-                _Groups.Add(new _Group() { Name = groupName, ThemeColor = groupColor });
-
-                foreach (var item in items)
-                {
-                    _Groups[0].Buttons.Add(new TaxonNameButton()
-                    {
-                        Taxon = item.Taxon,
-                        Sign = item.Sign,
-                        Checked = item.Checked,
-                        ContextMenu = item.ContextMenu,
-                        ThemeColor = item.ThemeColor,
-                        IsDarkTheme = _IsDarkTheme
-                    });
-                }
+                _Groups.Add(new _Group(items) { GroupName = groupName, ThemeColor = groupColor });
 
                 _AddGroupsAndButtons();
                 _UpdateFont();
+                _UpdateColor();
                 _UpdateLayout();
             }
         }
@@ -412,33 +384,17 @@ namespace TreeOfLife.Controls
 
             if (groups != null && groups.Any())
             {
-                int groupIndex = 0;
-
                 foreach (var group in groups)
                 {
                     if (group.items != null && group.items.Any())
                     {
-                        _Groups.Add(new _Group() { Name = group.groupName, ThemeColor = group.groupColor });
-
-                        foreach (var item in group.items)
-                        {
-                            _Groups[groupIndex].Buttons.Add(new TaxonNameButton()
-                            {
-                                Taxon = item.Taxon,
-                                Sign = item.Sign,
-                                Checked = item.Checked,
-                                ContextMenu = item.ContextMenu,
-                                ThemeColor = item.ThemeColor,
-                                IsDarkTheme = _IsDarkTheme
-                            });
-                        }
-
-                        groupIndex++;
+                        _Groups.Add(new _Group(group.items) { GroupName = group.groupName, ThemeColor = group.groupColor });
                     }
                 }
 
                 _AddGroupsAndButtons();
                 _UpdateFont();
+                _UpdateColor();
                 _UpdateLayout();
             }
         }

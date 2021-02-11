@@ -58,25 +58,13 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                _UpdateColor();
                 _UpdateTaxon();
+                _UpdateFont();
+                _UpdateColor();
             };
         }
 
         //
-
-        private Brush _Border => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
-        private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
-
-        private Brush _Background => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
-
-        private void _UpdateColor()
-        {
-            label_TaxonName.Foreground = _Foreground;
-            label_TaxonName.Background = _Background;
-            label_TaxonName.BorderBrush = _Border;
-        }
 
         private enum _NodeEntranceType
         {
@@ -86,7 +74,7 @@ namespace TreeOfLife.Controls
             Normal
         }
 
-        private void _UpdateEntrance(_NodeEntranceType entranceType)
+        private void _SetEntranceType(_NodeEntranceType entranceType)
         {
             switch (entranceType)
             {
@@ -132,7 +120,7 @@ namespace TreeOfLife.Controls
             {
                 if (_ShowButton)
                 {
-                    _UpdateEntrance(_NodeEntranceType.Single);
+                    _SetEntranceType(_NodeEntranceType.Single);
 
                     grid_LeftPart.Visibility = Visibility.Visible;
                 }
@@ -145,10 +133,10 @@ namespace TreeOfLife.Controls
             }
             else
             {
-                if (_IsFirst && _IsLast) _UpdateEntrance(_NodeEntranceType.Single);
-                else if (_IsFirst) _UpdateEntrance(_NodeEntranceType.First);
-                else if (_IsLast) _UpdateEntrance(_NodeEntranceType.Last);
-                else _UpdateEntrance(_NodeEntranceType.Normal);
+                if (_IsFirst && _IsLast) _SetEntranceType(_NodeEntranceType.Single);
+                else if (_IsFirst) _SetEntranceType(_NodeEntranceType.First);
+                else if (_IsLast) _SetEntranceType(_NodeEntranceType.Last);
+                else _SetEntranceType(_NodeEntranceType.Normal);
 
                 grid_LeftPart.Visibility = Visibility.Visible;
                 grid_RightPart.Visibility = (_IsFinal || !_ShowButton ? Visibility.Collapsed : Visibility.Visible);
@@ -164,6 +152,32 @@ namespace TreeOfLife.Controls
             {
                 grid_MiddlePart.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void _UpdateFont()
+        {
+            TaxonomicCategory category = _Taxon.Category;
+
+            bool basicPrimary = category.IsBasicPrimaryCategory();
+            bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+
+            label_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
+            label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+        }
+
+        private Brush _Border => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+
+        private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+
+        private Brush _Background => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
+
+        private void _UpdateColor()
+        {
+            _ThemeColor = _Taxon.GetThemeColor();
+
+            label_TaxonName.Foreground = _Foreground;
+            label_TaxonName.Background = _Background;
+            label_TaxonName.BorderBrush = _Border;
         }
 
         internal bool VerifyMousePosition()
@@ -191,6 +205,8 @@ namespace TreeOfLife.Controls
                 _Taxon = value;
 
                 _UpdateTaxon();
+                _UpdateFont();
+                _UpdateColor();
             }
         }
 
@@ -273,18 +289,6 @@ namespace TreeOfLife.Controls
             set
             {
                 _Checked = value;
-
-                _UpdateColor();
-            }
-        }
-
-        public ColorX ThemeColor
-        {
-            get => _ThemeColor;
-
-            set
-            {
-                _ThemeColor = value;
 
                 _UpdateColor();
             }
