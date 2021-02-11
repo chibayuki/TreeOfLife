@@ -24,8 +24,6 @@ using System.Windows.Shapes;
 
 using TreeOfLife.Taxonomy;
 
-using ColorX = Com.Chromatics.ColorX;
-
 namespace TreeOfLife.Controls
 {
     // 树控件的节点信息。
@@ -135,8 +133,8 @@ namespace TreeOfLife.Controls
 
             this.Loaded += (s, e) =>
             {
-                _UpdateTreeNodeFont(_RootNode);
-                _UpdateTreeNodeTheme(_RootNode);
+                _UpdateFont();
+                _UpdateColor();
             };
 
             stackPanel_Tree.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
@@ -175,6 +173,11 @@ namespace TreeOfLife.Controls
             }
         }
 
+        private void _UpdateFont()
+        {
+            _UpdateTreeNodeFont(_RootNode);
+        }
+
         private void _UpdateTreeNodeTheme(_TreeNode node)
         {
             if (node != null)
@@ -191,6 +194,11 @@ namespace TreeOfLife.Controls
             }
         }
 
+        private void _UpdateColor()
+        {
+            _UpdateTreeNodeTheme(_RootNode);
+        }
+
         //
 
         public bool IsDarkTheme
@@ -201,7 +209,7 @@ namespace TreeOfLife.Controls
             {
                 _IsDarkTheme = value;
 
-                _UpdateTreeNodeTheme(_RootNode);
+                _UpdateColor();
             }
         }
 

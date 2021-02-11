@@ -24,7 +24,6 @@ using System.Windows.Shapes;
 
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 
