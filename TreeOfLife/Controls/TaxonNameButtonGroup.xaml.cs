@@ -358,7 +358,7 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public void UpdateContent(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)
+        public void UpdateContent(double groupNameWidth, string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)
         {
             stackPanel_Groups.Children.Clear();
 
@@ -366,6 +366,8 @@ namespace TreeOfLife.Controls
 
             if (items != null && items.Any())
             {
+                _GroupNameWidth = groupNameWidth;
+
                 _Groups.Add(new _Group(items) { GroupName = groupName, ThemeColor = groupColor });
 
                 _AddGroupsAndButtons();
@@ -375,7 +377,7 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public void UpdateContent(IEnumerable<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)> groups)
+        public void UpdateContent(double groupNameWidth, IEnumerable<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)> groups)
         {
             stackPanel_Groups.Children.Clear();
 
@@ -383,6 +385,8 @@ namespace TreeOfLife.Controls
 
             if (groups != null && groups.Any())
             {
+                _GroupNameWidth = groupNameWidth;
+
                 foreach (var group in groups)
                 {
                     if (group.items != null && group.items.Any())

@@ -44,11 +44,6 @@ namespace TreeOfLife.Views.Search
 
             //
 
-            taxonNameButtonGroup_SearchResult.GroupNameWidth = 0;
-            taxonNameButtonGroup_SearchResult.GroupMargin = new Thickness(0, 1, 0, 1);
-
-            //
-
             this.IsVisibleChanged += (s, e) =>
             {
                 if (this.IsVisible)

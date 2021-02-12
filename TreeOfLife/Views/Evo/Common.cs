@@ -72,7 +72,7 @@ namespace TreeOfLife.Views.Evo
                 });
             }
 
-            control.UpdateContent(groups);
+            control.UpdateContent(30, groups);
         }
 
         // 更新子类群控件。

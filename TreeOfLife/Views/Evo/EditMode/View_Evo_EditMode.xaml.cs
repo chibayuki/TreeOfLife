@@ -78,8 +78,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (_ContextMenu_Parent.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Children.GroupNameWidth = 0;
-            taxonNameButtonGroup_Children.GroupMargin = new Thickness(0, 1, 0, 1);
             taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Children.MouseRightButtonClick += (s, e) =>
             {
@@ -87,8 +85,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (_ContextMenu_Children.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Excludes.GroupNameWidth = 0;
-            taxonNameButtonGroup_Excludes.GroupMargin = new Thickness(0, 1, 0, 1);
             taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Excludes.MouseRightButtonClick += (s, e) =>
             {
@@ -96,8 +92,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (_ContextMenu_Excludes.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_ExcludeBy.GroupNameWidth = 0;
-            taxonNameButtonGroup_ExcludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
             taxonNameButtonGroup_ExcludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_ExcludeBy.MouseRightButtonClick += (s, e) =>
             {
@@ -105,8 +99,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (_ContextMenu_ExcludeBy.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Includes.GroupNameWidth = 0;
-            taxonNameButtonGroup_Includes.GroupMargin = new Thickness(0, 1, 0, 1);
             taxonNameButtonGroup_Includes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Includes.MouseRightButtonClick += (s, e) =>
             {
@@ -114,8 +106,6 @@ namespace TreeOfLife.Views.Evo.EditMode
                 (_ContextMenu_Includes.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_IncludeBy.GroupNameWidth = 0;
-            taxonNameButtonGroup_IncludeBy.GroupMargin = new Thickness(0, 1, 0, 1);
             taxonNameButtonGroup_IncludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_IncludeBy.MouseRightButtonClick += (s, e) =>
             {
