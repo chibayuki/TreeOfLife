@@ -52,14 +52,14 @@ namespace TreeOfLife.Views.Evo.EditMode
             label_CategoryName.ContextMenu = _ContextMenu_Current;
             label_CategoryName.MouseRightButtonUp += (s, e) =>
             {
-                Common.RightButtonTaxon = Views.Common.CurrentTaxon;
+                Views.Common.RightButtonTaxon = Views.Common.CurrentTaxon;
                 (label_CategoryName.ContextMenu.DataContext as Action)?.Invoke();
             };
 
             label_TaxonName.ContextMenu = _ContextMenu_Current;
             label_TaxonName.MouseRightButtonUp += (s, e) =>
             {
-                Common.RightButtonTaxon = Views.Common.CurrentTaxon;
+                Views.Common.RightButtonTaxon = Views.Common.CurrentTaxon;
                 (label_TaxonName.ContextMenu.DataContext as Action)?.Invoke();
             };
 
@@ -74,42 +74,42 @@ namespace TreeOfLife.Views.Evo.EditMode
             taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Parents.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Parent.DataContext as Action)?.Invoke();
             };
 
             taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Children.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Children.DataContext as Action)?.Invoke();
             };
 
             taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Excludes.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Excludes.DataContext as Action)?.Invoke();
             };
 
             taxonNameButtonGroup_ExcludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_ExcludeBy.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_ExcludeBy.DataContext as Action)?.Invoke();
             };
 
             taxonNameButtonGroup_Includes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Includes.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Includes.DataContext as Action)?.Invoke();
             };
 
             taxonNameButtonGroup_IncludeBy.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_IncludeBy.MouseRightButtonClick += (s, e) =>
             {
-                Common.RightButtonTaxon = e.Taxon;
+                Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_IncludeBy.DataContext as Action)?.Invoke();
             };
         }
@@ -126,10 +126,10 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             if (selected != null && select != null)
             {
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
                 selected.IsEnabled = false;
-                select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
+                select.IsEnabled = (selectedTaxon != Views.Common.RightButtonTaxon);
 
                 if (selectedTaxon == null)
                 {
@@ -183,7 +183,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Margin = menuItemMargin
             };
 
-            item_Current_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
+            item_Current_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
             MenuItem item_Current_SetParent = new MenuItem()
             {
@@ -194,7 +194,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Current_SetParent.Click += (s, e) =>
             {
-                Views.Common.CurrentTaxon.SetParent(Common.SelectedTaxon);
+                Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon);
 
                 _UpdateParents();
 
@@ -210,7 +210,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Current_ExcludeBy.Click += (s, e) =>
             {
-                Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon);
+                Views.Common.SelectedTaxon?.AddExclude(Views.Common.RightButtonTaxon);
 
                 _UpdateExcludeByWithVisibility();
             };
@@ -224,7 +224,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Current_IncludeBy.Click += (s, e) =>
             {
-                Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon);
+                Views.Common.SelectedTaxon?.AddInclude(Views.Common.RightButtonTaxon);
 
                 _UpdateIncludeByWithVisibility();
             };
@@ -234,7 +234,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateSelectOfMenuItem(item_Current_Selected, item_Current_Select);
 
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
                 item_Current_SetParent.IsEnabled = currentTaxon.CanSetParent(selectedTaxon);
                 item_Current_ExcludeBy.IsEnabled = selectedTaxon?.CanAddExclude(currentTaxon) ?? false;
@@ -265,7 +265,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Margin = menuItemMargin
             };
 
-            item_Parent_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
+            item_Parent_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
             Action updateMenuItems_Parent = () => _UpdateSelectOfMenuItem(item_Parent_Selected, item_Parent_Select);
 
@@ -289,7 +289,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Margin = menuItemMargin
             };
 
-            item_Children_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
+            item_Children_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
             MenuItem item_Children_SetParent = new MenuItem()
             {
@@ -300,7 +300,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_SetParent.Click += (s, e) =>
             {
-                Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon);
+                Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon);
 
                 _UpdateParents();
                 _UpdateChildrenWithVisibility();
@@ -317,9 +317,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_ExcludeBy.Click += (s, e) =>
             {
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                selectedTaxon?.AddExclude(Common.RightButtonTaxon);
+                selectedTaxon?.AddExclude(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -338,9 +338,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_IncludeBy.Click += (s, e) =>
             {
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                selectedTaxon?.AddInclude(Common.RightButtonTaxon);
+                selectedTaxon?.AddInclude(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -359,7 +359,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_MoveTop.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0);
 
@@ -377,7 +377,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_MoveUp.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
@@ -395,7 +395,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_MoveDown.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
@@ -413,7 +413,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_MoveBottom.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
@@ -431,16 +431,16 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_DeleteWithoutChildren.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.RemoveCurrent(false);
 
-                if (Common.SelectedTaxon == rightButtonTaxon)
+                if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
-                    Common.SelectedTaxon = null;
+                    Views.Common.SelectedTaxon = null;
                 }
 
-                Common.RightButtonTaxon = null;
+                Views.Common.RightButtonTaxon = null;
 
                 _UpdateChildrenWithVisibility();
 
@@ -456,16 +456,16 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Children_DeleteWithinChildren.Click += (s, e) =>
             {
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
                 rightButtonTaxon?.RemoveCurrent(true);
 
-                if (Common.SelectedTaxon == rightButtonTaxon)
+                if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
-                    Common.SelectedTaxon = null;
+                    Views.Common.SelectedTaxon = null;
                 }
 
-                Common.RightButtonTaxon = null;
+                Views.Common.RightButtonTaxon = null;
 
                 _UpdateChildrenWithVisibility();
 
@@ -476,8 +476,8 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 _UpdateSelectOfMenuItem(item_Children_Selected, item_Children_Select);
 
-                Taxon rightButtonTaxon = Common.RightButtonTaxon;
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
+                Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
                 item_Children_SetParent.IsEnabled = rightButtonTaxon.CanSetParent(selectedTaxon);
                 item_Children_ExcludeBy.IsEnabled = selectedTaxon?.CanAddExclude(rightButtonTaxon) ?? false;
@@ -530,7 +530,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon), 0);
+                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), 0);
 
                 _UpdateExcludes();
             };
@@ -546,7 +546,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
 
                 currentTaxon.SwapExclude(index, index - 1);
 
@@ -564,7 +564,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
 
                 currentTaxon.SwapExclude(index, index + 1);
 
@@ -582,7 +582,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
+                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
 
                 _UpdateExcludes();
             };
@@ -596,7 +596,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Excludes_Remove.Click += (s, e) =>
             {
-                Views.Common.CurrentTaxon.RemoveExclude(Common.RightButtonTaxon);
+                Views.Common.CurrentTaxon.RemoveExclude(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -607,7 +607,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfExclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
 
                 item_Excludes_MoveTop.IsEnabled = item_Excludes_MoveUp.IsEnabled = (index > 0);
                 item_Excludes_MoveBottom.IsEnabled = item_Excludes_MoveDown.IsEnabled = (index < currentTaxon.Excludes.Count - 1);
@@ -633,7 +633,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_ExcludeBy_Remove.Click += (s, e) =>
             {
-                Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon);
+                Views.Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon);
 
                 _UpdateExcludeByWithVisibility();
             };
@@ -654,7 +654,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon), 0);
+                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), 0);
 
                 _UpdateIncludes();
             };
@@ -670,7 +670,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
 
                 currentTaxon.SwapInclude(index, index - 1);
 
@@ -688,7 +688,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
 
                 currentTaxon.SwapInclude(index, index + 1);
 
@@ -706,7 +706,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
+                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
 
                 _UpdateIncludes();
             };
@@ -720,7 +720,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_Includes_Remove.Click += (s, e) =>
             {
-                Views.Common.CurrentTaxon.RemoveInclude(Common.RightButtonTaxon);
+                Views.Common.CurrentTaxon.RemoveInclude(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -731,7 +731,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfInclude(Common.RightButtonTaxon);
+                int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
 
                 item_Includes_MoveTop.IsEnabled = item_Includes_MoveUp.IsEnabled = (index > 0);
                 item_Includes_MoveBottom.IsEnabled = item_Includes_MoveDown.IsEnabled = (index < currentTaxon.Includes.Count - 1);
@@ -757,7 +757,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             item_IncludeBy_Remove.Click += (s, e) =>
             {
-                Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon);
+                Views.Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon);
 
                 _UpdateIncludeByWithVisibility();
             };

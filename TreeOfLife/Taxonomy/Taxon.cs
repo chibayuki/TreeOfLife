@@ -143,15 +143,15 @@ namespace TreeOfLife.Taxonomy
         // 判断当前类群是否继承自指定类群。
         public bool InheritFrom(Taxon taxon)
         {
-            // 任何类群都不继承 null（即使父类群是 null）
-            if (_Parent == null || taxon == null)
-            {
-                return false;
-            }
             // 任何类群都继承自身
-            else if (this == taxon)
+            if (this == taxon)
             {
                 return true;
+            }
+            // 任何类群都不继承 null（即使父类群是 null）
+            else if (_Parent == null || taxon == null)
+            {
+                return false;
             }
             else
             {
@@ -755,14 +755,14 @@ namespace TreeOfLife.Taxonomy
             // （2） 不能包含自身
             // （3） 禁止复数入度：不能包含已被任一复系群包含的类群，否则：不能多次包含同一个类群
             // （4） 不能包含继承自身的类群
-            // （5） 不能包含不继承自身父类群的类群
+            // （5） 不能包含不继承自身父类群的类群（也不能包含自身父类群）
             if (taxon == null || taxon == this ||
 #if BAN_MULTI_IN_DEGREE
                 taxon._IncludeBy.Count > 0
 #else
                 _Includes.Contains(taxon)
 #endif
-                || taxon.InheritFrom(this) || !taxon.InheritFrom(_Parent))
+                || taxon.InheritFrom(this) || taxon == _Parent || !taxon.InheritFrom(_Parent))
             {
                 return false;
             }

@@ -26,12 +26,20 @@ namespace TreeOfLife.Views
 
         public static Action<Taxon> SetCurrentTaxon { get; set; } = null;
 
+        //
+
         public static bool? EditMode { get; set; } = null; // 是否为编辑模式。
 
         public static Action EnterEditMode { get; set; } = null;
         public static Action ExitEditMode { get; set; } = null;
 
+        //
+
+        public static Taxon RightButtonTaxon { get; set; }
+        public static Taxon SelectedTaxon { get; set; }
+
         public static Action UpdateTree { get; set; } = null;
+        public static Action UpdateCurrentTaxonInfo { get; set; } = null;
 
         //
 

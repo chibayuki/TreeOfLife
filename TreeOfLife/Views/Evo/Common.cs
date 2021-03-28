@@ -27,11 +27,6 @@ namespace TreeOfLife.Views.Evo
 {
     public static class Common
     {
-        public static Taxon RightButtonTaxon { get; set; }
-        public static Taxon SelectedTaxon { get; set; }
-
-        //
-
         // 更新父类群控件。
         public static void UpdateParents(TaxonNameButtonGroup control, IReadOnlyList<Taxon> parents, ContextMenu contextMenu = null)
         {

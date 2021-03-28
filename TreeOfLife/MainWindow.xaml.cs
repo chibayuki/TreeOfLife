@@ -66,6 +66,7 @@ namespace TreeOfLife
             Views.Common.EnterEditMode = () => _SetEditMode(true);
             Views.Common.ExitEditMode = () => _SetEditMode(false);
             Views.Common.UpdateTree = _UpdateTree;
+            Views.Common.UpdateCurrentTaxonInfo = _UpdateCurrentTaxonInfo;
 
             view_File.ViewModel.Open = _Open;
             view_File.ViewModel.Save = _Save;
@@ -235,8 +236,8 @@ namespace TreeOfLife
         // true=成功，false=失败
         private bool _Close()
         {
-            Views.Evo.Common.RightButtonTaxon = null;
-            Views.Evo.Common.SelectedTaxon = null;
+            Views.Common.RightButtonTaxon = null;
+            Views.Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
 
@@ -256,10 +257,16 @@ namespace TreeOfLife
         // true=成功，false=失败或取消
         private bool _TrySaveAndClose()
         {
+            // 未保存过且内容为空，无需关闭，认为关闭成功
             if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
             {
+                // 这种状态下有可能右键选择了顶级类群
+                Views.Common.RightButtonTaxon = null;
+                Views.Common.SelectedTaxon = null;
+
                 return true;
             }
+            // 已保存，直接关闭
             else if (_Saved)
             {
                 if (_Close())
@@ -273,14 +280,17 @@ namespace TreeOfLife
                     return false;
                 }
             }
+            // 未保存，提示是否保存
             else
             {
                 MessageBoxResult r = MessageBox.Show("是否保存？", _AppName, MessageBoxButton.YesNoCancel);
 
                 switch (r)
                 {
+                    // 选择取消，什么也不做
                     case MessageBoxResult.Cancel: return false;
 
+                    // 选择保存，先保存再关闭
                     case MessageBoxResult.Yes:
                         {
                             bool? save = _Save();
@@ -313,6 +323,7 @@ namespace TreeOfLife
                             }
                         }
 
+                    // 选择不保存，直接关闭
                     case MessageBoxResult.No:
                         if (_Close())
                         {

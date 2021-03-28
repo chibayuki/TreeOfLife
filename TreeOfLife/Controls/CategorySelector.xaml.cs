@@ -175,14 +175,14 @@ namespace TreeOfLife.Controls
                 _UpdateLayout();
             };
 
-            stackPanel_Levels.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            stackPanel_Levels.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is CategoryNameButton source)
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
                 }
             }));
-            stackPanel_Levels.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            stackPanel_Levels.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is CategoryNameButton source)
                 {

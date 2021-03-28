@@ -137,14 +137,14 @@ namespace TreeOfLife.Controls
                 _UpdateColor();
             };
 
-            stackPanel_Tree.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            stackPanel_Tree.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
                 }
             }));
-            stackPanel_Tree.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            stackPanel_Tree.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
                 {

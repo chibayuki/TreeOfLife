@@ -52,14 +52,14 @@ namespace TreeOfLife.Controls
                 _UpdateColor();
             };
 
-            wrapPanel_Tags.AddHandler(UserControl.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            wrapPanel_Tags.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is Tag source)
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
                 }
             }));
-            wrapPanel_Tags.AddHandler(UserControl.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
+            wrapPanel_Tags.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is Tag source)
                 {
