@@ -276,18 +276,37 @@ namespace TreeOfLife.Views.Tree
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                rightButtonTaxon?.RemoveCurrent(true);
-
-                if (Common.SelectedTaxon == rightButtonTaxon)
+                // 如果当前类群继承自要删除的类群，删除后需跳转至被删除类群的父类群
+                if (Common.CurrentTaxon.InheritFrom(rightButtonTaxon))
                 {
-                    Common.SelectedTaxon = null;
+                    Taxon taxon = rightButtonTaxon?.Parent;
+
+                    rightButtonTaxon?.RemoveCurrent(true);
+
+                    if (Common.SelectedTaxon == rightButtonTaxon)
+                    {
+                        Common.SelectedTaxon = null;
+                    }
+
+                    Common.RightButtonTaxon = null;
+
+                    Common.SetCurrentTaxon(taxon);
                 }
+                else
+                {
+                    rightButtonTaxon?.RemoveCurrent(true);
 
-                Common.RightButtonTaxon = null;
+                    if (Common.SelectedTaxon == rightButtonTaxon)
+                    {
+                        Common.SelectedTaxon = null;
+                    }
 
-                Common.UpdateCurrentTaxonInfo();
+                    Common.RightButtonTaxon = null;
 
-                UpdateSubTree();
+                    Common.UpdateCurrentTaxonInfo();
+
+                    UpdateSubTree();
+                }
             };
 
             Action updateMenuItems = () =>
