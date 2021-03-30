@@ -548,58 +548,6 @@ namespace TreeOfLife.Taxonomy
             return child;
         }
 
-        // 递归删除所有子类群。
-        private void _RecursiveRemoveChildren()
-        {
-            for (int i = 0; i < _Children.Count; i++)
-            {
-                _Children[i]._RecursiveRemoveChildren();
-            }
-
-            // 直接将父类群设为 null，然后清空子类群即可，不能调用 _AtomDetachParent，会导致上面的循环失败
-            _Parent = null;
-
-            _Children.Clear();
-        }
-
-        // 删除当前类群（并且删除/保留所有子类群）。
-        public void RemoveCurrent(bool removeChildren)
-        {
-            if (_Parent != null)
-            {
-                Taxon parent = _Parent;
-
-                if (removeChildren)
-                {
-                    // 必须确实递归地删除所有子类群，从而避免例如从"搜索"页面跳转到已删除的类群、或者间接引用大量已删除类群的问题
-                    _RecursiveRemoveChildren();
-
-                    // 第一层递归已经将父类群设为 null，但没有从父类群的子类群中删除当前类群
-                    parent._Children.Remove(this);
-                }
-                else if (_Children.Count <= 0)
-                {
-                    _AtomDetachParent();
-                }
-                else
-                {
-                    int index = _Index;
-
-                    _AtomDetachParent();
-
-                    for (int i = 0; i < _Children.Count; i++)
-                    {
-                        _Children[i]._AtomAttachParent(parent, index + i);
-                        _Children[i]._RepairLevel();
-                    }
-
-                    _Children.Clear();
-                }
-
-                parent._RepairIndex();
-            }
-        }
-
         //
 
         // 判断当前类群是否可以作为并系群添加排除指定的类群。
@@ -892,6 +840,103 @@ namespace TreeOfLife.Taxonomy
 
                 _Includes[index2] = include1;
                 _Includes[index1] = include2;
+            }
+        }
+
+        //
+
+        // 断开当前类群的所有引用关系。
+        private void _DetachRefRelations()
+        {
+            foreach (var excludeBy in _ExcludeBy)
+            {
+                excludeBy._Excludes.Remove(this);
+            }
+
+            _ExcludeBy.Clear();
+
+            foreach (var excludes in _Excludes)
+            {
+                excludes._ExcludeBy.Remove(this);
+            }
+
+            _Excludes.Clear();
+
+            foreach (var includeBy in _IncludeBy)
+            {
+                includeBy._Includes.Remove(this);
+            }
+
+            _IncludeBy.Clear();
+
+            foreach (var includes in _Includes)
+            {
+                includes._IncludeBy.Remove(this);
+            }
+
+            _Includes.Clear();
+        }
+
+        // 递归删除所有子类群。
+        private void _RecursiveRemoveChildren()
+        {
+            for (int i = 0; i < _Children.Count; i++)
+            {
+                _Children[i]._RecursiveRemoveChildren();
+            }
+
+            // 直接将父类群设为 null，然后清空子类群即可，不能调用 _AtomDetachParent，会导致上面的循环失败
+            _Parent = null;
+
+            _Children.Clear();
+
+            //
+
+            _DetachRefRelations();
+        }
+
+        // 删除当前类群（并且删除/保留所有子类群）。
+        public void RemoveCurrent(bool removeChildren)
+        {
+            if (_Parent != null)
+            {
+                Taxon parent = _Parent;
+
+                if (removeChildren)
+                {
+                    // 必须确实递归地删除所有子类群，从而避免例如从"搜索"页面跳转到已删除的类群、或者间接引用大量已删除类群的问题
+                    _RecursiveRemoveChildren();
+
+                    // 第一层递归已经将父类群设为 null，但没有从父类群的子类群中删除当前类群
+                    parent._Children.Remove(this);
+                }
+                else
+                {
+                    if (_Children.Count <= 0)
+                    {
+                        _AtomDetachParent();
+                    }
+                    else
+                    {
+                        int index = _Index;
+
+                        _AtomDetachParent();
+
+                        for (int i = 0; i < _Children.Count; i++)
+                        {
+                            _Children[i]._AtomAttachParent(parent, index + i);
+                            _Children[i]._RepairLevel();
+                        }
+
+                        _Children.Clear();
+                    }
+
+                    //
+
+                    _DetachRefRelations();
+                }
+
+                parent._RepairIndex();
             }
         }
     }
