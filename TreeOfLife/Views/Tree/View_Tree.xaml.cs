@@ -152,6 +152,8 @@ namespace TreeOfLife.Views.Tree
                 Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon);
 
                 Common.UpdateCurrentTaxonInfo();
+
+                UpdateSubTree();
             };
 
             MenuItem item_IncludeBy = new MenuItem()
@@ -166,6 +168,8 @@ namespace TreeOfLife.Views.Tree
                 Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon);
 
                 Common.UpdateCurrentTaxonInfo();
+
+                UpdateSubTree();
             };
 
             MenuItem item_MoveTop = new MenuItem()
