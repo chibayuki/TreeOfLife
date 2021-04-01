@@ -213,6 +213,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.SelectedTaxon?.AddExclude(Views.Common.RightButtonTaxon);
 
                 _UpdateExcludeByWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Current_IncludeBy = new MenuItem()
@@ -227,6 +229,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.SelectedTaxon?.AddInclude(Views.Common.RightButtonTaxon);
 
                 _UpdateIncludeByWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             Action updateMenuItems_Current = () =>
@@ -327,6 +331,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 {
                     _UpdateExcludesWithVisibility();
                 }
+
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_IncludeBy = new MenuItem()
@@ -348,6 +354,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 {
                     _UpdateIncludesWithVisibility();
                 }
+
+                Views.Common.UpdateTree();
             };
 
             MenuItem item_Children_MoveTop = new MenuItem()
@@ -601,6 +609,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 ViewModel.UpdateTitle();
 
                 _UpdateExcludesWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             Action updateMenuItems_Excludes = () =>
@@ -636,6 +646,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon);
 
                 _UpdateExcludeByWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             _ContextMenu_ExcludeBy = new ContextMenu();
@@ -725,6 +737,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 ViewModel.UpdateTitle();
 
                 _UpdateIncludesWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             Action updateMenuItems_Includes = () =>
@@ -760,6 +774,8 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon);
 
                 _UpdateIncludeByWithVisibility();
+
+                Views.Common.UpdateTree();
             };
 
             _ContextMenu_IncludeBy = new ContextMenu();
