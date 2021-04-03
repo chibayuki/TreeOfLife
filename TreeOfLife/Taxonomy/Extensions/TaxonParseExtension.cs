@@ -31,8 +31,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 {
                     taxon.IsUnsure = true;
 
-                    chars.RemoveAll((ch) => ch == '?');
-                    chars.RemoveAll((ch) => ch == '？');
+                    chars.RemoveAll((ch) => ch == '?' || ch == '？');
                 }
 
                 if (chars.Count > 0)
@@ -44,6 +43,8 @@ namespace TreeOfLife.Taxonomy.Extensions
                         chars.RemoveAll((ch) => ch == '†');
                     }
                 }
+
+                chars = new List<char>(new string(chars.ToArray()).Trim());
 
                 if (chars.Count > 0)
                 {
@@ -95,6 +96,11 @@ namespace TreeOfLife.Taxonomy.Extensions
                             while (chsIndex < chars.Count && (char.IsLower(chars[chsIndex]) || char.IsUpper(chars[chsIndex]) || char.IsWhiteSpace(chars[chsIndex]) || char.IsDigit(chars[chsIndex]) || chars[chsIndex] == '-' || chars[chsIndex] == '.' || chars[chsIndex] == '/'))
                             {
                                 chsIndex++;
+                            }
+
+                            if (chsIndex >= chars.Count)
+                            {
+                                chsIndex--;
                             }
 
                             if (chsIndex < chars.Count)
