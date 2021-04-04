@@ -44,7 +44,10 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
                 }
 
-                chars = new List<char>(new string(chars.ToArray()).Trim());
+                if (chars.Count > 0)
+                {
+                    chars = new List<char>(new string(chars.ToArray()).Trim());
+                }
 
                 if (chars.Count > 0)
                 {
@@ -82,7 +85,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                                 chsPart = new string(chars.ToArray(), 0, latinIndex);
                             }
 
-                            while (latinIndex < chars.Count && char.IsWhiteSpace(chars[latinIndex]))
+                            while (latinIndex < chars.Count - 1 && char.IsWhiteSpace(chars[latinIndex]))
                             {
                                 latinIndex++;
                             }
@@ -98,17 +101,12 @@ namespace TreeOfLife.Taxonomy.Extensions
                                 chsIndex++;
                             }
 
-                            if (chsIndex >= chars.Count)
-                            {
-                                chsIndex--;
-                            }
-
                             if (chsIndex < chars.Count)
                             {
                                 chsPart = new string(chars.ToArray(), chsIndex, chars.Count - chsIndex);
                             }
 
-                            while (chsIndex > 0 && char.IsWhiteSpace(chars[chsIndex]))
+                            while (chsIndex > 0 && (chsIndex >= chars.Count || char.IsWhiteSpace(chars[chsIndex])))
                             {
                                 chsIndex--;
                             }
