@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1000.1000.M10.210130-0000
+Version 1.0.1030.1000.M10.210405-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -98,7 +98,7 @@ namespace TreeOfLife.Packaging.Version2.Details
                 Taxonomy.TaxonomicCategory.Superkingdom => TaxonomicCategory.Superkingdom,
                 Taxonomy.TaxonomicCategory.Domain => TaxonomicCategory.Domain,
                 Taxonomy.TaxonomicCategory.Superdomain => TaxonomicCategory.Superdomain,
-                _ => TaxonomicCategory.Unranked,
+                _ => TaxonomicCategory.Unranked
             };
         }
 
@@ -178,7 +178,7 @@ namespace TreeOfLife.Packaging.Version2.Details
                 TaxonomicCategory.Superkingdom => Taxonomy.TaxonomicCategory.Superkingdom,
                 TaxonomicCategory.Domain => Taxonomy.TaxonomicCategory.Domain,
                 TaxonomicCategory.Superdomain => Taxonomy.TaxonomicCategory.Superdomain,
-                _ => Taxonomy.TaxonomicCategory.Unranked,
+                _ => Taxonomy.TaxonomicCategory.Unranked
             };
         }
 
