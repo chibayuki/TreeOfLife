@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1030.1000.M10.210405-1400
+Version 1.0.1100.1000.M11.210405-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -399,43 +399,50 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 搜索符合指定的关键词的子类群。
         public static IReadOnlyList<Taxon> Search(this Taxon taxon, string keyWord)
         {
-            keyWord = keyWord?.Trim();
-
-            if (taxon == null || string.IsNullOrEmpty(keyWord))
+            if (taxon == null)
             {
                 throw new ArgumentNullException();
             }
 
             //
 
-            _MatchResults = new List<_MatchResult>();
+            keyWord = keyWord?.Trim();
 
-            _KeyWord = keyWord;
-            (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
-
-            if (_KeyWordCategory != null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
+            if (string.IsNullOrEmpty(keyWord))
             {
-                _KeyWordWithoutCategoryAsClade = _KeyWord[..^1];
+                return null;
             }
             else
             {
-                _KeyWordWithoutCategoryAsClade = _KeyWordWithoutCategory;
+                _MatchResults = new List<_MatchResult>();
+
+                _KeyWord = keyWord;
+                (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
+
+                if (_KeyWordCategory != null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
+                {
+                    _KeyWordWithoutCategoryAsClade = _KeyWord[..^1];
+                }
+                else
+                {
+                    _KeyWordWithoutCategoryAsClade = _KeyWordWithoutCategory;
+                }
+
+                taxon._GetMatchedChildren();
+
+                var taxons = from mr in _MatchResults
+                             orderby mr.MatchLength descending,
+                             mr.MatchValue descending,
+                             mr.CategoryRelativity ascending,
+                             mr.MatchObject ascending
+                             select mr.Taxon;
+
+                List<Taxon> result = taxons.ToList();
+
+                _MatchResults.Clear();
+
+                return result;
             }
-
-            taxon._GetMatchedChildren();
-
-            var taxons = from mr in _MatchResults
-                         orderby mr.MatchLength descending,
-                         mr.MatchValue descending,
-                         mr.CategoryRelativity ascending,
-                         mr.MatchObject ascending
-                         select mr.Taxon;
-
-            List<Taxon> result = taxons.ToList();
-
-            _MatchResults.Clear();
-
-            return result;
         }
     }
 }

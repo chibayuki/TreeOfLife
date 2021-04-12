@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1030.1000.M10.210405-1400
+Version 1.0.1100.1000.M11.210405-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -97,12 +97,14 @@ namespace TreeOfLife.Controls
         {
             _ThemeColor = _Taxon.GetThemeColor();
 
+            border_CategoryName.Background = _CategoryNameBackground;
+
             label_CategoryName.Foreground = _CategoryNameForeground;
-            label_CategoryName.Background = _CategoryNameBackground;
+
+            border_TaxonName.BorderBrush= _CategoryNameBackground;
+            border_TaxonName.Background = _TaxonNameBackground;
 
             label_TaxonName.Foreground = _TaxonNameForeground;
-            label_TaxonName.Background = _TaxonNameBackground;
-            label_TaxonName.BorderBrush = _CategoryNameBackground;
         }
 
         //

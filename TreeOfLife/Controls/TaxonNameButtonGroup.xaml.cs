@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1030.1000.M10.210405-1400
+Version 1.0.1100.1000.M11.210405-0000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -61,9 +61,6 @@ namespace TreeOfLife.Controls
                 //
 
                 _NameLabel.Padding = new Thickness(0);
-                _NameLabel.Margin = new Thickness(0);
-                _NameLabel.HorizontalAlignment = HorizontalAlignment.Stretch;
-                _NameLabel.VerticalAlignment = VerticalAlignment.Stretch;
                 _NameLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                 _NameLabel.VerticalContentAlignment = VerticalAlignment.Center;
 
@@ -172,7 +169,7 @@ namespace TreeOfLife.Controls
             foreach (var group in _Groups)
             {
                 group.NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                group.NameLabel.Background = new SolidColorBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
+                ((Border)group.NameLabel.Parent).Background = new SolidColorBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in group.Buttons)
                 {
@@ -195,12 +192,12 @@ namespace TreeOfLife.Controls
                 }
                 else
                 {
-                    group.NameLabel.Margin = new Thickness(0, 0, _ButtonMargin.Left, 0);
+                    ((Border)group.NameLabel.Parent).Margin = new Thickness(0, 0, _ButtonMargin.Left, 0);
                 }
 
-                group.NameLabel.Width = _GroupNameWidth;
+                ((Border)group.NameLabel.Parent).Width = _GroupNameWidth;
 
-                ((Panel)group.NameLabel.Parent).Margin = groupMargin;
+                ((Panel)((Border)group.NameLabel.Parent).Parent).Margin = groupMargin;
 
                 for (int i = 0; i < group.Buttons.Count; i++)
                 {
@@ -325,9 +322,10 @@ namespace TreeOfLife.Controls
             foreach (var group in _Groups)
             {
                 DockPanel dockPanel = new DockPanel();
+                Border border = new Border() { CornerRadius = new CornerRadius(3), Child = group.NameLabel };
                 StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
 
-                dockPanel.Children.Add(group.NameLabel);
+                dockPanel.Children.Add(border);
                 dockPanel.Children.Add(stackPanelV);
 
                 foreach (var button in group.Buttons)

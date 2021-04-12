@@ -8,12 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel x:Name="stackPanel_Levels">
-            <Grid x:Name="grid_Level1" VerticalAlignment="Top" />
+            <Grid x:Name="grid_Level1" VerticalAlignment="Top"/>
             <Grid x:Name="grid_Level2" VerticalAlignment="Top" >
-                <Label VerticalAlignment="Top" Height="2" Background="#80808080" />
+                <Label VerticalAlignment="Top" Height="2" Background="#80808080"/>
             </Grid>
             <Grid x:Name="grid_Level3" VerticalAlignment="Top" >
-                <Label VerticalAlignment="Top" Height="2" Background="#80808080" />
+                <Label VerticalAlignment="Top" Height="2" Background="#80808080"/>
             </Grid>
         </StackPanel>
     </Grid>

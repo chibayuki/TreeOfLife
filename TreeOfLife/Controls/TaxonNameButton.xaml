@@ -8,8 +8,13 @@
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
         <DockPanel>
-            <Label x:Name="label_CategoryName" Content="CategoryName" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" />
-            <Label x:Name="label_TaxonName" Content="TaxonName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" BorderThickness="0,1,1,1" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}"/>
+            <Border x:Name="border_CategoryName" CornerRadius="3,0,0,3">
+                <Label x:Name="label_CategoryName" Content="CategoryName" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}"/>
+            </Border>
+            <Border x:Name="border_TaxonName" BorderThickness="1,1,1,1" CornerRadius="0,3,3,0">
+                <Label x:Name="label_TaxonName" Content="TaxonName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" BorderThickness="0,1,1,1" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}"/>
+            </Border>
         </DockPanel>
+
     </Grid>
 </UserControl>

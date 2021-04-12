@@ -21,8 +21,8 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <TextBox Height="25" Padding="4" Text="{Binding KeyWord}" Background="{Binding TextBox_BackGround}" Foreground="{Binding TextBox_ForeGround}" SelectionBrush="{Binding TextBox_Selection}" SelectionTextBrush="{Binding TextBox_SelectionText}" />
-            <Button x:Name="button_Search" Content="检索" Height="25" Background="{Binding Button_BackGround}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Grid.Column="2" />
+            <TextBox Height="25" Padding="4" Text="{Binding KeyWord}" Style="{DynamicResource TextBoxStyle}"/>
+            <Button x:Name="button_Search" Grid.Column="2" Content="检索" Height="25" Style="{DynamicResource ButtonStyle}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
@@ -32,8 +32,8 @@
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="检索结果" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" />
-                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult" Grid.Row="2" />
+                    <Label Content="检索结果" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult" Grid.Row="2"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
