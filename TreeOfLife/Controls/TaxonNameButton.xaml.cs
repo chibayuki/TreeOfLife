@@ -101,7 +101,7 @@ namespace TreeOfLife.Controls
 
             label_CategoryName.Foreground = _CategoryNameForeground;
 
-            border_TaxonName.BorderBrush= _CategoryNameBackground;
+            border_TaxonName.BorderBrush = _CategoryNameBackground;
             border_TaxonName.Background = _TaxonNameBackground;
 
             label_TaxonName.Foreground = _TaxonNameForeground;

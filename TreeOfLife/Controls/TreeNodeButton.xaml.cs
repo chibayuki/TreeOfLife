@@ -175,7 +175,7 @@ namespace TreeOfLife.Controls
         {
             _ThemeColor = _Taxon.GetThemeColor();
 
-            border_TaxonName.BorderThickness = (_Checked ? new Thickness(0) : new Thickness(1));
+            border_TaxonName.BorderThickness = new Thickness(_Checked ? 0 : 1);
             border_TaxonName.Background = _Background;
             border_TaxonName.BorderBrush = _Border;
 
