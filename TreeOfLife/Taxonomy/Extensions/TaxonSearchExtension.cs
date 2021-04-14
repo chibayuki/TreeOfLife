@@ -18,8 +18,8 @@ namespace TreeOfLife.Taxonomy.Extensions
     // 生物分类单元（类群）的搜索相关扩展方法。
     public static class TaxonSearchExtension
     {
-        // 获取两个字符串的最大相同子串的长度。
-        private static int _GetCommonPartLength(string str1, string str2)
+        // 获取两个字符串的最大相同子串/子序列的长度（LCS）。
+        private static int _GetCommonSubsequenceLength(string str1, string str2, bool continuous = true)
         {
             // 原理：
             // 将两个字符串（之前各空一位再）分别横排和竖排，以二者的长度加一为行列数目构造一个矩阵，
@@ -27,7 +27,8 @@ namespace TreeOfLife.Taxonomy.Extensions
             // 类推可知，矩阵中所有与主对角线平行的对角元素表示将两个字符串相对滑动一段距离后重叠部分的逐字符比较，
             // 那么所有对角线上连续比中最多的数目即最大相同子串的长度，
             // 设法使矩阵的每个元素表示所在对角线的连续比中数目，
-            // 令矩阵的第 0 行和第 0 列元素全部为 0，每当比中一个字符，令当前元素 (i, j) 等于 (i - 1, j - 1) + 1，否则等于 0,
+            // 令矩阵的第 0 行和第 0 列元素全部为 0，每当比中一个字符，令当前元素 (i, j) 等于 (i - 1, j - 1) + 1，
+            // 否则，对于要求子序列是连续的（子串）令其等于 0，对于不要求子序列是连续的令其等于 Max((i - 1, j), (i, j - 1))，
             // 那么矩阵中所有元素的最大值即最大相同子串的长度。
 
             int len1 = str1.Length;
@@ -59,7 +60,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
                     else
                     {
-                        matrix[i, j] = 0;
+                        matrix[i, j] = (continuous ? 0 : Math.Max(matrix[i - 1, j], matrix[i, j - 1]));
                     }
                 }
             }
@@ -76,7 +77,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 string s1 = (str1.Length > 32 ? str1[0..32] : str1).ToUpperInvariant();
                 string s2 = (str2.Length > 32 ? str2[0..32] : str2).ToUpperInvariant();
 
-                int commonPartLength = _GetCommonPartLength(s1, s2);
+                int commonPartLength = _GetCommonSubsequenceLength(s1, s2, false);
 
                 // return ((double)commonPartLength * commonPartLength / str1.Length / str2.Length, commonPartLength);
                 // 使用加法而非乘法，使得匹配率与匹配字符数更好地符合线性关系，从而使搜索结果更符合肉眼直觉。
@@ -289,10 +290,10 @@ namespace TreeOfLife.Taxonomy.Extensions
                         result.CategoryRelativity = _GetCategoryRelativity(taxon.Category, _KeyWordCategory.Value);
                     }
 
-                    // 分类阶元相同或相关的，做部分关键字与部分中文名的匹配
-                    if (result.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)
+                    if (!string.IsNullOrEmpty(taxon.ChineseName))
                     {
-                        if (!string.IsNullOrEmpty(taxon.ChineseName))
+                        // 分类阶元相同或相关的，做部分关键字与部分中文名的匹配
+                        if (result.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)
                         {
                             string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
                             string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
@@ -300,12 +301,18 @@ namespace TreeOfLife.Taxonomy.Extensions
                             (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
                             result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
                         }
+                        // 分类阶元不相关的，做关键字与中文名的全字符串匹配
+                        else
+                        {
+                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
+                            result.MatchObject = _MatchObject.ChineseName;
+                        }
                     }
 
-                    // 尝试获得更高的匹配率，继续做部分关键字的全字符串匹配
+                    // 尝试获得更高的匹配率，继续做关键字的全字符串匹配
                     if (result.MatchValue < 1)
                     {
-                        var m = _GetMatchValueAndObject(taxon, _KeyWordWithoutCategory);
+                        var m = _GetMatchValueAndObject(taxon, _KeyWord, matchChineseName: false);
 
                         if (result.MatchValue < m.matchValue || (result.MatchValue == m.matchValue && result.MatchLength < m.matchLength))
                         {
@@ -345,13 +352,11 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 result.CategoryRelativity = _CategoryRelativity.Irrelevant;
 
-                // 做关键字与部分中文名的匹配
+                // 做关键字与中文名的全字符串匹配
                 if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
-                    string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
-
-                    (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(_KeyWord, chsNameWithoutCategory);
-                    result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
+                    (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
+                    result.MatchObject = _MatchObject.ChineseName;
                 }
 
                 // 尝试获得更高的匹配率，继续做关键字的全字符串匹配
@@ -431,8 +436,8 @@ namespace TreeOfLife.Taxonomy.Extensions
                 taxon._GetMatchedChildren();
 
                 var taxons = from mr in _MatchResults
-                             orderby mr.MatchLength descending,
-                             mr.MatchValue descending,
+                             orderby mr.MatchValue descending,
+                             mr.MatchLength descending,
                              mr.CategoryRelativity ascending,
                              mr.MatchObject ascending
                              select mr.Taxon;
