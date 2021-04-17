@@ -146,7 +146,27 @@ namespace TreeOfLife.Taxonomy.Extensions
                 }
                 else
                 {
-                    taxonName.Append(taxon.Category.GetChineseName());
+                    TaxonomicCategory category = taxon.Category;
+
+                    if (category.IsUnranked() || category.IsClade())
+                    {
+                        if (taxon.IsParaphyly)
+                        {
+                            taxonName.Append("并系群");
+                        }
+                        else if (taxon.IsPolyphyly)
+                        {
+                            taxonName.Append("复系群");
+                        }
+                        else
+                        {
+                            taxonName.Append(category.GetChineseName());
+                        }
+                    }
+                    else
+                    {
+                        taxonName.Append(category.GetChineseName());
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(taxon.BotanicalName))

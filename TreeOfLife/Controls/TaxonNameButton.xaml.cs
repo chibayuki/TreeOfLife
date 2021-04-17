@@ -70,7 +70,35 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTaxon()
         {
-            label_CategoryName.Content = (_Taxon == null || _Taxon.IsAnonymous() ? string.Empty : _Taxon.Category.GetChineseName());
+            if (_Taxon == null || _Taxon.IsAnonymous())
+            {
+                label_CategoryName.Content = string.Empty;
+            }
+            else
+            {
+                TaxonomicCategory category = _Taxon.Category;
+
+                if (category.IsUnranked() || category.IsClade())
+                {
+                    if (_Taxon.IsParaphyly)
+                    {
+                        label_CategoryName.Content = "并系群";
+                    }
+                    else if (_Taxon.IsPolyphyly)
+                    {
+                        label_CategoryName.Content = "复系群";
+                    }
+                    else
+                    {
+                        label_CategoryName.Content = category.GetChineseName();
+                    }
+                }
+                else
+                {
+                    label_CategoryName.Content = category.GetChineseName();
+                }
+            }
+
             label_TaxonName.Content = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
         }
 

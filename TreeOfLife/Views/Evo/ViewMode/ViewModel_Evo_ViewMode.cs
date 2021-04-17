@@ -97,7 +97,28 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             TaxonColor = currentTaxon.GetThemeColor();
 
-            CategoryName = (currentTaxon.IsAnonymous() ? string.Empty : currentTaxon.Category.GetChineseName());
+            if (currentTaxon.IsAnonymous())
+            {
+                CategoryName = string.Empty;
+            }
+            else
+            {
+                TaxonomicCategory category = currentTaxon.Category;
+
+                if (currentTaxon.IsParaphyly)
+                {
+                    CategoryName = (category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群");
+                }
+                else if (currentTaxon.IsPolyphyly)
+                {
+                    CategoryName = (category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群");
+                }
+                else
+                {
+                    CategoryName = category.GetChineseName();
+                }
+            }
+
             TaxonName = currentTaxon.GetShortName('\n');
 
             _Tags = currentTaxon.Tags.ToArray();
