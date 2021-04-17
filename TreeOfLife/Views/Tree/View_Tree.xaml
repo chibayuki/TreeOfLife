@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:ViewModel_Tree/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid Background="{Binding Tree_BackGround}">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Controls:Tree x:Name="tree" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </ScrollViewer>

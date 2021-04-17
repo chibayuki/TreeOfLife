@@ -12,7 +12,7 @@
     </Style>
     <!-- HSL(215,0,90) -->
     <SolidColorBrush x:Key="Button.Static.Background" Color="#FFE6E6E6"/>
-    <SolidColorBrush x:Key="Button.Static.Border" Color="White"/>
+    <SolidColorBrush x:Key="Button.Static.Border" Color="Transparent"/>
     <!-- HSL(215,50,30) -->
     <SolidColorBrush x:Key="Button.Static.Foreground" Color="#FF264673"/>
     <!-- HSL(215,50,50) -->

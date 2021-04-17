@@ -350,6 +350,7 @@ namespace TreeOfLife.Controls
                 _Groups.Add(new _Group(items));
 
                 _AddGroupsAndButtons();
+
                 _UpdateFont();
                 _UpdateColor();
                 _UpdateLayout();
@@ -369,6 +370,7 @@ namespace TreeOfLife.Controls
                 _Groups.Add(new _Group(items) { GroupName = groupName, ThemeColor = groupColor });
 
                 _AddGroupsAndButtons();
+
                 _UpdateFont();
                 _UpdateColor();
                 _UpdateLayout();
@@ -394,6 +396,7 @@ namespace TreeOfLife.Controls
                 }
 
                 _AddGroupsAndButtons();
+
                 _UpdateFont();
                 _UpdateColor();
                 _UpdateLayout();

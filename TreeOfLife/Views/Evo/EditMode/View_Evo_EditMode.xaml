@@ -41,7 +41,7 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="学名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                            <Label Content="学名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                             <TextBox Grid.Column="2" Padding="4" Text="{Binding Name}" Style="{DynamicResource TextBoxStyle}"/>
                         </Grid>
                         <Grid Margin="0,10,0,0">
@@ -50,7 +50,7 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="中文名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                            <Label Content="中文名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                             <TextBox Grid.Column="2" Padding="4" Text="{Binding ChsName}" Style="{DynamicResource TextBoxStyle}"/>
                         </Grid>
                     </StackPanel>
@@ -62,7 +62,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="状态" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="状态" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <CheckBox Grid.Column="2" Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Height="25"/>
                     <CheckBox Grid.Column="3" Content="存疑" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Height="25"/>
                 </Grid>
@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="分级" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="分级" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <StackPanel Grid.Column="2">
                         <Controls:CategorySelector x:Name="categorySelector"/>
                         <Grid x:Name="grid_Rename" Margin="0,5,0,0">
@@ -87,7 +87,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="异名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="异名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <TextBox Grid.Column="2" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Text="{Binding Synonyms}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Tags" Margin="0,25,0,0">
@@ -96,7 +96,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="标签" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="标签" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <TextBox Grid.Column="2" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Text="{Binding Tags}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
@@ -105,16 +105,16 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="描述" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <TextBox Grid.Column="2" TextWrapping="Wrap" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Text="{Binding Description}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Parents" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="上级类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="上级类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
@@ -124,22 +124,22 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="5"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="插入&#xD;&#xA;类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" Grid.RowSpan="3"/>
+                    <Label Content="插入&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}" Grid.RowSpan="3"/>
                     <TextBox x:Name="textBox_Parent" Grid.Column="2" Padding="4" Style="{DynamicResource TextBoxStyle}"/>
                     <Button x:Name="button_AddParentUplevel" Grid.Row="2" Grid.Column="2" Content="添加为上级" HorizontalAlignment="Left" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
                     <Button x:Name="button_AddParentDownlevel" Grid.Row="2" Grid.Column="2" Content="添加为下级" HorizontalAlignment="Right" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="下级类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="下级类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
                 </Grid>
                 <Grid Margin="0,25,0,0">
@@ -153,44 +153,44 @@
                         <RowDefinition Height="5"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}" Grid.RowSpan="3"/>
+                    <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}" Grid.RowSpan="3"/>
                     <TextBox x:Name="textBox_Children" Grid.Column="2" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource TextBoxStyle}"/>
                     <Button x:Name="button_AddChildren" Grid.Row="2" Grid.Column="2" Content="添加" HorizontalAlignment="Right" Width="85" Height="25" Style="{DynamicResource ButtonStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="此并系群排除的类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="此并系群排除的类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="排除此类群的并系群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="排除此类群的并系群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_ExcludeBy" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Includes" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="此复系群包含的类群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="此复系群包含的类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Includes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="包含此类群的复系群" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="包含此类群的复系群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_IncludeBy" Grid.Row="2"/>
                 </Grid>
             </StackPanel>

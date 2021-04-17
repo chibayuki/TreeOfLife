@@ -28,11 +28,11 @@
             <StackPanel Margin="25,15,25,25">
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="检索结果" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" FontSize="14" Background="{Binding SubTitle_BackGround}" Foreground="{Binding SubTitle_ForeGround}"/>
+                    <Label Content="检索结果" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult" Grid.Row="2"/>
                 </Grid>
             </StackPanel>

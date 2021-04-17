@@ -42,8 +42,11 @@ namespace TreeOfLife.Views.Tree
 
         private bool _IsDarkTheme;
 
+        private Brush _Tree_BackGround;
+
         private void _UpdateColors()
         {
+            Tree_BackGround = new SolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
         }
 
         public bool IsDarkTheme
@@ -55,6 +58,18 @@ namespace TreeOfLife.Views.Tree
                 _IsDarkTheme = value;
 
                 _UpdateColors();
+            }
+        }
+
+        public Brush Tree_BackGround
+        {
+            get => _Tree_BackGround;
+
+            set
+            {
+                _Tree_BackGround = value;
+
+                NotifyPropertyChanged(nameof(Tree_BackGround));
             }
         }
 

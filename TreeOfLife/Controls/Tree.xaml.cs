@@ -256,6 +256,9 @@ namespace TreeOfLife.Controls
                 _RootNode = _TreeNode.BuildTree(rootNode);
 
                 _AddTreeNodeButton(stackPanel_Tree, _RootNode);
+
+                _UpdateFont();
+                _UpdateColor();
             }
         }
 
