@@ -65,8 +65,19 @@ namespace TreeOfLife
             Views.Common.SetCurrentTaxon = _SetCurrentTaxon;
             Views.Common.EnterEditMode = () => _SetEditMode(true);
             Views.Common.ExitEditMode = () => _SetEditMode(false);
-            Views.Common.UpdateTree = _UpdateTree;
-            Views.Common.UpdateCurrentTaxonInfo = _UpdateCurrentTaxonInfo;
+            Views.Common.UpdateCurrentTaxonInfo = () =>
+            {
+                if (Views.Common.EditMode ?? false)
+                {
+                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
+                }
+                else
+                {
+                    view_Evo_ViewMode.UpdateCurrentTaxonInfo();
+                }
+            };
+            Views.Common.ApplyToTaxon = view_Evo_EditMode.ViewModel.ApplyToTaxon;
+            Views.Common.UpdateTree = view_Tree.UpdateSubTree;
 
             view_File.ViewModel.Open = _Open;
             view_File.ViewModel.Save = _Save;
@@ -148,7 +159,7 @@ namespace TreeOfLife
             if (result ?? false)
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
-                _UpdateTree();
+                view_Tree.UpdateSubTree();
 
                 _Saved = true;
             }
@@ -246,7 +257,7 @@ namespace TreeOfLife
             if (result)
             {
                 _SetCurrentTaxon(Phylogenesis.Root);
-                _UpdateTree();
+                view_Tree.UpdateSubTree();
 
                 _Saved = false;
             }
@@ -345,19 +356,6 @@ namespace TreeOfLife
 
         #region "分类学"页面
 
-        // 更新当前类群的所有信息。
-        private void _UpdateCurrentTaxonInfo()
-        {
-            if (Views.Common.EditMode ?? false)
-            {
-                view_Evo_EditMode.UpdateCurrentTaxonInfo();
-            }
-            else
-            {
-                view_Evo_ViewMode.UpdateCurrentTaxonInfo();
-            }
-        }
-
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
         {
@@ -385,8 +383,8 @@ namespace TreeOfLife
 
                     //
 
-                    _UpdateCurrentTaxonInfo();
-                    _UpdateTree();
+                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
+                    view_Tree.UpdateSubTree();
                 }
                 else
                 {
@@ -406,8 +404,8 @@ namespace TreeOfLife
                     }
                     else
                     {
-                        _UpdateCurrentTaxonInfo();
-                        _UpdateTree();
+                        view_Evo_ViewMode.UpdateCurrentTaxonInfo();
+                        view_Tree.UpdateSubTree();
                     }
                 }
             }
@@ -435,19 +433,17 @@ namespace TreeOfLife
 
                 Views.Common.CurrentTaxon = taxon;
 
-                _UpdateCurrentTaxonInfo();
-                _UpdateTree();
+                if (Views.Common.EditMode ?? false)
+                {
+                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
+                }
+                else
+                {
+                    view_Evo_ViewMode.UpdateCurrentTaxonInfo();
+                }
+
+                view_Tree.UpdateSubTree();
             }
-        }
-
-        #endregion
-
-        #region 系统发生树
-
-        // 更新系统发生树。
-        private void _UpdateTree()
-        {
-            view_Tree.UpdateSubTree();
         }
 
         #endregion

@@ -10,7 +10,7 @@
         <StackPanel Orientation="Horizontal">
             <Grid x:Name="grid_LeftPart">
                 <Grid x:Name="grid_Single">
-                    <Label Grid.RowSpan="2" Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
                 </Grid>
                 <Grid x:Name="grid_First">
                     <Grid.RowDefinitions>
@@ -29,8 +29,8 @@
                     <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid x:Name="grid_Normal">
-                    <Label Grid.Row="1" Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
-                    <Label Grid.Row="1" Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
+                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
                 </Grid>
             </Grid>
             <Grid x:Name="grid_MiddlePart">
@@ -39,7 +39,7 @@
                 </Border>
             </Grid>
             <Grid x:Name="grid_RightPart">
-                <Label Grid.Row="1" Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
+                <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
             </Grid>
         </StackPanel>
         

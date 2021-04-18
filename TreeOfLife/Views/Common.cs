@@ -38,8 +38,10 @@ namespace TreeOfLife.Views
         public static Taxon RightButtonTaxon { get; set; }
         public static Taxon SelectedTaxon { get; set; }
 
-        public static Action UpdateTree { get; set; } = null;
         public static Action UpdateCurrentTaxonInfo { get; set; } = null;
+        public static Action ApplyToTaxon { get; set; } = null;
+
+        public static Action UpdateTree { get; set; } = null;
 
         //
 

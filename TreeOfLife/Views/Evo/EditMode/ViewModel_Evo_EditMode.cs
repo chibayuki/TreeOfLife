@@ -280,7 +280,7 @@ namespace TreeOfLife.Views.Evo.EditMode
             }
         }
 
-        public void UpdateFromTaxon()
+        public void LoadFromTaxon()
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 

@@ -24,10 +24,10 @@
                 <DropShadowEffect ShadowDepth="1" BlurRadius="5" Opacity="0.5" Direction="270"/>
             </Grid.Effect>
             <Border x:Name="border_CategoryName" CornerRadius="3,0,0,3" Background="{Binding CategoryName_BackGround}">
-                <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding CategoryName_ForeGround}" FontSize="15"/>
+                <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
             <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="1,1,1,1" CornerRadius="0,3,3,0" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
-                <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding TaxonName_ForeGround}" FontSize="15"/>
+                <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
             <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3"/>
         </Grid>
@@ -60,11 +60,16 @@
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="状态" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <CheckBox Grid.Column="2" Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Height="25"/>
-                    <CheckBox Grid.Column="3" Content="存疑" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Height="25"/>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}"/>
+                        <CheckBox Content="存疑" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}"/>
+                    </Grid>
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -123,15 +128,14 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="插入&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}" Grid.RowSpan="3"/>
-                    <TextBox x:Name="textBox_Parent" Grid.Column="2" Padding="4" Style="{DynamicResource TextBoxStyle}"/>
-                    <Button x:Name="button_AddParentUplevel" Grid.Row="2" Grid.Column="2" Content="添加为上级" HorizontalAlignment="Left" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
-                    <Button x:Name="button_AddParentDownlevel" Grid.Row="2" Grid.Column="2" Content="添加为下级" HorizontalAlignment="Right" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
+                    <Label Content="插入&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox x:Name="textBox_Parent" Padding="4" Style="{DynamicResource TextBoxStyle}"/>
+                        <Grid Margin="0,5,0,0">
+                            <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
+                            <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
+                        </Grid>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -148,14 +152,13 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="87"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}" Grid.RowSpan="3"/>
-                    <TextBox x:Name="textBox_Children" Grid.Column="2" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource TextBoxStyle}"/>
-                    <Button x:Name="button_AddChildren" Grid.Row="2" Grid.Column="2" Content="添加" HorizontalAlignment="Right" Width="85" Height="25" Style="{DynamicResource ButtonStyle}"/>
+                    <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox x:Name="textBox_Children" Height="87" Padding="4" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource TextBoxStyle}"/>
+                        <Grid Margin="0,5,0,0">
+                            <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" Width="85" Height="25" Style="{DynamicResource ButtonStyle}"/>
+                        </Grid>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
                     <Grid.RowDefinitions>

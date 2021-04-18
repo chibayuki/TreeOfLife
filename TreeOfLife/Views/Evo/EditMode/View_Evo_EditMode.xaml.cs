@@ -1036,7 +1036,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         public void UpdateCurrentTaxonInfo()
         {
-            ViewModel.UpdateFromTaxon();
+            ViewModel.LoadFromTaxon();
 
             categorySelector.Category = ViewModel.Category;
             grid_Rename.Visibility = Visibility.Collapsed;
