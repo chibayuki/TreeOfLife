@@ -41,6 +41,7 @@ namespace TreeOfLife.Controls
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
 
         private bool _Checked = false; // 是否处于已选择状态。
+        private bool _MouseOver = false;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
@@ -57,6 +58,18 @@ namespace TreeOfLife.Controls
             {
                 _UpdateTaxon();
                 _UpdateFont();
+                _UpdateColor();
+            };
+
+            this.MouseEnter += (s, e) =>
+            {
+                _MouseOver = true;
+                _UpdateColor();
+            };
+
+            this.MouseLeave += (s, e) =>
+            {
+                _MouseOver = false;
                 _UpdateColor();
             };
         }
@@ -113,13 +126,13 @@ namespace TreeOfLife.Controls
             label_CategoryName.FontWeight = label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
-        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _TaxonNameForeground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_LAB(_Checked ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
+        private Brush _TaxonNameForeground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_LAB(_Checked || _MouseOver ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
 
-        private Brush _TaxonNameBackground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_Checked ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
+        private Brush _TaxonNameBackground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_Checked || _MouseOver ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
         private void _UpdateColor()
         {

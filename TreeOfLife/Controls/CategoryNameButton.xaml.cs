@@ -39,6 +39,7 @@ namespace TreeOfLife.Controls
         private string _CategoryName = string.Empty; // 名称。
 
         private bool _Checked = false; // 是否处于已选择状态。
+        private bool _MouseOver = false;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
@@ -56,13 +57,25 @@ namespace TreeOfLife.Controls
                 _UpdateColor();
                 _UpdateCategory();
             };
+
+            this.MouseEnter += (s, e) =>
+            {
+                _MouseOver = true;
+                _UpdateColor();
+            };
+
+            this.MouseLeave += (s, e) =>
+            {
+                _MouseOver = false;
+                _UpdateColor();
+            };
         }
 
         //
 
-        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {

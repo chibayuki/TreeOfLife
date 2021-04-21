@@ -44,6 +44,7 @@ namespace TreeOfLife.Controls
         private bool _IsLast = false;
         private bool _ShowButton = false;
         private bool _Checked = false; // 是否处于已选择状态。
+        private bool _MouseOver = false;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
@@ -60,6 +61,18 @@ namespace TreeOfLife.Controls
             {
                 _UpdateTaxon();
                 _UpdateFont();
+                _UpdateColor();
+            };
+
+            label_TaxonName.MouseEnter += (s, e) =>
+            {
+                _MouseOver = true;
+                _UpdateColor();
+            };
+
+            label_TaxonName.MouseLeave += (s, e) =>
+            {
+                _MouseOver = false;
                 _UpdateColor();
             };
         }
@@ -165,17 +178,16 @@ namespace TreeOfLife.Controls
             label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
-        private Brush _Border => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _Border => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+        private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
-        private Brush _Background => SolidColorBrushes.GetBrush((_Checked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
+        private Brush _Background => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
         private void _UpdateColor()
         {
             _ThemeColor = _Taxon.GetThemeColor();
 
-            border_TaxonName.BorderThickness = new Thickness(_Checked ? 0 : 1);
             border_TaxonName.Background = _Background;
             border_TaxonName.BorderBrush = _Border;
 
