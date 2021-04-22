@@ -53,6 +53,13 @@ namespace TreeOfLife.Views.Search
             };
 
             button_Search.Click += (s, e) => _SearchAndUpdateResult();
+            textBox_Search.KeyUp += (s, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    _SearchAndUpdateResult();
+                }
+            };
 
             taxonNameButtonGroup_SearchResult.MouseLeftButtonClick += (s, e) =>
             {
