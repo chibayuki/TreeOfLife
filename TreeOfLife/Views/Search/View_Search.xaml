@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="textBox_Search" Height="25" Padding="4" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource TextBoxStyle}"/>
+            <TextBox x:Name="textBox_Search" Height="25" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
             <Button x:Name="button_Search" Grid.Column="2" Content="检索" Height="25" Style="{DynamicResource ButtonStyle}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">

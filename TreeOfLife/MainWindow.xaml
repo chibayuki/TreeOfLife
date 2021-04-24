@@ -8,6 +8,7 @@
         xmlns:Evo_EditMode="clr-namespace:TreeOfLife.Views.Evo.EditMode"
         xmlns:Evo_ViewMode="clr-namespace:TreeOfLife.Views.Evo.ViewMode"
         xmlns:Search="clr-namespace:TreeOfLife.Views.Search"
+        xmlns:About="clr-namespace:TreeOfLife.Views.About"
         xmlns:Tree="clr-namespace:TreeOfLife.Views.Tree"
         mc:Ignorable="d"
         Title="Tree of Life" Height="600" Width="1200">
@@ -36,7 +37,9 @@
                 <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
                     <Search:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
                 </Grid>
-                <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}"/>
+                <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}">
+                    <About:View_About x:Name="view_About" Margin="25,0,25,0"/>
+                </Grid>
             </Grid>
             <StackPanel Grid.Column="1" Background="{Binding Mode=OneWay, Source={StaticResource TabPage.Background}}">
                 <Button x:Name="button_File" VerticalAlignment="Top" Content="文&#xD;&#xA;件" Padding="0,6,0,6" Margin="0,3,3,0" IsEnabled="{Binding PageButtonEnabled_File}" Style="{DynamicResource TabPageButtonStyle}"/>

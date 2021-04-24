@@ -10,10 +10,26 @@
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
     <Version>1.0.1100.1000</Version>
+    <ApplicationIcon>Resources\AppLogo_48.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com" Version="20.12.25.2000"/>
+    <PackageReference Include="Com" Version="20.12.25.2000" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

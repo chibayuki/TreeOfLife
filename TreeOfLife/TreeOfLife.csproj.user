@@ -28,6 +28,9 @@
     <Compile Update="Controls\TreeNodeButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\About\View_About.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Evo\EditMode\View_Evo_EditMode.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +82,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TaxonNameButtonGroup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\About\View_About.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Evo\EditMode\View_Evo_EditMode.xaml">
