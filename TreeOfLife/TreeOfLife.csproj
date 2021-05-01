@@ -10,7 +10,7 @@
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
     <Version>1.0.1100.1000</Version>
-    <ApplicationIcon>Resources\AppLogo_48.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\AppLogo_256.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

@@ -10,18 +10,19 @@
         <local:ViewModel_About/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="128"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="128"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Image Grid.Row="1" Grid.Column="1" Source="{Binding AppLogo_256, Mode=OneWay}"/>
-        <Label Grid.Row="1" Grid.Column="2" Content="Tree of Life" VerticalContentAlignment="Center" Padding="20,5,5,5" FontSize="24"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,25,25,25">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="128" Height="128" Source="{Binding AppLogo_256, Mode=OneWay}"/>
+                        <StackPanel Margin="20,10,0,10" VerticalAlignment="Center">
+                            <Label Content="Tree of Life" FontSize="24"/>
+                            <Label Content="1.0 Milestone 11" FontSize="16"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>
