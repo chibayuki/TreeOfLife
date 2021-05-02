@@ -12,15 +12,15 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,25,25,25">
-                <Grid>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="128" Height="128" Source="{Binding AppLogo_256, Mode=OneWay}"/>
-                        <StackPanel Margin="20,10,0,10" VerticalAlignment="Center">
-                            <Label Content="Tree of Life" FontSize="24"/>
-                            <Label Content="1.0 Milestone 11" FontSize="16"/>
-                        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="128" Height="128" Source="{Binding AppLogo, Mode=OneWay}"/>
+                    <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
+                        <Label Content="Tree of Life" FontSize="20" Foreground="{Binding TextLabel_ForeGround}"/>
+                        <Label Content="1.0 Milestone 11" FontSize="14" Foreground="{Binding TextLabel_ForeGround}"/>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
+                <Label Content="{Binding AppVersion}" Foreground="{Binding TextLabel_ForeGround}"/>
+                <Label Content="Copyright © 2021 chibayuki@foxmail.com" Foreground="{Binding TextLabel_ForeGround}"/>
             </StackPanel>
         </ScrollViewer>
 

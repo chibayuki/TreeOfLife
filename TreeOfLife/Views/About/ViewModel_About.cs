@@ -15,12 +15,13 @@ using System.Threading.Tasks;
 
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace TreeOfLife.Views.About
 {
-    public class ViewModel_About
+    public class ViewModel_About : INotifyPropertyChanged
     {
         public ViewModel_About()
         {
@@ -37,7 +38,7 @@ namespace TreeOfLife.Views.About
 
         //
 
-        public ImageSource AppLogo_256
+        public ImageSource AppLogo
         {
             get
             {
@@ -58,5 +59,47 @@ namespace TreeOfLife.Views.About
                 return bmp;
             }
         }
+
+        public string AppVersion
+        {
+            get => "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        #region 主题
+
+        private bool _IsDarkTheme;
+
+        private Brush _TextLabel_ForeGround;
+
+        private void _UpdateColors()
+        {
+            TextLabel_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+        }
+
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateColors();
+            }
+        }
+
+        public Brush TextLabel_ForeGround
+        {
+            get => _TextLabel_ForeGround;
+
+            set
+            {
+                _TextLabel_ForeGround = value;
+
+                NotifyPropertyChanged(nameof(TextLabel_ForeGround));
+            }
+        }
+
+        #endregion
     }
 }

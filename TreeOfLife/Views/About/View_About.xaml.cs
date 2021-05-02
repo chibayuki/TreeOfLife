@@ -37,5 +37,25 @@ namespace TreeOfLife.Views.About
         {
             InitializeComponent();
         }
+
+        //
+
+        #region 主题
+
+        private bool _IsDarkTheme = false;
+
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                ViewModel.IsDarkTheme = _IsDarkTheme;
+            }
+        }
+
+        #endregion
     }
 }

@@ -211,7 +211,7 @@ namespace TreeOfLife.Views.File
         private Brush _Button_BackGround;
         private Brush _SubTitle_ForeGround;
         private Brush _SubTitle_BackGround;
-        private Brush _FileInfo_ForeGround;
+        private Brush _TextLabel_ForeGround;
 
         private void _UpdateColors()
         {
@@ -219,7 +219,7 @@ namespace TreeOfLife.Views.File
             Button_BackGround = Common.Button_BackGround;
             SubTitle_ForeGround = Common.SubTitle_ForeGround;
             SubTitle_BackGround = Common.SubTitle_BackGround;
-            FileInfo_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            TextLabel_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme
@@ -282,15 +282,15 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        public Brush FileInfo_ForeGround
+        public Brush TextLabel_ForeGround
         {
-            get => _FileInfo_ForeGround;
+            get => _TextLabel_ForeGround;
 
             set
             {
-                _FileInfo_ForeGround = value;
+                _TextLabel_ForeGround = value;
 
-                NotifyPropertyChanged(nameof(FileInfo_ForeGround));
+                NotifyPropertyChanged(nameof(TextLabel_ForeGround));
             }
         }
 

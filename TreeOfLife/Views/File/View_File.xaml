@@ -19,7 +19,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="标题" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Label Grid.Column="2" Content="{Binding FileName}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding FileInfo_ForeGround}"/>
+                    <Label Grid.Column="2" Content="{Binding FileName}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding TextLabel_ForeGround}"/>
                 </Grid>
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="文件大小" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Label Grid.Column="2" Content="{Binding FileSize}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding FileInfo_ForeGround}"/>
+                    <Label Grid.Column="2" Content="{Binding FileSize}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding TextLabel_ForeGround}"/>
                 </Grid>
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -37,7 +37,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="数据大小" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Label Grid.Column="2" Content="{Binding PackageSize}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding FileInfo_ForeGround}"/>
+                    <Label Grid.Column="2" Content="{Binding PackageSize}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding TextLabel_ForeGround}"/>
                 </Grid>
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -46,7 +46,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="创建时间" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Label Grid.Column="2" Content="{Binding CreationTime}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding FileInfo_ForeGround}"/>
+                    <Label Grid.Column="2" Content="{Binding CreationTime}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding TextLabel_ForeGround}"/>
                 </Grid>
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
@@ -55,7 +55,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="修改时间" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Label Grid.Column="2" Content="{Binding ModificationTime}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding FileInfo_ForeGround}"/>
+                    <Label Grid.Column="2" Content="{Binding ModificationTime}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="{Binding TextLabel_ForeGround}"/>
                 </Grid>
                 <StackPanel Margin="0,25,0,0">
                     <Button x:Name="button_Open" Content="打开" Width="120" Height="30" HorizontalAlignment="Left" Margin="0,5,0,5" Style="{DynamicResource ButtonStyle}"/>

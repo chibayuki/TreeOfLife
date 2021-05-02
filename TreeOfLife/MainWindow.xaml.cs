@@ -466,6 +466,7 @@ namespace TreeOfLife
                 view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;
                 view_Evo_EditMode.IsDarkTheme = _IsDarkTheme;
                 view_Search.IsDarkTheme = _IsDarkTheme;
+                view_About.IsDarkTheme = _IsDarkTheme;
                 view_Tree.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
