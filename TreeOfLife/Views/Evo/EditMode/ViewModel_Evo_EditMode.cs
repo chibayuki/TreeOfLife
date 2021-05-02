@@ -214,24 +214,17 @@ namespace TreeOfLife.Views.Evo.EditMode
                 }
                 else
                 {
-                    if (currentTaxon.IsAnonymous())
+                    if (currentTaxon.IsParaphyly)
                     {
-                        CategoryName = string.Empty;
+                        CategoryName = (category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群");
+                    }
+                    else if (currentTaxon.IsPolyphyly)
+                    {
+                        CategoryName = (category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群");
                     }
                     else
                     {
-                        if (currentTaxon.IsParaphyly)
-                        {
-                            CategoryName = (category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群");
-                        }
-                        else if (currentTaxon.IsPolyphyly)
-                        {
-                            CategoryName = (category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群");
-                        }
-                        else
-                        {
-                            CategoryName = category.GetChineseName();
-                        }
+                        CategoryName = category.GetChineseName();
                     }
 
                     StringBuilder taxonName = new StringBuilder();
