@@ -21,7 +21,7 @@
     <!-- HSL(215,50,30) -->
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FF264673"/>
     <SolidColorBrush x:Key="Button.Pressed.Foreground" Color="White"/>
-    <!-- HSL(215,0,80) -->
+    <!-- HSL(215,0,85) -->
     <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFD9D9D9"/>
     <!-- HSL(215,0,40) -->
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF666666"/>

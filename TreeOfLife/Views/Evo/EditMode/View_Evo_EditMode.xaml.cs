@@ -162,35 +162,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         private void _InitContextMenus()
         {
-            Thickness menuItemPadding = new Thickness(3, 6, 3, 6);
-            Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
+            MenuItem item_Current_Selected = new MenuItem();
 
-            Thickness selectedPadding = new Thickness(3, 1, 3, 1);
-            Brush selectedBackground = new SolidColorBrush(Color.FromRgb(224, 224, 224));
-
-            //
-
-            MenuItem item_Current_Selected = new MenuItem()
-            {
-                Padding = selectedPadding,
-                Background = selectedBackground
-            };
-
-            MenuItem item_Current_Select = new MenuItem()
-            {
-                Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Current_Select = new MenuItem() { Header = "选择" };
 
             item_Current_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
-            MenuItem item_Current_SetParent = new MenuItem()
-            {
-                Header = "继承选择的类群",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Current_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
             item_Current_SetParent.Click += (s, e) =>
             {
@@ -201,12 +179,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Current_ExcludeBy = new MenuItem()
-            {
-                Header = "排除自选择的类群（并系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Current_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
             item_Current_ExcludeBy.Click += (s, e) =>
             {
@@ -217,12 +190,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Current_IncludeBy = new MenuItem()
-            {
-                Header = "包含至选择的类群（复系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Current_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
             item_Current_IncludeBy.Click += (s, e) =>
             {
@@ -256,18 +224,9 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_Parent_Selected = new MenuItem()
-            {
-                Padding = selectedPadding,
-                Background = selectedBackground
-            };
+            MenuItem item_Parent_Selected = new MenuItem();
 
-            MenuItem item_Parent_Select = new MenuItem()
-            {
-                Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Parent_Select = new MenuItem() { Header = "选择" };
 
             item_Parent_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
@@ -280,27 +239,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_Children_Selected = new MenuItem()
-            {
-                Padding = selectedPadding,
-                Background = selectedBackground
-            };
+            MenuItem item_Children_Selected = new MenuItem();
 
-            MenuItem item_Children_Select = new MenuItem()
-            {
-                Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_Select = new MenuItem() { Header = "选择" };
 
             item_Children_Select.Click += (s, e) => Views.Common.SelectedTaxon = Views.Common.RightButtonTaxon;
 
-            MenuItem item_Children_SetParent = new MenuItem()
-            {
-                Header = "继承选择的类群",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
             item_Children_SetParent.Click += (s, e) =>
             {
@@ -312,12 +257,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_ExcludeBy = new MenuItem()
-            {
-                Header = "排除自选择的类群（并系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
             item_Children_ExcludeBy.Click += (s, e) =>
             {
@@ -335,12 +275,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_IncludeBy = new MenuItem()
-            {
-                Header = "包含至选择的类群（复系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
             item_Children_IncludeBy.Click += (s, e) =>
             {
@@ -358,12 +293,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_MoveTop = new MenuItem()
-            {
-                Header = "移至最上",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
 
             item_Children_MoveTop.Click += (s, e) =>
             {
@@ -376,12 +306,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_MoveUp = new MenuItem()
-            {
-                Header = "上移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
 
             item_Children_MoveUp.Click += (s, e) =>
             {
@@ -394,12 +319,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_MoveDown = new MenuItem()
-            {
-                Header = "下移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
 
             item_Children_MoveDown.Click += (s, e) =>
             {
@@ -412,12 +332,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_MoveBottom = new MenuItem()
-            {
-                Header = "移至最下",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
 
             item_Children_MoveBottom.Click += (s, e) =>
             {
@@ -430,12 +345,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_DeleteWithoutChildren = new MenuItem()
-            {
-                Header = "删除 (并且保留下级类群)",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
 
             item_Children_DeleteWithoutChildren.Click += (s, e) =>
             {
@@ -455,12 +365,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.UpdateTree();
             };
 
-            MenuItem item_Children_DeleteWithinChildren = new MenuItem()
-            {
-                Header = "删除 (并且删除下级类群)",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
 
             item_Children_DeleteWithinChildren.Click += (s, e) =>
             {
@@ -527,12 +432,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_Excludes_MoveTop = new MenuItem()
-            {
-                Header = "移至最上",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Excludes_MoveTop = new MenuItem() { Header = "移至最上" };
 
             item_Excludes_MoveTop.Click += (s, e) =>
             {
@@ -543,12 +443,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateExcludes();
             };
 
-            MenuItem item_Excludes_MoveUp = new MenuItem()
-            {
-                Header = "上移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Excludes_MoveUp = new MenuItem() { Header = "上移" };
 
             item_Excludes_MoveUp.Click += (s, e) =>
             {
@@ -561,12 +456,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateExcludes();
             };
 
-            MenuItem item_Excludes_MoveDown = new MenuItem()
-            {
-                Header = "下移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Excludes_MoveDown = new MenuItem() { Header = "下移" };
 
             item_Excludes_MoveDown.Click += (s, e) =>
             {
@@ -579,12 +469,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateExcludes();
             };
 
-            MenuItem item_Excludes_MoveBottom = new MenuItem()
-            {
-                Header = "移至最下",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Excludes_MoveBottom = new MenuItem() { Header = "移至最下" };
 
             item_Excludes_MoveBottom.Click += (s, e) =>
             {
@@ -595,12 +480,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateExcludes();
             };
 
-            MenuItem item_Excludes_Remove = new MenuItem()
-            {
-                Header = "解除排除关系",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Excludes_Remove = new MenuItem() { Header = "解除排除关系" };
 
             item_Excludes_Remove.Click += (s, e) =>
             {
@@ -634,12 +514,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_ExcludeBy_Remove = new MenuItem()
-            {
-                Header = "解除排除关系",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_ExcludeBy_Remove = new MenuItem() { Header = "解除排除关系" };
 
             item_ExcludeBy_Remove.Click += (s, e) =>
             {
@@ -655,12 +530,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_Includes_MoveTop = new MenuItem()
-            {
-                Header = "移至最上",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Includes_MoveTop = new MenuItem() { Header = "移至最上" };
 
             item_Includes_MoveTop.Click += (s, e) =>
             {
@@ -671,12 +541,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateIncludes();
             };
 
-            MenuItem item_Includes_MoveUp = new MenuItem()
-            {
-                Header = "上移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Includes_MoveUp = new MenuItem() { Header = "上移" };
 
             item_Includes_MoveUp.Click += (s, e) =>
             {
@@ -689,12 +554,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateIncludes();
             };
 
-            MenuItem item_Includes_MoveDown = new MenuItem()
-            {
-                Header = "下移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Includes_MoveDown = new MenuItem() { Header = "下移" };
 
             item_Includes_MoveDown.Click += (s, e) =>
             {
@@ -707,12 +567,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateIncludes();
             };
 
-            MenuItem item_Includes_MoveBottom = new MenuItem()
-            {
-                Header = "移至最下",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Includes_MoveBottom = new MenuItem() { Header = "移至最下" };
 
             item_Includes_MoveBottom.Click += (s, e) =>
             {
@@ -723,12 +578,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                 _UpdateIncludes();
             };
 
-            MenuItem item_Includes_Remove = new MenuItem()
-            {
-                Header = "解除包含关系",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Includes_Remove = new MenuItem() { Header = "解除包含关系" };
 
             item_Includes_Remove.Click += (s, e) =>
             {
@@ -762,12 +612,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             //
 
-            MenuItem item_IncludeBy_Remove = new MenuItem()
-            {
-                Header = "解除包含关系",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_IncludeBy_Remove = new MenuItem() { Header = "解除包含关系" };
 
             item_IncludeBy_Remove.Click += (s, e) =>
             {

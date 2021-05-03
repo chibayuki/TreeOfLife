@@ -101,35 +101,13 @@ namespace TreeOfLife.Views.Tree
 
         private void _InitContextMenus()
         {
-            Thickness menuItemPadding = new Thickness(3, 6, 3, 6);
-            Thickness menuItemMargin = new Thickness(0, 3, 0, 3);
+            MenuItem item_Selected = new MenuItem();
 
-            Thickness selectedPadding = new Thickness(3, 1, 3, 1);
-            Brush selectedBackground = new SolidColorBrush(Color.FromRgb(224, 224, 224));
-
-            //
-
-            MenuItem item_Selected = new MenuItem()
-            {
-                Padding = selectedPadding,
-                Background = selectedBackground
-            };
-
-            MenuItem item_Select = new MenuItem()
-            {
-                Header = "选择",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_Select = new MenuItem() { Header = "选择" };
 
             item_Select.Click += (s, e) => Common.SelectedTaxon = Common.RightButtonTaxon;
 
-            MenuItem item_SetParent = new MenuItem()
-            {
-                Header = "继承选择的类群",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
             item_SetParent.Click += (s, e) =>
             {
@@ -141,12 +119,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_ExcludeBy = new MenuItem()
-            {
-                Header = "排除自选择的类群（并系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
             item_ExcludeBy.Click += (s, e) =>
             {
@@ -158,12 +131,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_IncludeBy = new MenuItem()
-            {
-                Header = "包含至选择的类群（复系群）",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
             item_IncludeBy.Click += (s, e) =>
             {
@@ -175,12 +143,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_MoveTop = new MenuItem()
-            {
-                Header = "移至最上",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_MoveTop = new MenuItem() { Header = "移至最上" };
 
             item_MoveTop.Click += (s, e) =>
             {
@@ -194,12 +157,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_MoveUp = new MenuItem()
-            {
-                Header = "上移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_MoveUp = new MenuItem() { Header = "上移" };
 
             item_MoveUp.Click += (s, e) =>
             {
@@ -213,12 +171,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_MoveDown = new MenuItem()
-            {
-                Header = "下移",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_MoveDown = new MenuItem() { Header = "下移" };
 
             item_MoveDown.Click += (s, e) =>
             {
@@ -232,12 +185,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_MoveBottom = new MenuItem()
-            {
-                Header = "移至最下",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_MoveBottom = new MenuItem() { Header = "移至最下" };
 
             item_MoveBottom.Click += (s, e) =>
             {
@@ -251,12 +199,7 @@ namespace TreeOfLife.Views.Tree
                 UpdateSubTree();
             };
 
-            MenuItem item_DeleteWithoutChildren = new MenuItem()
-            {
-                Header = "删除 (并且保留下级类群)",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
 
             item_DeleteWithoutChildren.Click += (s, e) =>
             {
@@ -296,12 +239,7 @@ namespace TreeOfLife.Views.Tree
                 }
             };
 
-            MenuItem item_DeleteWithinChildren = new MenuItem()
-            {
-                Header = "删除 (并且删除下级类群)",
-                Padding = menuItemPadding,
-                Margin = menuItemMargin
-            };
+            MenuItem item_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
 
             item_DeleteWithinChildren.Click += (s, e) =>
             {
