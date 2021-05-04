@@ -4,32 +4,39 @@
     <!-- HSL(215,50,40) -->
     <SolidColorBrush x:Key="TabPage.Background" Color="#FF335E99"/>
 
-    <Style x:Key="FocusVisual">
+    <SolidColorBrush x:Key="TabPageButton.Static.Background" Color="Transparent"/>
+    <SolidColorBrush x:Key="TabPageButton.Static.BorderBrush" Color="Transparent"/>
+    <SolidColorBrush x:Key="TabPageButton.Static.Foreground" Color="White"/>
+    <!-- HSL(215,50,50) -->
+    <SolidColorBrush x:Key="TabPageButton.MouseOver.Background" Color="#FF4075BF"/>
+    <SolidColorBrush x:Key="TabPageButton.MouseOver.BorderBrush" Color="Transparent"/>
+    <SolidColorBrush x:Key="TabPageButton.MouseOver.Foreground" Color="White"/>
+    <!-- HSL(215,50,30) -->
+    <SolidColorBrush x:Key="TabPageButton.Pressed.Background" Color="#FF264673"/>
+    <SolidColorBrush x:Key="TabPageButton.Pressed.BorderBrush" Color="Transparent"/>
+    <SolidColorBrush x:Key="TabPageButton.Pressed.Foreground" Color="White"/>
+    <!-- RGB(248,248,248) -->
+    <SolidColorBrush x:Key="TabPageButton.Disabled.Background" Color="#FFF8F8F8"/>
+    <SolidColorBrush x:Key="TabPageButton.Disabled.BorderBrush" Color="Transparent"/>
+    <!-- HSL(215,50,30) -->
+    <SolidColorBrush x:Key="TabPageButton.Disabled.Foreground" Color="#FF264673"/>
+
+    <DropShadowEffect x:Key="TabPageButton.Border.Effect" ShadowDepth="5" Direction="0" Opacity="0.75" BlurRadius="5"/>
+
+    <Style x:Key="TabPageButton.FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="True" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <SolidColorBrush x:Key="TabPageButton.Static.Background" Color="Transparent"/>
-    <SolidColorBrush x:Key="TabPageButton.Static.Border" Color="White"/>
-    <SolidColorBrush x:Key="TabPageButton.Static.Foreground" Color="White"/>
-    <!-- HSL(215,50,50) -->
-    <SolidColorBrush x:Key="TabPageButton.MouseOver.Background" Color="#FF4075BF"/>
-    <SolidColorBrush x:Key="TabPageButton.MouseOver.Foreground" Color="White"/>
-    <!-- HSL(215,50,30) -->
-    <SolidColorBrush x:Key="TabPageButton.Pressed.Background" Color="#FF264673"/>
-    <SolidColorBrush x:Key="TabPageButton.Pressed.Foreground" Color="White"/>
-    <!-- RGB(248,248,248) -->
-    <SolidColorBrush x:Key="TabPageButton.Disabled.Background" Color="#FFF8F8F8"/>
-    <!-- HSL(215,50,30) -->
-    <SolidColorBrush x:Key="TabPageButton.Disabled.Foreground" Color="#FF264673"/>
+
     <Style x:Key="TabPageButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource TabPageButton.FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource TabPageButton.Static.Background}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource TabPageButton.Static.Border}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TabPageButton.Static.BorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TabPageButton.Static.Foreground}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -38,29 +45,28 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true" CornerRadius="0,3,3,0">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" CornerRadius="0,3,3,0">
                         <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsDefaulted" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource TabPageButton.MouseOver.Background}"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource TabPageButton.MouseOver.Foreground}"/>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource TabPageButton.MouseOver.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TabPageButton.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource TabPageButton.MouseOver.Foreground}"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource TabPageButton.Pressed.Background}"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource TabPageButton.Pressed.Foreground}"/>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource TabPageButton.Pressed.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TabPageButton.Pressed.BorderBrush}"/>
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource TabPageButton.Pressed.Foreground}"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource TabPageButton.Disabled.Background}"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource TabPageButton.Disabled.Foreground}"/>
-                            <Setter Property="Border.Effect" TargetName="border">
-                                <Setter.Value>
-                                    <DropShadowEffect ShadowDepth="5" Direction="0" Opacity="0.75" BlurRadius="5"/>
-                                </Setter.Value>
-                            </Setter>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource TabPageButton.Disabled.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TabPageButton.Disabled.BorderBrush}"/>
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource TabPageButton.Disabled.Foreground}"/>
+                            <Setter TargetName="border" Property="Border.Effect" Value="{StaticResource TabPageButton.Border.Effect}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -24,12 +24,12 @@
                 <DropShadowEffect ShadowDepth="1" BlurRadius="5" Opacity="0.5" Direction="270"/>
             </Grid.Effect>
             <Border x:Name="border_CategoryName" CornerRadius="3,0,0,3" Background="{Binding CategoryName_BackGround}">
-                <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
+                <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
-            <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="1,1,1,1" CornerRadius="0,3,3,0" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
-                <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold"/>
+            <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="1" CornerRadius="0,3,3,0" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
+                <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
-            <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0,0,0,0" Padding="6,3,6,3"/>
+            <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{Binding Button_ForeGround}" BorderThickness="0" Padding="6,3,6,3"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
@@ -81,7 +81,7 @@
                     <StackPanel Grid.Column="2">
                         <Controls:CategorySelector x:Name="categorySelector"/>
                         <Grid x:Name="grid_Rename" Margin="0,5,0,0">
-                            <Label x:Name="label_Rename" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="label_Rename" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
                             <Button x:Name="button_Rename" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3" Style="{DynamicResource ButtonStyle}"/>
                         </Grid>
                     </StackPanel>

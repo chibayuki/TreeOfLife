@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100">
     <Grid>
-        <Border x:Name="border_Tag" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="3,3,3,3">
+        <Border x:Name="border_Tag" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="3">
             <Label x:Name="label_Tag" Content="Label" Padding="6,3,6,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MinWidth="{Binding MinWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MaxWidth="{Binding MaxWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MinHeight="{Binding MinHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MaxHeight="{Binding MaxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}"/>
         </Border>
 

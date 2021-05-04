@@ -34,7 +34,7 @@
                 </Grid>
             </Grid>
             <Grid x:Name="grid_MiddlePart">
-                <Border x:Name="border_TaxonName" Margin="0,3,0,3" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3">
+                <Border x:Name="border_TaxonName" Margin="0,3,0,3" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1" CornerRadius="3">
                     <Label x:Name="label_TaxonName" Content="TaxonName"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}"/>
                 </Border>
             </Grid>
