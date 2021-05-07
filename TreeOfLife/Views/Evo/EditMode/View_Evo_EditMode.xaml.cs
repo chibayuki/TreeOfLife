@@ -765,7 +765,7 @@ namespace TreeOfLife.Views.Evo.EditMode
                     parents.Add(currentTaxon.Parent);
                 }
 
-                Common.UpdateParents(taxonNameButtonGroup_Parents, parents, _ContextMenu_Parent);
+                Common.UpdateTaxonList(taxonNameButtonGroup_Parents, parents, _ContextMenu_Parent);
             }
         }
 
@@ -776,7 +776,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             var children = currentTaxon.Children;
 
-            Common.UpdateChildren(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
+            Common.UpdateTaxonList(taxonNameButtonGroup_Children, children, _ContextMenu_Children);
         }
 
         // 更新子类群及其可见性。
@@ -794,7 +794,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             var excludes = currentTaxon.Excludes;
 
-            Common.UpdateChildren(taxonNameButtonGroup_Excludes, excludes, _ContextMenu_Excludes);
+            Common.UpdateTaxonList(taxonNameButtonGroup_Excludes, excludes, _ContextMenu_Excludes);
         }
 
         // 更新 Excludes 及其可见性。
@@ -812,7 +812,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             var excludeBy = currentTaxon.ExcludeBy;
 
-            Common.UpdateChildren(taxonNameButtonGroup_ExcludeBy, excludeBy, _ContextMenu_ExcludeBy);
+            Common.UpdateTaxonList(taxonNameButtonGroup_ExcludeBy, excludeBy, _ContextMenu_ExcludeBy);
         }
 
         // 更新 ExcludeBy 及其可见性。
@@ -830,7 +830,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             var Includes = currentTaxon.Includes;
 
-            Common.UpdateChildren(taxonNameButtonGroup_Includes, Includes, _ContextMenu_Includes);
+            Common.UpdateTaxonList(taxonNameButtonGroup_Includes, Includes, _ContextMenu_Includes);
         }
 
         // 更新 Includes 及其可见性。
@@ -848,7 +848,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             var IncludeBy = currentTaxon.IncludeBy;
 
-            Common.UpdateChildren(taxonNameButtonGroup_IncludeBy, IncludeBy, _ContextMenu_IncludeBy);
+            Common.UpdateTaxonList(taxonNameButtonGroup_IncludeBy, IncludeBy, _ContextMenu_IncludeBy);
         }
 
         // 更新 IncludeBy 及其可见性。

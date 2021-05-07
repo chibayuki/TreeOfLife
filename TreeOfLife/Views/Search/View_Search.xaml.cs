@@ -117,22 +117,8 @@ namespace TreeOfLife.Views.Search
         // 裁剪搜索结果，去除已被删除的类群。
         private void _TrimSearchResult()
         {
-            if (_SearchResult.Count > 0)
+            if (_SearchResult.Count > 0 && _SearchResult.RemoveAll((item) => item.Taxon.IsRoot) > 0)
             {
-                int i = 0;
-
-                while (i < _SearchResult.Count)
-                {
-                    if (_SearchResult[i].Taxon.IsRoot)
-                    {
-                        _SearchResult.RemoveAt(i);
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-
                 taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
             }
         }

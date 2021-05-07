@@ -27,17 +27,17 @@ namespace TreeOfLife.Views.Evo
 {
     public static class Common
     {
-        // 更新父类群控件。
-        public static void UpdateParents(TaxonNameButtonGroup control, IReadOnlyList<Taxon> parents, ContextMenu contextMenu = null)
+        // 更新类群列表（并按分类阶元分组）。
+        public static void UpdateTaxonListAndGroupByCategory(TaxonNameButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
         {
             var groups = new List<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)>();
 
             int groupIndex = 0;
             TaxonomicCategory categoryOfGroup = TaxonomicCategory.Unranked;
 
-            for (int i = 0; i < parents.Count; i++)
+            for (int i = 0; i < taxons.Count; i++)
             {
-                Taxon taxon = parents[i];
+                Taxon taxon = taxons[i];
 
                 if (i == 0)
                 {
@@ -70,14 +70,14 @@ namespace TreeOfLife.Views.Evo
             control.UpdateContent(30, groups);
         }
 
-        // 更新子类群控件。
-        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<Taxon> children, ContextMenu contextMenu = null)
+        // 更新类群列表。
+        public static void UpdateTaxonList(TaxonNameButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
         {
             List<TaxonNameItem> items = new List<TaxonNameItem>();
 
-            for (int i = 0; i < children.Count; i++)
+            for (int i = 0; i < taxons.Count; i++)
             {
-                Taxon taxon = children[i];
+                Taxon taxon = taxons[i];
 
                 items.Add(new TaxonNameItem()
                 {
@@ -89,15 +89,15 @@ namespace TreeOfLife.Views.Evo
             control.UpdateContent(items);
         }
 
-        // 更新子类群控件。
-        public static void UpdateChildren(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> children, ContextMenu contextMenu = null)
+        // 更新类群列表（并标记类群的符号）。
+        public static void UpdateTaxonList(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> taxons, ContextMenu contextMenu = null)
         {
             List<TaxonNameItem> items = new List<TaxonNameItem>();
 
-            for (int i = 0; i < children.Count; i++)
+            for (int i = 0; i < taxons.Count; i++)
             {
-                Taxon taxon = children[i].taxon;
-                int sign = children[i].sign;
+                Taxon taxon = taxons[i].taxon;
+                int sign = taxons[i].sign;
 
                 items.Add(new TaxonNameItem()
                 {

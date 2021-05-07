@@ -1,4 +1,13 @@
-﻿<UserControl x:Class="TreeOfLife.Controls.Tag"
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1100.1000.M11.210405-0000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.Controls.Tag"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

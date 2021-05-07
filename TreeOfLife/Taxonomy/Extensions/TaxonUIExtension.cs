@@ -85,10 +85,15 @@ namespace TreeOfLife.Taxonomy.Extensions
                 if (editMode)
                 {
                     // 上溯到任何主要分类阶元为止
+                    /*result.AddRange(taxon.GetParents(
+                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
+                        recursiveInsteadOfLoop: false,
+                        TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));*/
+                    // 上溯到任何具名分类阶元为止
                     result.AddRange(taxon.GetParents(
                         TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
                         recursiveInsteadOfLoop: false,
-                        TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
+                        TaxonParentFilterTerminationCondition.UntilAnyNamedTaxon()));
 
                     // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
                     if (result.Count <= 0)

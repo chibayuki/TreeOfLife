@@ -17,9 +17,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-using TreeOfLife.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
+using TreeOfLife.Controls;
 
 namespace TreeOfLife
 {
@@ -196,9 +194,9 @@ namespace TreeOfLife
 
         private void _UpdateColors()
         {
-            Pages_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
-            PagesSide_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
-            PagesSide_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
+            Pages_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
+            PagesSide_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
+            PagesSide_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
         }
 
         public bool IsDarkTheme

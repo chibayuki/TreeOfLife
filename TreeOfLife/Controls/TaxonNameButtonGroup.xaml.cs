@@ -169,7 +169,7 @@ namespace TreeOfLife.Controls
             foreach (var group in _Groups)
             {
                 group.NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                ((Border)group.NameLabel.Parent).Background = new SolidColorBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
+                ((Border)group.NameLabel.Parent).Background = SolidColorBrushes.GetBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in group.Buttons)
                 {
@@ -348,26 +348,6 @@ namespace TreeOfLife.Controls
                 _GroupNameWidth = 0;
 
                 _Groups.Add(new _Group(items));
-
-                _AddGroupsAndButtons();
-
-                _UpdateFont();
-                _UpdateColor();
-                _UpdateLayout();
-            }
-        }
-
-        public void UpdateContent(double groupNameWidth, string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)
-        {
-            stackPanel_Groups.Children.Clear();
-
-            _Groups.Clear();
-
-            if (items != null && items.Any())
-            {
-                _GroupNameWidth = groupNameWidth;
-
-                _Groups.Add(new _Group(items) { GroupName = groupName, ThemeColor = groupColor });
 
                 _AddGroupsAndButtons();
 

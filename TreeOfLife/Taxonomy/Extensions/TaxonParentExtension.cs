@@ -123,10 +123,12 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             UntilRoot, // 直到顶级类群。
             UntilUplevelPrimaryCategory, // 直到更高的主要分类阶元。
-            UntilAnyPrimaryCategory // 直到任何主要分类阶元。
+            UntilAnyPrimaryCategory, // 直到任何主要分类阶元。
+            UntilAnyNamedTaxon // 直到任何具名类群。
         }
 
         private _UntilType _Until; // 终止类型。
+
         private TaxonomicCategory _Category; // 高于指定的主要分类阶元。
         private bool _AllowEquals; // 允许相等的的主要分类阶元。
 
@@ -171,6 +173,8 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                 case _UntilType.UntilAnyPrimaryCategory: return parent.Category.IsPrimaryCategory();
 
+                case _UntilType.UntilAnyNamedTaxon: return parent.IsNamed();
+
                 default: return false;
             }
         }
@@ -188,6 +192,11 @@ namespace TreeOfLife.Taxonomy.Extensions
         public static TaxonParentFilterTerminationCondition UntilAnyPrimaryCategory()
         {
             return new TaxonParentFilterTerminationCondition(_UntilType.UntilAnyPrimaryCategory, (TaxonomicCategory)0, false);
+        }
+
+        public static TaxonParentFilterTerminationCondition UntilAnyNamedTaxon()
+        {
+            return new TaxonParentFilterTerminationCondition(_UntilType.UntilAnyNamedTaxon, (TaxonomicCategory)0, false);
         }
     }
 

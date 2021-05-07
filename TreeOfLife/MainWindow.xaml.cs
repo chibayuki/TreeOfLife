@@ -275,6 +275,8 @@ namespace TreeOfLife
                 Views.Common.RightButtonTaxon = null;
                 Views.Common.SelectedTaxon = null;
 
+                view_Search.ClearSearchResult();
+
                 return true;
             }
             // 已保存，直接关闭

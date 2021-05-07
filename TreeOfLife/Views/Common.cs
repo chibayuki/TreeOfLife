@@ -16,6 +16,7 @@ using System.Windows.Input;
 
 using System.Windows.Media;
 
+using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
 
 namespace TreeOfLife.Views
@@ -51,15 +52,15 @@ namespace TreeOfLife.Views
 
         private static void _UpdateColors()
         {
-            Button_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(128, 128, 128) : Color.FromRgb(64, 64, 64));
-            Button_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
-            SubTitle_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
-            SubTitle_BackGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
-            TextBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            Button_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(128, 128, 128) : Color.FromRgb(64, 64, 64));
+            Button_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
+            SubTitle_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            SubTitle_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
+            TextBox_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
             TextBox_BackGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            TextBox_Selection = new SolidColorBrush(Color.FromRgb(0, 120, 215));
+            TextBox_Selection = SolidColorBrushes.GetBrush(Color.FromRgb(0, 120, 215));
             TextBox_SelectionText = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            CheckBox_ForeGround = new SolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            CheckBox_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
         }
 
         public static bool IsDarkTheme

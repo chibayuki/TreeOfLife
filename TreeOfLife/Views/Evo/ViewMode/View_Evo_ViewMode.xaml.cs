@@ -78,7 +78,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
                 parents.Add(currentTaxon);
 
-                Common.UpdateParents(taxonNameButtonGroup_Parents, parents);
+                Common.UpdateTaxonListAndGroupByCategory(taxonNameButtonGroup_Parents, parents);
             }
         }
 
@@ -127,7 +127,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 }
             }
 
-            Common.UpdateChildren(taxonNameButtonGroup_Children, children);
+            Common.UpdateTaxonList(taxonNameButtonGroup_Children, children);
         }
 
         // 更新 Excludes。
@@ -152,7 +152,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 }
             }
 
-            Common.UpdateChildren(taxonNameButtonGroup_Excludes, excludes);
+            Common.UpdateTaxonList(taxonNameButtonGroup_Excludes, excludes);
         }
 
         // 更新可见性。

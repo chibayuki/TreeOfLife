@@ -1,4 +1,13 @@
-﻿using System;
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1100.1000.M11.210405-0000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
