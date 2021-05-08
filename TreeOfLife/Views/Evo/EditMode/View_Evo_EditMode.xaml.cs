@@ -637,6 +637,23 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             ViewModel.Category = categorySelector.Category;
 
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            // 修改分类阶元后应立即应用此修改，否则可能导致添加下级类群时"种"和"亚种"的匹配失败
+            if (!currentTaxon.IsRoot)
+            {
+                // 只对具名类群应用分类阶元
+                if (ViewModel.Name.Length > 0 || ViewModel.ChsName.Length > 0)
+                {
+                    currentTaxon.Category = ViewModel.Category;
+                }
+                // 匿名类群的分类阶元始终为未分级
+                else
+                {
+                    currentTaxon.Category = TaxonomicCategory.Unranked;
+                }
+            }
+
             //
 
             _ChsRename = ViewModel.ChsName;

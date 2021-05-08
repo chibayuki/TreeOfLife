@@ -76,8 +76,8 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}"/>
-                        <CheckBox Content="存疑" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}"/>
+                        <CheckBox Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
+                        <CheckBox Content="存疑" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">

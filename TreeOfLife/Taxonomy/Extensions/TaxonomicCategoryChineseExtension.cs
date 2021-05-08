@@ -262,6 +262,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             { _Names.Infratribe, TaxonomicCategory.Infratribe },
             { _Names.Subtribe, TaxonomicCategory.Subtribe },
+            { "世系", TaxonomicCategory.Tribe }, // 世系
             { _Names.Tribe, TaxonomicCategory.Tribe },
             { _Names.Supertribe, TaxonomicCategory.Supertribe }, // 总族
             { "超族", TaxonomicCategory.Supertribe }, // 超族

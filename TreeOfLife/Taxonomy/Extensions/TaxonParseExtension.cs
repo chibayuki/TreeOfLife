@@ -164,6 +164,26 @@ namespace TreeOfLife.Taxonomy.Extensions
                 Taxon child = taxon.AddChild();
 
                 child.ParseCurrent(name);
+
+                // 按照"二名法"和"三名法"特殊处理"种"和"亚种"的匹配
+                if (taxon.Category.IsGenus() || taxon.Category.IsSpecies())
+                {
+                    int wordNum = child.BotanicalName.Count((ch) => ch == '.');
+
+                    if (wordNum != 1 && wordNum != 2)
+                    {
+                        wordNum = child.BotanicalName.Count((ch) => ch == ' ');
+                    }
+
+                    if (wordNum == 1)
+                    {
+                        child.Category = TaxonomicCategory.Species;
+                    }
+                    else if (wordNum == 2)
+                    {
+                        child.Category = TaxonomicCategory.Subspecies;
+                    }
+                }
             }
         }
     }
