@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="/ControlStyles/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/CheckBoxStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/ContextMenuStyle.xaml"/>
+                <ResourceDictionary Source="/ControlStyles/ScrollBarStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/TabPageButtonStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/TitleLabelStyle.xaml"/>
