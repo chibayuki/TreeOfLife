@@ -75,9 +75,11 @@ This file is part of TreeOfLife
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Content="灭绝" VerticalContentAlignment="Center" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
-                        <CheckBox Content="存疑" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
+                        <CheckBox Content="灭绝" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
+                        <CheckBox Content="存疑" Grid.Column="2" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">
@@ -140,7 +142,7 @@ This file is part of TreeOfLife
                     <Label Content="插入&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <StackPanel Grid.Column="2">
                         <TextBox x:Name="textBox_Parent" Height="25" Style="{DynamicResource SingleLineTextBoxStyle}"/>
-                        <Grid Margin="0,5,0,0">
+                        <Grid Margin="0,10,0,0">
                             <Button x:Name="button_AddParentUplevel" Content="添加为上级" HorizontalAlignment="Left" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
                             <Button x:Name="button_AddParentDownlevel" Content="添加为下级" HorizontalAlignment="Right" Width="120" Height="25" Style="{DynamicResource ButtonStyle}"/>
                         </Grid>
@@ -164,7 +166,7 @@ This file is part of TreeOfLife
                     <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <StackPanel Grid.Column="2">
                         <TextBox x:Name="textBox_Children" Height="87" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource MultiLineTextBoxStyle}"/>
-                        <Grid Margin="0,5,0,0">
+                        <Grid Margin="0,10,0,0">
                             <Button x:Name="button_AddChildren" Content="添加" HorizontalAlignment="Right" Width="85" Height="25" Style="{DynamicResource ButtonStyle}"/>
                         </Grid>
                     </StackPanel>
