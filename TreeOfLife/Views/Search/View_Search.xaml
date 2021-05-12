@@ -24,14 +24,14 @@ This file is part of TreeOfLife
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_Name" Margin="25,25,25,0">
+        <Grid x:Name="grid_Name" Margin="25,25,25,0" Height="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="75"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="textBox_Search" Height="25" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
-            <Button x:Name="button_Search" Grid.Column="2" Content="检索" Height="25" Style="{DynamicResource ButtonStyle}"/>
+            <TextBox x:Name="textBox_Search" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
+            <Button x:Name="button_Search" Grid.Column="2" Content="检索" Style="{DynamicResource ButtonStyle}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">

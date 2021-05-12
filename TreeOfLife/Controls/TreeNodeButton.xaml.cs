@@ -178,18 +178,18 @@ namespace TreeOfLife.Controls
             label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
-        private Brush _Border => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
         private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
         private Brush _Background => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 3 : 97)).ToWpfColor());
+
+        private Brush _BorderBrush => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 35 : 65) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 15 : 85)).ToWpfColor());
 
         private void _UpdateColor()
         {
             _ThemeColor = _Taxon.GetThemeColor();
 
             border_TaxonName.Background = _Background;
-            border_TaxonName.BorderBrush = _Border;
+            border_TaxonName.BorderBrush = _BorderBrush;
 
             label_TaxonName.Foreground = _Foreground;
         }
