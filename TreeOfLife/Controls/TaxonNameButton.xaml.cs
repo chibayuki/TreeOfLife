@@ -134,18 +134,19 @@ namespace TreeOfLife.Controls
 
         private Brush _TaxonNameBackground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_Checked || _MouseOver ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
-        private Brush _BorderBrush => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 35 : 65) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 15 : 85)).ToWpfColor());
+        private Brush _BorderBrush => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {
             _ThemeColor = _Taxon.GetThemeColor();
 
             border_CategoryName.Background = _CategoryNameBackground;
+            border_CategoryName.BorderBrush = _BorderBrush;
 
             label_CategoryName.Foreground = _CategoryNameForeground;
 
-            border_TaxonName.BorderBrush = _BorderBrush;
             border_TaxonName.Background = _TaxonNameBackground;
+            border_TaxonName.BorderBrush = _BorderBrush;
 
             label_TaxonName.Foreground = _TaxonNameForeground;
         }
