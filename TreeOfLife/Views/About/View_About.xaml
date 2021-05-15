@@ -24,8 +24,8 @@ This file is part of TreeOfLife
                 <StackPanel Orientation="Horizontal">
                     <Image Width="128" Height="128" Source="{Binding AppLogo, Mode=OneWay}"/>
                     <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
-                        <Label Content="Tree of Life" FontSize="20" Foreground="{Binding TextLabel_ForeGround}"/>
-                        <Label Content="1.0 Milestone 11" FontSize="14" Foreground="{Binding TextLabel_ForeGround}"/>
+                        <Label Content="Tree of Life" FontSize="24" Foreground="{Binding TextLabel_ForeGround}"/>
+                        <Label Content="1.0 Milestone 11" FontSize="16" Foreground="{Binding TextLabel_ForeGround}"/>
                     </StackPanel>
                 </StackPanel>
                 <Label Content="{Binding AppVersion}" Foreground="{Binding TextLabel_ForeGround}"/>

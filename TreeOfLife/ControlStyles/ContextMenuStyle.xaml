@@ -33,16 +33,16 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="MenuItem.Static.Foreground" Color="#FF264673"/>
     
     <!-- HSL(215,50,50) -->
-    <SolidColorBrush x:Key="MenuItem.Highlight.Background" Color="#FF4075BF"/>
-    <SolidColorBrush x:Key="MenuItem.Highlight.BorderBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="MenuItem.Highlight.Foreground" Color="White"/>
+    <SolidColorBrush x:Key="MenuItem.Highlighted.Background" Color="#FF4075BF"/>
+    <SolidColorBrush x:Key="MenuItem.Highlighted.BorderBrush" Color="Transparent"/>
+    <SolidColorBrush x:Key="MenuItem.Highlighted.Foreground" Color="White"/>
     
     <SolidColorBrush x:Key="MenuItem.Disabled.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="MenuItem.Disabled.BorderBrush" Color="Transparent"/>
     <!-- HSL(215,0,40) -->
     <SolidColorBrush x:Key="MenuItem.Disabled.Foreground" Color="#FF666666"/>
 
-    <DropShadowEffect x:Key="MenuItem.Border.Effect" ShadowDepth="1" Direction="270" Opacity="0.5" BlurRadius="5"/>
+    <DropShadowEffect x:Key="MenuItem.Highlighted.Effect" ShadowDepth="1" Direction="270" Opacity="0.5" BlurRadius="5"/>
 
     <!-- ContextMenu Style -->
     <Style TargetType="{x:Type ContextMenu}">
@@ -53,7 +53,7 @@ This file is part of TreeOfLife
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-                    <Border x:Name="Border" Padding="0,6,0,6" CornerRadius="3" BorderThickness="1" Background="{StaticResource ContextMenu.Background}" BorderBrush="{StaticResource ContextMenu.BorderBrush}">
+                    <Border x:Name="Border" Padding="0,6,0,6" CornerRadius="3" BorderThickness="1" Background="{StaticResource ContextMenu.Background}" BorderBrush="{StaticResource ContextMenu.BorderBrush}" SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -79,7 +79,7 @@ This file is part of TreeOfLife
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border BorderThickness="1" BorderBrush="{StaticResource Separator.BorderBrush}"/>
+                    <Border BorderThickness="1" BorderBrush="{StaticResource Separator.BorderBrush}" SnapsToDevicePixels="True"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -87,7 +87,7 @@ This file is part of TreeOfLife
 
     <!-- TopLevelHeader MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}">
+        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
             <Grid>
                 <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
                 <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
@@ -104,10 +104,10 @@ This file is part of TreeOfLife
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlight.Background}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlight.BorderBrush}"/>
-                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlight.Foreground}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Border.Effect}"/>
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlighted.BorderBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlighted.Foreground}"/>
+                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
@@ -123,17 +123,17 @@ This file is part of TreeOfLife
 
     <!-- TopLevelItem MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}">
+        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
             <Grid>
                 <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlight.Background}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlight.BorderBrush}"/>
-                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlight.Foreground}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Border.Effect}"/>
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlighted.BorderBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlighted.Foreground}"/>
+                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource MenuItem.Disabled.Foreground}"/>
@@ -143,7 +143,7 @@ This file is part of TreeOfLife
 
     <!-- SubmenuHeader MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}">
+        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
@@ -173,10 +173,10 @@ This file is part of TreeOfLife
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlight.Background}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlight.BorderBrush}"/>
-                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlight.Foreground}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Border.Effect}"/>
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlighted.BorderBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlighted.Foreground}"/>
+                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
@@ -192,7 +192,7 @@ This file is part of TreeOfLife
 
     <!-- SubmenuItem MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}">
+        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{StaticResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
@@ -201,7 +201,7 @@ This file is part of TreeOfLife
                     <ColumnDefinition Width="13"/>
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                <Border x:Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" BorderThickness="1" Background="{StaticResource ContextMenu.Background}" BorderBrush="{StaticResource ContextMenu.BorderBrush}">
+                <Border x:Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" BorderThickness="1" Background="{StaticResource ContextMenu.Background}" BorderBrush="{StaticResource ContextMenu.BorderBrush}" SnapsToDevicePixels="True">
                     <Path x:Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0">
                         <Path.Stroke>
                             <SolidColorBrush Color="{StaticResource GlyphColor}"/>
@@ -224,10 +224,10 @@ This file is part of TreeOfLife
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlight.Background}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlight.BorderBrush}"/>
-                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlight.Foreground}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Border.Effect}"/>
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MenuItem.Highlighted.BorderBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource MenuItem.Highlighted.Foreground}"/>
+                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource MenuItem.Disabled.Background}"/>

@@ -19,27 +19,27 @@ This file is part of TreeOfLife
         <StackPanel Orientation="Horizontal">
             <Grid x:Name="grid_LeftPart">
                 <Grid x:Name="grid_Single">
-                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
+                    <Border BorderThickness="1" Width="25" Height="1" BorderBrush="#80808080" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
                 </Grid>
                 <Grid x:Name="grid_First">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
+                        <RowDefinition Height="1"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Grid.RowSpan="2" Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
-                    <Label Grid.Row="1" Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="1,1,0,0" CornerRadius="3,0,0,0" Width="25" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
                 </Grid>
                 <Grid x:Name="grid_Last">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
+                        <RowDefinition Height="1"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Grid.RowSpan="2" Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
-                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    <Border Grid.RowSpan="2" BorderThickness="1,0,0,1" CornerRadius="0,0,0,3" Width="25" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
                 </Grid>
                 <Grid x:Name="grid_Normal">
-                    <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
-                    <Label Width="1" Background="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                    <Border BorderThickness="1" Width="25" Height="1" BorderBrush="#80808080" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                    <Border BorderThickness="1" Width="1" BorderBrush="#80808080" VerticalAlignment="Stretch" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
                 </Grid>
             </Grid>
             <Grid x:Name="grid_MiddlePart">
@@ -48,7 +48,7 @@ This file is part of TreeOfLife
                 </Border>
             </Grid>
             <Grid x:Name="grid_RightPart">
-                <Label Width="25" Height="1" Background="#80808080" VerticalAlignment="Center"/>
+                <Border BorderThickness="1" Width="25" Height="1" BorderBrush="#80808080" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
             </Grid>
         </StackPanel>
         

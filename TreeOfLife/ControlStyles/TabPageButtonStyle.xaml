@@ -33,7 +33,7 @@ This file is part of TreeOfLife
     <!-- HSL(215,50,30) -->
     <SolidColorBrush x:Key="TabPageButton.Disabled.Foreground" Color="#FF264673"/>
 
-    <DropShadowEffect x:Key="TabPageButton.Border.Effect" ShadowDepth="5" Direction="0" Opacity="0.75" BlurRadius="5"/>
+    <DropShadowEffect x:Key="TabPageButton.Disabled.Effect" ShadowDepth="5" Direction="0" Opacity="0.75" BlurRadius="5"/>
 
     <Style x:Key="TabPageButton.FocusVisual">
         <Setter Property="Control.Template">
@@ -78,7 +78,7 @@ This file is part of TreeOfLife
                             <Setter TargetName="border" Property="Background" Value="{StaticResource TabPageButton.Disabled.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TabPageButton.Disabled.BorderBrush}"/>
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource TabPageButton.Disabled.Foreground}"/>
-                            <Setter TargetName="border" Property="Border.Effect" Value="{StaticResource TabPageButton.Border.Effect}"/>
+                            <Setter TargetName="border" Property="Border.Effect" Value="{StaticResource TabPageButton.Disabled.Effect}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

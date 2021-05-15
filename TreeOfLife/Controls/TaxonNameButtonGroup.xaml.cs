@@ -107,9 +107,9 @@ namespace TreeOfLife.Controls
         private List<_Group> _Groups = new List<_Group>();
 
         private double _GroupNameWidth = 30; // 组名称宽度。
-        private Thickness _GroupMargin = new Thickness(2); // 组外边距。
+        private Thickness _GroupMargin = new Thickness(3); // 组外边距。
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
-        private Thickness _ButtonMargin = new Thickness(4, 1, 0, 1); // 按钮外边距。
+        private Thickness _ButtonMargin = new Thickness(6, 1.5, 0, 1.5); // 按钮外边距。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
