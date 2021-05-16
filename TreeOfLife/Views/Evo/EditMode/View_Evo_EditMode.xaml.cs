@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,18 +49,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             button_Back.Click += (s, e) => Views.Common.ExitEditMode();
 
-            label_CategoryName.ContextMenu = _ContextMenu_Current;
-            label_CategoryName.MouseRightButtonUp += (s, e) =>
+            grid_CurrentTaxon.ContextMenu = _ContextMenu_Current;
+            grid_CurrentTaxon.MouseRightButtonUp += (s, e) =>
             {
                 Views.Common.RightButtonTaxon = Views.Common.CurrentTaxon;
-                (label_CategoryName.ContextMenu.DataContext as Action)?.Invoke();
-            };
-
-            label_TaxonName.ContextMenu = _ContextMenu_Current;
-            label_TaxonName.MouseRightButtonUp += (s, e) =>
-            {
-                Views.Common.RightButtonTaxon = Views.Common.CurrentTaxon;
-                (label_TaxonName.ContextMenu.DataContext as Action)?.Invoke();
+                (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
             categorySelector.MouseLeftButtonClick += CategorySelector_MouseLeftButtonClick;

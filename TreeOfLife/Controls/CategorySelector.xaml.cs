@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -113,20 +113,11 @@ namespace TreeOfLife.Controls
                 _GroupPanel.SizeChanged += _UpdateHeight;
             }
 
-            public void UpdateLayout(Thickness groupMargin, Thickness buttonMargin)
+            public void UpdateLayout(Thickness buttonMargin)
             {
-                if (_Buttons.Count > 0)
+                foreach (var button in _Buttons)
                 {
-                    _GroupPanel.Margin = groupMargin;
-
-                    foreach (var button in _Buttons)
-                    {
-                        button.Margin = buttonMargin;
-                    }
-                }
-                else
-                {
-                    _GroupPanel.Margin = new Thickness(0);
+                    button.Margin = buttonMargin;
                 }
             }
         }
@@ -552,16 +543,20 @@ namespace TreeOfLife.Controls
 
         private void _UpdateLayout()
         {
-            _Level1Group.UpdateLayout(new Thickness(_GroupMargin.Left, 0, _GroupMargin.Right, _GroupMargin.Bottom), _ButtonMargin);
+            _Level1Group.UpdateLayout(_ButtonMargin);
+
+            border_Level2.Margin = new Thickness(0, _GroupMargin.Top, 0, _GroupMargin.Bottom);
 
             foreach (var group in _Level2Groups.Values)
             {
-                group.UpdateLayout(_GroupMargin, _ButtonMargin);
+                group.UpdateLayout(_ButtonMargin);
             }
+
+            border_Level3.Margin = new Thickness(0, _GroupMargin.Top, 0, _GroupMargin.Bottom);
 
             foreach (var group in _Level3Groups.Values)
             {
-                group.UpdateLayout(new Thickness(_GroupMargin.Left, _GroupMargin.Top, _GroupMargin.Right, 0), _ButtonMargin);
+                group.UpdateLayout(_ButtonMargin);
             }
         }
 
@@ -692,11 +687,11 @@ namespace TreeOfLife.Controls
                 {
                     _Level2Group.GroupPanel.Visibility = Visibility.Visible;
 
-                    grid_Level2.Visibility = Visibility.Visible;
+                    stackPanel_Level2.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    grid_Level2.Visibility = Visibility.Collapsed;
+                    stackPanel_Level2.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -718,11 +713,11 @@ namespace TreeOfLife.Controls
                 {
                     _Level3Group.GroupPanel.Visibility = Visibility.Visible;
 
-                    grid_Level3.Visibility = Visibility.Visible;
+                    stackPanel_Level3.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    grid_Level3.Visibility = Visibility.Collapsed;
+                    stackPanel_Level3.Visibility = Visibility.Collapsed;
                 }
             }
         }

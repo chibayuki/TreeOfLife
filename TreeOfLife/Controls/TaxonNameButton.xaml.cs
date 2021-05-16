@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -78,14 +78,14 @@ namespace TreeOfLife.Controls
 
         private void _UpdateCategoryNameWidth()
         {
-            label_CategoryName.Width = _CategoryNameWidth;
+            border_CategoryName.Width = _CategoryNameWidth;
         }
 
         private void _UpdateTaxon()
         {
             if (_Taxon == null || _Taxon.IsAnonymous())
             {
-                label_CategoryName.Content = string.Empty;
+                textBlock_CategoryName.Text = string.Empty;
             }
             else
             {
@@ -95,24 +95,24 @@ namespace TreeOfLife.Controls
                 {
                     if (_Taxon.IsParaphyly)
                     {
-                        label_CategoryName.Content = "并系群";
+                        textBlock_CategoryName.Text = "并系群";
                     }
                     else if (_Taxon.IsPolyphyly)
                     {
-                        label_CategoryName.Content = "复系群";
+                        textBlock_CategoryName.Text = "复系群";
                     }
                     else
                     {
-                        label_CategoryName.Content = category.GetChineseName();
+                        textBlock_CategoryName.Text = category.GetChineseName();
                     }
                 }
                 else
                 {
-                    label_CategoryName.Content = category.GetChineseName();
+                    textBlock_CategoryName.Text = category.GetChineseName();
                 }
             }
 
-            label_TaxonName.Content = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
+            textBlock_TaxonName.Text = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
         }
 
         private void _UpdateFont()
@@ -122,8 +122,8 @@ namespace TreeOfLife.Controls
             bool basicPrimary = category.IsBasicPrimaryCategory();
             bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
 
-            label_CategoryName.FontStyle = label_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-            label_CategoryName.FontWeight = label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+            textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
+            textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
         private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
@@ -143,12 +143,12 @@ namespace TreeOfLife.Controls
             border_CategoryName.Background = _CategoryNameBackground;
             border_CategoryName.BorderBrush = _BorderBrush;
 
-            label_CategoryName.Foreground = _CategoryNameForeground;
+            textBlock_CategoryName.Foreground = _CategoryNameForeground;
 
             border_TaxonName.Background = _TaxonNameBackground;
             border_TaxonName.BorderBrush = _BorderBrush;
 
-            label_TaxonName.Foreground = _TaxonNameForeground;
+            textBlock_TaxonName.Foreground = _TaxonNameForeground;
         }
 
         //

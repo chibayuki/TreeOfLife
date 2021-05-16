@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -17,6 +17,5 @@ This file is part of TreeOfLife
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <WrapPanel x:Name="wrapPanel_Tags"/>
-
     </Grid>
 </UserControl>

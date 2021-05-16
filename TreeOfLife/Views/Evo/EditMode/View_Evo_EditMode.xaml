@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -24,7 +24,7 @@ This file is part of TreeOfLife
             <RowDefinition Height="75"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Margin="25,25,25,0">
+        <Grid Margin="25,25,25,0" x:Name="grid_CurrentTaxon">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition/>
@@ -32,11 +32,11 @@ This file is part of TreeOfLife
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="1" BlurRadius="5" Opacity="0.5" Direction="270"/>
             </Grid.Effect>
-            <Border x:Name="border_CategoryName" CornerRadius="3,0,0,3" SnapsToDevicePixels="True" Background="{Binding CategoryName_BackGround}">
-                <Label x:Name="label_CategoryName" Content="{Binding CategoryName}" Width="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
+            <Border CornerRadius="3,0,0,3" SnapsToDevicePixels="True" Background="{Binding CategoryName_BackGround}">
+                <TextBlock Text="{Binding CategoryName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
-            <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
-                <Label x:Name="label_TaxonName" Content="{Binding TaxonName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold"/>
+            <Border Grid.Column="1" BorderThickness="1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
+                <TextBlock Text="{Binding TaxonName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
             </Border>
             <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
         </Grid>
@@ -219,6 +219,5 @@ This file is part of TreeOfLife
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </UserControl>

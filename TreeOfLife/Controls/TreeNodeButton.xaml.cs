@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,13 +64,13 @@ namespace TreeOfLife.Controls
                 _UpdateColor();
             };
 
-            label_TaxonName.MouseEnter += (s, e) =>
+            textBlock_TaxonName.MouseEnter += (s, e) =>
             {
                 _MouseOver = true;
                 _UpdateColor();
             };
 
-            label_TaxonName.MouseLeave += (s, e) =>
+            textBlock_TaxonName.MouseLeave += (s, e) =>
             {
                 _MouseOver = false;
                 _UpdateColor();
@@ -157,7 +157,7 @@ namespace TreeOfLife.Controls
 
             if (_ShowButton && _Taxon != null)
             {
-                label_TaxonName.Content = (_Sign == 0 ? _Taxon.GetLongName() : _Taxon.GetLongName() + (_Sign < 0 ? " [-]" : " [+]"));
+                textBlock_TaxonName.Text = (_Sign == 0 ? _Taxon.GetLongName() : _Taxon.GetLongName() + (_Sign < 0 ? " [-]" : " [+]"));
 
                 grid_MiddlePart.Visibility = Visibility.Visible;
             }
@@ -174,8 +174,8 @@ namespace TreeOfLife.Controls
             bool basicPrimary = category.IsBasicPrimaryCategory();
             bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
 
-            label_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-            label_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+            textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
+            textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
         private Brush _Foreground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
@@ -191,14 +191,14 @@ namespace TreeOfLife.Controls
             border_TaxonName.Background = _Background;
             border_TaxonName.BorderBrush = _BorderBrush;
 
-            label_TaxonName.Foreground = _Foreground;
+            textBlock_TaxonName.Foreground = _Foreground;
         }
 
         internal bool VerifyMousePosition()
         {
-            Point p = Mouse.GetPosition(label_TaxonName);
+            Point p = Mouse.GetPosition(textBlock_TaxonName);
 
-            return (p.X >= 0 && p.X < label_TaxonName.ActualWidth && p.Y >= 0 && p.Y < label_TaxonName.ActualHeight);
+            return (p.X >= 0 && p.X < textBlock_TaxonName.ActualWidth && p.Y >= 0 && p.Y < textBlock_TaxonName.ActualHeight);
         }
 
         //

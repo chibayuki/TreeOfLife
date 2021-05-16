@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -63,12 +63,12 @@ namespace TreeOfLife.Controls
         {
             border_Tag.Background = _Background;
 
-            label_Tag.Foreground = _Foreground;
+            textBlock_Tag.Foreground = _Foreground;
         }
 
         private void _UpdateText()
         {
-            label_Tag.Content = _Text;
+            textBlock_Tag.Text = _Text;
         }
 
         //

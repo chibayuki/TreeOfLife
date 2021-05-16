@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -18,12 +18,11 @@ This file is part of TreeOfLife
     <Grid>
         <DockPanel>
             <Border x:Name="border_CategoryName" BorderThickness="1,1,0,1" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
-                <Label x:Name="label_CategoryName" Content="CategoryName" Width="100" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}"/>
+                <TextBlock x:Name="textBlock_CategoryName" Text="CategoryName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" TextTrimming="CharacterEllipsis"/>
             </Border>
             <Border x:Name="border_TaxonName" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">
-                <Label x:Name="label_TaxonName" Content="TaxonName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}"/>
+                <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameButton}}}" TextTrimming="CharacterEllipsis"/>
             </Border>
         </DockPanel>
-
     </Grid>
 </UserControl>

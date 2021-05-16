@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1100.1000.M11.210405-0000
+Version 1.0.1132.1000.M11.210516-1800
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -17,8 +17,7 @@ This file is part of TreeOfLife
              d:DesignHeight="50" d:DesignWidth="100">
     <Grid>
         <Border x:Name="border_Tag" CornerRadius="3" SnapsToDevicePixels="True">
-            <Label x:Name="label_Tag" Content="Label" Padding="6,3,6,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MinWidth="{Binding MinWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MaxWidth="{Binding MaxWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MinHeight="{Binding MinHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" MaxHeight="{Binding MaxHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}"/>
+            <TextBlock x:Name="textBlock_Tag" Text="Tag" Margin="6,3,6,3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}" FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Tag}}}"/>
         </Border>
-
     </Grid>
 </UserControl>
