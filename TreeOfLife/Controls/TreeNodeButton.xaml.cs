@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1132.1000.M11.210516-1800
+Version 1.0.1134.1000.M11.210518-2200
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,13 +64,13 @@ namespace TreeOfLife.Controls
                 _UpdateColor();
             };
 
-            textBlock_TaxonName.MouseEnter += (s, e) =>
+            border_TaxonName.MouseEnter += (s, e) =>
             {
                 _MouseOver = true;
                 _UpdateColor();
             };
 
-            textBlock_TaxonName.MouseLeave += (s, e) =>
+            border_TaxonName.MouseLeave += (s, e) =>
             {
                 _MouseOver = false;
                 _UpdateColor();
@@ -196,9 +196,9 @@ namespace TreeOfLife.Controls
 
         internal bool VerifyMousePosition()
         {
-            Point p = Mouse.GetPosition(textBlock_TaxonName);
+            Point p = Mouse.GetPosition(border_TaxonName);
 
-            return (p.X >= 0 && p.X < textBlock_TaxonName.ActualWidth && p.Y >= 0 && p.Y < textBlock_TaxonName.ActualHeight);
+            return (p.X >= 0 && p.X < border_TaxonName.ActualWidth && p.Y >= 0 && p.Y < border_TaxonName.ActualHeight);
         }
 
         //
