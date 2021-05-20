@@ -61,7 +61,7 @@ namespace TreeOfLife.Views.Search
                 }
             };
 
-            taxonNameButtonGroup_SearchResult.MouseLeftButtonClick += (s, e) =>
+            EventHandler<TaxonNameButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
             {
                 if (e.Taxon.IsRoot)
                 {
@@ -73,20 +73,37 @@ namespace TreeOfLife.Views.Search
                     ViewModel.ClickSearchResult();
                 }
             };
+
+            taxonNameButtonGroup_SearchResult_Perfect.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
+            taxonNameButtonGroup_SearchResult_High.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
+            taxonNameButtonGroup_SearchResult_Low.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
         }
 
         //
 
         #region 搜索
 
-        private List<TaxonNameItem> _SearchResult = new List<TaxonNameItem>();
+        private List<TaxonNameItem> _SearchResult_Perfect = new List<TaxonNameItem>();
+        private List<TaxonNameItem> _SearchResult_High = new List<TaxonNameItem>();
+        private List<TaxonNameItem> _SearchResult_Low = new List<TaxonNameItem>();
+
+        // 更新可见性。
+        private void _UpdateVisibility()
+        {
+            grid_SearchResult_Empty.Visibility = (_SearchResult_Perfect.Count > 0 || _SearchResult_High.Count > 0 || _SearchResult_Low.Count > 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_SearchResult_Perfect.Visibility = (_SearchResult_Perfect.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_SearchResult_High.Visibility = (_SearchResult_High.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_SearchResult_Low.Visibility = (_SearchResult_Low.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+        }
 
         // 搜索并更新结果。
         private void _SearchAndUpdateResult()
         {
-            _SearchResult.Clear();
+            _SearchResult_Perfect.Clear();
+            _SearchResult_High.Clear();
+            _SearchResult_Low.Clear();
 
-            IReadOnlyList<Taxon> searchResult;
+            IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult;
 
 #if !DEBUG
             try
@@ -105,22 +122,49 @@ namespace TreeOfLife.Views.Search
             {
                 for (int i = 0; i < searchResult.Count; i++)
                 {
-                    Taxon taxon = searchResult[i];
+                    (Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel) = searchResult[i];
 
-                    _SearchResult.Add(new TaxonNameItem() { Taxon = taxon });
+                    if (matchLevel == TaxonSearchExtension.MatchLevel.Perfect)
+                    {
+                        _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
+                    }
+                    else if (matchLevel == TaxonSearchExtension.MatchLevel.High)
+                    {
+                        _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
+                    }
+                    else
+                    {
+                        _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
+                    }
                 }
             }
 
-            taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
+            taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
+            taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
+            taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+
+            _UpdateVisibility();
         }
 
         // 裁剪搜索结果，去除已被删除的类群。
         private void _TrimSearchResult()
         {
-            if (_SearchResult.Count > 0 && _SearchResult.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+            if (_SearchResult_Perfect.Count > 0 && _SearchResult_Perfect.RemoveAll((item) => item.Taxon.IsRoot) > 0)
             {
-                taxonNameButtonGroup_SearchResult.UpdateContent(_SearchResult);
+                taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
             }
+
+            if (_SearchResult_High.Count > 0 && _SearchResult_High.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+            {
+                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
+            }
+
+            if (_SearchResult_Low.Count > 0 && _SearchResult_Low.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+            {
+                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+            }
+
+            _UpdateVisibility();
         }
 
         // 清空搜索结果。
@@ -128,12 +172,28 @@ namespace TreeOfLife.Views.Search
         {
             ViewModel.KeyWord = string.Empty;
 
-            if (_SearchResult.Count > 0)
+            if (_SearchResult_Perfect.Count > 0)
             {
-                _SearchResult.Clear();
+                _SearchResult_Perfect.Clear();
 
-                taxonNameButtonGroup_SearchResult.Clear();
+                taxonNameButtonGroup_SearchResult_Perfect.Clear();
             }
+
+            if (_SearchResult_High.Count > 0)
+            {
+                _SearchResult_High.Clear();
+
+                taxonNameButtonGroup_SearchResult_High.Clear();
+            }
+
+            if (_SearchResult_Low.Count > 0)
+            {
+                _SearchResult_Low.Clear();
+
+                taxonNameButtonGroup_SearchResult_Low.Clear();
+            }
+
+            _UpdateVisibility();
         }
 
         #endregion
@@ -150,7 +210,9 @@ namespace TreeOfLife.Views.Search
             {
                 _IsDarkTheme = value;
 
-                taxonNameButtonGroup_SearchResult.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_SearchResult_Perfect.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_SearchResult_High.IsDarkTheme = _IsDarkTheme;
+                taxonNameButtonGroup_SearchResult_Low.IsDarkTheme = _IsDarkTheme;
 
                 ViewModel.IsDarkTheme = _IsDarkTheme;
             }

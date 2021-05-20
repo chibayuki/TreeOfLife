@@ -68,8 +68,8 @@ namespace TreeOfLife.Taxonomy.Extensions
             return result;
         }
 
-        // 获取两个字符串的匹配率和匹配字符数。
-        private static (double matchValue, int matchLength) _GetMatchValueOfTwoString(string str1, string str2)
+        // 获取两个字符串的连续-离散 LCS 几何平均匹配率和匹配字符数。
+        private static (double matchValue, double matchLength) _GetMatchValueOfTwoString(string str1, string str2)
         {
             if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2))
             {
@@ -77,8 +77,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 string s1 = (str1.Length > 32 ? str1[0..32] : str1).ToUpperInvariant();
                 string s2 = (str2.Length > 32 ? str2[0..32] : str2).ToUpperInvariant();
 
-                int commonPartLength = _GetCommonSubsequenceLength(s1, s2, false);
-
+                // int commonPartLength = _GetCommonSubsequenceLength(s1, s2);
                 // return ((double)commonPartLength * commonPartLength / str1.Length / str2.Length, commonPartLength);
                 // 使用加法而非乘法，使得匹配率与匹配字符数更好地符合线性关系，从而使搜索结果更符合肉眼直觉。
                 // 例如：
@@ -91,7 +90,12 @@ namespace TreeOfLife.Taxonomy.Extensions
                 // 除此之外，当匹配率存在阈值约束时，二者经筛选留下的结果显然是不同的。
                 // 以及，对于同一组字符串对，二者得到的排序是可以不同的，例如：
                 // (4*4)/(16*16)=16/256 < (4*4)/(12*21)=16/252，而 (4+4)/(16+16)=8/32 > (4+4)/(12+21)=8/33。
-                return ((double)(commonPartLength + commonPartLength) / (str1.Length + str2.Length), commonPartLength);
+
+                int continueousCommonPartLength = _GetCommonSubsequenceLength(s1, s2, true);
+                int discreteCommonPartLength = _GetCommonSubsequenceLength(s1, s2, false);
+                double matchLength = Math.Sqrt((double)continueousCommonPartLength * discreteCommonPartLength);
+
+                return (2 * matchLength / (str1.Length + str2.Length), matchLength);
             }
             else
             {
@@ -159,10 +163,10 @@ namespace TreeOfLife.Taxonomy.Extensions
         }
 
         // 获取对指定类群做全字符串匹配的最佳匹配率和匹配对象。
-        private static (double matchValue, int matchLength, _MatchObject matchObject) _GetMatchValueAndObject(Taxon taxon, string str, bool matchChineseName = true, bool matchBotanicalName = true, bool matchSynonyms = true, bool matchTags = true)
+        private static (double matchValue, double matchLength, _MatchObject matchObject) _GetMatchValueAndObject(Taxon taxon, string str, bool matchChineseName = true, bool matchBotanicalName = true, bool matchSynonyms = true, bool matchTags = true)
         {
             double matchValue = 0;
-            int matchLength = 0;
+            double matchLength = 0;
             _MatchObject matchObject = _MatchObject.ChineseName;
 
             if (matchChineseName && !string.IsNullOrEmpty(taxon.ChineseName))
@@ -233,11 +237,11 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             public Taxon Taxon { get; set; }
 
-            // 匹配率。
+            // 连续-离散 LCS 几何平均匹配率。
             public double MatchValue { get; set; }
 
-            // 匹配字符数。
-            public int MatchLength { get; set; }
+            // 连续-离散 LCS 几何平均匹配字符数。
+            public double MatchLength { get; set; }
 
             public _CategoryRelativity CategoryRelativity { get; set; }
 
@@ -325,15 +329,8 @@ namespace TreeOfLife.Taxonomy.Extensions
                 {
                     result.CategoryRelativity = _GetCategoryRelativity(taxon.Category, _KeyWordCategory.Value);
 
-                    // 分类阶元相同的
-                    if (result.CategoryRelativity == _CategoryRelativity.Equals)
-                    {
-                        result.MatchValue = 1;
-                        result.MatchLength = _KeyWord.Length;
-                        result.MatchObject = _MatchObject.ChineseName;
-                    }
-                    // 仅基本分类阶元相同的
-                    else if (result.CategoryRelativity == _CategoryRelativity.Relevant)
+                    // 分类阶元相同或相关的
+                    if (result.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)
                     {
                         result.MatchValue = 1;
                         result.MatchLength = _KeyWord.Length;
@@ -352,23 +349,8 @@ namespace TreeOfLife.Taxonomy.Extensions
             {
                 result.CategoryRelativity = _CategoryRelativity.Irrelevant;
 
-                // 做关键字与中文名的全字符串匹配
-                if (!string.IsNullOrEmpty(taxon.ChineseName))
-                {
-                    (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
-                    result.MatchObject = _MatchObject.ChineseName;
-                }
-
-                // 尝试获得更高的匹配率，继续做关键字的全字符串匹配
-                if (result.MatchValue < 1)
-                {
-                    var m = _GetMatchValueAndObject(taxon, _KeyWord, matchChineseName: false);
-
-                    if (result.MatchValue < m.matchValue || (result.MatchValue == m.matchValue && result.MatchLength < m.matchLength))
-                    {
-                        (result.MatchValue, result.MatchLength, result.MatchObject) = m;
-                    }
-                }
+                // 做关键字的全字符串匹配
+                (result.MatchValue, result.MatchLength, result.MatchObject) = _GetMatchValueAndObject(taxon, _KeyWord);
             }
 
             return result;
@@ -401,8 +383,16 @@ namespace TreeOfLife.Taxonomy.Extensions
             }
         }
 
+        // 匹配程度
+        public enum MatchLevel
+        {
+            Perfect, // 完全匹配
+            High, // 匹配度较高
+            Low // 匹配度较低
+        }
+
         // 搜索符合指定的关键词的子类群。
-        public static IReadOnlyList<Taxon> Search(this Taxon taxon, string keyWord)
+        public static IReadOnlyList<(Taxon taxon, MatchLevel matchLevel)> Search(this Taxon taxon, string keyWord)
         {
             if (taxon == null)
             {
@@ -435,14 +425,53 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                 taxon._GetMatchedChildren();
 
-                var taxons = from mr in _MatchResults
-                             orderby mr.MatchValue descending,
-                             mr.MatchLength descending,
-                             mr.CategoryRelativity ascending,
-                             mr.MatchObject ascending
-                             select mr.Taxon;
+                var matchResults = from mr in _MatchResults
+                                   orderby mr.MatchValue descending,
+                                   mr.MatchLength descending,
+                                   mr.CategoryRelativity ascending,
+                                   mr.MatchObject ascending
+                                   select mr;
 
-                List<Taxon> result = taxons.ToList();
+                List<(Taxon, MatchLevel)> result = new List<(Taxon, MatchLevel)>();
+
+                // 关键字仅包含分类阶元名称的，按分类阶元相关性设定匹配程度
+                if (_KeyWordCategory != null && string.IsNullOrEmpty(_KeyWordWithoutCategory))
+                {
+                    foreach (var mr in matchResults)
+                    {
+                        if (mr.CategoryRelativity == _CategoryRelativity.Equals)
+                        {
+                            result.Add((mr.Taxon, MatchLevel.Perfect));
+                        }
+                        else if (mr.CategoryRelativity == _CategoryRelativity.Relevant)
+                        {
+                            result.Add((mr.Taxon, MatchLevel.High));
+                        }
+                        else
+                        {
+                            result.Add((mr.Taxon, MatchLevel.Low));
+                        }
+                    }
+                }
+                // 其他情况下，按匹配率设定匹配程度
+                else
+                {
+                    foreach (var mr in matchResults)
+                    {
+                        if (mr.MatchValue >= 1.0)
+                        {
+                            result.Add((mr.Taxon, MatchLevel.Perfect));
+                        }
+                        else if (mr.MatchValue >= 2.0 / 3.0)
+                        {
+                            result.Add((mr.Taxon, MatchLevel.High));
+                        }
+                        else
+                        {
+                            result.Add((mr.Taxon, MatchLevel.Low));
+                        }
+                    }
+                }
 
                 _MatchResults.Clear();
 
