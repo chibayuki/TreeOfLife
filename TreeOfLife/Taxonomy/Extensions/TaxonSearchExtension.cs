@@ -82,11 +82,11 @@ namespace TreeOfLife.Taxonomy.Extensions
                 // 使用加法而非乘法，使得匹配率与匹配字符数更好地符合线性关系，从而使搜索结果更符合肉眼直觉。
                 // 例如：
                 // (1) "ABCD"与"ABXY"，匹配率按乘法计算为 (2*2)/(4*4)=1/4，按加法计算为 (2+2)/(4+4)=1/2，
-                //     后者更好地表示"二者有1/2是相同的"。
+                //     后者更好地表示"二者有 1/2 是相同的"。
                 // (2) "ABCD"与"AXYZ"，匹配率按乘法计算为 (1*1)/(4*4)=1/16，按加法计算为 (1+1)/(4+4)=1/4，
-                //     后者不仅更好地表示"二者有1/4是相同的"，还更好的表示"与(1)相比，相似的程度下降了1/2"。
+                //     后者不仅更好地表示"二者有 1/4 是相同的"，还更好的表示"与 (1) 相比，相似的程度下降了 1/2"。
                 // (3) "A"与"AXYZ"，匹配率按乘法计算为 (1*1)/(1*4)=1/4，按加法计算为 (1+1)/(1+4)=2/5，
-                //     按乘法计算得到了与(1)相同的匹配率，按加法计算得到的匹配率则介于(1)与(2)之间，后者得到的相似程度的排序关系更符合肉眼直觉。
+                //     按乘法计算得到了与 (1) 相同的匹配率，按加法计算得到的匹配率则介于 (1) 与 (2) 之间，后者得到的相似程度的排序关系更符合肉眼直觉。
                 // 除此之外，当匹配率存在阈值约束时，二者经筛选留下的结果显然是不同的。
                 // 以及，对于同一组字符串对，二者得到的排序是可以不同的，例如：
                 // (4*4)/(16*16)=16/256 < (4*4)/(12*21)=16/252，而 (4+4)/(16+16)=8/32 > (4+4)/(12+21)=8/33。
@@ -266,7 +266,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         private static string _KeyWordWithoutCategory; // 关键字除了表示分类阶元（如果有）之外的部分。
         private static string _KeyWordWithoutCategoryAsClade; // 当关键字中包含的分类阶元为类并将其视为演化支时，关键字除了表示分类阶元之外的部分。
 
-        // 获取指定类群在当前匹配条件下模糊匹配的匹配结果。
+        // 获取指定类群在当前匹配条件下的匹配结果。
         private static _MatchResult _GetMatchResultOfTaxon(Taxon taxon)
         {
             if (taxon == null)
@@ -294,23 +294,14 @@ namespace TreeOfLife.Taxonomy.Extensions
                         result.CategoryRelativity = _GetCategoryRelativity(taxon.Category, _KeyWordCategory.Value);
                     }
 
+                    // 做部分关键字与部分中文名的匹配
                     if (!string.IsNullOrEmpty(taxon.ChineseName))
                     {
-                        // 分类阶元相同或相关的，做部分关键字与部分中文名的匹配
-                        if (result.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)
-                        {
-                            string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
-                            string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
+                        string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
+                        string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
 
-                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
-                            result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
-                        }
-                        // 分类阶元不相关的，做关键字与中文名的全字符串匹配
-                        else
-                        {
-                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(_KeyWord, taxon.ChineseName);
-                            result.MatchObject = _MatchObject.ChineseName;
-                        }
+                        (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
+                        result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
                     }
 
                     // 尝试获得更高的匹配率，继续做关键字的全字符串匹配
@@ -372,7 +363,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 {
                     _MatchResult mr = _GetMatchResultOfTaxon(child);
 
-                    // 丢弃匹配率过低的结果，至少每5个字符中需要有1个匹配的字符，(1+1)/(1+5)=1/3
+                    // 丢弃匹配率过低的结果，至少每 5 个字符中需要有 1 个匹配的字符，(1+1)/(1+5)=1/3
                     if (mr.MatchValue >= 1.0 / 3.0)
                     {
                         _MatchResults.Add(mr);
@@ -434,26 +425,49 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                 List<(Taxon, MatchLevel)> result = new List<(Taxon, MatchLevel)>();
 
-                // 关键字仅包含分类阶元名称的，按分类阶元相关性设定匹配程度
-                if (_KeyWordCategory != null && string.IsNullOrEmpty(_KeyWordWithoutCategory))
+                // 关键字包含分类阶元名称的
+                if (_KeyWordCategory != null)
                 {
-                    foreach (var mr in matchResults)
+                    // 关键字包含分类阶元名称，还包含除此之外的，按匹配率与分类阶元相关性设定匹配程度
+                    if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))
                     {
-                        if (mr.CategoryRelativity == _CategoryRelativity.Equals)
+                        foreach (var mr in matchResults)
                         {
-                            result.Add((mr.Taxon, MatchLevel.Perfect));
+                            if (mr.MatchValue >= 1.0 && mr.CategoryRelativity == _CategoryRelativity.Equals)
+                            {
+                                result.Add((mr.Taxon, MatchLevel.Perfect));
+                            }
+                            else if (mr.MatchValue >= 1.0 || (mr.MatchValue >= 2.0 / 3.0 && (mr.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)))
+                            {
+                                result.Add((mr.Taxon, MatchLevel.High));
+                            }
+                            else
+                            {
+                                result.Add((mr.Taxon, MatchLevel.Low));
+                            }
                         }
-                        else if (mr.CategoryRelativity == _CategoryRelativity.Relevant)
+                    }
+                    // 关键字仅包含分类阶元名称的，按分类阶元相关性设定匹配程度
+                    else
+                    {
+                        foreach (var mr in matchResults)
                         {
-                            result.Add((mr.Taxon, MatchLevel.High));
-                        }
-                        else
-                        {
-                            result.Add((mr.Taxon, MatchLevel.Low));
+                            if (mr.CategoryRelativity == _CategoryRelativity.Equals)
+                            {
+                                result.Add((mr.Taxon, MatchLevel.Perfect));
+                            }
+                            else if (mr.CategoryRelativity == _CategoryRelativity.Relevant)
+                            {
+                                result.Add((mr.Taxon, MatchLevel.High));
+                            }
+                            else
+                            {
+                                result.Add((mr.Taxon, MatchLevel.Low));
+                            }
                         }
                     }
                 }
-                // 其他情况下，按匹配率设定匹配程度
+                // 关键字不含分类阶元名称的，按匹配率设定匹配程度
                 else
                 {
                     foreach (var mr in matchResults)
