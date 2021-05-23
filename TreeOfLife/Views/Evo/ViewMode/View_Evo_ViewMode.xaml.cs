@@ -90,8 +90,45 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             foreach (var child in currentTaxon.GetNamedChildren(true))
             {
-                // 逐个添加当前类群的具名子类群
-                children.Add((child, 0));
+                // 添加当前类群的具名子类群（若当前类群是并系群，则只添加未被排除的具名子类群）
+                if (currentTaxon.Excludes.Count > 0)
+                {
+                    bool childIsExcludedByCurrent = false;
+
+                    foreach (var exclude in currentTaxon.Excludes)
+                    {
+                        if (exclude.IsNamed())
+                        {
+                            if (child == exclude)
+                            {
+                                childIsExcludedByCurrent = true;
+
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in exclude.GetNamedChildren(true))
+                            {
+                                if (child == item)
+                                {
+                                    childIsExcludedByCurrent = true;
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!childIsExcludedByCurrent)
+                    {
+                        children.Add((child, 0));
+                    }
+                }
+                else
+                {
+                    children.Add((child, 0));
+                }
 
                 // 若具名子类群是并系群，添加并系群排除的类群
                 foreach (var exclude in child.Excludes)
@@ -159,12 +196,12 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            grid_Tags.Visibility = (currentTaxon.Tags.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Parents.Visibility = (currentTaxon.IsRoot ? Visibility.Collapsed : Visibility.Visible);
-            grid_Children.Visibility = (taxonNameButtonGroup_Children.GetGroupCount() <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Excludes.Visibility = (currentTaxon.Excludes.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_Desc.Visibility = (string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Collapsed : Visibility.Visible);
+            grid_Tags.Visibility = (currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Parents.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
+            grid_Children.Visibility = (taxonNameButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Excludes.Visibility = (currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Desc.Visibility = (!string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed);
         }
 
         public void UpdateCurrentTaxonInfo()

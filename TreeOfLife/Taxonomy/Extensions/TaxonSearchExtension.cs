@@ -127,9 +127,9 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 分类阶元的相关性。
         private enum _CategoryRelativity
         {
-            Equals,
-            Relevant,
-            Irrelevant
+            Equals, // 相同
+            Relevant, // 相关
+            Irrelevant // 不相关
         }
 
         // 获取两个分类阶元的相关性。
@@ -155,11 +155,11 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 匹配的对象。
         private enum _MatchObject
         {
-            ChineseNameWithoutCategory,
-            ChineseName,
-            BotanicalName,
-            Synonyms,
-            Tags
+            ChineseNameWithoutCategory, // 中文名不含分类阶元的部分
+            ChineseName, // 中文名
+            BotanicalName, // 学名
+            Synonyms, // 异名
+            Tags // 标签
         }
 
         // 获取对指定类群做全字符串匹配的最佳匹配率和匹配对象。
@@ -285,9 +285,27 @@ namespace TreeOfLife.Taxonomy.Extensions
                 if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))
                 {
                     // 特殊处理"类"字，使其在特定情况下也表示演化支
-                    if (taxon.Category.IsClade() && _KeyWordCategory.Value.IsDivision() && taxon.ChineseName.EndsWith("类"))
+                    if (_KeyWordCategory.Value.IsDivision() && taxon.Category.IsClade() && taxon.ChineseName.EndsWith("类"))
                     {
                         result.CategoryRelativity = _CategoryRelativity.Equals;
+                    }
+                    // 特殊处理"群"字，使其在特定情况下也表示并系群
+                    else if (_KeyWordCategory.Value.IsCohort() && _KeyWord == "并系群" && taxon.IsParaphyly)
+                    {
+                        result.CategoryRelativity = _CategoryRelativity.Equals;
+
+                        result.MatchValue = 1;
+                        result.MatchLength = _KeyWord.Length;
+                        result.MatchObject = _MatchObject.ChineseName;
+                    }
+                    // 特殊处理"群"字，使其在特定情况下也表示复系群
+                    else if (_KeyWordCategory.Value.IsCohort() && _KeyWord == "复系群" && taxon.IsPolyphyly)
+                    {
+                        result.CategoryRelativity = _CategoryRelativity.Equals;
+
+                        result.MatchValue = 1;
+                        result.MatchLength = _KeyWord.Length;
+                        result.MatchObject = _MatchObject.ChineseName;
                     }
                     else
                     {
@@ -295,13 +313,16 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
 
                     // 做部分关键字与部分中文名的匹配
-                    if (!string.IsNullOrEmpty(taxon.ChineseName))
+                    if (result.MatchValue < 1)
                     {
-                        string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
-                        string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
+                        if (!string.IsNullOrEmpty(taxon.ChineseName))
+                        {
+                            string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
+                            string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
 
-                        (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
-                        result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
+                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
+                            result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
+                        }
                     }
 
                     // 尝试获得更高的匹配率，继续做关键字的全字符串匹配

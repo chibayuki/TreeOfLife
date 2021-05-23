@@ -17,7 +17,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 
-using TreeOfLife.Controls;
 using TreeOfLife.Phylogeny;
 
 namespace TreeOfLife.Views.File
@@ -220,7 +219,7 @@ namespace TreeOfLife.Views.File
             Button_BackGround = Common.Button_BackGround;
             SubTitle_ForeGround = Common.SubTitle_ForeGround;
             SubTitle_BackGround = Common.SubTitle_BackGround;
-            TextLabel_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            TextLabel_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme

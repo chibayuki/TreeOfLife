@@ -24,6 +24,7 @@ using System.Windows.Shapes;
 
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
+using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -169,7 +170,7 @@ namespace TreeOfLife.Controls
             foreach (var group in _Groups)
             {
                 group.NameLabel.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                ((Border)group.NameLabel.Parent).Background = SolidColorBrushes.GetBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
+                ((Border)group.NameLabel.Parent).Background = Common.GetSolidColorBrush(group.ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
                 foreach (var button in group.Buttons)
                 {

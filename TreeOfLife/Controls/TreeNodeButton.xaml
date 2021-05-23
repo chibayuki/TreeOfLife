@@ -44,7 +44,16 @@ This file is part of TreeOfLife
             </Grid>
             <Grid x:Name="grid_MiddlePart">
                 <Border x:Name="border_TaxonName" Margin="0,3,0,3" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
-                    <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3">
+                        <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName"  HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TreeNodeButton}}}"/>
+                        <Grid x:Name="grid_Positive" Margin="6,0,0,0">
+                            <Border BorderThickness="1" Width="10" Height="2" BorderBrush="#80808080" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                            <Border BorderThickness="1" Width="2" Height="10" BorderBrush="#80808080" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                        </Grid>
+                        <Grid x:Name="grid_Negative" Margin="6,0,0,0">
+                            <Border BorderThickness="1" Width="10" Height="2" BorderBrush="#80808080" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                        </Grid>
+                    </StackPanel>
                 </Border>
             </Grid>
             <Grid x:Name="grid_RightPart">

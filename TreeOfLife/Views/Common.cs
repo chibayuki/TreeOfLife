@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 using System.Windows.Media;
 
-using TreeOfLife.Controls;
 using TreeOfLife.Taxonomy;
 
 namespace TreeOfLife.Views
@@ -45,21 +44,40 @@ namespace TreeOfLife.Views
 
         //
 
+        private static Dictionary<Color, SolidColorBrush> _SolidColorBrushes = new Dictionary<Color, SolidColorBrush>();
+
+        // 用于获取和缓存单色 Brush。
+        public static SolidColorBrush GetSolidColorBrush(Color color)
+        {
+            SolidColorBrush brush;
+
+            if (!_SolidColorBrushes.TryGetValue(color, out brush))
+            {
+                brush = new SolidColorBrush(color);
+
+                _SolidColorBrushes.Add(color, brush);
+            }
+
+            return brush;
+        }
+
+        //
+
         #region 主题
 
         private static bool _IsDarkTheme;
 
         private static void _UpdateColors()
         {
-            Button_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(128, 128, 128) : Color.FromRgb(64, 64, 64));
-            Button_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
-            SubTitle_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
-            SubTitle_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
-            TextBox_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            Button_ForeGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(128, 128, 128) : Color.FromRgb(64, 64, 64));
+            Button_BackGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(32, 32, 32) : Color.FromRgb(224, 224, 224));
+            SubTitle_ForeGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            SubTitle_BackGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(48, 48, 48) : Color.FromRgb(208, 208, 208));
+            TextBox_ForeGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
             TextBox_BackGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            TextBox_Selection = SolidColorBrushes.GetBrush(Color.FromRgb(0, 120, 215));
+            TextBox_Selection = GetSolidColorBrush(Color.FromRgb(0, 120, 215));
             TextBox_SelectionText = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            CheckBox_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
+            CheckBox_ForeGround = GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(48, 48, 48));
         }
 
         public static bool IsDarkTheme

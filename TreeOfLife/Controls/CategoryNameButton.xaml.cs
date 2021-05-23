@@ -25,6 +25,7 @@ using System.Windows.Shapes;
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
+using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -73,9 +74,9 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {

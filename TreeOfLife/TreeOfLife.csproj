@@ -4,12 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.1134.1000</AssemblyVersion>
-    <FileVersion>1.0.1134.1000</FileVersion>
+    <AssemblyVersion>1.0.1207.1000</AssemblyVersion>
+    <FileVersion>1.0.1207.1000</FileVersion>
     <Copyright>Copyright © 2021 chibayuki@foxmail.com</Copyright>
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
-    <Version>1.0.1134.1000</Version>
+    <Version>1.0.1207.1000</Version>
     <ApplicationIcon>Resources\AppLogo_256.ico</ApplicationIcon>
   </PropertyGroup>
 

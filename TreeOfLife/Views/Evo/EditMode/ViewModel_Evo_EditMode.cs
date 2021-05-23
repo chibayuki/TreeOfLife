@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
-using TreeOfLife.Controls;
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
@@ -364,9 +363,9 @@ namespace TreeOfLife.Views.Evo.EditMode
             Button_ForeGround = Views.Common.Button_ForeGround;
             Button_BackGround = Views.Common.Button_BackGround;
             CategoryName_ForeGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            CategoryName_BackGround = SolidColorBrushes.GetBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
-            TaxonName_ForeGround = SolidColorBrushes.GetBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
-            TaxonName_BackGround = SolidColorBrushes.GetBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+            CategoryName_BackGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
+            TaxonName_ForeGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
+            TaxonName_BackGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
             SubTitle_ForeGround = Views.Common.SubTitle_ForeGround;
             SubTitle_BackGround = Views.Common.SubTitle_BackGround;
             TextBox_ForeGround = Views.Common.TextBox_ForeGround;

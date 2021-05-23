@@ -25,6 +25,7 @@ using System.Windows.Shapes;
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
+using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -112,7 +113,10 @@ namespace TreeOfLife.Controls
                 }
             }
 
-            textBlock_TaxonName.Text = (_Taxon == null ? string.Empty : (_Sign == 0 ? _Taxon.GetShortName() : _Taxon.GetShortName() + (_Sign < 0 ? " [-]" : " [+]")));
+            textBlock_TaxonName.Text = (_Taxon == null ? string.Empty : _Taxon.GetShortName());
+
+            grid_Positive.Visibility = (_Sign > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Negative.Visibility = (_Sign < 0 ? Visibility.Visible : Visibility.Collapsed);
         }
 
         private void _UpdateFont()
@@ -126,15 +130,15 @@ namespace TreeOfLife.Controls
             textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
         }
 
-        private Brush _CategoryNameForeground => SolidColorBrushes.GetBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _TaxonNameForeground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_LAB(_Checked || _MouseOver ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
+        private Brush _TaxonNameForeground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_Checked || _MouseOver ? (_IsDarkTheme ? 60 : 40) : 50).ToWpfColor());
 
-        private Brush _TaxonNameBackground => SolidColorBrushes.GetBrush(_ThemeColor.AtLightness_HSL(_Checked || _MouseOver ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
+        private Brush _TaxonNameBackground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_Checked || _MouseOver ? (_IsDarkTheme ? 10 : 90) : (_IsDarkTheme ? 3 : 97)).ToWpfColor());
 
-        private Brush _BorderBrush => SolidColorBrushes.GetBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _BorderBrush => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {

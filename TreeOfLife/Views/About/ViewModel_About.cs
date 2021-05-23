@@ -19,8 +19,6 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using TreeOfLife.Controls;
-
 namespace TreeOfLife.Views.About
 {
     public class ViewModel_About : INotifyPropertyChanged
@@ -75,7 +73,7 @@ namespace TreeOfLife.Views.About
 
         private void _UpdateColors()
         {
-            TextLabel_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            TextLabel_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme

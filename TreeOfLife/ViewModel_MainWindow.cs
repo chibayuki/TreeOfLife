@@ -17,7 +17,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-using TreeOfLife.Controls;
+using TreeOfLife.Views;
 
 namespace TreeOfLife
 {
@@ -68,10 +68,10 @@ namespace TreeOfLife
             PageButtonEnabled_Search = !(_CurrentPage.Value == Pages.Search);
             PageButtonEnabled_About = !(_CurrentPage.Value == Pages.About);
 
-            PageVisibility_File = (PageButtonEnabled_File ? Visibility.Collapsed : Visibility.Visible);
-            PageVisibility_Evo = (PageButtonEnabled_Evo ? Visibility.Collapsed : Visibility.Visible);
-            PageVisibility_Search = (PageButtonEnabled_Search ? Visibility.Collapsed : Visibility.Visible);
-            PageVisibility_About = (PageButtonEnabled_About ? Visibility.Collapsed : Visibility.Visible);
+            PageVisibility_File = (!PageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed);
+            PageVisibility_Evo = (!PageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed);
+            PageVisibility_Search = (!PageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed);
+            PageVisibility_About = (!PageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed);
         }
 
         public Pages? CurrentPage
@@ -194,9 +194,9 @@ namespace TreeOfLife
 
         private void _UpdateColors()
         {
-            Pages_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
-            PagesSide_ForeGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
-            PagesSide_BackGround = SolidColorBrushes.GetBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
+            Pages_BackGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
+            PagesSide_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
+            PagesSide_BackGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
         }
 
         public bool IsDarkTheme

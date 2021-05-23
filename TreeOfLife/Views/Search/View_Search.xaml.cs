@@ -59,6 +59,10 @@ namespace TreeOfLife.Views.Search
                 {
                     _SearchAndUpdateResult();
                 }
+                else if (e.Key == Key.Escape)
+                {
+                    ViewModel.KeyWord = string.Empty;
+                }
             };
 
             EventHandler<TaxonNameButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
@@ -90,10 +94,10 @@ namespace TreeOfLife.Views.Search
         // 更新可见性。
         private void _UpdateVisibility()
         {
-            grid_SearchResult_Empty.Visibility = (_SearchResult_Perfect.Count > 0 || _SearchResult_High.Count > 0 || _SearchResult_Low.Count > 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_SearchResult_Perfect.Visibility = (_SearchResult_Perfect.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_SearchResult_High.Visibility = (_SearchResult_High.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
-            grid_SearchResult_Low.Visibility = (_SearchResult_Low.Count <= 0 ? Visibility.Collapsed : Visibility.Visible);
+            grid_SearchResult_Empty.Visibility = (_SearchResult_Perfect.Count <= 0 && _SearchResult_High.Count <= 0 && _SearchResult_Low.Count <= 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_SearchResult_Perfect.Visibility = (_SearchResult_Perfect.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_SearchResult_High.Visibility = (_SearchResult_High.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_SearchResult_Low.Visibility = (_SearchResult_Low.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
         }
 
         // 搜索并更新结果。

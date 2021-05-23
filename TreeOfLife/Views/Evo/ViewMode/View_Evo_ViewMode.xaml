@@ -35,7 +35,7 @@ This file is part of TreeOfLife
             <Border CornerRadius="3,0,0,3" SnapsToDevicePixels="True" Background="{Binding CategoryName_BackGround}">
                 <TextBlock Text="{Binding CategoryName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
             </Border>
-            <Border Grid.Column="1" BorderThickness="1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
+            <Border Grid.Column="1" BorderThickness="0,2,2,2" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
                 <TextBlock Text="{Binding TaxonName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
             </Border>
             <Button x:Name="button_Edit" Grid.Column="1" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
