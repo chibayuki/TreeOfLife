@@ -84,7 +84,7 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTaxon()
         {
-            if (_Taxon == null || _Taxon.IsAnonymous())
+            if (_Taxon is null || _Taxon.IsAnonymous())
             {
                 textBlock_CategoryName.Text = string.Empty;
             }
@@ -104,7 +104,14 @@ namespace TreeOfLife.Controls
                     }
                     else
                     {
-                        textBlock_CategoryName.Text = category.GetChineseName();
+                        if (category.IsUnranked())
+                        {
+                            textBlock_CategoryName.Text = string.Empty;
+                        }
+                        else
+                        {
+                            textBlock_CategoryName.Text = category.GetChineseName();
+                        }
                     }
                 }
                 else
@@ -113,7 +120,7 @@ namespace TreeOfLife.Controls
                 }
             }
 
-            textBlock_TaxonName.Text = (_Taxon == null ? string.Empty : _Taxon.GetShortName());
+            textBlock_TaxonName.Text = (_Taxon is null ? string.Empty : _Taxon.GetShortName());
 
             grid_Positive.Visibility = (_Sign > 0 ? Visibility.Visible : Visibility.Collapsed);
             grid_Negative.Visibility = (_Sign < 0 ? Visibility.Visible : Visibility.Collapsed);
@@ -124,7 +131,7 @@ namespace TreeOfLife.Controls
             TaxonomicCategory category = _Taxon.Category;
 
             bool basicPrimary = category.IsBasicPrimaryCategory();
-            bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+            bool bellowGenus = category.IsPrimaryOrSecondaryCategory() && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
 
             textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
             textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
@@ -145,7 +152,6 @@ namespace TreeOfLife.Controls
             _ThemeColor = _Taxon.GetThemeColor();
 
             border_CategoryName.Background = _CategoryNameBackground;
-            border_CategoryName.BorderBrush = _BorderBrush;
 
             textBlock_CategoryName.Foreground = _CategoryNameForeground;
 
@@ -163,7 +169,7 @@ namespace TreeOfLife.Controls
 
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     throw new ArgumentNullException();
                 }

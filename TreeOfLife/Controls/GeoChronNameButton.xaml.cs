@@ -23,8 +23,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TreeOfLife.Extensions;
-using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
+using TreeOfLife.Geology;
+using TreeOfLife.Geology.Extensions;
 using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
@@ -32,22 +32,24 @@ using ColorX = Com.Chromatics.ColorX;
 namespace TreeOfLife.Controls
 {
     /// <summary>
-    /// CategoryNameButton.xaml 的交互逻辑
+    /// GeoChronNameButton.xaml 的交互逻辑
     /// </summary>
-    public partial class CategoryNameButton : UserControl
+    public partial class GeoChronNameButton : UserControl
     {
-        private TaxonomicCategory? _Category = null; // 分类阶元。
-        private string _CategoryName = string.Empty; // 名称。
+        private GeoChron _GeoChron = null; // 地质年代。
+        private string _GeoChronName = string.Empty; // 名称。
 
         private bool _Checked = false; // 是否处于已选择状态。
+        private bool _IndirectlyChecked = false;
         private bool _MouseOver = false;
+        private bool _Vertical = false;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         //
 
-        public CategoryNameButton()
+        public GeoChronNameButton()
         {
             InitializeComponent();
 
@@ -56,7 +58,7 @@ namespace TreeOfLife.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateColor();
-                _UpdateCategory();
+                _UpdateGeoChron();
             };
 
             this.MouseEnter += (s, e) =>
@@ -74,49 +76,52 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _GeoChronNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _GeoChronNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+
+        private Brush _GeoChronNameBorderBrush => Common.GetSolidColorBrush((_Checked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {
-            border_CategoryName.Background = _CategoryNameBackground;
+            border_GeoChronName.Background = _GeoChronNameBackground;
+            border_GeoChronName.BorderBrush = _GeoChronNameBorderBrush;
 
-            textBlock_CategoryName.Foreground = _CategoryNameForeground;
+            textBlock_GeoChronName.Foreground = _GeoChronNameForeground;
         }
 
-        private void _UpdateCategory()
+        private void _UpdateGeoChron()
         {
-            textBlock_CategoryName.Text = _CategoryName;
+            textBlock_GeoChronName.Text = (_Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName);
         }
 
         //
 
-        public string CategoryName
+        public string GeoChronName
         {
-            get => _CategoryName;
+            get => _GeoChronName;
 
             set
             {
-                _CategoryName = value;
+                _GeoChronName = value;
 
-                _UpdateCategory();
+                _UpdateGeoChron();
             }
         }
 
-        public TaxonomicCategory? Category
+        public GeoChron GeoChron
         {
-            get => _Category;
+            get => _GeoChron;
 
             set
             {
-                _Category = value;
+                _GeoChron = value;
 
-                if (_Category is not null)
+                if (_GeoChron is not null)
                 {
-                    _CategoryName = _Category.Value.GetChineseName();
+                    _GeoChronName = _GeoChron.GetChineseName();
 
-                    _UpdateCategory();
+                    _UpdateGeoChron();
                 }
             }
         }
@@ -130,6 +135,30 @@ namespace TreeOfLife.Controls
                 _Checked = value;
 
                 _UpdateColor();
+            }
+        }
+
+        public bool IndirectlyChecked
+        {
+            get => _IndirectlyChecked;
+
+            set
+            {
+                _IndirectlyChecked = value;
+
+                _UpdateColor();
+            }
+        }
+
+        public bool Vertical
+        {
+            get => _Vertical;
+
+            set
+            {
+                _Vertical = value;
+
+                _UpdateGeoChron();
             }
         }
 

@@ -156,7 +156,7 @@ namespace TreeOfLife.Controls
                 grid_RightPart.Visibility = (!_IsFinal && _ShowButton ? Visibility.Visible : Visibility.Collapsed);
             }
 
-            if (_ShowButton && _Taxon != null)
+            if (_ShowButton && _Taxon is not null)
             {
                 textBlock_TaxonName.Text = _Taxon.GetLongName();
 
@@ -176,7 +176,7 @@ namespace TreeOfLife.Controls
             TaxonomicCategory category = _Taxon.Category;
 
             bool basicPrimary = category.IsBasicPrimaryCategory();
-            bool bellowGenus = (category.IsPrimaryCategory() || category.IsSecondaryCategory()) && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+            bool bellowGenus = category.IsPrimaryOrSecondaryCategory() && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
 
             textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
             textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
@@ -213,7 +213,7 @@ namespace TreeOfLife.Controls
 
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     throw new ArgumentNullException();
                 }

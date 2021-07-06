@@ -14,18 +14,38 @@ This file is part of TreeOfLife
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TreeOfLife.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="400" d:DesignWidth="400">
     <Grid>
-        <StackPanel x:Name="stackPanel_Levels">
-            <Grid x:Name="grid_Level1"/>
-            <StackPanel x:Name="stackPanel_Level2">
-                <Border x:Name="border_Level2" BorderThickness="1" Height="1" Margin="0,6,0,6" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
-                <Grid x:Name="grid_Level2"/>
-            </StackPanel>
-            <StackPanel x:Name="stackPanel_Level3">
-                <Border x:Name="border_Level3" BorderThickness="1" Height="1" Margin="0,6,0,6" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
-                <Grid x:Name="grid_Level3"/>
-            </StackPanel>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="radioButton_PrimaryCategory" Style="{DynamicResource RadioButtonStyle}" Content="主要级别"/>
+                <RadioButton x:Name="radioButton_SecondaryCategory" Grid.Column="2" Style="{DynamicResource RadioButtonStyle}" Content="次要级别"/>
+                <RadioButton x:Name="radioButton_Clade" Grid.Row="2" Style="{DynamicResource RadioButtonStyle}" Content="未分级演化支"/>
+                <RadioButton x:Name="radioButton_Unranked" Grid.Column="2" Grid.Row="2" Style="{DynamicResource RadioButtonStyle}" Content="未指定" IsChecked="True"/>
+            </Grid>
+            <Grid x:Name="grid_Categories">
+                <StackPanel x:Name="stackPanel_PrimaryCategory" Margin="0,12,0,0"  Visibility="Collapsed">
+                    <StackPanel x:Name="stackPanel_BasicPrimaryCategories" Orientation="Horizontal"/>
+                    <Border BorderThickness="1" Height="1" Margin="0,6,0,0" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
+                    <Grid x:Name="grid_PrimaryCategories"/>
+                </StackPanel>
+                <StackPanel x:Name="stackPanel_SecondaryCategory" Margin="0,12,0,0" Visibility="Collapsed">
+                    <StackPanel x:Name="stackPanel_BasicSecondaryCategories" Orientation="Horizontal"/>
+                    <Border BorderThickness="1" Height="1" Margin="0,6,0,0" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
+                    <Grid x:Name="grid_SecondaryCategories"/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

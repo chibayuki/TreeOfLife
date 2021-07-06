@@ -30,7 +30,7 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
-    public class TaxonNameItem
+    public sealed class TaxonNameItem
     {
         public Taxon Taxon { get; set; } = null;
         public int Sign { get; set; } = 0;
@@ -54,7 +54,7 @@ namespace TreeOfLife.Controls
 
             public _Group(IEnumerable<TaxonNameItem> items)
             {
-                if (items == null)
+                if (items is null)
                 {
                     throw new ArgumentNullException();
                 }
@@ -76,7 +76,7 @@ namespace TreeOfLife.Controls
 
                     var properties = item.Properties;
 
-                    if (properties != null)
+                    if (properties is not null)
                     {
                         foreach (var property in properties)
                         {
@@ -344,7 +344,7 @@ namespace TreeOfLife.Controls
 
             _Groups.Clear();
 
-            if (items != null && items.Any())
+            if (items is not null && items.Any())
             {
                 _GroupNameWidth = 0;
 
@@ -364,13 +364,13 @@ namespace TreeOfLife.Controls
 
             _Groups.Clear();
 
-            if (groups != null && groups.Any())
+            if (groups is not null && groups.Any())
             {
                 _GroupNameWidth = groupNameWidth;
 
                 foreach (var group in groups)
                 {
-                    if (group.items != null && group.items.Any())
+                    if (group.items is not null && group.items.Any())
                     {
                         _Groups.Add(new _Group(group.items) { GroupName = group.groupName, ThemeColor = group.groupColor });
                     }

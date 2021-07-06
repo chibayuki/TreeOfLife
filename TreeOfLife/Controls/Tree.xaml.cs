@@ -27,7 +27,7 @@ using TreeOfLife.Taxonomy;
 namespace TreeOfLife.Controls
 {
     // 树控件的节点信息。
-    public class TreeNodeItem
+    public sealed class TreeNodeItem
     {
         public TreeNodeItem Parent { get; set; } = null;
         public List<TreeNodeItem> Children { get; } = new List<TreeNodeItem>();
@@ -54,7 +54,7 @@ namespace TreeOfLife.Controls
         {
             public _TreeNode(TreeNodeItem node)
             {
-                if (node == null)
+                if (node is null)
                 {
                     throw new ArgumentNullException();
                 }
@@ -78,7 +78,7 @@ namespace TreeOfLife.Controls
 
                 var properties = node.Properties;
 
-                if (properties != null)
+                if (properties is not null)
                 {
                     foreach (var property in properties)
                     {
@@ -98,7 +98,7 @@ namespace TreeOfLife.Controls
 
             public static _TreeNode BuildTree(TreeNodeItem node)
             {
-                if (node == null)
+                if (node is null)
                 {
                     throw new ArgumentNullException();
                 }
@@ -157,13 +157,13 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTreeNodeFont(_TreeNode node)
         {
-            if (node != null)
+            if (node is not null)
             {
                 node.Button.FontFamily = this.FontFamily;
                 node.Button.FontSize = this.FontSize;
                 node.Button.FontStretch = this.FontStretch;
 
-                if (node.Children != null)
+                if (node.Children is not null)
                 {
                     foreach (var child in node.Children)
                     {
@@ -180,11 +180,11 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTreeNodeTheme(_TreeNode node)
         {
-            if (node != null)
+            if (node is not null)
             {
                 node.Button.IsDarkTheme = _IsDarkTheme;
 
-                if (node.Children != null)
+                if (node.Children is not null)
                 {
                     foreach (var child in node.Children)
                     {
@@ -224,13 +224,13 @@ namespace TreeOfLife.Controls
 
         private static void _AddTreeNodeButton(Panel panel, _TreeNode node)
         {
-            if (node != null)
+            if (node is not null)
             {
                 StackPanel stackPanelH = new StackPanel() { Orientation = Orientation.Horizontal };
                 stackPanelH.Children.Add(node.Button);
                 panel.Children.Add(stackPanelH);
 
-                if (node.Children != null)
+                if (node.Children is not null)
                 {
                     StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
                     stackPanelH.Children.Add(stackPanelV);
@@ -247,7 +247,7 @@ namespace TreeOfLife.Controls
         {
             stackPanel_Tree.Children.Clear();
 
-            if (rootNode == null)
+            if (rootNode is null)
             {
                 _RootNode = null;
             }
