@@ -17,23 +17,23 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
-    // 系统发生树展开的表示演化关系的数据结构，包含所有单系群。
-    public sealed class Evo
+    // 系统发生树展开的表示引用关系的数据结构，包含所有并系群、复系群对其他类群的排除或包含关系。
+    public sealed class Ref
     {
-        private List<EvoAtom> _Atoms = new List<EvoAtom>();
+        private List<RefAtom> _Atoms = new List<RefAtom>();
 
         //
 
-        public Evo()
+        public Ref()
         {
         }
 
         //
 
-        [JsonPropertyName("Taxons")]
-        public List<EvoAtom> Atoms
+        [JsonPropertyName("Relations")]
+        public List<RefAtom> Atoms
         {
             get => _Atoms;
             set => _Atoms = value;
@@ -53,14 +53,14 @@ namespace TreeOfLife.Packaging.Version2.Details
         }
 
         // 反序列化。
-        public static Evo Deserialize(string fileName)
+        public static Ref Deserialize(string fileName)
         {
             string jsonText = File.ReadAllText(fileName);
 
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 
-            return JsonSerializer.Deserialize<Evo>(jsonText, options);
+            return JsonSerializer.Deserialize<Ref>(jsonText, options);
         }
     }
 }

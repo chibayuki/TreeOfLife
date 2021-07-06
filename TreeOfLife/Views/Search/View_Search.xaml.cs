@@ -52,16 +52,27 @@ namespace TreeOfLife.Views.Search
                 }
             };
 
-            button_Search.Click += (s, e) => _SearchAndUpdateResult();
+            button_Search.Click += (s, e) =>
+            { 
+                _SearchAndUpdateResult();
+
+                textBox_Search.Focus();
+                textBox_Search.SelectAll();
+            };
+
             textBox_Search.KeyUp += (s, e) =>
             {
                 if (e.Key == Key.Enter)
                 {
                     _SearchAndUpdateResult();
+
+                    textBox_Search.SelectAll();
                 }
                 else if (e.Key == Key.Escape)
                 {
-                    ViewModel.KeyWord = string.Empty;
+                    ClearSearchResult();
+
+                    textBox_Search.Focus();
                 }
             };
 
@@ -122,7 +133,7 @@ namespace TreeOfLife.Views.Search
             }
 #endif
 
-            if (searchResult != null)
+            if (searchResult is not null)
             {
                 for (int i = 0; i < searchResult.Count; i++)
                 {

@@ -13,15 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TreeOfLife.Packaging.Version2.Details;
+using TreeOfLife.Packaging.Version3.Details;
 using TreeOfLife.Phylogeny;
 
-namespace TreeOfLife.Packaging.Version2
+namespace TreeOfLife.Packaging.Version3
 {
     // 包内容。
     public sealed class PackageContent : IPackageContent
     {
-        private static readonly PackageVersion _Version = new PackageVersion(2);
+        private static readonly PackageVersion _Version = new PackageVersion(3);
 
         private PhylogeneticTreeUnwind _Unwind = null;
 

@@ -20,7 +20,7 @@ namespace TreeOfLife.Packaging
     // 包版本。
     public struct PackageVersion
     {
-        private const int _LatestVersion = 2; // 最新的版本。
+        private const int _LatestVersion = 3; // 最新的版本。
 
         private int _Version; // 版本。
 

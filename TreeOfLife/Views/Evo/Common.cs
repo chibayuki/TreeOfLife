@@ -42,7 +42,7 @@ namespace TreeOfLife.Views.Evo
                 {
                     categoryOfGroup = taxon.Category.BasicCategory();
 
-                    groups.Add((((categoryOfGroup.IsPrimaryCategory() || categoryOfGroup.IsSecondaryCategory()) ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor(), new List<TaxonNameItem>()));
+                    groups.Add(((categoryOfGroup.IsPrimaryOrSecondaryCategory() ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor(), new List<TaxonNameItem>()));
                 }
                 else
                 {

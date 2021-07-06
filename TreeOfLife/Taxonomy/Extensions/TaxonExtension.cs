@@ -21,27 +21,27 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 判断类群是否匿名。
         public static bool IsAnonymous(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
 
             //
 
-            return (string.IsNullOrEmpty(taxon.BotanicalName) && string.IsNullOrEmpty(taxon.ChineseName));
+            return (string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName));
         }
 
         // 判断类群是否具名。
         public static bool IsNamed(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
 
             //
 
-            return (!string.IsNullOrEmpty(taxon.BotanicalName) || !string.IsNullOrEmpty(taxon.ChineseName));
+            return (!string.IsNullOrEmpty(taxon.ScientificName) || !string.IsNullOrEmpty(taxon.ChineseName));
         }
 
         //
@@ -49,7 +49,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取类群的短名称。
         public static string GetShortName(this Taxon taxon, char separator = ' ')
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -83,15 +83,15 @@ namespace TreeOfLife.Taxonomy.Extensions
                 {
                     taxonName.Append(taxon.ChineseName);
 
-                    if (!string.IsNullOrEmpty(taxon.BotanicalName))
+                    if (!string.IsNullOrEmpty(taxon.ScientificName))
                     {
                         taxonName.Append(separator);
-                        taxonName.Append(taxon.BotanicalName);
+                        taxonName.Append(taxon.ScientificName);
                     }
                 }
-                else if (!string.IsNullOrEmpty(taxon.BotanicalName))
+                else if (!string.IsNullOrEmpty(taxon.ScientificName))
                 {
-                    taxonName.Append(taxon.BotanicalName);
+                    taxonName.Append(taxon.ScientificName);
                 }
 
                 if (taxon.IsPolyphyly)
@@ -110,7 +110,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取类群的长名称。
         public static string GetLongName(this Taxon taxon, char separator = ' ')
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -160,7 +160,10 @@ namespace TreeOfLife.Taxonomy.Extensions
                         }
                         else
                         {
-                            taxonName.Append(category.GetChineseName());
+                            if (category.IsClade())
+                            {
+                                taxonName.Append(category.GetChineseName());
+                            }
                         }
                     }
                     else
@@ -169,10 +172,10 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
                 }
 
-                if (!string.IsNullOrEmpty(taxon.BotanicalName))
+                if (!string.IsNullOrEmpty(taxon.ScientificName))
                 {
                     taxonName.Append(separator);
-                    taxonName.Append(taxon.BotanicalName);
+                    taxonName.Append(taxon.ScientificName);
                 }
 
                 if (taxon.IsPolyphyly)
@@ -193,14 +196,14 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取继承的分类阶元。
         public static TaxonomicCategory GetInheritedCategory(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
 
             //
 
-            if (taxon.Category.IsPrimaryCategory() || taxon.Category.IsSecondaryCategory())
+            if (taxon.Category.IsPrimaryOrSecondaryCategory())
             {
                 return taxon.Category;
             }
@@ -209,9 +212,9 @@ namespace TreeOfLife.Taxonomy.Extensions
                 Taxon nearestPrimaryOrSecondaryCategoryParent = null;
                 Taxon parent = taxon.Parent;
 
-                while (parent != null)
+                while (parent is not null)
                 {
-                    if (parent.Category.IsPrimaryCategory() || parent.Category.IsSecondaryCategory())
+                    if (parent.Category.IsPrimaryOrSecondaryCategory())
                     {
                         nearestPrimaryOrSecondaryCategoryParent = parent;
 
@@ -223,7 +226,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
                 }
 
-                if (nearestPrimaryOrSecondaryCategoryParent == null)
+                if (nearestPrimaryOrSecondaryCategoryParent is null)
                 {
                     return taxon.Root.Category;
                 }
@@ -243,7 +246,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取继承的主要分类阶元。
         public static TaxonomicCategory GetInheritedPrimaryCategory(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -259,7 +262,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 Taxon nearestPrimaryCategoryParent = null;
                 Taxon parent = taxon.Parent;
 
-                while (parent != null)
+                while (parent is not null)
                 {
                     if (parent.Category.IsPrimaryCategory())
                     {
@@ -273,7 +276,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                     }
                 }
 
-                if (nearestPrimaryCategoryParent == null)
+                if (nearestPrimaryCategoryParent is null)
                 {
                     return taxon.Root.Category;
                 }
@@ -295,7 +298,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取具名父类群。
         public static Taxon GetNamedParent(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -304,7 +307,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             Taxon parent = taxon.Parent;
 
-            while (parent != null)
+            while (parent is not null)
             {
                 if (parent.IsNamed())
                 {
@@ -322,7 +325,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取具名子类群（并递归获取匿名子类群的所有的具名子类群）。
         public static IReadOnlyList<Taxon> GetNamedChildren(this Taxon taxon, bool recursive = true)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }

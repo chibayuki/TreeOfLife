@@ -21,7 +21,7 @@ using TreeOfLife.Views;
 
 namespace TreeOfLife
 {
-    public class ViewModel_MainWindow : INotifyPropertyChanged
+    public sealed class ViewModel_MainWindow : INotifyPropertyChanged
     {
         public ViewModel_MainWindow()
         {
@@ -31,7 +31,7 @@ namespace TreeOfLife
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

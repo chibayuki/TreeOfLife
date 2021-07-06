@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
     // 系统发生树展开的表示引用关系的原子数据结构，表示一个并系群或复系群对其他类群的排除或包含关系。
     public sealed class RefAtom

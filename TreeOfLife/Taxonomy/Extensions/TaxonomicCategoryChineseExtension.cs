@@ -22,7 +22,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         //
 
-        public static class _Names
+        private static class _Names
         {
             public const string Unranked = "未分级";
 
@@ -208,12 +208,12 @@ namespace TreeOfLife.Taxonomy.Extensions
             { TaxonomicCategory.Superdomain, _Names.Superdomain }
         };
 
-        // 获取分类阶元的名称。
+        // 获取分类阶元的中文名。
         public static string GetChineseName(this TaxonomicCategory category)
         {
-            if (_CategoryToNameTable.ContainsKey(category))
+            if (_CategoryToNameTable.TryGetValue(category, out string chineseName))
             {
-                return _CategoryToNameTable[category];
+                return chineseName;
             }
             else
             {
@@ -225,7 +225,8 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         private static Dictionary<string, TaxonomicCategory> _NameToCategoryTable = new Dictionary<string, TaxonomicCategory>()
         {
-            { _Names.Unranked, TaxonomicCategory.Unranked },
+            { _Names.Unranked, TaxonomicCategory.Unranked }, // 未分级
+            { "未指定", TaxonomicCategory.Unranked }, // 未指定
 
             { _Names.Clade, TaxonomicCategory.Clade }, // 演化支
             { "分支", TaxonomicCategory.Clade }, // 分支
@@ -331,9 +332,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 精确匹配分类阶元名称。
         public static TaxonomicCategory? ParseCategory(string name)
         {
-            TaxonomicCategory category;
-
-            if (!string.IsNullOrEmpty(name) && name.Length <= MaxLength && _NameToCategoryTable.TryGetValue(name, out category))
+            if (!string.IsNullOrEmpty(name) && name.Length <= MaxLength && _NameToCategoryTable.TryGetValue(name, out TaxonomicCategory category))
             {
                 return category;
             }
@@ -377,7 +376,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             TaxonomicCategory? categoryN = ParseCategory(name);
 
-            if (categoryN != null)
+            if (categoryN is not null)
             {
                 return (string.Empty, name, categoryN);
             }

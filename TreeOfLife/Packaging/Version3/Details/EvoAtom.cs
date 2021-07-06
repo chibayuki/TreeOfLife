@@ -15,9 +15,10 @@ using System.Threading.Tasks;
 
 using System.Text.Json.Serialization;
 
+using TreeOfLife.Geology;
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
     // 系统发生树展开的表示演化关系的原子数据结构，表示一个类群。
     public sealed class EvoAtom
@@ -195,6 +196,9 @@ namespace TreeOfLife.Packaging.Version2.Details
         private bool _IsExtinct = false; // 已灭绝。
         private bool _IsUnsure = false; // 存疑。
 
+        private GeoChron _Birth = GeoChron.Empty; // 诞生年代。
+        private GeoChron _Extinction = GeoChron.Empty; // 灭绝年代。
+
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
 
@@ -264,6 +268,20 @@ namespace TreeOfLife.Packaging.Version2.Details
             set => _IsUnsure = Convert.ToBoolean(value);
         }
 
+        [JsonPropertyName("From")]
+        public string Birth
+        {
+            get => _Birth.ToString();
+            set => _Birth = GeoChron.Parse(value);
+        }
+
+        [JsonPropertyName("To")]
+        public string Extinction
+        {
+            get => _Extinction.ToString();
+            set => _Extinction = GeoChron.Parse(value);
+        }
+
         [JsonIgnore]
         public int Level => _Level;
 
@@ -301,7 +319,10 @@ namespace TreeOfLife.Packaging.Version2.Details
                 Category = _ConvertCategory(_Category),
 
                 IsExtinct = _IsExtinct,
-                IsUnsure = _IsUnsure
+                IsUnsure = _IsUnsure,
+
+                Birth = _Birth,
+                Extinction = _Extinction
             };
 
             taxon.Synonyms.AddRange(_Synonyms);
@@ -311,6 +332,18 @@ namespace TreeOfLife.Packaging.Version2.Details
             if (string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName))
             {
                 taxon.Category = Taxonomy.TaxonomicCategory.Unranked;
+            }
+
+            // 未灭绝的类群不应具有有意义的灭绝年代，已灭绝的类群的灭绝年代不应是现代
+            if (!taxon.IsExtinct || taxon.Extinction.IsPresent)
+            {
+                taxon.Extinction = GeoChron.Empty;
+            }
+
+            // 类群的诞生年代不应是现代
+            if (taxon.Birth.IsPresent)
+            {
+                taxon.Birth = GeoChron.Empty;
             }
 
             return taxon;
@@ -337,6 +370,9 @@ namespace TreeOfLife.Packaging.Version2.Details
 
                 _IsExtinct = taxon.IsExtinct,
                 _IsUnsure = taxon.IsUnsure,
+
+                _Birth = taxon.Birth,
+                _Extinction = taxon.Extinction,
 
                 _Level = taxon.Level,
                 _Index = taxon.Index,

@@ -308,7 +308,7 @@ namespace TreeOfLife
                         {
                             bool? save = _Save();
 
-                            if (save != null)
+                            if (save is not null)
                             {
                                 if (save.Value)
                                 {
@@ -397,7 +397,7 @@ namespace TreeOfLife
                     {
                         Taxon parent = currentTaxon.GetNamedParent();
 
-                        if (parent == null)
+                        if (parent is null)
                         {
                             parent = currentTaxon.Root;
                         }
@@ -461,8 +461,6 @@ namespace TreeOfLife
             set
             {
                 _IsDarkTheme = value;
-
-                Views.Common.IsDarkTheme = value;
 
                 view_File.IsDarkTheme = _IsDarkTheme;
                 view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;

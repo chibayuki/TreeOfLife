@@ -20,7 +20,7 @@ using System.Text.Json.Serialization;
 namespace TreeOfLife.Packaging.Version2.Details
 {
     // 系统发生树展开的表示引用关系的数据结构，包含所有并系群、复系群对其他类群的排除或包含关系。
-    public class Ref
+    public sealed class Ref
     {
         private List<RefAtom> _Atoms = new List<RefAtom>();
 

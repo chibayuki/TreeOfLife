@@ -21,7 +21,7 @@ using System.Text.Json;
 namespace TreeOfLife.Packaging
 {
     // 包。
-    public class Package
+    public sealed class Package
     {
         private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
 

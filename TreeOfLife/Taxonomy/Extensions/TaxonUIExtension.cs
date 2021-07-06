@@ -19,6 +19,16 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Taxonomy.Extensions
 {
+    // 表示如何获取父类群的选项。
+    public enum GetParentsOption
+    {
+        EditMode, // 仅用于编辑模式
+
+        Least, // 最少
+        Summary, // 摘要
+        Full // 完整
+    }
+
     // 生物分类单元（类群）的UI相关扩展方法。
     public static class TaxonUIExtension
     {
@@ -58,7 +68,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取类群的主题颜色。
         public static ColorX GetThemeColor(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -68,10 +78,10 @@ namespace TreeOfLife.Taxonomy.Extensions
             return taxon.GetInheritedCategory().GetThemeColor();
         }
 
-        // 获取父类群摘要。
-        public static List<Taxon> GetSummaryParents(this Taxon taxon, bool editMode)
+        // 获取若干层父类群。
+        public static IReadOnlyList<Taxon> GetParents(this Taxon taxon, GetParentsOption option)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -82,64 +92,143 @@ namespace TreeOfLife.Taxonomy.Extensions
 
             if (!taxon.IsRoot)
             {
-                if (editMode)
+                if (option == GetParentsOption.EditMode)
                 {
-                    // 上溯到任何主要分类阶元为止
-                    /*result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
-                        recursiveInsteadOfLoop: false,
-                        TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));*/
-                    // 上溯到任何具名分类阶元为止
+                    // 上溯到任何具名分类阶元类群，保留任何类群
                     result.AddRange(taxon.GetParents(
-                        TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
-                        recursiveInsteadOfLoop: false,
-                        TaxonParentFilterTerminationCondition.UntilAnyNamedTaxon()));
+                        TaxonFilter.Any,
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        includeTermination: true,
+                        skipParaphyly: false));
 
-                    // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
+                    // 如果没有上溯到任何主要分类阶元类群，直接上溯到顶级类群，保留任何类群
                     if (result.Count <= 0)
                     {
                         result.AddRange(taxon.GetParents(
-                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: true, allowUnranked: true, allowClade: true),
-                            recursiveInsteadOfLoop: false,
-                            TaxonParentFilterTerminationCondition.UntilRoot()));
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
                     }
                 }
-                else
+                else if (option == GetParentsOption.Least)
                 {
-                    // 如果当前类群是主要分类阶元，上溯到高于该级别的主要分类阶元为止
-                    if (taxon.Category.IsPrimaryCategory())
-                    {
-                        result.AddRange(taxon.GetParents(
-                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
-                            recursiveInsteadOfLoop: false,
-                            TaxonParentFilterTerminationCondition.UntilUplevelPrimaryCategory(taxon.Category, allowEquals: false)));
-                    }
-                    // 如果当前类群不是主要分类阶元，上溯到任何主要分类阶元为止
-                    else
-                    {
-                        result.AddRange(taxon.GetParents(
-                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
-                            recursiveInsteadOfLoop: false,
-                            TaxonParentFilterTerminationCondition.UntilAnyPrimaryCategory()));
-                    }
+                    // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        includeTermination: true,
+                        skipParaphyly: false));
 
-                    // 如果上溯到任何主要分类阶元，继续上溯到最高级别，并且忽略演化支与更低的主要分类阶元
+                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
                     if (result.Count > 0)
                     {
                         Taxon parent = result[^1];
 
-                        result.AddRange(parent.GetParents(
-                           TaxonParentFilterCondition.OnlyPrimaryCategory(onlyUplevel: true, allowEquals: false),
-                           recursiveInsteadOfLoop: true,
-                           TaxonParentFilterTerminationCondition.UntilRoot()));
+                        if (parent.Category.IsUnranked() || parent.Category.IsClade())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.AnyCategory,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
                     }
-                    // 如果没有上溯到任何主要分类阶元，直接上溯到最高级别
+
+                    // 如果上溯到任何次要分类阶元类群，继续上溯到任何基本主要分类阶元类群，保留基本次要分类阶元类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[^1];
+
+                        if (parent.Category.IsSecondaryCategory())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.BasicSecondaryCategory,
+                                TaxonFilter.Named | TaxonFilter.BasicPrimaryCategory,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
+                    }
+
+                    // 如果上溯到任何类群，继续上溯到顶级类群，保留基本主要分类阶元具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        result.AddRange(result[^1].GetParents(
+                            TaxonFilter.Named | TaxonFilter.BasicPrimaryCategory,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: true));
+                    }
+                    // 如果没有上溯到任何类群，直接上溯到顶级类群，保留任何类群
                     else
                     {
                         result.AddRange(taxon.GetParents(
-                            TaxonParentFilterCondition.AnyTaxon(allowAnonymous: false, allowUnranked: true, allowClade: true),
-                            recursiveInsteadOfLoop: false,
-                            TaxonParentFilterTerminationCondition.UntilRoot()));
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+                else if (option == GetParentsOption.Summary)
+                {
+                    // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[^1];
+
+                        if (parent.Category.IsUnranked() || parent.Category.IsClade())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.AnyCategory,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
+                    }
+
+                    // 如果上溯到任何类群，继续上溯到顶级类群，保留主要或次要分类阶元具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        result.AddRange(result[^1].GetParents(
+                            TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: true));
+                    }
+                    // 如果没有上溯到任何类群，直接上溯到顶级类群，保留任何类群
+                    else
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+                else if (option == GetParentsOption.Full)
+                {
+                    // 上溯到顶级类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.None,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果没有上溯到任何具名类群，直接上溯到顶级类群，保留任何类群
+                    if (result.Count <= 0)
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
                     }
                 }
             }

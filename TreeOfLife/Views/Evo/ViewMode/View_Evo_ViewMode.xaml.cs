@@ -64,15 +64,11 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
             else
             {
-                var parents = currentTaxon.GetSummaryParents(false);
+                List<Taxon> parents = new List<Taxon>(currentTaxon.GetParents(GetParentsOption.Summary));
 
                 if (parents.Count > 0)
                 {
                     parents.Reverse();
-                }
-                else
-                {
-                    parents.Add(currentTaxon.Parent);
                 }
 
                 parents.Add(currentTaxon);
@@ -196,25 +192,43 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
+            stackPanel_Chron.Visibility = (currentTaxon.IsExtinct ? (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty ? Visibility.Visible : Visibility.Collapsed) : (!currentTaxon.Birth.IsEmpty ? Visibility.Visible : Visibility.Collapsed));
             grid_Tags.Visibility = (currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            stackPanel_TagsAndSynonyms.Visibility = (currentTaxon.Tags.Count > 0 || currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
             grid_Parents.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
             grid_Children.Visibility = (taxonNameButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed);
             grid_Excludes.Visibility = (currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
             grid_Desc.Visibility = (!string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed);
+        }
+
+        private void _UpdateTitle()
+        {
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
+            taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
+            taxonNameTitle.Category = (currentTaxon.IsAnonymous() ? null : currentTaxon.Category);
+            taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
+            taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
         }
 
         public void UpdateCurrentTaxonInfo()
         {
             ViewModel.UpdateFromTaxon();
 
-            tagGroup_Tags.Tags = ViewModel.Tags;
-            tagGroup_Synonyms.Tags = ViewModel.Synonyms;
-            tagGroup_Synonyms.ThemeColor = ViewModel.TaxonColor;
+            _UpdateTitle();
+
+            Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+            tagGroup_Tags.Tags = currentTaxon.Tags.ToArray();
+            tagGroup_Synonyms.Tags = currentTaxon.Synonyms.ToArray();
+            tagGroup_Synonyms.ThemeColor = currentTaxon.GetThemeColor();
 
             _UpdateParents();
             _UpdateChildren();
             _UpdateExcludes();
+
             _UpdateVisibility();
         }
 
@@ -232,13 +246,12 @@ namespace TreeOfLife.Views.Evo.ViewMode
             {
                 _IsDarkTheme = value;
 
+                taxonNameTitle.IsDarkTheme = _IsDarkTheme;
                 tagGroup_Tags.IsDarkTheme = _IsDarkTheme;
                 tagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
                 taxonNameButtonGroup_Excludes.IsDarkTheme = _IsDarkTheme;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

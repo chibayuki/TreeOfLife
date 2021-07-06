@@ -17,7 +17,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
     // 系统发生树展开的表示演化关系的数据结构，包含所有单系群。
     public sealed class Evo

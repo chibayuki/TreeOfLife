@@ -18,7 +18,7 @@ using TreeOfLife.Taxonomy;
 namespace TreeOfLife.Phylogeny
 {
     // 系统发生树。
-    public class PhylogeneticTree
+    public sealed class PhylogeneticTree
     {
         private Taxon _Root; // 假设存在的顶级类群。
 

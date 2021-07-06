@@ -15,7 +15,7 @@ This file is part of TreeOfLife
              xmlns:local="clr-namespace:TreeOfLife.Views.Evo.EditMode"
              xmlns:Controls="clr-namespace:TreeOfLife.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="1300" d:DesignWidth="400">
+             d:DesignHeight="1500" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_EditMode/>
     </UserControl.DataContext>
@@ -25,19 +25,10 @@ This file is part of TreeOfLife
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0" x:Name="grid_CurrentTaxon">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="1" BlurRadius="5" Opacity="0.5" Direction="270"/>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
-            <Border CornerRadius="3,0,0,3" SnapsToDevicePixels="True" Background="{Binding CategoryName_BackGround}">
-                <TextBlock Text="{Binding CategoryName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
-            </Border>
-            <Border Grid.Column="1" BorderThickness="0,2,2,2" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
-                <TextBlock Text="{Binding TaxonName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
-            </Border>
+            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -51,7 +42,7 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="学名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                            <TextBox Grid.Column="2" Height="25" Text="{Binding Name}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
+                            <TextBox Grid.Column="2" Height="25" Text="{Binding Name}" Style="{DynamicResource TextBoxStyle}"/>
                         </Grid>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -60,27 +51,9 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="中文名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                            <TextBox Grid.Column="2" Height="25" Text="{Binding ChsName}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
+                            <TextBox Grid.Column="2" Height="25" Text="{Binding ChsName}" Style="{DynamicResource TextBoxStyle}"/>
                         </Grid>
                     </StackPanel>
-                </Grid>
-                <Grid x:Name="grid_State" Margin="0,25,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="状态" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <Grid Grid.Column="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox Content="灭绝" IsChecked="{Binding IsExtinct}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
-                        <CheckBox Content="存疑" Grid.Column="2" IsChecked="{Binding IsUnsure}" Foreground="{Binding CheckBox_ForeGround}" Style="{DynamicResource CheckBoxStyle}"/>
-                    </Grid>
                 </Grid>
                 <Grid x:Name="grid_Category" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -97,6 +70,46 @@ This file is part of TreeOfLife
                         </Grid>
                     </StackPanel>
                 </Grid>
+                <Grid x:Name="grid_State" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="状态" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Content="已灭绝 (†)" IsChecked="{Binding IsExtinct}" Style="{DynamicResource CheckBoxStyle}" HorizontalAlignment="Left"/>
+                        <CheckBox Grid.Column="2" Content="分类地位存疑 (?)" IsChecked="{Binding IsUnsure}" Style="{DynamicResource CheckBoxStyle}" HorizontalAlignment="Left"/>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="grid_Chron" Margin="0,25,0,0">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="诞生于" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                            <Controls:GeoChronSelector x:Name="geoChronSelector_Birth" Grid.Column="2"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Grid_Extinction}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="灭绝于" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                            <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction" Grid.Column="2"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
                 <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70"/>
@@ -104,7 +117,7 @@ This file is part of TreeOfLife
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="异名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <TextBox Grid.Column="2" Height="87" HorizontalScrollBarVisibility="Auto" Text="{Binding Synonyms}" Style="{DynamicResource MultiLineTextBoxStyle}"/>
+                    <TextBox Grid.Column="2" Height="87" AcceptsReturn="True" Text="{Binding Synonyms}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Tags" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -113,7 +126,7 @@ This file is part of TreeOfLife
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="标签" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <TextBox Grid.Column="2" Height="87" HorizontalScrollBarVisibility="Auto" Text="{Binding Tags}" Style="{DynamicResource MultiLineTextBoxStyle}"/>
+                    <TextBox Grid.Column="2" Height="87" AcceptsReturn="True" Text="{Binding Tags}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -122,7 +135,7 @@ This file is part of TreeOfLife
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="描述" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
-                    <TextBox Grid.Column="2" TextWrapping="Wrap" Height="87" Text="{Binding Description}" Style="{DynamicResource MultiLineTextBoxStyle}"/>
+                    <TextBox Grid.Column="2" AcceptsReturn="True" TextWrapping="Wrap" Height="87" Text="{Binding Description}" Style="{DynamicResource TextBoxStyle}"/>
                 </Grid>
                 <Grid x:Name="grid_Parents" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -141,7 +154,7 @@ This file is part of TreeOfLife
                     </Grid.ColumnDefinitions>
                     <Label Content="插入&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <StackPanel Grid.Column="2">
-                        <TextBox x:Name="textBox_Parent" Height="25" Style="{DynamicResource SingleLineTextBoxStyle}"/>
+                        <TextBox x:Name="textBox_Parent" Height="25" Style="{DynamicResource TextBoxStyle}"/>
                         <Grid Margin="0,10,0,0" Height="25">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -170,7 +183,7 @@ This file is part of TreeOfLife
                     </Grid.ColumnDefinitions>
                     <Label Content="添加&#xD;&#xA;下级&#xD;&#xA;类群" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
                     <StackPanel Grid.Column="2">
-                        <TextBox x:Name="textBox_Children" Height="87" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource MultiLineTextBoxStyle}"/>
+                        <TextBox x:Name="textBox_Children" Height="87" AcceptsReturn="True" Style="{DynamicResource TextBoxStyle}"/>
                         <Grid Margin="0,10,0,0" Height="25">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>

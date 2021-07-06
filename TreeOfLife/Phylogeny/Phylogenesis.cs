@@ -29,17 +29,17 @@ namespace TreeOfLife.Phylogeny
 
         public static Taxon Root => _PhylogeneticTree?.Root;
 
-        public static bool IsEmpty => (_PhylogeneticTree == null || _PhylogeneticTree.Root.IsFinal);
+        public static bool IsEmpty => (_PhylogeneticTree is null || _PhylogeneticTree.Root.IsFinal);
 
         public static string FileName => _Package?.FileName;
 
-        public static long PackageSize => (_Package == null ? 0 : _Package.PackageSize);
+        public static long PackageSize => (_Package is null ? 0 : _Package.PackageSize);
 
-        public static int PackageVersion => (_Package == null ? 0 : _Package.Version.Version);
+        public static int PackageVersion => (_Package is null ? 0 : _Package.Version.Version);
 
-        public static DateTime CreationTime => (_Package == null ? DateTime.MinValue : _Package.Info.CreationTime);
+        public static DateTime CreationTime => (_Package is null ? DateTime.MinValue : _Package.Info.CreationTime);
 
-        public static DateTime ModificationTime => (_Package == null ? DateTime.MinValue : _Package.Info.ModificationTime);
+        public static DateTime ModificationTime => (_Package is null ? DateTime.MinValue : _Package.Info.ModificationTime);
 
         //
 

@@ -19,7 +19,7 @@ using TreeOfLife.Phylogeny;
 namespace TreeOfLife.Packaging.Version1
 {
     // 包内容。
-    public class PackageContent : IPackageContent
+    public sealed class PackageContent : IPackageContent
     {
         private static readonly PackageVersion _Version = new PackageVersion(1);
 

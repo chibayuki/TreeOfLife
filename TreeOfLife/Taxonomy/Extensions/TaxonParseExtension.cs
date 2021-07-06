@@ -121,7 +121,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
                     if (!string.IsNullOrWhiteSpace(latinPart))
                     {
-                        taxon.BotanicalName = latinPart;
+                        taxon.ScientificName = latinPart;
                     }
 
                     if (!string.IsNullOrWhiteSpace(chsPart))
@@ -152,7 +152,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 识别若干个名称，并添加子类群。
         public static void ParseChildren(this Taxon taxon, params string[] names)
         {
-            if (names == null)
+            if (names is null)
             {
                 throw new ArgumentNullException();
             }
@@ -168,11 +168,11 @@ namespace TreeOfLife.Taxonomy.Extensions
                 // 按照"二名法"和"三名法"特殊处理"种"和"亚种"的匹配
                 if (taxon.Category.IsGenus() || taxon.Category.IsSpecies())
                 {
-                    int wordNum = child.BotanicalName.Count((ch) => ch == '.');
+                    int wordNum = child.ScientificName.Count((ch) => ch == '.');
 
                     if (wordNum != 1 && wordNum != 2)
                     {
-                        wordNum = child.BotanicalName.Count((ch) => ch == ' ');
+                        wordNum = child.ScientificName.Count((ch) => ch == ' ');
                     }
 
                     if (wordNum == 1)

@@ -24,6 +24,7 @@ namespace TreeOfLife.Packaging
             {
                 1 => new Version1.PackageContent(),
                 2 => new Version2.PackageContent(),
+                3 => new Version3.PackageContent(),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

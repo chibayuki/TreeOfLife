@@ -21,7 +21,7 @@ using TreeOfLife.Phylogeny;
 
 namespace TreeOfLife.Views.File
 {
-    public class ViewModel_File : INotifyPropertyChanged
+    public sealed class ViewModel_File : INotifyPropertyChanged
     {
         public ViewModel_File()
         {
@@ -31,7 +31,7 @@ namespace TreeOfLife.Views.File
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -207,18 +207,10 @@ namespace TreeOfLife.Views.File
 
         private bool _IsDarkTheme;
 
-        private Brush _Button_ForeGround;
-        private Brush _Button_BackGround;
-        private Brush _SubTitle_ForeGround;
-        private Brush _SubTitle_BackGround;
         private Brush _TextLabel_ForeGround;
 
         private void _UpdateColors()
         {
-            Button_ForeGround = Common.Button_ForeGround;
-            Button_BackGround = Common.Button_BackGround;
-            SubTitle_ForeGround = Common.SubTitle_ForeGround;
-            SubTitle_BackGround = Common.SubTitle_BackGround;
             TextLabel_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
@@ -231,54 +223,6 @@ namespace TreeOfLife.Views.File
                 _IsDarkTheme = value;
 
                 _UpdateColors();
-            }
-        }
-
-        public Brush Button_ForeGround
-        {
-            get => _Button_ForeGround;
-
-            set
-            {
-                _Button_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(Button_ForeGround));
-            }
-        }
-
-        public Brush Button_BackGround
-        {
-            get => _Button_BackGround;
-
-            set
-            {
-                _Button_BackGround = value;
-
-                NotifyPropertyChanged(nameof(Button_BackGround));
-            }
-        }
-
-        public Brush SubTitle_ForeGround
-        {
-            get => _SubTitle_ForeGround;
-
-            set
-            {
-                _SubTitle_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-            }
-        }
-
-        public Brush SubTitle_BackGround
-        {
-            get => _SubTitle_BackGround;
-
-            set
-            {
-                _SubTitle_BackGround = value;
-
-                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 

@@ -150,5 +150,15 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             return (category >= TaxonomicCategory.Domain && category <= TaxonomicCategory.Superdomain);
         }
+
+        public static bool IsPrimaryOrSecondaryCategory(this TaxonomicCategory category)
+        {
+            return (IsSecondaryCategory(category) || IsPrimaryCategory(category));
+        }
+
+        public static bool IsBasicCategory(this TaxonomicCategory category)
+        {
+            return (IsBasicSecondaryCategory(category) || IsBasicPrimaryCategory(category));
+        }
     }
 }

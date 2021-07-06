@@ -20,7 +20,7 @@ using TreeOfLife.Taxonomy;
 namespace TreeOfLife.Packaging.Version1.Details
 {
     // 系统发生树展开的表示演化关系的原子数据结构，表示一个类群。
-    public class EvoAtom
+    public sealed class EvoAtom
     {
         private static TaxonomicCategory _ConvertCategory(Taxonomy.TaxonomicCategory category)
         {
@@ -184,7 +184,7 @@ namespace TreeOfLife.Packaging.Version1.Details
 
         //
 
-        private string _BotanicalName; // 学名。
+        private string _ScientificName; // 学名。
         private string _ChineseName; // 中文名。
         private List<string> _Synonyms; // 异名、别名、旧名等。
         private List<string> _Tags; // 标签。
@@ -209,10 +209,10 @@ namespace TreeOfLife.Packaging.Version1.Details
         //
 
         [JsonPropertyName("Name")]
-        public string BotanicalName
+        public string ScientificName
         {
-            get => _BotanicalName;
-            set => _BotanicalName = value;
+            get => _ScientificName;
+            set => _ScientificName = value;
         }
 
         [JsonPropertyName("ChsName")]
@@ -330,7 +330,7 @@ namespace TreeOfLife.Packaging.Version1.Details
         {
             Taxon taxon = new Taxon()
             {
-                BotanicalName = _BotanicalName,
+                ScientificName = _ScientificName,
                 ChineseName = _ChineseName,
 
                 Description = _Description,
@@ -345,7 +345,7 @@ namespace TreeOfLife.Packaging.Version1.Details
             taxon.Tags.AddRange(_Tags);
 
             // 匿名类群的分类阶元始终为未分级
-            if (string.IsNullOrEmpty(taxon.BotanicalName) && string.IsNullOrEmpty(taxon.ChineseName))
+            if (string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName))
             {
                 taxon.Category = Taxonomy.TaxonomicCategory.Unranked;
             }
@@ -355,7 +355,7 @@ namespace TreeOfLife.Packaging.Version1.Details
 
         public static EvoAtom FromTaxon(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -364,7 +364,7 @@ namespace TreeOfLife.Packaging.Version1.Details
 
             EvoAtom atom = new EvoAtom()
             {
-                _BotanicalName = taxon.BotanicalName,
+                _ScientificName = taxon.ScientificName,
                 _ChineseName = taxon.ChineseName,
                 _Synonyms = new List<string>(taxon.Synonyms),
                 _Tags = new List<string>(taxon.Tags),

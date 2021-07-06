@@ -20,8 +20,8 @@ using TreeOfLife.Taxonomy;
 
 namespace TreeOfLife.Packaging.Version1.Details
 {
-    // 系统发生树的展开。
-    public class PhylogeneticTreeUnwind
+    // 系统发生树的线性展开。
+    public sealed class PhylogeneticTreeUnwind
     {
         private Evo _Evo = new Evo();
 
@@ -35,7 +35,7 @@ namespace TreeOfLife.Packaging.Version1.Details
 
         private static void _RecursiveFillAtoms(Taxon taxon, List<EvoAtom> evoAtoms)
         {
-            if (taxon == null || evoAtoms == null)
+            if (taxon is null || evoAtoms is null)
             {
                 throw new ArgumentNullException();
             }
@@ -62,7 +62,7 @@ namespace TreeOfLife.Packaging.Version1.Details
 
         private static Taxon _GetTaxonOfTree(PhylogeneticTree tree, IReadOnlyList<int> indexList)
         {
-            if (tree == null || indexList == null)
+            if (tree is null || indexList is null)
             {
                 throw new ArgumentNullException();
             }
@@ -85,7 +85,7 @@ namespace TreeOfLife.Packaging.Version1.Details
             // 先按照层次升序排序，用于保证总是先创建父类群
             // 再按照索引升序排序，用于保证每个类群的次序与原先相同
             var evoAtoms = from atom in _Evo.Atoms
-                           where atom != null
+                           where atom is not null
                            orderby atom.Level ascending,
                            atom.Index ascending
                            select atom;

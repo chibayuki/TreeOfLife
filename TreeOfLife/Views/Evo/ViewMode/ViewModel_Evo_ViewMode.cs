@@ -16,7 +16,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
-using TreeOfLife.Extensions;
+using TreeOfLife.Geology;
+using TreeOfLife.Geology.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -24,7 +25,7 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Views.Evo.ViewMode
 {
-    public class ViewModel_Evo_ViewMode : INotifyPropertyChanged
+    public sealed class ViewModel_Evo_ViewMode : INotifyPropertyChanged
     {
         public ViewModel_Evo_ViewMode()
         {
@@ -34,7 +35,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -43,41 +44,60 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         #region 类群信息
 
-        private string _CategoryName;
-        private string _TaxonName;
-
-        private string[] _Synonyms;
-        private string[] _Tags;
+        private string _Birth_Prefix;
+        private string _Birth;
+        private string _Extinction_Prefix;
+        private string _Extinction;
 
         private string _Desc;
 
-        public string CategoryName
+        public string Birth_Prefix
         {
-            get => _CategoryName;
+            get => _Birth_Prefix;
 
             set
             {
-                _CategoryName = value;
+                _Birth_Prefix = value;
 
-                NotifyPropertyChanged(nameof(CategoryName));
+                NotifyPropertyChanged(nameof(Birth_Prefix));
             }
         }
 
-        public string TaxonName
+        public string Birth
         {
-            get => _TaxonName;
+            get => _Birth;
 
             set
             {
-                _TaxonName = value;
+                _Birth = value;
 
-                NotifyPropertyChanged(nameof(TaxonName));
+                NotifyPropertyChanged(nameof(Birth));
             }
         }
 
-        public string[] Synonyms => _Synonyms;
+        public string Extinction_Prefix
+        {
+            get => _Extinction_Prefix;
 
-        public string[] Tags => _Tags;
+            set
+            {
+                _Extinction_Prefix = value;
+
+                NotifyPropertyChanged(nameof(Extinction_Prefix));
+            }
+        }
+
+        public string Extinction
+        {
+            get => _Extinction;
+
+            set
+            {
+                _Extinction = value;
+
+                NotifyPropertyChanged(nameof(Extinction));
+            }
+        }
 
         public string Desc
         {
@@ -95,34 +115,109 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            TaxonColor = currentTaxon.GetThemeColor();
-
-            if (currentTaxon.IsAnonymous())
+            if (currentTaxon.Birth.IsEmpty)
             {
-                CategoryName = string.Empty;
+                Birth_Prefix = string.Empty;
+                Birth = "?";
             }
             else
             {
-                TaxonomicCategory category = currentTaxon.Category;
+                GeoChron birth = currentTaxon.Birth;
 
-                if (currentTaxon.IsParaphyly)
+                if (birth.IsTimepoint)
                 {
-                    CategoryName = (category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群");
-                }
-                else if (currentTaxon.IsPolyphyly)
-                {
-                    CategoryName = (category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群");
+                    if (birth.Superior is null)
+                    {
+                        Birth = birth.GetChineseName();
+                    }
+                    else
+                    {
+                        Birth = $"{birth.GetChineseName()} ({birth.Superior.GetChineseName()})";
+
+                        birth = birth.Superior;
+                    }
                 }
                 else
                 {
-                    CategoryName = category.GetChineseName();
+                    Birth = birth.GetChineseName();
+                }
+
+                if (birth.Superior is null)
+                {
+                    Birth_Prefix = string.Empty;
+                }
+                else
+                {
+                    GeoChron geoChron = birth.Superior;
+
+                    string str = geoChron.GetChineseName();
+
+                    while (geoChron.Superior is not null)
+                    {
+                        geoChron = geoChron.Superior;
+
+                        str = $"{geoChron.GetChineseName()}·{str}";
+                    }
+
+                    Birth_Prefix = $"({str})";
                 }
             }
 
-            TaxonName = currentTaxon.GetShortName('\n');
+            if (currentTaxon.IsExtinct)
+            {
+                if (currentTaxon.Extinction.IsEmpty)
+                {
+                    Extinction_Prefix = string.Empty;
+                    Extinction = "?";
+                }
+                else
+                {
+                    GeoChron extinction = currentTaxon.Extinction;
 
-            _Tags = currentTaxon.Tags.ToArray();
-            _Synonyms = currentTaxon.Synonyms.ToArray();
+                    if (extinction.IsTimepoint)
+                    {
+                        if (extinction.Superior is null)
+                        {
+                            Extinction = extinction.GetChineseName();
+                        }
+                        else
+                        {
+                            Extinction = $"{extinction.GetChineseName()} ({extinction.Superior.GetChineseName()})";
+
+                            extinction = extinction.Superior;
+                        }
+                    }
+                    else
+                    {
+                        Extinction = extinction.GetChineseName();
+                    }
+
+                    if (extinction.Superior is null)
+                    {
+                        Extinction_Prefix = string.Empty;
+                    }
+                    else
+                    {
+                        GeoChron geoChron = extinction.Superior;
+
+                        string str = geoChron.GetChineseName();
+
+                        while (geoChron.Superior is not null)
+                        {
+                            geoChron = geoChron.Superior;
+
+                            str = $"{geoChron.GetChineseName()}·{str}";
+                        }
+
+                        Extinction_Prefix = $"({str})";
+                    }
+                }
+            }
+            else
+            {
+                Extinction_Prefix = string.Empty;
+                Extinction = "至今";
+            }
 
             Desc = currentTaxon.Description;
         }
@@ -135,26 +230,10 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         private bool _IsDarkTheme;
 
-        private Brush _Button_ForeGround;
-        private Brush _Button_BackGround;
-        private Brush _CategoryName_ForeGround;
-        private Brush _CategoryName_BackGround;
-        private Brush _TaxonName_ForeGround;
-        private Brush _TaxonName_BackGround;
-        private Brush _SubTitle_ForeGround;
-        private Brush _SubTitle_BackGround;
         private Brush _Desc_BackGround;
 
         private void _UpdateColors()
         {
-            Button_ForeGround = Views.Common.Button_ForeGround;
-            Button_BackGround = Views.Common.Button_BackGround;
-            CategoryName_ForeGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-            CategoryName_BackGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
-            TaxonName_ForeGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
-            TaxonName_BackGround = Views.Common.GetSolidColorBrush(_TaxonColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
-            SubTitle_ForeGround = Views.Common.SubTitle_ForeGround;
-            SubTitle_BackGround = Views.Common.SubTitle_BackGround;
             Desc_BackGround = Views.Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
@@ -179,102 +258,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
                 _IsDarkTheme = value;
 
                 _UpdateColors();
-            }
-        }
-
-        public Brush Button_ForeGround
-        {
-            get => _Button_ForeGround;
-
-            set
-            {
-                _Button_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(Button_ForeGround));
-            }
-        }
-
-        public Brush Button_BackGround
-        {
-            get => _Button_BackGround;
-
-            set
-            {
-                _Button_BackGround = value;
-
-                NotifyPropertyChanged(nameof(Button_BackGround));
-            }
-        }
-
-        public Brush CategoryName_ForeGround
-        {
-            get => _CategoryName_ForeGround;
-
-            set
-            {
-                _CategoryName_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(CategoryName_ForeGround));
-            }
-        }
-
-        public Brush CategoryName_BackGround
-        {
-            get => _CategoryName_BackGround;
-
-            set
-            {
-                _CategoryName_BackGround = value;
-
-                NotifyPropertyChanged(nameof(CategoryName_BackGround));
-            }
-        }
-
-        public Brush TaxonName_ForeGround
-        {
-            get => _TaxonName_ForeGround;
-
-            set
-            {
-                _TaxonName_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(TaxonName_ForeGround));
-            }
-        }
-
-        public Brush TaxonName_BackGround
-        {
-            get => _TaxonName_BackGround;
-
-            set
-            {
-                _TaxonName_BackGround = value;
-
-                NotifyPropertyChanged(nameof(TaxonName_BackGround));
-            }
-        }
-
-        public Brush SubTitle_ForeGround
-        {
-            get => _SubTitle_ForeGround;
-
-            set
-            {
-                _SubTitle_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(SubTitle_ForeGround));
-            }
-        }
-
-        public Brush SubTitle_BackGround
-        {
-            get => _SubTitle_BackGround;
-
-            set
-            {
-                _SubTitle_BackGround = value;
-
-                NotifyPropertyChanged(nameof(SubTitle_BackGround));
             }
         }
 

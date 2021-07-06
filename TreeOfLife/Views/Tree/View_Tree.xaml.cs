@@ -63,14 +63,14 @@ namespace TreeOfLife.Views.Tree
 
         private void _UpdateSelectOfMenuItem(MenuItem selected, MenuItem select)
         {
-            if (selected != null && select != null)
+            if (selected is not null && select is not null)
             {
                 Taxon selectedTaxon = Common.SelectedTaxon;
 
                 selected.IsEnabled = false;
                 select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
 
-                if (selectedTaxon == null)
+                if (selectedTaxon is null)
                 {
                     selected.Visibility = Visibility.Collapsed;
                 }
@@ -350,7 +350,7 @@ namespace TreeOfLife.Views.Tree
         // 构造子树的并系群部分。
         private void _BuildSubTreeForExcludes(TreeNodeItem node, Taxon child)
         {
-            if (node == null || child == null)
+            if (node is null || child is null)
             {
                 throw new ArgumentNullException();
             }
@@ -384,7 +384,7 @@ namespace TreeOfLife.Views.Tree
         // 构造子树的复系群部分。
         private void _BuildSubTreeForIncludes(TreeNodeItem node)
         {
-            if (node == null)
+            if (node is null)
             {
                 throw new ArgumentNullException();
             }
@@ -420,7 +420,7 @@ namespace TreeOfLife.Views.Tree
         // 构造子树的子类群部分。
         private void _BuildSubTreeForChildren(TreeNodeItem node)
         {
-            if (node == null)
+            if (node is null)
             {
                 throw new ArgumentNullException();
             }
@@ -468,7 +468,7 @@ namespace TreeOfLife.Views.Tree
         // 构造子树的旁系群部分。
         private void _BuildSubTreeForSiblings(TreeNodeItem node)
         {
-            if (node == null)
+            if (node is null)
             {
                 throw new ArgumentNullException();
             }
@@ -514,7 +514,7 @@ namespace TreeOfLife.Views.Tree
         // 构造子树。
         private void _BuildSubTree(TreeNodeItem node)
         {
-            if (node == null)
+            if (node is null)
             {
                 throw new ArgumentNullException();
             }
@@ -562,11 +562,11 @@ namespace TreeOfLife.Views.Tree
         // 更新所有节点的属性。
         private void _UpdateTreeNodeAttr(TreeNodeItem node)
         {
-            if (node != null)
+            if (node is not null)
             {
                 node.Sign = node.Sign;
 
-                node.IsRoot = (node.Parent == null);
+                node.IsRoot = (node.Parent is null);
                 node.IsFinal = (node.Children.Count <= 0);
 
                 if (node.IsRoot)
@@ -588,7 +588,7 @@ namespace TreeOfLife.Views.Tree
                     node.Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, _ContextMenu) };
                 }
 
-                if (node.Children != null)
+                if (node.Children is not null)
                 {
                     foreach (var child in node.Children)
                     {
@@ -617,7 +617,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     _NamedTaxon = currentTaxon.GetNamedParent();
 
-                    if (_NamedTaxon == null)
+                    if (_NamedTaxon is null)
                     {
                         _NamedTaxon = currentTaxon.Root;
                     }
@@ -633,7 +633,7 @@ namespace TreeOfLife.Views.Tree
                 {
                     parent = parent.GetNamedParent();
 
-                    if (parent == null)
+                    if (parent is null)
                     {
                         parent = _NamedTaxon.Root;
 

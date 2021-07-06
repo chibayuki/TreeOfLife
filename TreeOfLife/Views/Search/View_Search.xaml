@@ -30,7 +30,7 @@ This file is part of TreeOfLife
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="75"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="textBox_Search" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource SingleLineTextBoxStyle}"/>
+            <TextBox x:Name="textBox_Search" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource TextBoxStyle}"/>
             <Button x:Name="button_Search" Grid.Column="2" Content="检索" Style="{DynamicResource ButtonStyle}"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">

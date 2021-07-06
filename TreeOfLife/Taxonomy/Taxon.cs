@@ -24,12 +24,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using TreeOfLife.Geology;
+
 namespace TreeOfLife.Taxonomy
 {
     // 生物分类单元（类群）。
-    public class Taxon
+    public sealed class Taxon
     {
-        private string _BotanicalName = string.Empty; // 学名。
+        private string _ScientificName = string.Empty; // 学名。
         private string _ChineseName = string.Empty; // 中文名。
         private List<string> _Synonyms = new List<string>(); // 异名、别名、旧名等。
         private List<string> _Tags = new List<string>(); // 标签。
@@ -39,6 +41,9 @@ namespace TreeOfLife.Taxonomy
 
         private bool _IsExtinct = false; // 已灭绝。
         private bool _IsUnsure = false; // 存疑。
+
+        private GeoChron _Birth = GeoChron.Empty; // 诞生年代。
+        private GeoChron _Extinction = GeoChron.Empty; // 灭绝年代。
 
         private Taxon _Parent = null; // 父类群。
         private List<Taxon> _Children = new List<Taxon>(); // 子类群。
@@ -62,11 +67,11 @@ namespace TreeOfLife.Taxonomy
 
         //
 
-        public string BotanicalName
+        public string ScientificName
         {
             // 确保不为 null 或 WhiteSpace
-            get => (_BotanicalName ?? string.Empty);
-            set => _BotanicalName = (value?.Trim() ?? string.Empty);
+            get => (_ScientificName ?? string.Empty);
+            set => _ScientificName = (value?.Trim() ?? string.Empty);
         }
 
         public string ChineseName
@@ -104,6 +109,20 @@ namespace TreeOfLife.Taxonomy
             set => _IsUnsure = value;
         }
 
+        public GeoChron Birth
+        {
+            // 确保不为 null
+            get => (_Birth ?? GeoChron.Empty);
+            set => _Birth = (value ?? GeoChron.Empty);
+        }
+
+        public GeoChron Extinction
+        {
+            // 确保不为 null
+            get => (_Extinction ?? GeoChron.Empty);
+            set => _Extinction = (value ?? GeoChron.Empty);
+        }
+
         public Taxon Parent => _Parent;
 
         public IReadOnlyList<Taxon> Children => _Children;
@@ -124,7 +143,7 @@ namespace TreeOfLife.Taxonomy
                 Taxon parent = this;
                 Taxon grandParent = parent.Parent;
 
-                while (grandParent != null)
+                while (grandParent is not null)
                 {
                     parent = grandParent;
                     grandParent = parent.Parent;
@@ -135,7 +154,7 @@ namespace TreeOfLife.Taxonomy
         }
 
         // 判断当前类群是否为顶级类群。
-        public bool IsRoot => (_Parent == null);
+        public bool IsRoot => (_Parent is null);
 
         // 判断当前类群是否为末端类群。
         public bool IsFinal => (_Children.Count <= 0);
@@ -149,7 +168,7 @@ namespace TreeOfLife.Taxonomy
                 return true;
             }
             // 任何类群都不继承 null（即使父类群是 null）
-            else if (_Parent == null || taxon == null)
+            else if (_Parent is null || taxon is null)
             {
                 return false;
             }
@@ -165,7 +184,7 @@ namespace TreeOfLife.Taxonomy
                     Taxon t = this;
 
                     // 层次相等之后没有必要继续判断
-                    while (t != null && t._Level >= taxon._Level)
+                    while (t is not null && t._Level >= taxon._Level)
                     {
                         if (t == taxon)
                         {
@@ -226,15 +245,15 @@ namespace TreeOfLife.Taxonomy
             {
                 taxonName.Append(_ChineseName);
 
-                if (!string.IsNullOrEmpty(_BotanicalName))
+                if (!string.IsNullOrEmpty(_ScientificName))
                 {
                     taxonName.Append(' ');
-                    taxonName.Append(_BotanicalName);
+                    taxonName.Append(_ScientificName);
                 }
             }
-            else if (!string.IsNullOrEmpty(_BotanicalName))
+            else if (!string.IsNullOrEmpty(_ScientificName))
             {
-                taxonName.Append(_BotanicalName);
+                taxonName.Append(_ScientificName);
             }
 
             return taxonName.ToString();
@@ -247,7 +266,7 @@ namespace TreeOfLife.Taxonomy
         // 递归地修复当前类群、子类群与顶级类群的距离。
         private void _RepairLevel()
         {
-            if (_Parent == null)
+            if (_Parent is null)
             {
                 _Level = 0;
             }
@@ -274,7 +293,7 @@ namespace TreeOfLife.Taxonomy
         // 原子地附属到父类群。
         private void _AtomAttachParent(Taxon taxon)
         {
-            if (taxon != null)
+            if (taxon is not null)
             {
                 _Parent = taxon;
                 _Parent._Children.Add(this);
@@ -284,7 +303,7 @@ namespace TreeOfLife.Taxonomy
         // 原子地附属到父类群。
         private void _AtomAttachParent(Taxon taxon, int index)
         {
-            if (taxon != null)
+            if (taxon is not null)
             {
                 _Parent = taxon;
                 _Parent._Children.Insert(index, this);
@@ -294,7 +313,7 @@ namespace TreeOfLife.Taxonomy
         // 原子地脱离父类群。
         private void _AtomDetachParent()
         {
-            if (_Parent != null)
+            if (_Parent is not null)
             {
                 _Parent._Children.Remove(this);
                 _Parent = null;
@@ -307,7 +326,7 @@ namespace TreeOfLife.Taxonomy
             // （1） 不能继承 null
             // （2） 不能继承父类群（因为已经继承）
             // （3） 不能继承子类群
-            if (taxon == null || taxon == _Parent || taxon.InheritFrom(this))
+            if (taxon is null || taxon == _Parent || taxon.InheritFrom(this))
             {
                 return false;
             }
@@ -375,7 +394,7 @@ namespace TreeOfLife.Taxonomy
         // 变更父类群。
         public void SetParent(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -387,7 +406,7 @@ namespace TreeOfLife.Taxonomy
 
             //
 
-            if (_Parent != null)
+            if (_Parent is not null)
             {
                 Taxon parent = _Parent;
 
@@ -404,7 +423,7 @@ namespace TreeOfLife.Taxonomy
         // 变更父类群。
         public void SetParent(Taxon taxon, int index)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -421,7 +440,7 @@ namespace TreeOfLife.Taxonomy
 
             //
 
-            if (_Parent != null)
+            if (_Parent is not null)
             {
                 Taxon parent = _Parent;
 
@@ -440,7 +459,7 @@ namespace TreeOfLife.Taxonomy
         {
             Taxon taxon = new Taxon();
 
-            if (_Parent != null)
+            if (_Parent is not null)
             {
                 Taxon parent = _Parent;
                 int index = _Index;
@@ -557,7 +576,7 @@ namespace TreeOfLife.Taxonomy
             // （2） 不能排除自身
             // （3） 禁止复数入度：不能排除已被任一并系群排除的类群，否则：不能多次排除同一个类群
             // （4） 不能排除不继承自身的类群
-            if (taxon == null || taxon == this ||
+            if (taxon is null || taxon == this ||
 #if BAN_MULTI_IN_DEGREE
                 taxon._ExcludeBy.Count > 0
 #else
@@ -585,7 +604,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为并系群添加排除一个类群。
         public void AddExclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -604,7 +623,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为并系群添加排除一个类群。
         public void AddExclude(Taxon taxon, int index)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -628,7 +647,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为并系群删除排除一个类群。
         public void RemoveExclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -647,7 +666,7 @@ namespace TreeOfLife.Taxonomy
         // 获取当前类群作为并系群排除指定类群的次序。
         public int GetIndexOfExclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -704,7 +723,7 @@ namespace TreeOfLife.Taxonomy
             // （3） 禁止复数入度：不能包含已被任一复系群包含的类群，否则：不能多次包含同一个类群
             // （4） 不能包含继承自身的类群
             // （5） 不能包含不继承自身父类群的类群（也不能包含自身父类群）
-            if (taxon == null || taxon == this ||
+            if (taxon is null || taxon == this ||
 #if BAN_MULTI_IN_DEGREE
                 taxon._IncludeBy.Count > 0
 #else
@@ -732,7 +751,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为复系群添加包含一个类群。
         public void AddInclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -751,7 +770,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为复系群添加包含一个类群。
         public void AddInclude(Taxon taxon, int index)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -775,7 +794,7 @@ namespace TreeOfLife.Taxonomy
         // 当前类群作为复系群删除包含一个类群。
         public void RemoveInclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -794,7 +813,7 @@ namespace TreeOfLife.Taxonomy
         // 获取当前类群作为复系群包含指定类群的次序。
         public int GetIndexOfInclude(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -898,7 +917,7 @@ namespace TreeOfLife.Taxonomy
         // 删除当前类群（并且删除/保留所有子类群）。
         public void RemoveCurrent(bool removeChildren)
         {
-            if (_Parent != null)
+            if (_Parent is not null)
             {
                 Taxon parent = _Parent;
 

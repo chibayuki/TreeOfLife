@@ -22,29 +22,56 @@ This file is part of TreeOfLife
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="1" BlurRadius="5" Opacity="0.5" Direction="270"/>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
-            <Border CornerRadius="3,0,0,3" SnapsToDevicePixels="True" Background="{Binding CategoryName_BackGround}">
-                <TextBlock Text="{Binding CategoryName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding CategoryName_ForeGround}" FontSize="14" FontWeight="Bold"/>
-            </Border>
-            <Border Grid.Column="1" BorderThickness="0,2,2,2" CornerRadius="0,3,3,0" SnapsToDevicePixels="True" BorderBrush="{Binding CategoryName_BackGround}" Background="{Binding TaxonName_BackGround}">
-                <TextBlock Text="{Binding TaxonName}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding TaxonName_ForeGround}" FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
-            </Border>
+            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Edit" Grid.Column="1" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
         </Grid>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="stackPanel_Chron" Grid.Row="1" Margin="0,10,0,0">
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="{Binding Birth}" FontSize="12" FontWeight="Bold" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0,3,6,3"/>
+                <Label Grid.Row="1" Content="{Binding Birth_Prefix}" FontSize="11" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0,0,6,0"/>
+                <Border Grid.Column="1" BorderThickness="1" Height="1" Width="30" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
+                <Label Grid.Column="2" Content="{Binding Extinction}" FontSize="12" FontWeight="Bold" Foreground="#FF808080" Padding="6,3,0,3"/>
+                <Label Grid.Column="2" Grid.Row="1" Content="{Binding Extinction_Prefix}" FontSize="11" Foreground="#FF808080" Padding="6,0,0,0"/>
+            </Grid>
+        </StackPanel>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
-                <Grid x:Name="grid_Tags" Margin="0,25,0,0">
-                    <Controls:TagGroup x:Name="tagGroup_Tags"/>
-                </Grid>
+                <StackPanel x:Name="stackPanel_TagsAndSynonyms" Margin="0,15,0,0">
+                    <Grid x:Name="grid_Tags" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="即" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                        <Controls:TagGroup x:Name="tagGroup_Tags" Grid.Column="2"/>
+                    </Grid>
+                    <Grid x:Name="grid_Synonyms" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="又名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                        <Controls:TagGroup x:Name="tagGroup_Synonyms" Grid.Column="2"/>
+                    </Grid>
+                </StackPanel>
                 <Grid x:Name="grid_Parents" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -72,17 +99,8 @@ This file is part of TreeOfLife
                     <Label Content="此并系群不包含，但是其演化支的类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
                 </Grid>
-                <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="异名" Style="{DynamicResource VerticalTitleLabelStyle}"/>
-                    <Controls:TagGroup x:Name="tagGroup_Synonyms" Grid.Row="2"/>
-                </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
-                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap" Foreground="{Binding Desc_BackGround}"/>
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

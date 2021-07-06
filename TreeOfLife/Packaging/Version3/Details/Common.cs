@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
     public static class Common
     {

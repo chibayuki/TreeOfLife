@@ -18,7 +18,7 @@ using System.Windows.Media;
 
 namespace TreeOfLife.Views.Tree
 {
-    public class ViewModel_Tree : INotifyPropertyChanged
+    public sealed class ViewModel_Tree : INotifyPropertyChanged
     {
         public ViewModel_Tree()
         {
@@ -28,7 +28,7 @@ namespace TreeOfLife.Views.Tree
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

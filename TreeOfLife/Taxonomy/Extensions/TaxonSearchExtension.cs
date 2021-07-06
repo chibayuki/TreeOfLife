@@ -18,7 +18,7 @@ namespace TreeOfLife.Taxonomy.Extensions
     // 生物分类单元（类群）的搜索相关扩展方法。
     public static class TaxonSearchExtension
     {
-        // 获取两个字符串的最大相同子串/子序列的长度（LCS）。
+        // 获取两个字符串的最大相同子串/子序列的长度（连续LCS/离散LCS）。
         private static int _GetCommonSubsequenceLength(string str1, string str2, bool continuous = true)
         {
             // 原理：
@@ -106,7 +106,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取类群的中文名不含分类阶元的部分。
         private static string _GetChineseNameWithoutCategory(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -157,13 +157,13 @@ namespace TreeOfLife.Taxonomy.Extensions
         {
             ChineseNameWithoutCategory, // 中文名不含分类阶元的部分
             ChineseName, // 中文名
-            BotanicalName, // 学名
+            ScientificName, // 学名
             Synonyms, // 异名
             Tags // 标签
         }
 
         // 获取对指定类群做全字符串匹配的最佳匹配率和匹配对象。
-        private static (double matchValue, double matchLength, _MatchObject matchObject) _GetMatchValueAndObject(Taxon taxon, string str, bool matchChineseName = true, bool matchBotanicalName = true, bool matchSynonyms = true, bool matchTags = true)
+        private static (double matchValue, double matchLength, _MatchObject matchObject) _GetMatchValueAndObject(Taxon taxon, string str, bool matchChineseName = true, bool matchScientificName = true, bool matchSynonyms = true, bool matchTags = true)
         {
             double matchValue = 0;
             double matchLength = 0;
@@ -174,14 +174,14 @@ namespace TreeOfLife.Taxonomy.Extensions
                 (matchValue, matchLength) = _GetMatchValueOfTwoString(str, taxon.ChineseName);
             }
 
-            if (matchBotanicalName && matchValue < 1 && !string.IsNullOrEmpty(taxon.BotanicalName))
+            if (matchScientificName && matchValue < 1 && !string.IsNullOrEmpty(taxon.ScientificName))
             {
-                var mv = _GetMatchValueOfTwoString(str, taxon.BotanicalName);
+                var mv = _GetMatchValueOfTwoString(str, taxon.ScientificName);
 
                 if (matchValue < mv.matchValue || (matchValue == mv.matchValue && matchLength < mv.matchLength))
                 {
                     (matchValue, matchLength) = mv;
-                    matchObject = _MatchObject.BotanicalName;
+                    matchObject = _MatchObject.ScientificName;
                 }
             }
 
@@ -269,7 +269,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 获取指定类群在当前匹配条件下的匹配结果。
         private static _MatchResult _GetMatchResultOfTaxon(Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -279,7 +279,7 @@ namespace TreeOfLife.Taxonomy.Extensions
             _MatchResult result = new _MatchResult() { Taxon = taxon };
 
             // 关键字包含分类阶元名称的
-            if (_KeyWordCategory != null)
+            if (_KeyWordCategory is not null)
             {
                 // 关键字包含分类阶元名称，还包含除此之外的
                 if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))
@@ -371,7 +371,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 递归获取所有符合匹配条件的子类群。
         private static void _GetMatchedChildren(this Taxon taxon)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -406,7 +406,7 @@ namespace TreeOfLife.Taxonomy.Extensions
         // 搜索符合指定的关键词的子类群。
         public static IReadOnlyList<(Taxon taxon, MatchLevel matchLevel)> Search(this Taxon taxon, string keyWord)
         {
-            if (taxon == null)
+            if (taxon is null)
             {
                 throw new ArgumentNullException();
             }
@@ -426,7 +426,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 _KeyWord = keyWord;
                 (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
 
-                if (_KeyWordCategory != null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
+                if (_KeyWordCategory is not null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
                 {
                     _KeyWordWithoutCategoryAsClade = _KeyWord[..^1];
                 }
@@ -447,7 +447,7 @@ namespace TreeOfLife.Taxonomy.Extensions
                 List<(Taxon, MatchLevel)> result = new List<(Taxon, MatchLevel)>();
 
                 // 关键字包含分类阶元名称的
-                if (_KeyWordCategory != null)
+                if (_KeyWordCategory is not null)
                 {
                     // 关键字包含分类阶元名称，还包含除此之外的，按匹配率与分类阶元相关性设定匹配程度
                     if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))

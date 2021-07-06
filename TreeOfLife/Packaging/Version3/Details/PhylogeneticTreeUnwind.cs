@@ -18,7 +18,7 @@ using System.IO;
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 
-namespace TreeOfLife.Packaging.Version2.Details
+namespace TreeOfLife.Packaging.Version3.Details
 {
     // 系统发生树的线性展开。
     public sealed class PhylogeneticTreeUnwind

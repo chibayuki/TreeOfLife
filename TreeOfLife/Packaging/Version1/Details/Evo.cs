@@ -20,7 +20,7 @@ using System.Text.Json.Serialization;
 namespace TreeOfLife.Packaging.Version1.Details
 {
     // 系统发生树展开的表示演化关系的数据结构，包含所有单系群。
-    public class Evo
+    public sealed class Evo
     {
         private List<EvoAtom> _Atoms = new List<EvoAtom>();
 
