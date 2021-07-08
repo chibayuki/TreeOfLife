@@ -13,6 +13,9 @@
     <Compile Update="Controls\CategoryNameButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\GeoChronSpan.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\Tag.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +82,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\CategoryNameButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\GeoChronSpan.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Tag.xaml">

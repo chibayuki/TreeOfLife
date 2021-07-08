@@ -192,7 +192,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            stackPanel_Chron.Visibility = (currentTaxon.IsExtinct ? (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty ? Visibility.Visible : Visibility.Collapsed) : (!currentTaxon.Birth.IsEmpty ? Visibility.Visible : Visibility.Collapsed));
             grid_Tags.Visibility = (currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
             grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
             stackPanel_TagsAndSynonyms.Visibility = (currentTaxon.Tags.Count > 0 || currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
@@ -211,6 +210,20 @@ namespace TreeOfLife.Views.Evo.ViewMode
             taxonNameTitle.Category = (currentTaxon.IsAnonymous() ? null : currentTaxon.Category);
             taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+
+            if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
+            {
+                geoChronSpan.Birth = currentTaxon.Birth;
+                geoChronSpan.Extinction = currentTaxon.Extinction;
+                geoChronSpan.IsExtinct = currentTaxon.IsExtinct;
+                geoChronSpan.Category = currentTaxon.GetInheritedCategory();
+
+                geoChronSpan.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                geoChronSpan.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void UpdateCurrentTaxonInfo()

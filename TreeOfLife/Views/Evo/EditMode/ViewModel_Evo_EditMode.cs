@@ -15,10 +15,8 @@ using System.Threading.Tasks;
 
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
 
 using TreeOfLife.Controls;
-using TreeOfLife.Extensions;
 using TreeOfLife.Geology;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
@@ -44,12 +42,7 @@ namespace TreeOfLife.Views.Evo.EditMode
 
         //
 
-        private TaxonNameTitle _TaxonNameTitle = null;
-
-        public TaxonNameTitle TaxonNameTitle
-        {
-            set => _TaxonNameTitle = value;
-        }
+        public TaxonNameTitle TaxonNameTitle { get; set; }
 
         //
 
@@ -229,19 +222,19 @@ namespace TreeOfLife.Views.Evo.EditMode
             {
                 TaxonomicCategory category = _Category;
 
-                _TaxonNameTitle.ThemeColor = (currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
+                TaxonNameTitle.ThemeColor = (currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
 
                 string name = _Name?.Trim();
                 string chsName = _ChsName?.Trim();
 
                 if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
                 {
-                    _TaxonNameTitle.Category = null;
-                    _TaxonNameTitle.TaxonName = "(未命名)";
+                    TaxonNameTitle.Category = null;
+                    TaxonNameTitle.TaxonName = "(未命名)";
                 }
                 else
                 {
-                    _TaxonNameTitle.Category = category;
+                    TaxonNameTitle.Category = category;
 
                     StringBuilder taxonName = new StringBuilder();
 
@@ -284,11 +277,11 @@ namespace TreeOfLife.Views.Evo.EditMode
                         taxonName.Append(" *");
                     }
 
-                    _TaxonNameTitle.TaxonName = taxonName.ToString();
+                    TaxonNameTitle.TaxonName = taxonName.ToString();
                 }
 
-                _TaxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
-                _TaxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+                TaxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
+                TaxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
             }
         }
 

@@ -189,14 +189,10 @@ namespace TreeOfLife
         private bool _IsDarkTheme;
 
         private Brush _Pages_BackGround;
-        private Brush _PagesSide_ForeGround;
-        private Brush _PagesSide_BackGround;
 
         private void _UpdateColors()
         {
             Pages_BackGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
-            PagesSide_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(160, 160, 160) : Color.FromRgb(64, 64, 64));
-            PagesSide_BackGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(64, 64, 64) : Color.FromRgb(192, 192, 192));
         }
 
         public bool IsDarkTheme
@@ -220,30 +216,6 @@ namespace TreeOfLife
                 _Pages_BackGround = value;
 
                 NotifyPropertyChanged(nameof(Pages_BackGround));
-            }
-        }
-
-        public Brush PagesSide_ForeGround
-        {
-            get => _PagesSide_ForeGround;
-
-            set
-            {
-                _PagesSide_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(PagesSide_ForeGround));
-            }
-        }
-
-        public Brush PagesSide_BackGround
-        {
-            get => _PagesSide_BackGround;
-
-            set
-            {
-                _PagesSide_BackGround = value;
-
-                NotifyPropertyChanged(nameof(PagesSide_BackGround));
             }
         }
 
