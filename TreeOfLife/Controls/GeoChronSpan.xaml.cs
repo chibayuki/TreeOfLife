@@ -182,6 +182,12 @@ namespace TreeOfLife.Controls
                 grid_PhanerozoicOnly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? 3 : 5) });
             }
 
+            double fontSize = 11;
+            HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
+            VerticalAlignment verticalContentAlignment = VerticalAlignment.Bottom;
+            Thickness padding = new Thickness(0, 0, 0, 1);
+            Thickness margin = new Thickness(0, 0, 1, 0);
+
             for (int eonIndex = 0; eonIndex < eons.Length; eonIndex++)
             {
                 GeoChron eon = eons[eonIndex];
@@ -191,11 +197,11 @@ namespace TreeOfLife.Controls
                     Content = eon.GetChineseName(),
                     Foreground = Common.GetSolidColorBrush(eon.GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
                     Background = Common.GetSolidColorBrush(eon.GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
-                    FontSize = 11,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Bottom,
-                    Padding = new Thickness(0),
-                    Margin = new Thickness(0, 0, 1, 0)
+                    FontSize = fontSize,
+                    HorizontalContentAlignment = horizontalContentAlignment,
+                    VerticalContentAlignment = verticalContentAlignment,
+                    Padding = padding,
+                    Margin = margin
                 };
 
                 label_Eon.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
@@ -212,11 +218,11 @@ namespace TreeOfLife.Controls
                         Content = "PreꞒ",
                         Foreground = Common.GetSolidColorBrush(eons[^2].GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
                         Background = Common.GetSolidColorBrush(eons[^2].GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
-                        FontSize = 11,
-                        HorizontalContentAlignment = HorizontalAlignment.Center,
-                        VerticalContentAlignment = VerticalAlignment.Bottom,
-                        Padding = new Thickness(0),
-                        Margin = new Thickness(0, 0, 1, 0)
+                        FontSize = fontSize,
+                        HorizontalContentAlignment = horizontalContentAlignment,
+                        VerticalContentAlignment = verticalContentAlignment,
+                        Padding = padding,
+                        Margin = margin
                     };
 
                     label_Period.SetValue(Grid.ColumnProperty, 0);
@@ -263,8 +269,8 @@ namespace TreeOfLife.Controls
                                         {
                                             periodColumnSpan++;
 
-                                            grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(2, GridUnitType.Star) });
-                                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(2, GridUnitType.Star) });
+                                            grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                                         }
                                     }
                                 }
@@ -273,7 +279,7 @@ namespace TreeOfLife.Controls
                                     periodColumnSpan = 1;
 
                                     grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(16, GridUnitType.Star) });
-                                    grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(4, GridUnitType.Star) });
+                                    grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                                 }
 
                                 if (eonIndex == eons.Length - 1)
@@ -283,11 +289,11 @@ namespace TreeOfLife.Controls
                                         Content = _GeoChronToSymbolTable[period],
                                         Foreground = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
                                         Background = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
-                                        FontSize = 11,
-                                        HorizontalContentAlignment = HorizontalAlignment.Center,
-                                        VerticalContentAlignment = VerticalAlignment.Bottom,
-                                        Padding = new Thickness(0),
-                                        Margin = new Thickness(0, 0, 1, 0)
+                                        FontSize = fontSize,
+                                        HorizontalContentAlignment = horizontalContentAlignment,
+                                        VerticalContentAlignment = verticalContentAlignment,
+                                        Padding = padding,
+                                        Margin = margin
                                     };
 
                                     label_Period.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
@@ -302,7 +308,7 @@ namespace TreeOfLife.Controls
                         else
                         {
                             grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(32, GridUnitType.Star) });
-                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(2, GridUnitType.Star) });
+                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                         }
                     }
                 }
@@ -318,7 +324,7 @@ namespace TreeOfLife.Controls
             label_PreCambrianAndPhanerozoic.SetValue(Grid.RowSpanProperty, 2);
             grid_PreCambrianAndPhanerozoic.Children.Add(label_PreCambrianAndPhanerozoic);
 
-            label_PhanerozoicOnly = new Label();
+            label_PhanerozoicOnly = new Label() { Margin = new Thickness(0, 0, 1, 2) };
             label_PhanerozoicOnly.SetValue(Grid.RowProperty, 0);
             label_PhanerozoicOnly.SetValue(Grid.RowSpanProperty, 2);
             grid_PhanerozoicOnly.Children.Add(label_PhanerozoicOnly);
@@ -437,21 +443,19 @@ namespace TreeOfLife.Controls
         {
             if ((_Birth is not null && !_Birth.IsEmpty && !_Birth.IsPresent) && ((_IsExtinct && (_Extinction is not null && !_Extinction.IsEmpty && !_Extinction.IsPresent)) || !_IsExtinct))
             {
+                Label label = (_Birth < GeoChron.GetGeoChron(Eon.Phanerozoic) ? label_PreCambrianAndPhanerozoic : label_PhanerozoicOnly);
+
+                label.SetValue(Grid.ColumnProperty, _GetColumnIndex(_Birth));
+                label.SetValue(Grid.ColumnSpanProperty, Math.Max(1, (_IsExtinct ? _GetColumnIndex(_Extinction) : _GetColumnIndex(GeoChron.Present)) - _GetColumnIndex(_Birth) + 1));
+                label.Background = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
+
                 if (_Birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
                 {
-                    label_PreCambrianAndPhanerozoic.SetValue(Grid.ColumnProperty, _GetColumnIndex(_Birth));
-                    label_PreCambrianAndPhanerozoic.SetValue(Grid.ColumnSpanProperty, (_IsExtinct ? _GetColumnIndex(_Extinction) : _GetColumnIndex(GeoChron.Present)) - _GetColumnIndex(_Birth) + 1);
-                    label_PreCambrianAndPhanerozoic.Background = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
-
                     grid_PreCambrianAndPhanerozoic.Visibility = Visibility.Visible;
                     grid_PhanerozoicOnly.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    label_PhanerozoicOnly.SetValue(Grid.ColumnProperty, _GetColumnIndex(_Birth));
-                    label_PhanerozoicOnly.SetValue(Grid.ColumnSpanProperty, (_IsExtinct ? _GetColumnIndex(_Extinction) : _GetColumnIndex(GeoChron.Present)) - _GetColumnIndex(_Birth) + 1);
-                    label_PhanerozoicOnly.Background = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
-
                     grid_PreCambrianAndPhanerozoic.Visibility = Visibility.Collapsed;
                     grid_PhanerozoicOnly.Visibility = Visibility.Visible;
                 }
