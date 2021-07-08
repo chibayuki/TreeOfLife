@@ -44,6 +44,29 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
 
+            button_GetParentsOption.Click += (s, e) =>
+            {
+                switch (_GetParentsOption)
+                {
+                    case GetParentsOption.Least:
+                        _GetParentsOption = GetParentsOption.Summary;
+                        button_GetParentsOption.Content = "=";
+                        break;
+
+                    case GetParentsOption.Summary:
+                        _GetParentsOption = GetParentsOption.Full;
+                        button_GetParentsOption.Content = "≡";
+                        break;
+
+                    case GetParentsOption.Full:
+                        _GetParentsOption = GetParentsOption.Least;
+                        button_GetParentsOption.Content = "−";
+                        break;
+                }
+
+                _UpdateParents();
+            };
+
             taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
@@ -52,6 +75,8 @@ namespace TreeOfLife.Views.Evo.ViewMode
         //
 
         #region 类群
+
+        private GetParentsOption _GetParentsOption = GetParentsOption.Summary;
 
         // 更新父类群。
         private void _UpdateParents()
@@ -64,7 +89,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
             }
             else
             {
-                List<Taxon> parents = new List<Taxon>(currentTaxon.GetParents(GetParentsOption.Summary));
+                List<Taxon> parents = new List<Taxon>(currentTaxon.GetParents(_GetParentsOption));
 
                 if (parents.Count > 0)
                 {
