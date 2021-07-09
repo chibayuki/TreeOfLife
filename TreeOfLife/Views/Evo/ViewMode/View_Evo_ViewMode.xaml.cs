@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TreeOfLife.Geology;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
@@ -238,10 +239,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
             {
-                geoChronSpan.Birth = currentTaxon.Birth;
-                geoChronSpan.Extinction = currentTaxon.Extinction;
-                geoChronSpan.IsExtinct = currentTaxon.IsExtinct;
-                geoChronSpan.Category = currentTaxon.GetInheritedCategory();
+                geoChronSpan.Update(currentTaxon.Birth, (currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present), currentTaxon.GetInheritedCategory());
 
                 geoChronSpan.Visibility = Visibility.Visible;
             }

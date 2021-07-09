@@ -32,7 +32,7 @@ This file is part of TreeOfLife
             <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Edit" Grid.Column="1" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
         </Grid>
-        <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="0,10,0,0"/>
+        <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="0,15,0,0"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
                 <StackPanel x:Name="stackPanel_TagsAndSynonyms" Margin="0,15,0,0">
