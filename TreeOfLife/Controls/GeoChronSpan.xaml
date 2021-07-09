@@ -17,9 +17,9 @@ This file is part of TreeOfLife
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Grid x:Name="grid_Graph" Margin="25,0,25,10">
-                <Grid x:Name="grid_PreCambrianAndPhanerozoic"/>
-                <Grid x:Name="grid_PhanerozoicOnly"/>
+            <Grid x:Name="grid_Graph" Margin="25,0,25,5">
+                <Grid x:Name="grid_PreCambrianMainly"/>
+                <Grid x:Name="grid_PhanerozoicMainly"/>
             </Grid>
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>

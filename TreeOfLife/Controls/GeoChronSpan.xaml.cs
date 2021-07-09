@@ -38,7 +38,6 @@ namespace TreeOfLife.Controls
     {
         private GeoChron _Birth = null;
         private GeoChron _Extinction = null;
-        private bool _IsExtinct = false;
         private TaxonomicCategory _Category = TaxonomicCategory.Unranked;
 
         //
@@ -160,11 +159,21 @@ namespace TreeOfLife.Controls
             { GeoChron.GetGeoChron(Period.Quaternary), "Q" }
         };
 
-        private Label label_PreCambrianAndPhanerozoic = null;
-        private Label label_PhanerozoicOnly = null;
+        private Border border_PreCambrianMainly = null;
+        private Border border_PhanerozoicMainly = null;
 
         private void _InitGraph()
         {
+            const int rowCount = 3;
+            const double tagHeight = 20;
+            const double bandHeight = 6;
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? bandHeight / 2 : tagHeight / (rowCount - 1)) });
+                grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? bandHeight / 2 : tagHeight / (rowCount - 1)) });
+            }
+
             GeoChron[] eons = new GeoChron[]
             {
                 GeoChron.GetGeoChron(Eon.Hadean),
@@ -173,30 +182,24 @@ namespace TreeOfLife.Controls
                 GeoChron.GetGeoChron(Eon.Phanerozoic)
             };
 
-            int phanerozoicColumnIndex = _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic));
-            int presentColumnIndex = _GetColumnIndex(GeoChron.Present);
-
-            for (int i = 0; i < 5; i++)
-            {
-                grid_PreCambrianAndPhanerozoic.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? 3 : 5) });
-                grid_PhanerozoicOnly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? 3 : 5) });
-            }
-
-            double fontSize = 11;
-            HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
-            VerticalAlignment verticalContentAlignment = VerticalAlignment.Bottom;
-            Thickness padding = new Thickness(0, 0, 0, 1);
+            const double fontSize = 11;
+            const HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
+            const VerticalAlignment verticalContentAlignment = VerticalAlignment.Bottom;
+            Thickness padding = new Thickness(0, 0, 0, 2);
             Thickness margin = new Thickness(0, 0, 1, 0);
+            Func<GeoChron, Brush> getForeground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_LAB(60).ToWpfColor());
+            Func<GeoChron, Brush> getBackground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
 
             for (int eonIndex = 0; eonIndex < eons.Length; eonIndex++)
             {
                 GeoChron eon = eons[eonIndex];
 
+                // "宙"标签
                 Label label_Eon = new Label()
                 {
                     Content = eon.GetChineseName(),
-                    Foreground = Common.GetSolidColorBrush(eon.GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
-                    Background = Common.GetSolidColorBrush(eon.GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
+                    Foreground = getForeground(eon),
+                    Background = getBackground(eon),
                     FontSize = fontSize,
                     HorizontalContentAlignment = horizontalContentAlignment,
                     VerticalContentAlignment = verticalContentAlignment,
@@ -205,19 +208,20 @@ namespace TreeOfLife.Controls
                 };
 
                 label_Eon.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
-                label_Eon.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : presentColumnIndex - _GetColumnIndex(eon) + 1));
+                label_Eon.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
                 label_Eon.SetValue(Grid.RowProperty, 1);
-                label_Eon.SetValue(Grid.RowSpanProperty, 4);
+                label_Eon.SetValue(Grid.RowSpanProperty, rowCount - 1);
 
-                grid_PreCambrianAndPhanerozoic.Children.Add(label_Eon);
+                grid_PreCambrianMainly.Children.Add(label_Eon);
 
                 if (eonIndex == eons.Length - 1)
                 {
+                    // "前寒武纪"标签
                     Label label_Period = new Label()
                     {
                         Content = "PreꞒ",
-                        Foreground = Common.GetSolidColorBrush(eons[^2].GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
-                        Background = Common.GetSolidColorBrush(eons[^2].GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
+                        Foreground = getForeground(eons[^2]),
+                        Background = getBackground(eons[^2]),
                         FontSize = fontSize,
                         HorizontalContentAlignment = horizontalContentAlignment,
                         VerticalContentAlignment = verticalContentAlignment,
@@ -226,11 +230,11 @@ namespace TreeOfLife.Controls
                     };
 
                     label_Period.SetValue(Grid.ColumnProperty, 0);
-                    label_Period.SetValue(Grid.ColumnSpanProperty, phanerozoicColumnIndex);
+                    label_Period.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
                     label_Period.SetValue(Grid.RowProperty, 1);
-                    label_Period.SetValue(Grid.RowSpanProperty, 4);
+                    label_Period.SetValue(Grid.RowSpanProperty, rowCount - 1);
 
-                    grid_PhanerozoicOnly.Children.Add(label_Period);
+                    grid_PhanerozoicMainly.Children.Add(label_Period);
                 }
 
                 if (eon.HasTimespanSubordinates)
@@ -259,18 +263,16 @@ namespace TreeOfLife.Controls
 
                                             for (int ageIndex = 0; ageIndex < epoch.Subordinates.Count; ageIndex++)
                                             {
-                                                GeoChron age = epoch.Subordinates[ageIndex];
-
-                                                grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-                                                grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                                grid_PreCambrianMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                                grid_PhanerozoicMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                                             }
                                         }
                                         else
                                         {
                                             periodColumnSpan++;
 
-                                            grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-                                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                            grid_PreCambrianMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                            grid_PhanerozoicMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                                         }
                                     }
                                 }
@@ -278,17 +280,18 @@ namespace TreeOfLife.Controls
                                 {
                                     periodColumnSpan = 1;
 
-                                    grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(16, GridUnitType.Star) });
-                                    grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                                    grid_PreCambrianMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(32, GridUnitType.Star) });
+                                    grid_PhanerozoicMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                                 }
 
                                 if (eonIndex == eons.Length - 1)
                                 {
+                                    // "纪"标签
                                     Label label_Period = new Label()
                                     {
                                         Content = _GeoChronToSymbolTable[period],
-                                        Foreground = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(60).ToWpfColor()),
-                                        Background = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_HSL(90).ToWpfColor()),
+                                        Foreground = getForeground(period),
+                                        Background = getBackground(period),
                                         FontSize = fontSize,
                                         HorizontalContentAlignment = horizontalContentAlignment,
                                         VerticalContentAlignment = verticalContentAlignment,
@@ -299,35 +302,45 @@ namespace TreeOfLife.Controls
                                     label_Period.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
                                     label_Period.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
                                     label_Period.SetValue(Grid.RowProperty, 1);
-                                    label_Period.SetValue(Grid.RowSpanProperty, 4);
+                                    label_Period.SetValue(Grid.RowSpanProperty, rowCount - 1);
 
-                                    grid_PhanerozoicOnly.Children.Add(label_Period);
+                                    grid_PhanerozoicMainly.Children.Add(label_Period);
                                 }
                             }
                         }
                         else
                         {
-                            grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(32, GridUnitType.Star) });
-                            grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                            grid_PreCambrianMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(64, GridUnitType.Star) });
+                            grid_PhanerozoicMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                         }
                     }
                 }
                 else
                 {
-                    grid_PreCambrianAndPhanerozoic.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(64, GridUnitType.Star) });
-                    grid_PhanerozoicOnly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                    grid_PreCambrianMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(128, GridUnitType.Star) });
+                    grid_PhanerozoicMainly.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
                 }
             }
 
-            label_PreCambrianAndPhanerozoic = new Label() { Margin = new Thickness(0, 0, 1, 2) };
-            label_PreCambrianAndPhanerozoic.SetValue(Grid.RowProperty, 0);
-            label_PreCambrianAndPhanerozoic.SetValue(Grid.RowSpanProperty, 2);
-            grid_PreCambrianAndPhanerozoic.Children.Add(label_PreCambrianAndPhanerozoic);
+            border_PreCambrianMainly = new Border()
+            {
+                Height = bandHeight,
+                Margin = new Thickness(0, 0, 1, 0),
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            border_PreCambrianMainly.SetValue(Grid.RowProperty, 0);
+            border_PreCambrianMainly.SetValue(Grid.RowSpanProperty, 2);
+            grid_PreCambrianMainly.Children.Add(border_PreCambrianMainly);
 
-            label_PhanerozoicOnly = new Label() { Margin = new Thickness(0, 0, 1, 2) };
-            label_PhanerozoicOnly.SetValue(Grid.RowProperty, 0);
-            label_PhanerozoicOnly.SetValue(Grid.RowSpanProperty, 2);
-            grid_PhanerozoicOnly.Children.Add(label_PhanerozoicOnly);
+            border_PhanerozoicMainly = new Border()
+            {
+                Height = bandHeight,
+                Margin = new Thickness(0, 0, 1, 0),
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            border_PhanerozoicMainly.SetValue(Grid.RowProperty, 0);
+            border_PhanerozoicMainly.SetValue(Grid.RowSpanProperty, 2);
+            grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly);
         }
 
         //
@@ -382,82 +395,82 @@ namespace TreeOfLife.Controls
                 }
             }
 
-            if (_IsExtinct)
+            if (_Extinction is null || _Extinction.IsEmpty)
             {
-                if (_Extinction.IsEmpty)
-                {
-                    label_ExtinctionPrefix.Content = string.Empty;
-                    label_Extinction.Content = "?";
-                }
-                else
-                {
-                    GeoChron extinction = _Extinction;
-
-                    if (extinction.IsTimepoint)
-                    {
-                        if (extinction.Superior is null)
-                        {
-                            label_Extinction.Content = extinction.GetChineseName();
-                        }
-                        else
-                        {
-                            label_Extinction.Content = $"{extinction.GetChineseName()} ({extinction.Superior.GetChineseName()})";
-
-                            extinction = extinction.Superior;
-                        }
-                    }
-                    else
-                    {
-                        label_Extinction.Content = extinction.GetChineseName();
-                    }
-
-                    if (extinction.Superior is null)
-                    {
-                        label_ExtinctionPrefix.Content = string.Empty;
-                    }
-                    else
-                    {
-                        GeoChron geoChron = extinction.Superior;
-
-                        string str = geoChron.GetChineseName();
-
-                        while (geoChron.Superior is not null)
-                        {
-                            geoChron = geoChron.Superior;
-
-                            str = $"{geoChron.GetChineseName()}·{str}";
-                        }
-
-                        label_ExtinctionPrefix.Content = $"({str})";
-                    }
-                }
+                label_ExtinctionPrefix.Content = string.Empty;
+                label_Extinction.Content = "?";
             }
-            else
+            else if (_Extinction.IsPresent)
             {
                 label_ExtinctionPrefix.Content = string.Empty;
                 label_Extinction.Content = "至今";
+            }
+            else
+            {
+                GeoChron extinction = _Extinction;
+
+                if (extinction.IsTimepoint)
+                {
+                    if (extinction.Superior is null)
+                    {
+                        label_Extinction.Content = extinction.GetChineseName();
+                    }
+                    else
+                    {
+                        label_Extinction.Content = $"{extinction.GetChineseName()} ({extinction.Superior.GetChineseName()})";
+
+                        extinction = extinction.Superior;
+                    }
+                }
+                else
+                {
+                    label_Extinction.Content = extinction.GetChineseName();
+                }
+
+                if (extinction.Superior is null)
+                {
+                    label_ExtinctionPrefix.Content = string.Empty;
+                }
+                else
+                {
+                    GeoChron geoChron = extinction.Superior;
+
+                    string str = geoChron.GetChineseName();
+
+                    while (geoChron.Superior is not null)
+                    {
+                        geoChron = geoChron.Superior;
+
+                        str = $"{geoChron.GetChineseName()}·{str}";
+                    }
+
+                    label_ExtinctionPrefix.Content = $"({str})";
+                }
             }
         }
 
         private void _UpdateGraph()
         {
-            if ((_Birth is not null && !_Birth.IsEmpty && !_Birth.IsPresent) && ((_IsExtinct && (_Extinction is not null && !_Extinction.IsEmpty && !_Extinction.IsPresent)) || !_IsExtinct))
+            if ((_Birth is not null && !_Birth.IsEmpty && !_Birth.IsPresent) && (_Extinction is not null && !_Extinction.IsEmpty))
             {
-                Label label = (_Birth < GeoChron.GetGeoChron(Eon.Phanerozoic) ? label_PreCambrianAndPhanerozoic : label_PhanerozoicOnly);
-
-                label.SetValue(Grid.ColumnProperty, _GetColumnIndex(_Birth));
-                label.SetValue(Grid.ColumnSpanProperty, Math.Max(1, (_IsExtinct ? _GetColumnIndex(_Extinction) : _GetColumnIndex(GeoChron.Present)) - _GetColumnIndex(_Birth) + 1));
-                label.Background = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
+                int columnIndex = _GetColumnIndex(_Birth);
+                int columnSpan = Math.Max(1, _GetColumnIndex(_Extinction) - _GetColumnIndex(_Birth) + 1);
 
                 if (_Birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
                 {
-                    grid_PreCambrianAndPhanerozoic.Visibility = Visibility.Visible;
-                    grid_PhanerozoicOnly.Visibility = Visibility.Collapsed;
+                    border_PreCambrianMainly.SetValue(Grid.ColumnProperty, columnIndex);
+                    border_PreCambrianMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+
+                    grid_PreCambrianMainly.Visibility = Visibility.Visible;
+                    grid_PhanerozoicMainly.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    grid_PreCambrianAndPhanerozoic.Visibility = Visibility.Collapsed;
-                    grid_PhanerozoicOnly.Visibility = Visibility.Visible;
+                    border_PhanerozoicMainly.SetValue(Grid.ColumnProperty, columnIndex);
+                    border_PhanerozoicMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+
+                    grid_PreCambrianMainly.Visibility = Visibility.Collapsed;
+                    grid_PhanerozoicMainly.Visibility = Visibility.Visible;
                 }
 
                 grid_Graph.Visibility = Visibility.Visible;
@@ -468,10 +481,19 @@ namespace TreeOfLife.Controls
             }
         }
 
+        private void _UpdateColor()
+        {
+            Brush brush = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
+
+            border_PreCambrianMainly.Background = brush;
+            border_PhanerozoicMainly.Background = brush;
+        }
+
         private void _Update()
         {
             _UpdateContent();
             _UpdateGraph();
+            _UpdateColor();
         }
 
         //
@@ -511,18 +533,6 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public bool IsExtinct
-        {
-            get => _IsExtinct;
-
-            set
-            {
-                _IsExtinct = value;
-
-                _Update();
-            }
-        }
-
         public TaxonomicCategory Category
         {
             get => _Category;
@@ -531,8 +541,17 @@ namespace TreeOfLife.Controls
             {
                 _Category = value;
 
-                _Update();
+                _UpdateColor();
             }
+        }
+
+        public void Update(GeoChron birth, GeoChron extinction, TaxonomicCategory category)
+        {
+            _Birth = birth;
+            _Extinction = extinction;
+            _Category = category;
+
+            _Update();
         }
     }
 }
