@@ -40,7 +40,8 @@ namespace TreeOfLife.Controls
         public bool IsFirst { get; set; } = false;
         public bool IsLast { get; set; } = false;
         public bool ShowButton { get; set; } = false;
-        public bool Checked { get; set; } = false;
+
+        public bool IsChecked { get; set; } = false;
 
         public IEnumerable<(DependencyProperty dp, object value)> Properties { get; set; } = null;
     }
@@ -52,76 +53,107 @@ namespace TreeOfLife.Controls
     {
         private class _TreeNode
         {
-            public _TreeNode(TreeNodeItem node)
+            private StackPanel _Container = null;
+            private TreeNodeButton _Button = null;
+            private StackPanel _ChildrenContainer = null;
+            private List<_TreeNode> _Children = null;
+
+            private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+            private void _UpdateTheme()
             {
-                if (node is null)
+                _Button.IsDarkTheme = _IsDarkTheme;
+
+                foreach (var child in _Children)
+                {
+                    child.IsDarkTheme = _IsDarkTheme;
+                }
+            }
+
+            //
+
+            public _TreeNode(TreeNodeItem item)
+            {
+                if (item is null)
                 {
                     throw new ArgumentNullException();
                 }
 
                 //
 
-                Button = new TreeNodeButton()
+                _Container = new StackPanel() { Orientation = Orientation.Horizontal };
+
+                _Button = new TreeNodeButton()
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
 
-                    Taxon = node.Taxon,
-                    Sign = node.Sign,
+                    Taxon = item.Taxon,
+                    Sign = item.Sign,
 
-                    IsRoot = node.IsRoot,
-                    IsFinal = node.IsFinal,
-                    IsFirst = node.IsFirst,
-                    IsLast = node.IsLast,
-                    ShowButton = node.ShowButton,
-                    Checked = node.Checked
+                    IsRoot = item.IsRoot,
+                    IsFinal = item.IsFinal,
+                    IsFirst = item.IsFirst,
+                    IsLast = item.IsLast,
+                    ShowButton = item.ShowButton,
+
+                    IsChecked = item.IsChecked
                 };
 
-                var properties = node.Properties;
+                var properties = item.Properties;
 
                 if (properties is not null)
                 {
                     foreach (var property in properties)
                     {
-                        Button.SetValue(property.dp, property.value);
+                        _Button.SetValue(property.dp, property.value);
                     }
                 }
+
+                _Container.Children.Add(_Button);
+
+                _ChildrenContainer = new StackPanel() { Orientation = Orientation.Vertical };
+
+                _Children = new List<_TreeNode>();
+
+                foreach (var child in item.Children)
+                {
+                    _TreeNode treeNode = new _TreeNode(child);
+
+                    _Children.Add(treeNode);
+
+                    _ChildrenContainer.Children.Add(treeNode.Container);
+                }
+
+                _Container.Children.Add(_ChildrenContainer);
             }
 
             //
 
-            public _TreeNode Parent { get; set; } = null;
-            public List<_TreeNode> Children { get; } = new List<_TreeNode>();
-
-            public TreeNodeButton Button { get; set; } = null;
-
-            //
-
-            public static _TreeNode BuildTree(TreeNodeItem node)
+            public bool IsDarkTheme
             {
-                if (node is null)
+                get => _IsDarkTheme;
+
+                set
                 {
-                    throw new ArgumentNullException();
+                    _IsDarkTheme = value;
+
+                    _UpdateTheme();
                 }
-
-                //
-
-                _TreeNode _Node = new _TreeNode(node);
-
-                foreach (var child in node.Children)
-                {
-                    _TreeNode _Child = BuildTree(child);
-
-                    _Node.Children.Add(_Child);
-                    _Child.Parent = _Node;
-                }
-
-                return _Node;
             }
+
+            public FrameworkElement Container => _Container;
         }
+
+        //
 
         private _TreeNode _RootNode = null; // 子树的根节点。
 
         private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private void _UpdateTheme()
+        {
+            _RootNode.IsDarkTheme = _IsDarkTheme;
+        }
 
         //
 
@@ -131,19 +163,26 @@ namespace TreeOfLife.Controls
 
             //
 
-            this.Loaded += (s, e) =>
-            {
-                _UpdateFont();
-                _UpdateColor();
-            };
+            TreeNodeButton button = null;
 
-            stackPanel_Tree.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            stackPanel_Tree.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
                 {
-                    MouseLeftButtonClick?.Invoke(this, source);
+                    button = source;
                 }
             }));
+
+            stackPanel_Tree.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is TreeNodeButton source && source == button && source.VerifyMousePosition())
+                {
+                    MouseLeftButtonClick?.Invoke(this, source);
+                    button = null;
+                }
+            }));
+
+            // 不检查是否曾按下右键，因为右键菜单也不检查
             stackPanel_Tree.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is TreeNodeButton source && source.VerifyMousePosition())
@@ -151,52 +190,6 @@ namespace TreeOfLife.Controls
                     MouseRightButtonClick?.Invoke(this, source);
                 }
             }));
-        }
-
-        //
-
-        private void _UpdateTreeNodeFont(_TreeNode node)
-        {
-            if (node is not null)
-            {
-                node.Button.FontFamily = this.FontFamily;
-                node.Button.FontSize = this.FontSize;
-                node.Button.FontStretch = this.FontStretch;
-
-                if (node.Children is not null)
-                {
-                    foreach (var child in node.Children)
-                    {
-                        _UpdateTreeNodeFont(child);
-                    }
-                }
-            }
-        }
-
-        private void _UpdateFont()
-        {
-            _UpdateTreeNodeFont(_RootNode);
-        }
-
-        private void _UpdateTreeNodeTheme(_TreeNode node)
-        {
-            if (node is not null)
-            {
-                node.Button.IsDarkTheme = _IsDarkTheme;
-
-                if (node.Children is not null)
-                {
-                    foreach (var child in node.Children)
-                    {
-                        _UpdateTreeNodeTheme(child);
-                    }
-                }
-            }
-        }
-
-        private void _UpdateColor()
-        {
-            _UpdateTreeNodeTheme(_RootNode);
         }
 
         //
@@ -209,7 +202,7 @@ namespace TreeOfLife.Controls
             {
                 _IsDarkTheme = value;
 
-                _UpdateColor();
+                _UpdateTheme();
             }
         }
 
@@ -222,43 +215,17 @@ namespace TreeOfLife.Controls
             _RootNode = null;
         }
 
-        private static void _AddTreeNodeButton(Panel panel, _TreeNode node)
-        {
-            if (node is not null)
-            {
-                StackPanel stackPanelH = new StackPanel() { Orientation = Orientation.Horizontal };
-                stackPanelH.Children.Add(node.Button);
-                panel.Children.Add(stackPanelH);
-
-                if (node.Children is not null)
-                {
-                    StackPanel stackPanelV = new StackPanel() { Orientation = Orientation.Vertical };
-                    stackPanelH.Children.Add(stackPanelV);
-
-                    foreach (var child in node.Children)
-                    {
-                        _AddTreeNodeButton(stackPanelV, child);
-                    }
-                }
-            }
-        }
-
         public void UpdateContent(TreeNodeItem rootNode)
         {
-            stackPanel_Tree.Children.Clear();
+            Clear();
 
-            if (rootNode is null)
+            if (rootNode is not null)
             {
-                _RootNode = null;
-            }
-            else
-            {
-                _RootNode = _TreeNode.BuildTree(rootNode);
+                _RootNode = new _TreeNode(rootNode);
 
-                _AddTreeNodeButton(stackPanel_Tree, _RootNode);
+                stackPanel_Tree.Children.Add(_RootNode.Container);
 
-                _UpdateFont();
-                _UpdateColor();
+                _UpdateTheme();
             }
         }
 

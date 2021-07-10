@@ -66,7 +66,6 @@ namespace TreeOfLife.Controls
             CategoryNameButton button_Basic = new CategoryNameButton()
             {
                 Category = basicCategory,
-                ThemeColor = basicCategory.GetThemeColor(),
                 Margin = new Thickness(0, 6, 6, 0)
             };
 
@@ -89,7 +88,6 @@ namespace TreeOfLife.Controls
                 CategoryNameButton button = new CategoryNameButton()
                 {
                     Category = category,
-                    ThemeColor = category.GetThemeColor(),
                     Margin = new Thickness(0, 6, 6, 0)
                 };
 
@@ -200,11 +198,24 @@ namespace TreeOfLife.Controls
                 _InitBasicCategoryControls(stackPanel_BasicSecondaryCategories, item.basicCategory, grid_SecondaryCategories, item.categories);
             }
 
-            grid_Categories.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            //
+
+            CategoryNameButton button = null;
+
+            grid_Categories.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is CategoryNameButton source)
                 {
-                    Category = source.Category.Value;
+                    button = source;
+                }
+            }));
+
+            grid_Categories.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is CategoryNameButton source && source == button)
+                {
+                    Category = source.Category;
+                    button = null;
                 }
             }));
         }

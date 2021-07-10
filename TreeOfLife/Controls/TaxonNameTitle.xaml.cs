@@ -36,44 +36,9 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class TaxonNameTitle : UserControl
     {
-        private string _TaxonName;
         private TaxonomicCategory? _Category;
         private bool _IsParaphyly;
         private bool _IsPolyphyly;
-
-        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
-        private bool _IsDarkTheme = false; // 是否为暗色主题。
-
-        //
-
-        public TaxonNameTitle()
-        {
-            InitializeComponent();
-        }
-
-        //
-
-        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
-
-        private Brush _CategoryNameBackground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
-
-        private Brush _TaxonNameForeground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
-
-        private Brush _TaxonNameBackground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
-
-        private Brush _BorderBrush => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
-
-        private void _UpdateColor()
-        {
-            border_CategoryName.Background = _CategoryNameBackground;
-
-            textBlock_CategoryName.Foreground = _CategoryNameForeground;
-
-            border_TaxonName.Background = _TaxonNameBackground;
-            border_TaxonName.BorderBrush = _BorderBrush;
-
-            textBlock_TaxonName.Foreground = _TaxonNameForeground;
-        }
 
         private void _UpdateCategory()
         {
@@ -107,18 +72,44 @@ namespace TreeOfLife.Controls
             }
         }
 
+        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+
+        private Brush _CategoryNameBackground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
+
+        private Brush _TaxonNameForeground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40).ToWpfColor());
+
+        private Brush _TaxonNameBackground => Common.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+
+        private Brush _BorderBrush => Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70).ToWpfColor());
+
+        private void _UpdateColor()
+        {
+            border_CategoryName.Background = _CategoryNameBackground;
+
+            textBlock_CategoryName.Foreground = _CategoryNameForeground;
+
+            border_TaxonName.Background = _TaxonNameBackground;
+            border_TaxonName.BorderBrush = _BorderBrush;
+
+            textBlock_TaxonName.Foreground = _TaxonNameForeground;
+        }
+
+        //
+
+        public TaxonNameTitle()
+        {
+            InitializeComponent();
+        }
+
         //
 
         public string TaxonName
         {
-            get => _TaxonName;
-
-            set
-            {
-                _TaxonName = value;
-
-                textBlock_TaxonName.Text = _TaxonName;
-            }
+            get => textBlock_TaxonName.Text;
+            set => textBlock_TaxonName.Text = value;
         }
 
         public TaxonomicCategory? Category

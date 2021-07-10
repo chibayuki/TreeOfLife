@@ -39,7 +39,7 @@ namespace TreeOfLife.Controls
         private GeoChron _GeoChron = null; // 地质年代。
         private string _GeoChronName = string.Empty; // 名称。
 
-        private bool _Checked = false; // 是否处于已选择状态。
+        private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IndirectlyChecked = false;
         private bool _MouseOver = false;
         private bool _Vertical = false;
@@ -76,11 +76,11 @@ namespace TreeOfLife.Controls
 
         //
 
-        private Brush _GeoChronNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+        private Brush _GeoChronNameForeground => Common.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-        private Brush _GeoChronNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _GeoChronNameBackground => Common.GetSolidColorBrush((_IsChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
-        private Brush _GeoChronNameBorderBrush => Common.GetSolidColorBrush((_Checked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+        private Brush _GeoChronNameBorderBrush => Common.GetSolidColorBrush((_IsChecked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
 
         private void _UpdateColor()
         {
@@ -128,11 +128,11 @@ namespace TreeOfLife.Controls
 
         public bool IsChecked
         {
-            get => _Checked;
+            get => _IsChecked;
 
             set
             {
-                _Checked = value;
+                _IsChecked = value;
 
                 _UpdateColor();
             }

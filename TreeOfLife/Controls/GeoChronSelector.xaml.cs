@@ -494,11 +494,24 @@ namespace TreeOfLife.Controls
                 stackPanel_Eons.Children.Add(grid_Eons);
             }
 
-            stackPanel_Timespan.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            //
+
+            GeoChronNameButton button = null;
+
+            stackPanel_Timespan.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is GeoChronNameButton source)
                 {
+                    button = source;
+                }
+            }));
+
+            stackPanel_Timespan.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            {
+                if (e.Source is GeoChronNameButton source && source == button)
+                {
                     GeoChron = source.GeoChron;
+                    button = null;
                 }
             }));
         }

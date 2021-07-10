@@ -14,17 +14,20 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="TabPage.Background" Color="#FF335E99"/>
 
     <SolidColorBrush x:Key="TabPageButton.Static.Background" Color="Transparent"/>
-    <SolidColorBrush x:Key="TabPageButton.Static.BorderBrush" Color="Transparent"/>
+    <!-- HSL(215,50,40) -->
+    <SolidColorBrush x:Key="TabPageButton.Static.BorderBrush" Color="#FF335E99"/>
     <SolidColorBrush x:Key="TabPageButton.Static.Foreground" Color="White"/>
     
     <!-- HSL(215,50,50) -->
     <SolidColorBrush x:Key="TabPageButton.MouseOver.Background" Color="#FF4075BF"/>
-    <SolidColorBrush x:Key="TabPageButton.MouseOver.BorderBrush" Color="Transparent"/>
+    <!-- HSL(215,50,40) -->
+    <SolidColorBrush x:Key="TabPageButton.MouseOver.BorderBrush" Color="#FF335E99"/>
     <SolidColorBrush x:Key="TabPageButton.MouseOver.Foreground" Color="White"/>
     
     <!-- HSL(215,50,30) -->
     <SolidColorBrush x:Key="TabPageButton.Pressed.Background" Color="#FF264673"/>
-    <SolidColorBrush x:Key="TabPageButton.Pressed.BorderBrush" Color="Transparent"/>
+    <!-- HSL(215,50,40) -->
+    <SolidColorBrush x:Key="TabPageButton.Pressed.BorderBrush" Color="#FF335E99"/>
     <SolidColorBrush x:Key="TabPageButton.Pressed.Foreground" Color="White"/>
     
     <!-- RGB(248,248,248) -->
@@ -32,8 +35,6 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="TabPageButton.Disabled.BorderBrush" Color="Transparent"/>
     <!-- HSL(215,50,30) -->
     <SolidColorBrush x:Key="TabPageButton.Disabled.Foreground" Color="#FF264673"/>
-
-    <DropShadowEffect x:Key="TabPageButton.Disabled.Effect" ShadowDepth="5" Direction="0" Opacity="0.75" BlurRadius="5"/>
 
     <Style x:Key="TabPageButton.FocusVisual">
         <Setter Property="Control.Template">
@@ -50,10 +51,10 @@ This file is part of TreeOfLife
         <Setter Property="Background" Value="{StaticResource TabPageButton.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabPageButton.Static.BorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TabPageButton.Static.Foreground}"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="0,3,3,0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="0,6,0,6"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -78,7 +79,6 @@ This file is part of TreeOfLife
                             <Setter TargetName="border" Property="Background" Value="{StaticResource TabPageButton.Disabled.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TabPageButton.Disabled.BorderBrush}"/>
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource TabPageButton.Disabled.Foreground}"/>
-                            <Setter TargetName="border" Property="Border.Effect" Value="{StaticResource TabPageButton.Disabled.Effect}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

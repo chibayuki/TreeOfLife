@@ -36,14 +36,29 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class CategoryNameButton : UserControl
     {
-        private TaxonomicCategory? _Category = null; // 分类阶元。
-        private string _CategoryName = string.Empty; // 名称。
+        private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
 
-        private bool _Checked = false; // 是否处于已选择状态。
-        private bool _MouseOver = false;
+        private void _UpdateCategory()
+        {
+            textBlock_CategoryName.Text = _Category.GetChineseName();
+        }
+
+        private bool _IsChecked = false; // 是否处于已选择状态。
+        private bool _IsMouseOver = false;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+
+        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+
+        private void _UpdateColor()
+        {
+            border_CategoryName.Background = _CategoryNameBackground;
+
+            textBlock_CategoryName.Foreground = _CategoryNameForeground;
+        }
 
         //
 
@@ -61,85 +76,40 @@ namespace TreeOfLife.Controls
 
             this.MouseEnter += (s, e) =>
             {
-                _MouseOver = true;
+                _IsMouseOver = true;
                 _UpdateColor();
             };
 
             this.MouseLeave += (s, e) =>
             {
-                _MouseOver = false;
+                _IsMouseOver = false;
                 _UpdateColor();
             };
         }
 
         //
 
-        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_Checked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-
-        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_Checked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
-        private void _UpdateColor()
-        {
-            border_CategoryName.Background = _CategoryNameBackground;
-
-            textBlock_CategoryName.Foreground = _CategoryNameForeground;
-        }
-
-        private void _UpdateCategory()
-        {
-            textBlock_CategoryName.Text = _CategoryName;
-        }
-
-        //
-
-        public string CategoryName
-        {
-            get => _CategoryName;
-
-            set
-            {
-                _CategoryName = value;
-
-                _UpdateCategory();
-            }
-        }
-
-        public TaxonomicCategory? Category
+        public TaxonomicCategory Category
         {
             get => _Category;
 
             set
             {
                 _Category = value;
+                _ThemeColor = _Category.GetThemeColor();
 
-                if (_Category is not null)
-                {
-                    _CategoryName = _Category.Value.GetChineseName();
-
-                    _UpdateCategory();
-                }
+                _UpdateCategory();
+                _UpdateColor();
             }
         }
 
         public bool IsChecked
         {
-            get => _Checked;
+            get => _IsChecked;
 
             set
             {
-                _Checked = value;
-
-                _UpdateColor();
-            }
-        }
-
-        public ColorX ThemeColor
-        {
-            get => _ThemeColor;
-
-            set
-            {
-                _ThemeColor = value;
+                _IsChecked = value;
 
                 _UpdateColor();
             }
