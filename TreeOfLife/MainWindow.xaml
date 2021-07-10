@@ -51,10 +51,10 @@ This file is part of TreeOfLife
                 </Grid>
             </Grid>
             <StackPanel Grid.Column="1" Background="{Binding Mode=OneWay, Source={StaticResource TabPage.Background}}">
-                <Button x:Name="button_File" VerticalAlignment="Top" Content="文&#xD;&#xA;件" Padding="0,6,0,6" Margin="0,3,3,0" IsEnabled="{Binding PageButtonEnabled_File}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_Evo" VerticalAlignment="Top" Content="分&#xD;&#xA;类&#xD;&#xA;学" Padding="0,6,0,6" Margin="0,3,3,0" IsEnabled="{Binding PageButtonEnabled_Evo}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_Search" VerticalAlignment="Top" Content="检&#xD;&#xA;索" Padding="0,6,0,6" Margin="0,3,3,0" IsEnabled="{Binding PageButtonEnabled_Search}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_About" VerticalAlignment="Top" Content="关&#xD;&#xA;于" Padding="0,6,0,6" Margin="0,3,3,0" IsEnabled="{Binding PageButtonEnabled_About}" Style="{DynamicResource TabPageButtonStyle}"/>
+                <Button x:Name="button_File" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}" Style="{DynamicResource TabPageButtonStyle}"/>
+                <Button x:Name="button_Evo" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}" Style="{DynamicResource TabPageButtonStyle}"/>
+                <Button x:Name="button_Search" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}" Style="{DynamicResource TabPageButtonStyle}"/>
+                <Button x:Name="button_About" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}" Style="{DynamicResource TabPageButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Grid>

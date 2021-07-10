@@ -61,7 +61,7 @@ namespace TreeOfLife.Views.Evo
                 ((List<TaxonNameItem>)groups[groupIndex].items).Add(new TaxonNameItem()
                 {
                     Taxon = taxon,
-                    Checked = (taxon == Views.Common.CurrentTaxon),
+                    IsChecked = (taxon == Views.Common.CurrentTaxon),
                     Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }

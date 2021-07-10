@@ -581,7 +581,7 @@ namespace TreeOfLife.Views.Tree
                 }
 
                 node.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
-                node.Checked = (node.Taxon == Common.CurrentTaxon);
+                node.IsChecked = (node.Taxon == Common.CurrentTaxon);
 
                 if (Common.EditMode ?? false)
                 {

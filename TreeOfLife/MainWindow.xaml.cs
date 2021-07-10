@@ -30,6 +30,7 @@ using TreeOfLife.Packaging;
 using TreeOfLife.Phylogeny;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
+using TreeOfLife.Views;
 
 using Pages = TreeOfLife.ViewModel_MainWindow.Pages;
 
@@ -62,12 +63,12 @@ namespace TreeOfLife
 
             //
 
-            Views.Common.SetCurrentTaxon = _SetCurrentTaxon;
-            Views.Common.EnterEditMode = () => _SetEditMode(true);
-            Views.Common.ExitEditMode = () => _SetEditMode(false);
-            Views.Common.UpdateCurrentTaxonInfo = () =>
+            Common.SetCurrentTaxon = _SetCurrentTaxon;
+            Common.EnterEditMode = () => _SetEditMode(true);
+            Common.ExitEditMode = () => _SetEditMode(false);
+            Common.UpdateCurrentTaxonInfo = () =>
             {
-                if (Views.Common.EditMode ?? false)
+                if (Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.UpdateCurrentTaxonInfo();
                 }
@@ -76,8 +77,8 @@ namespace TreeOfLife
                     view_Evo_ViewMode.UpdateCurrentTaxonInfo();
                 }
             };
-            Views.Common.ApplyToTaxon = view_Evo_EditMode.ViewModel.ApplyToTaxon;
-            Views.Common.UpdateTree = view_Tree.UpdateSubTree;
+            Common.ApplyToTaxon = view_Evo_EditMode.ViewModel.ApplyToTaxon;
+            Common.UpdateTree = view_Tree.UpdateSubTree;
 
             view_File.ViewModel.Open = _Open;
             view_File.ViewModel.Save = _Save;
@@ -247,8 +248,8 @@ namespace TreeOfLife
         // true=成功，false=失败
         private bool _Close()
         {
-            Views.Common.RightButtonTaxon = null;
-            Views.Common.SelectedTaxon = null;
+            Common.RightButtonTaxon = null;
+            Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
 
@@ -272,8 +273,8 @@ namespace TreeOfLife
             if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
             {
                 // 这种状态下有可能右键选择了顶级类群
-                Views.Common.RightButtonTaxon = null;
-                Views.Common.SelectedTaxon = null;
+                Common.RightButtonTaxon = null;
+                Common.SelectedTaxon = null;
 
                 view_Search.ClearSearchResult();
 
@@ -361,16 +362,16 @@ namespace TreeOfLife
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
         {
-            if (Views.Common.EditMode != editMode)
+            if (Common.EditMode != editMode)
             {
-                if (Views.Common.EditMode ?? false)
+                if (Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
                 }
 
                 //
 
-                Views.Common.EditMode = editMode;
+                Common.EditMode = editMode;
 
                 //
 
@@ -390,7 +391,7 @@ namespace TreeOfLife
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     // 退出编辑模式时，应位于具名类群（或顶级类群）
                     if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
@@ -424,18 +425,18 @@ namespace TreeOfLife
 
             //
 
-            if (Views.Common.CurrentTaxon != taxon)
+            if (Common.CurrentTaxon != taxon)
             {
-                if (Views.Common.EditMode ?? false)
+                if (Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.ViewModel.ApplyToTaxon();
                 }
 
                 //
 
-                Views.Common.CurrentTaxon = taxon;
+                Common.CurrentTaxon = taxon;
 
-                if (Views.Common.EditMode ?? false)
+                if (Common.EditMode ?? false)
                 {
                     view_Evo_EditMode.UpdateCurrentTaxonInfo();
                 }
