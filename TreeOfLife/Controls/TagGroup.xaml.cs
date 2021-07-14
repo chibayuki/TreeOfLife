@@ -22,6 +22,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TreeOfLife.Extensions;
+using TreeOfLife.Views;
+
 using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
@@ -31,90 +34,101 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class TagGroup : UserControl
     {
-        List<Tag> _TagLabels = new List<Tag>();
+        private class _Tag
+        {
+            private Border _Container = null;
+            private TextBlock _TagText = null;
 
-        private Thickness _TagMargin = new Thickness(3); // 标签外边距。
+            private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
+            private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+            private void _UpdateColor()
+            {
+                _TagText.Foreground = Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+                _Container.Background = Common.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+            }
+
+            //
+
+            public _Tag(string text)
+            {
+                _TagText = new TextBlock()
+                {
+                    Text = text,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(6, 3, 6, 3)
+                };
+
+                _Container = new Border()
+                {
+                    CornerRadius = new CornerRadius(3),
+                    Margin = new Thickness(0, 3, 6, 3),
+                    Child = _TagText
+                };
+            }
+
+            //
+
+            public string TagText
+            {
+                get => _TagText.Text;
+                set => _TagText.Text = value;
+            }
+
+            public ColorX ThemeColor
+            {
+                get => _ThemeColor;
+
+                set
+                {
+                    _ThemeColor = value;
+
+                    _UpdateColor();
+                }
+            }
+
+            public bool IsDarkTheme
+            {
+                get => _IsDarkTheme;
+
+                set
+                {
+                    _IsDarkTheme = value;
+
+                    _UpdateColor();
+                }
+            }
+
+            public FrameworkElement Container => _Container;
+        }
+
+        //
+
+        List<_Tag> _Tags = new List<_Tag>();
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
-        //
-
-        public TagGroup()
-        {
-            InitializeComponent();
-
-            //
-
-            this.Loaded += (s, e) =>
-            {
-                _UpdateFont();
-                _UpdateColor();
-            };
-
-            wrapPanel_Tags.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
-            {
-                if (e.Source is Tag source)
-                {
-                    MouseLeftButtonClick?.Invoke(this, source);
-                }
-            }));
-            wrapPanel_Tags.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
-            {
-                if (e.Source is Tag source)
-                {
-                    MouseRightButtonClick?.Invoke(this, source);
-                }
-            }));
-        }
-
-        //
-
-        private void _UpdateFont()
-        {
-            foreach (var tag in _TagLabels)
-            {
-                tag.FontFamily = this.FontFamily;
-                tag.FontSize = this.FontSize;
-                tag.FontStretch = this.FontStretch;
-                tag.FontStyle = this.FontStyle;
-                tag.FontWeight = this.FontWeight;
-            }
-        }
-
         private void _UpdateColor()
         {
-            foreach (var tag in _TagLabels)
+            foreach (var tag in _Tags)
             {
                 tag.IsDarkTheme = _IsDarkTheme;
                 tag.ThemeColor = _ThemeColor;
             }
         }
 
-        private void _UpdateLayout()
+        //
+
+        public TagGroup()
         {
-            if (_TagLabels.Count > 0)
-            {
-                foreach (var tagLabel in _TagLabels)
-                {
-                    tagLabel.Margin = _TagMargin;
-                }
-            }
+            InitializeComponent();
         }
 
         //
 
-        public Thickness TagMargin
-        {
-            get => _TagMargin;
-
-            set
-            {
-                _TagMargin = value;
-
-                _UpdateLayout();
-            }
-        }
+        //
 
         public ColorX ThemeColor
         {
@@ -140,37 +154,31 @@ namespace TreeOfLife.Controls
             }
         }
 
-        public string[] Tags
+        public void Clear()
         {
-            set
-            {
-                wrapPanel_Tags.Visibility = Visibility.Hidden;
+            wrapPanel_Tags.Children.Clear();
 
-                wrapPanel_Tags.Children.Clear();
-
-                _TagLabels = new List<Tag>(value.Length);
-
-                foreach (var tag in value)
-                {
-                    Tag tagLabel = new Tag() { Text = tag };
-
-                    _TagLabels.Add(tagLabel);
-
-                    wrapPanel_Tags.Children.Add(tagLabel);
-                }
-
-                _UpdateFont();
-                _UpdateColor();
-                _UpdateLayout();
-
-                wrapPanel_Tags.Visibility = Visibility.Visible;
-            }
+            _Tags.Clear();
         }
 
-        //
+        public void UpdateContent(IEnumerable<string> tags)
+        {
+            Clear();
 
-        public EventHandler<Tag> MouseLeftButtonClick;
+            if (tags is not null && tags.Any())
+            {
+                foreach (var tag in tags)
+                {
+                    _Tags.Add(new _Tag(tag));
+                }
 
-        public EventHandler<Tag> MouseRightButtonClick;
+                foreach (var tag in _Tags)
+                {
+                    wrapPanel_Tags.Children.Add(tag.Container);
+                }
+
+                _UpdateColor();
+            }
+        }
     }
 }
