@@ -53,7 +53,10 @@ This file is part of TreeOfLife
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="较相关结果" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                    <Grid>
+                        <Label Content="较相关结果" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                        <Button x:Name="button_ExpandHigh" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
+                    </Grid>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult_High" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_SearchResult_Low" Margin="0,25,0,0">
@@ -62,7 +65,10 @@ This file is part of TreeOfLife
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="次相关结果" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                    <Grid>
+                        <Label Content="次相关结果" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                        <Button x:Name="button_ExpandLow" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
+                    </Grid>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult_Low" Grid.Row="2"/>
                 </Grid>
             </StackPanel>

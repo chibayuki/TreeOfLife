@@ -63,7 +63,7 @@ This file is part of TreeOfLife
                     </Grid.RowDefinitions>
                     <Grid>
                         <Label Content="科学分类" Style="{DynamicResource VerticalTitleLabelStyle}"/>
-                        <Button x:Name="button_GetParentsOption" Content="=" HorizontalAlignment="Right" Margin="0,2,2,2" Padding="6,0,6,0" FontSize="14" Style="{DynamicResource TransparentButtonStyle}"/>
+                        <Button x:Name="button_GetParentsOption" Content="GetParentsOption" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
                     </Grid>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
                 </Grid>

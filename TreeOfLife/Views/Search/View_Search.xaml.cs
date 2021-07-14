@@ -52,14 +52,6 @@ namespace TreeOfLife.Views.Search
                 }
             };
 
-            button_Search.Click += (s, e) =>
-            { 
-                _SearchAndUpdateResult();
-
-                textBox_Search.Focus();
-                textBox_Search.SelectAll();
-            };
-
             textBox_Search.KeyUp += (s, e) =>
             {
                 if (e.Key == Key.Enter)
@@ -74,6 +66,14 @@ namespace TreeOfLife.Views.Search
 
                     textBox_Search.Focus();
                 }
+            };
+
+            button_Search.Click += (s, e) =>
+            {
+                _SearchAndUpdateResult();
+
+                textBox_Search.Focus();
+                textBox_Search.SelectAll();
             };
 
             EventHandler<TaxonNameButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
@@ -92,6 +92,20 @@ namespace TreeOfLife.Views.Search
             taxonNameButtonGroup_SearchResult_Perfect.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
             taxonNameButtonGroup_SearchResult_High.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
             taxonNameButtonGroup_SearchResult_Low.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
+
+            button_ExpandHigh.Click += (s, e) =>
+            {
+                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
+
+                button_ExpandHigh.Visibility = Visibility.Collapsed;
+            };
+
+            button_ExpandLow.Click += (s, e) =>
+            {
+                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+
+                button_ExpandLow.Visibility = Visibility.Collapsed;
+            };
         }
 
         //
@@ -155,8 +169,36 @@ namespace TreeOfLife.Views.Search
             }
 
             taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
-            taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
-            taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+
+            int perfectCount = _SearchResult_Perfect.Count;
+            int highCount = _SearchResult_High.Count;
+            int lowCount = _SearchResult_Low.Count;
+
+            if (perfectCount <= 0 || perfectCount + highCount < 10)
+            {
+                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
+
+                button_ExpandHigh.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                taxonNameButtonGroup_SearchResult_High.Clear();
+
+                button_ExpandHigh.Visibility = Visibility.Visible;
+            }
+
+            if (perfectCount + highCount <= 0 || perfectCount + highCount + lowCount < 10)
+            {
+                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+
+                button_ExpandLow.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                taxonNameButtonGroup_SearchResult_Low.Clear();
+
+                button_ExpandLow.Visibility = Visibility.Visible;
+            }
 
             _UpdateVisibility();
         }

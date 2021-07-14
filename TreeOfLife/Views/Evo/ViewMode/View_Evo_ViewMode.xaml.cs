@@ -45,24 +45,27 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
 
+            Action<GetParentsOption> setGetParentsOption = (getParentsOption) =>
+            {
+                _GetParentsOption = getParentsOption;
+
+                switch (_GetParentsOption)
+                {
+                    case GetParentsOption.Least: button_GetParentsOption.Content = "最简"; break;
+                    case GetParentsOption.Summary: button_GetParentsOption.Content = "简要"; break;
+                    case GetParentsOption.Full: button_GetParentsOption.Content = "完整"; break;
+                }
+            };
+
+            setGetParentsOption(GetParentsOption.Summary);
+
             button_GetParentsOption.Click += (s, e) =>
             {
                 switch (_GetParentsOption)
                 {
-                    case GetParentsOption.Least:
-                        _GetParentsOption = GetParentsOption.Summary;
-                        button_GetParentsOption.Content = "=";
-                        break;
-
-                    case GetParentsOption.Summary:
-                        _GetParentsOption = GetParentsOption.Full;
-                        button_GetParentsOption.Content = "≡";
-                        break;
-
-                    case GetParentsOption.Full:
-                        _GetParentsOption = GetParentsOption.Least;
-                        button_GetParentsOption.Content = "−";
-                        break;
+                    case GetParentsOption.Least: setGetParentsOption(GetParentsOption.Summary); break;
+                    case GetParentsOption.Summary: setGetParentsOption(GetParentsOption.Full); break;
+                    case GetParentsOption.Full: setGetParentsOption(GetParentsOption.Least); break;
                 }
 
                 _UpdateParents();
@@ -77,7 +80,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         #region 类群
 
-        private GetParentsOption _GetParentsOption = GetParentsOption.Summary;
+        private GetParentsOption _GetParentsOption;
 
         // 更新父类群。
         private void _UpdateParents()
@@ -257,8 +260,8 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            tagGroup_Tags.Tags = currentTaxon.Tags.ToArray();
-            tagGroup_Synonyms.Tags = currentTaxon.Synonyms.ToArray();
+            tagGroup_Tags.UpdateContent(currentTaxon.Tags);
+            tagGroup_Synonyms.UpdateContent(currentTaxon.Synonyms);
             tagGroup_Synonyms.ThemeColor = currentTaxon.GetThemeColor();
 
             _UpdateParents();
