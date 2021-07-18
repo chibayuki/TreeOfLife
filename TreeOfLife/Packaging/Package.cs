@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -83,13 +83,7 @@ namespace TreeOfLife.Packaging
         public string FileName
         {
             get => _FileName;
-
-            private set
-            {
-                _FileName = value;
-
-                _Info.CreationTime = DateTime.UtcNow;
-            }
+            private set => _FileName = value;
         }
 
         public long PackageSize

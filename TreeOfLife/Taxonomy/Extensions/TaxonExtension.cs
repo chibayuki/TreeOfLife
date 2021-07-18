@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -143,39 +143,34 @@ namespace TreeOfLife.Taxonomy.Extensions
                 if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
                     taxonName.Append(taxon.ChineseName);
+
+                    if (!string.IsNullOrEmpty(taxon.ScientificName))
+                    {
+                        taxonName.Append(separator);
+                        taxonName.Append(taxon.ScientificName);
+                    }
                 }
                 else
                 {
                     TaxonomicCategory category = taxon.Category;
 
-                    if (category.IsUnranked() || category.IsClade())
+                    if (category.IsPrimaryOrSecondaryCategory())
                     {
-                        if (taxon.IsParaphyly)
+                        taxonName.Append(category.GetChineseName());
+
+                        if (!string.IsNullOrEmpty(taxon.ScientificName))
                         {
-                            taxonName.Append("并系群");
-                        }
-                        else if (taxon.IsPolyphyly)
-                        {
-                            taxonName.Append("复系群");
-                        }
-                        else
-                        {
-                            if (category.IsClade())
-                            {
-                                taxonName.Append(category.GetChineseName());
-                            }
+                            taxonName.Append(separator);
+                            taxonName.Append(taxon.ScientificName);
                         }
                     }
                     else
                     {
-                        taxonName.Append(category.GetChineseName());
+                        if (!string.IsNullOrEmpty(taxon.ScientificName))
+                        {
+                            taxonName.Append(taxon.ScientificName);
+                        }
                     }
-                }
-
-                if (!string.IsNullOrEmpty(taxon.ScientificName))
-                {
-                    taxonName.Append(separator);
-                    taxonName.Append(taxon.ScientificName);
                 }
 
                 if (taxon.IsPolyphyly)

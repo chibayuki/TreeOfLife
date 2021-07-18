@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -27,7 +27,7 @@ This file is part of TreeOfLife
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0">
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.3" Direction="270"/>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
             <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Edit" Grid.Column="1" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
@@ -63,7 +63,34 @@ This file is part of TreeOfLife
                     </Grid.RowDefinitions>
                     <Grid>
                         <Label Content="科学分类" Style="{DynamicResource VerticalTitleLabelStyle}"/>
-                        <Button x:Name="button_GetParentsOption" Content="GetParentsOption" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,2">
+                            <Grid>
+                                <Button x:Name="button_Least" Content="最简" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Path x:Name="path_Least" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                            <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
+                            <Grid>
+                                <Button x:Name="button_Summary" Content="适中" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Path x:Name="path_Summary" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                            <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
+                            <Grid>
+                                <Button x:Name="button_Full" Content="完整" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Path x:Name="path_Full" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                        </StackPanel>
                     </Grid>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
                 </Grid>

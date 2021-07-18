@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,25 +49,32 @@ namespace TreeOfLife.Views.Evo.ViewMode
             {
                 _GetParentsOption = getParentsOption;
 
-                switch (_GetParentsOption)
-                {
-                    case GetParentsOption.Least: button_GetParentsOption.Content = "最简"; break;
-                    case GetParentsOption.Summary: button_GetParentsOption.Content = "简要"; break;
-                    case GetParentsOption.Full: button_GetParentsOption.Content = "完整"; break;
-                }
+                button_Least.IsEnabled = (_GetParentsOption != GetParentsOption.Least);
+                button_Summary.IsEnabled = (_GetParentsOption != GetParentsOption.Summary);
+                button_Full.IsEnabled = (_GetParentsOption != GetParentsOption.Full);
+
+                path_Least.Visibility = (_GetParentsOption == GetParentsOption.Least ? Visibility.Visible : Visibility.Hidden);
+                path_Summary.Visibility = (_GetParentsOption == GetParentsOption.Summary ? Visibility.Visible : Visibility.Hidden);
+                path_Full.Visibility = (_GetParentsOption == GetParentsOption.Full ? Visibility.Visible : Visibility.Hidden);
             };
 
             setGetParentsOption(GetParentsOption.Summary);
 
-            button_GetParentsOption.Click += (s, e) =>
+            button_Least.Click += (s, e) =>
             {
-                switch (_GetParentsOption)
-                {
-                    case GetParentsOption.Least: setGetParentsOption(GetParentsOption.Summary); break;
-                    case GetParentsOption.Summary: setGetParentsOption(GetParentsOption.Full); break;
-                    case GetParentsOption.Full: setGetParentsOption(GetParentsOption.Least); break;
-                }
+                setGetParentsOption(GetParentsOption.Least);
+                _UpdateParents();
+            };
 
+            button_Summary.Click += (s, e) =>
+            {
+                setGetParentsOption(GetParentsOption.Summary);
+                _UpdateParents();
+            };
+
+            button_Full.Click += (s, e) =>
+            {
+                setGetParentsOption(GetParentsOption.Full);
                 _UpdateParents();
             };
 

@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -28,7 +28,7 @@ This file is part of TreeOfLife
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="textBox_Search" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource TextBoxStyle}"/>
             <Button x:Name="button_Search" Grid.Column="2" Content="检索" Style="{DynamicResource ButtonStyle}"/>

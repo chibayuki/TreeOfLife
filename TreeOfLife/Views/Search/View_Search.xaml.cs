@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -170,11 +170,12 @@ namespace TreeOfLife.Views.Search
 
             taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
 
+            const int preferShowCount = 10;
             int perfectCount = _SearchResult_Perfect.Count;
             int highCount = _SearchResult_High.Count;
             int lowCount = _SearchResult_Low.Count;
 
-            if (perfectCount <= 0 || perfectCount + highCount < 10)
+            if (perfectCount <= 0 || perfectCount + highCount <= preferShowCount)
             {
                 taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
 
@@ -187,7 +188,7 @@ namespace TreeOfLife.Views.Search
                 button_ExpandHigh.Visibility = Visibility.Visible;
             }
 
-            if (perfectCount + highCount <= 0 || perfectCount + highCount + lowCount < 10)
+            if (perfectCount + highCount <= 0 || perfectCount + highCount + lowCount <= preferShowCount)
             {
                 taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
 

@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -26,7 +26,7 @@ This file is part of TreeOfLife
         </Grid.RowDefinitions>
         <Grid Margin="25,25,25,0" x:Name="grid_CurrentTaxon">
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.3" Direction="270"/>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
             <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Back" Grid.Column="1" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
