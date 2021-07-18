@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1134.1000.M11.210518-2200
+Version 1.0.1240.1000.M12.210718-2000
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -159,20 +159,29 @@ namespace TreeOfLife.Controls
             { GeoChron.GetGeoChron(Period.Quaternary), "Q" }
         };
 
+        private Border border_PreCambrianMainly_FullWidth = null;
         private Border border_PreCambrianMainly = null;
+        private Border border_PhanerozoicMainly_FullWidth = null;
         private Border border_PhanerozoicMainly = null;
 
         private void _InitGraph()
         {
-            const int rowCount = 3;
-            const double tagHeight = 20;
-            const double bandHeight = 6;
-
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < 2; i++)
             {
-                grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? bandHeight / 2 : tagHeight / (rowCount - 1)) });
-                grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(i == 0 ? bandHeight / 2 : tagHeight / (rowCount - 1)) });
+                grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             }
+
+            // 网格与地质年代标签：
+
+            const double fontSize = 11;
+            const HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
+            const VerticalAlignment verticalContentAlignment = VerticalAlignment.Center;
+            Thickness padding = new Thickness(0, 2, 0, 2);
+            Thickness margin = new Thickness(0, 0, 2, 0);
+            CornerRadius cornerRadius = new CornerRadius(2);
+            Func<GeoChron, Brush> getForeground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_LAB(60).ToWpfColor());
+            Func<GeoChron, Brush> getBackground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
 
             GeoChron[] eons = new GeoChron[]
             {
@@ -182,59 +191,59 @@ namespace TreeOfLife.Controls
                 GeoChron.GetGeoChron(Eon.Phanerozoic)
             };
 
-            const double fontSize = 11;
-            const HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
-            const VerticalAlignment verticalContentAlignment = VerticalAlignment.Bottom;
-            Thickness padding = new Thickness(0, 0, 0, 2);
-            Thickness margin = new Thickness(0, 0, 1, 0);
-            Func<GeoChron, Brush> getForeground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_LAB(60).ToWpfColor());
-            Func<GeoChron, Brush> getBackground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
-
             for (int eonIndex = 0; eonIndex < eons.Length; eonIndex++)
             {
                 GeoChron eon = eons[eonIndex];
 
                 // "宙"标签
-                Label label_Eon = new Label()
+                TextBlock textBlock_Eon = new TextBlock()
                 {
-                    Content = eon.GetChineseName(),
+                    Text = eon.GetChineseName(),
                     Foreground = getForeground(eon),
-                    Background = getBackground(eon),
                     FontSize = fontSize,
-                    HorizontalContentAlignment = horizontalContentAlignment,
-                    VerticalContentAlignment = verticalContentAlignment,
-                    Padding = padding,
+                    HorizontalAlignment = horizontalContentAlignment,
+                    VerticalAlignment = verticalContentAlignment,
+                    Margin = padding
+                };
+
+                Border border_Eon = new Border()
+                {
+                    Child = textBlock_Eon,
+                    Background = getBackground(eon),
+                    CornerRadius = cornerRadius,
                     Margin = margin
                 };
 
-                label_Eon.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
-                label_Eon.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
-                label_Eon.SetValue(Grid.RowProperty, 1);
-                label_Eon.SetValue(Grid.RowSpanProperty, rowCount - 1);
+                border_Eon.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
+                border_Eon.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
 
-                grid_PreCambrianMainly.Children.Add(label_Eon);
+                grid_PreCambrianMainly.Children.Add(border_Eon);
 
                 if (eonIndex == eons.Length - 1)
                 {
                     // "前寒武纪"标签
-                    Label label_Period = new Label()
+                    TextBlock textBlock_Period = new TextBlock()
                     {
-                        Content = "PreꞒ",
-                        Foreground = getForeground(eons[^2]),
-                        Background = getBackground(eons[^2]),
+                        Text = "PreꞒ",
+                        Foreground = getForeground(GeoChron.Empty),
                         FontSize = fontSize,
-                        HorizontalContentAlignment = horizontalContentAlignment,
-                        VerticalContentAlignment = verticalContentAlignment,
-                        Padding = padding,
+                        HorizontalAlignment = horizontalContentAlignment,
+                        VerticalAlignment = verticalContentAlignment,
+                        Margin = padding
+                    };
+
+                    Border border_Period = new Border()
+                    {
+                        Child = textBlock_Period,
+                        Background = getBackground(GeoChron.Empty),
+                        CornerRadius = cornerRadius,
                         Margin = margin
                     };
 
-                    label_Period.SetValue(Grid.ColumnProperty, 0);
-                    label_Period.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
-                    label_Period.SetValue(Grid.RowProperty, 1);
-                    label_Period.SetValue(Grid.RowSpanProperty, rowCount - 1);
+                    border_Period.SetValue(Grid.ColumnProperty, 0);
+                    border_Period.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
 
-                    grid_PhanerozoicMainly.Children.Add(label_Period);
+                    grid_PhanerozoicMainly.Children.Add(border_Period);
                 }
 
                 if (eon.HasTimespanSubordinates)
@@ -287,24 +296,28 @@ namespace TreeOfLife.Controls
                                 if (eonIndex == eons.Length - 1)
                                 {
                                     // "纪"标签
-                                    Label label_Period = new Label()
+                                    TextBlock textBlock_Period = new TextBlock()
                                     {
-                                        Content = _GeoChronToSymbolTable[period],
+                                        Text = _GeoChronToSymbolTable[period],
                                         Foreground = getForeground(period),
-                                        Background = getBackground(period),
                                         FontSize = fontSize,
-                                        HorizontalContentAlignment = horizontalContentAlignment,
-                                        VerticalContentAlignment = verticalContentAlignment,
-                                        Padding = padding,
+                                        HorizontalAlignment = horizontalContentAlignment,
+                                        VerticalAlignment = verticalContentAlignment,
+                                        Margin = padding
+                                    };
+
+                                    Border border_Period = new Border()
+                                    {
+                                        Child = textBlock_Period,
+                                        Background = getBackground(period),
+                                        CornerRadius = cornerRadius,
                                         Margin = margin
                                     };
 
-                                    label_Period.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
-                                    label_Period.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
-                                    label_Period.SetValue(Grid.RowProperty, 1);
-                                    label_Period.SetValue(Grid.RowSpanProperty, rowCount - 1);
+                                    border_Period.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
+                                    border_Period.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
 
-                                    grid_PhanerozoicMainly.Children.Add(label_Period);
+                                    grid_PhanerozoicMainly.Children.Add(border_Period);
                                 }
                             }
                         }
@@ -322,24 +335,51 @@ namespace TreeOfLife.Controls
                 }
             }
 
+            // 地质年代跨度条带：
+
+            const double bandHeight = 6;
+            CornerRadius bandCornerRadius = new CornerRadius(2);
+            Thickness bandMargin = new Thickness(0, 4, 2, 0);
+            Thickness bandBorderThickness = new Thickness(1);
+
+            border_PreCambrianMainly_FullWidth = new Border()
+            {
+                Height = bandHeight,
+                BorderThickness = bandBorderThickness,
+                CornerRadius = bandCornerRadius,
+                Margin = bandMargin
+            };
+            border_PreCambrianMainly_FullWidth.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.Present) + 1);
+            border_PreCambrianMainly_FullWidth.SetValue(Grid.RowProperty, 1);
+            grid_PreCambrianMainly.Children.Add(border_PreCambrianMainly_FullWidth);
+
             border_PreCambrianMainly = new Border()
             {
                 Height = bandHeight,
-                Margin = new Thickness(0, 0, 1, 0),
-                VerticalAlignment = VerticalAlignment.Top
+                CornerRadius = bandCornerRadius,
+                Margin = bandMargin
             };
-            border_PreCambrianMainly.SetValue(Grid.RowProperty, 0);
-            border_PreCambrianMainly.SetValue(Grid.RowSpanProperty, 2);
+            border_PreCambrianMainly.SetValue(Grid.RowProperty, 1);
             grid_PreCambrianMainly.Children.Add(border_PreCambrianMainly);
+
+            border_PhanerozoicMainly_FullWidth = new Border()
+            {
+                Height = bandHeight,
+                BorderThickness = bandBorderThickness,
+                CornerRadius = bandCornerRadius,
+                Margin = bandMargin
+            };
+            border_PhanerozoicMainly_FullWidth.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.Present) + 1);
+            border_PhanerozoicMainly_FullWidth.SetValue(Grid.RowProperty, 1);
+            grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly_FullWidth);
 
             border_PhanerozoicMainly = new Border()
             {
                 Height = bandHeight,
-                Margin = new Thickness(0, 0, 1, 0),
-                VerticalAlignment = VerticalAlignment.Top
+                CornerRadius = bandCornerRadius,
+                Margin = bandMargin
             };
-            border_PhanerozoicMainly.SetValue(Grid.RowProperty, 0);
-            border_PhanerozoicMainly.SetValue(Grid.RowSpanProperty, 2);
+            border_PhanerozoicMainly.SetValue(Grid.RowProperty, 1);
             grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly);
         }
 
@@ -483,9 +523,14 @@ namespace TreeOfLife.Controls
 
         private void _UpdateColor()
         {
+            Brush brush_FullWidth = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
             Brush brush = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
 
+            border_PreCambrianMainly_FullWidth.Background = brush_FullWidth;
+            border_PreCambrianMainly_FullWidth.BorderBrush = brush;
             border_PreCambrianMainly.Background = brush;
+            border_PhanerozoicMainly_FullWidth.Background = brush_FullWidth;
+            border_PhanerozoicMainly_FullWidth.BorderBrush = brush;
             border_PhanerozoicMainly.Background = brush;
         }
 
