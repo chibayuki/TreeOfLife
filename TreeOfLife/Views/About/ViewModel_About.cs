@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media;
@@ -21,22 +20,9 @@ using System.Windows.Media.Imaging;
 
 namespace TreeOfLife.Views.About
 {
-    public sealed class ViewModel_About : INotifyPropertyChanged
+    public sealed class ViewModel_About : ViewModel
     {
-        public ViewModel_About()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
+        #region 关于信息
 
         public ImageSource AppLogo
         {
@@ -61,6 +47,8 @@ namespace TreeOfLife.Views.About
         }
 
         public string AppVersion => "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        #endregion
 
         #region 主题
 

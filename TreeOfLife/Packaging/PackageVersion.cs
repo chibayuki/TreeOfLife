@@ -33,7 +33,7 @@ namespace TreeOfLife.Packaging
 
         //
 
-        public static PackageVersion Latest => new PackageVersion(_LatestVersion);
+        public static readonly PackageVersion Latest = new PackageVersion(_LatestVersion);
 
         [JsonPropertyName("Version")]
         public int Version

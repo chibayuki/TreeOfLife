@@ -13,27 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
-
 namespace TreeOfLife.Views.Search
 {
-    public sealed class ViewModel_Search : INotifyPropertyChanged
+    public sealed class ViewModel_Search : ViewModel
     {
-        public ViewModel_Search()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         #region 搜索
 
         public Action ClickSearchResult { get; set; }

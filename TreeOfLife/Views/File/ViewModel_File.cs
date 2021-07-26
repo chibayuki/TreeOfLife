@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 
@@ -21,23 +20,8 @@ using TreeOfLife.Phylogeny;
 
 namespace TreeOfLife.Views.File
 {
-    public sealed class ViewModel_File : INotifyPropertyChanged
+    public sealed class ViewModel_File : ViewModel
     {
-        public ViewModel_File()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         #region 文件信息
 
         private string _FileName; // 文件名。

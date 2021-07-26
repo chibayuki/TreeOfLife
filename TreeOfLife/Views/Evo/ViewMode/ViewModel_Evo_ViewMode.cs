@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.Windows.Media;
 
 using TreeOfLife.Taxonomy;
@@ -22,23 +21,8 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Views.Evo.ViewMode
 {
-    public sealed class ViewModel_Evo_ViewMode : INotifyPropertyChanged
+    public sealed class ViewModel_Evo_ViewMode : ViewModel
     {
-        public ViewModel_Evo_ViewMode()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         #region 类群信息
 
         private string _Desc;

@@ -13,30 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.Windows.Media;
 
 using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Views.Tree
 {
-    public sealed class ViewModel_Tree : INotifyPropertyChanged
+    public sealed class ViewModel_Tree : ViewModel
     {
-        public ViewModel_Tree()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         #region 主题
 
         private bool _IsDarkTheme;

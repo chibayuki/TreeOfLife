@@ -29,9 +29,6 @@ namespace TreeOfLife.Packaging
             };
         }
 
-        public static IPackageContent CreateLatestVersion()
-        {
-            return CreateFromVersion(PackageVersion.Latest);
-        }
+        public static IPackageContent CreateLatestVersion() => CreateFromVersion(PackageVersion.Latest);
     }
 }

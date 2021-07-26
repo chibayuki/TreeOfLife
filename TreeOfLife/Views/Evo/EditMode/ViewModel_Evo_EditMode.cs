@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.Windows;
 
 using TreeOfLife.Controls;
@@ -25,23 +24,8 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Views.Evo.EditMode
 {
-    public sealed class ViewModel_Evo_EditMode : INotifyPropertyChanged
+    public sealed class ViewModel_Evo_EditMode : ViewModel
     {
-        public ViewModel_Evo_EditMode()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         public TaxonNameTitle TaxonNameTitle { get; set; }
 
         //

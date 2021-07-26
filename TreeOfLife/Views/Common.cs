@@ -13,8 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Windows.Media;
-
 using TreeOfLife.Taxonomy;
 
 namespace TreeOfLife.Views
@@ -41,22 +39,5 @@ namespace TreeOfLife.Views
         public static Action ApplyToTaxon { get; set; } = null;
 
         public static Action UpdateTree { get; set; } = null;
-
-        //
-
-        private static Dictionary<Color, SolidColorBrush> _SolidColorBrushes = new Dictionary<Color, SolidColorBrush>();
-
-        // 用于获取和缓存单色 Brush。
-        public static SolidColorBrush GetSolidColorBrush(Color color)
-        {
-            if (!_SolidColorBrushes.TryGetValue(color, out SolidColorBrush brush))
-            {
-                brush = new SolidColorBrush(color);
-
-                _SolidColorBrushes.Add(color, brush);
-            }
-
-            return brush;
-        }
     }
 }
