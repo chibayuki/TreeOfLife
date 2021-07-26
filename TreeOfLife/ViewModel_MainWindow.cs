@@ -13,31 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
-
-using TreeOfLife.Views;
 
 namespace TreeOfLife
 {
-    public sealed class ViewModel_MainWindow : INotifyPropertyChanged
+    public sealed class ViewModel_MainWindow : ViewModel
     {
-        public ViewModel_MainWindow()
-        {
-        }
-
-        //
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //
-
         #region 页面切换
 
         public enum Pages
