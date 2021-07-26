@@ -57,6 +57,15 @@ namespace TreeOfLife.Views.Tree
                     (_ContextMenu.DataContext as Action)?.Invoke();
                 }
             };
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) =>
+            {
+                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
+
+                tree.IsDarkTheme = Theme.IsDarkTheme;
+            };
         }
 
         private ContextMenu _ContextMenu;
@@ -651,26 +660,6 @@ namespace TreeOfLife.Views.Tree
             _UpdateTreeNodeAttr(_SubTreeRoot);
 
             tree.UpdateContent(_SubTreeRoot);
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                tree.IsDarkTheme = _IsDarkTheme;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
-            }
         }
 
         #endregion

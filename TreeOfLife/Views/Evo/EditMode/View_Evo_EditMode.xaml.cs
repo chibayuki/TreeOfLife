@@ -111,6 +111,24 @@ namespace TreeOfLife.Views.Evo.EditMode
                 Views.Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_IncludeBy.DataContext as Action)?.Invoke();
             };
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) =>
+            {
+                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
+
+                taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
+                categorySelector.IsDarkTheme = Theme.IsDarkTheme;
+                geoChronSelector_Birth.IsDarkTheme = Theme.IsDarkTheme;
+                geoChronSelector_Extinction.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_ExcludeBy.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Includes.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_IncludeBy.IsDarkTheme = Theme.IsDarkTheme;
+            };
         }
 
         private ContextMenu _ContextMenu_Current;
@@ -913,31 +931,6 @@ namespace TreeOfLife.Views.Evo.EditMode
             _UpdateIncludeBy();
 
             _UpdateVisibility();
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Excludes.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_ExcludeBy.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Includes.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_IncludeBy.IsDarkTheme = _IsDarkTheme;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
-            }
         }
 
         #endregion

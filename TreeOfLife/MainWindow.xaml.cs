@@ -90,6 +90,10 @@ namespace TreeOfLife
 
             //
 
+            Theme.IsDarkTheme = false;
+
+            //
+
             this.Loaded += (s, e) =>
             {
                 Phylogenesis.New();
@@ -97,13 +101,7 @@ namespace TreeOfLife
                 _SetCurrentTaxon(Phylogenesis.Root);
                 _SetEditMode(false);
 
-                //
-
                 _SelectPage(Pages.File);
-
-                //
-
-                IsDarkTheme = false;
             };
 
             this.Closing += (s, e) =>
@@ -446,31 +444,6 @@ namespace TreeOfLife
                 }
 
                 view_Tree.UpdateSubTree();
-            }
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                view_File.IsDarkTheme = _IsDarkTheme;
-                view_Evo_ViewMode.IsDarkTheme = _IsDarkTheme;
-                view_Evo_EditMode.IsDarkTheme = _IsDarkTheme;
-                view_Search.IsDarkTheme = _IsDarkTheme;
-                view_About.IsDarkTheme = _IsDarkTheme;
-                view_Tree.IsDarkTheme = _IsDarkTheme;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

@@ -60,10 +60,7 @@ namespace TreeOfLife.Views.About
             }
         }
 
-        public string AppVersion
-        {
-            get => "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+        public string AppVersion => "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         #region 主题
 
@@ -73,7 +70,7 @@ namespace TreeOfLife.Views.About
 
         private void _UpdateColors()
         {
-            TextLabel_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            TextLabel_ForeGround = Theme.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme

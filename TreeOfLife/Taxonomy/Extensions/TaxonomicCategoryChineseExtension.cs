@@ -116,7 +116,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         //
 
-        private static Dictionary<TaxonomicCategory, string> _CategoryToNameTable = new Dictionary<TaxonomicCategory, string>()
+        private static readonly Dictionary<TaxonomicCategory, string> _CategoryToNameTable = new Dictionary<TaxonomicCategory, string>()
         {
             { TaxonomicCategory.Unranked, _Names.Unranked },
 
@@ -223,7 +223,7 @@ namespace TreeOfLife.Taxonomy.Extensions
 
         //
 
-        private static Dictionary<string, TaxonomicCategory> _NameToCategoryTable = new Dictionary<string, TaxonomicCategory>()
+        private static readonly Dictionary<string, TaxonomicCategory> _NameToCategoryTable = new Dictionary<string, TaxonomicCategory>()
         {
             { _Names.Unranked, TaxonomicCategory.Unranked }, // 未分级
             { "未指定", TaxonomicCategory.Unranked }, // 未指定

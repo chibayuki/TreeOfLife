@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
+using ColorX = Com.Chromatics.ColorX;
+
 namespace TreeOfLife.Views.Tree
 {
     public sealed class ViewModel_Tree : INotifyPropertyChanged
@@ -43,7 +45,7 @@ namespace TreeOfLife.Views.Tree
 
         private void _UpdateColors()
         {
-            Tree_BackGround = (_IsDarkTheme ? Brushes.Black : Brushes.White);
+            Tree_BackGround = Theme.GetSolidColorBrush(_IsDarkTheme ? ColorX.FromHSL(0, 0, 2) : ColorX.FromHSL(0, 0, 98));
         }
 
         public bool IsDarkTheme

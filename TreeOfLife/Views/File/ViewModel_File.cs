@@ -211,7 +211,7 @@ namespace TreeOfLife.Views.File
 
         private void _UpdateColors()
         {
-            TextLabel_ForeGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            TextLabel_ForeGround = Theme.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public bool IsDarkTheme

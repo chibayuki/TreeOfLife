@@ -106,6 +106,17 @@ namespace TreeOfLife.Views.Search
 
                 button_ExpandLow.Visibility = Visibility.Collapsed;
             };
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) =>
+            {
+                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
+
+                taxonNameButtonGroup_SearchResult_Perfect.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_SearchResult_High.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_SearchResult_Low.IsDarkTheme = Theme.IsDarkTheme;
+            };
         }
 
         //
@@ -252,28 +263,6 @@ namespace TreeOfLife.Views.Search
             }
 
             _UpdateVisibility();
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                taxonNameButtonGroup_SearchResult_Perfect.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_SearchResult_High.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_SearchResult_Low.IsDarkTheme = _IsDarkTheme;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
-            }
         }
 
         #endregion

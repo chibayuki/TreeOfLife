@@ -16,10 +16,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Media;
 
-using TreeOfLife.Geology;
-using TreeOfLife.Geology.Extensions;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Taxonomy.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -77,7 +74,7 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         private void _UpdateColors()
         {
-            Desc_BackGround = Views.Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
+            Desc_BackGround = Theme.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
         }
 
         public ColorX TaxonColor

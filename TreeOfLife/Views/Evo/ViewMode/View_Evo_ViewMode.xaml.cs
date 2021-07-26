@@ -81,6 +81,21 @@ namespace TreeOfLife.Views.Evo.ViewMode
             taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
             taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) =>
+            {
+                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
+
+                taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
+                geoChronSpan.IsDarkTheme = Theme.IsDarkTheme;
+                tagGroup_Tags.IsDarkTheme = Theme.IsDarkTheme;
+                tagGroup_Synonyms.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
+                taxonNameButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
+            };
         }
 
         //
@@ -276,29 +291,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
             _UpdateExcludes();
 
             _UpdateVisibility();
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                taxonNameTitle.IsDarkTheme = _IsDarkTheme;
-                tagGroup_Tags.IsDarkTheme = _IsDarkTheme;
-                tagGroup_Synonyms.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Parents.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Children.IsDarkTheme = _IsDarkTheme;
-                taxonNameButtonGroup_Excludes.IsDarkTheme = _IsDarkTheme;
-            }
         }
 
         #endregion

@@ -51,6 +51,10 @@ namespace TreeOfLife.Views.File
             button_Save.Click += Button_Save_Click;
             button_SaveAs.Click += Button_SaveAs_Click;
             button_Close.Click += Button_Close_Click;
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) => ViewModel.IsDarkTheme = Theme.IsDarkTheme;
         }
 
         //
@@ -119,24 +123,6 @@ namespace TreeOfLife.Views.File
             if (ViewModel.TrySaveAndClose())
             {
                 ViewModel.UpdateFileInfo();
-            }
-        }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme = false;
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                ViewModel.IsDarkTheme = _IsDarkTheme;
             }
         }
 

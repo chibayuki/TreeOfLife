@@ -183,42 +183,5 @@ namespace TreeOfLife
         }
 
         #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme;
-
-        private Brush _Pages_BackGround;
-
-        private void _UpdateColors()
-        {
-            Pages_BackGround = Common.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(8, 8, 8) : Color.FromRgb(248, 248, 248));
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public Brush Pages_BackGround
-        {
-            get => _Pages_BackGround;
-
-            set
-            {
-                _Pages_BackGround = value;
-
-                NotifyPropertyChanged(nameof(Pages_BackGround));
-            }
-        }
-
-        #endregion
     }
 }
