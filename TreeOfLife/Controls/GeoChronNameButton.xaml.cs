@@ -25,7 +25,6 @@ using System.Windows.Shapes;
 using TreeOfLife.Extensions;
 using TreeOfLife.Geology;
 using TreeOfLife.Geology.Extensions;
-using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -44,8 +43,21 @@ namespace TreeOfLife.Controls
         private bool _MouseOver = false;
         private bool _Vertical = false;
 
+        private void _UpdateGeoChron()
+        {
+            textBlock_GeoChronName.Text = (_Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName);
+        }
+
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private void _UpdateColor()
+        {
+            textBlock_GeoChronName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+
+            border_GeoChronName.Background = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            border_GeoChronName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+        }
 
         //
 
@@ -72,27 +84,6 @@ namespace TreeOfLife.Controls
                 _MouseOver = false;
                 _UpdateColor();
             };
-        }
-
-        //
-
-        private Brush _GeoChronNameForeground => Common.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-
-        private Brush _GeoChronNameBackground => Common.GetSolidColorBrush((_IsChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
-        private Brush _GeoChronNameBorderBrush => Common.GetSolidColorBrush((_IsChecked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
-        private void _UpdateColor()
-        {
-            border_GeoChronName.Background = _GeoChronNameBackground;
-            border_GeoChronName.BorderBrush = _GeoChronNameBorderBrush;
-
-            textBlock_GeoChronName.Foreground = _GeoChronNameForeground;
-        }
-
-        private void _UpdateGeoChron()
-        {
-            textBlock_GeoChronName.Text = (_Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName);
         }
 
         //

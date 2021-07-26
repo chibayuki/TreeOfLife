@@ -31,11 +31,11 @@ This file is part of TreeOfLife
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="label_Birth" Content="Birth" FontSize="12" FontWeight="Bold" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0,3,6,3"/>
-                <Label x:Name="label_BirthPrefix" Grid.Row="1" Content="(BirthPrefix)" FontSize="11" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0,0,6,0"/>
-                <Border Grid.Column="1" BorderThickness="1" Height="1" Width="30" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
-                <Label x:Name="label_Extinction" Grid.Column="2" Content="Extinction" FontSize="12" FontWeight="Bold" Foreground="#FF808080" Padding="6,3,0,3"/>
-                <Label x:Name="label_ExtinctionPrefix" Grid.Column="2" Grid.Row="1" Content="(ExtinctionPrefix)" FontSize="11" Foreground="#FF808080" Padding="6,0,0,0"/>
+                <Label x:Name="label_Birth" Content="Birth" FontSize="12" FontWeight="Bold" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0,3,0,3"/>
+                <Label x:Name="label_BirthPrefix" Grid.Row="1" Content="(BirthPrefix)" FontSize="11" Foreground="#FF808080" HorizontalAlignment="Right" Padding="0"/>
+                <Border Grid.Column="1" BorderThickness="1" Height="1" Width="30" Margin="6,0,6,0" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
+                <Label x:Name="label_Extinction" Grid.Column="2" Content="Extinction" FontSize="12" FontWeight="Bold" Foreground="#FF808080" Padding="0,3,0,3"/>
+                <Label x:Name="label_ExtinctionPrefix" Grid.Column="2" Grid.Row="1" Content="(ExtinctionPrefix)" FontSize="11" Foreground="#FF808080" Padding="0"/>
             </Grid>
         </StackPanel>
     </Grid>

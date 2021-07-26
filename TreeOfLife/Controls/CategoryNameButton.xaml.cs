@@ -25,7 +25,6 @@ using System.Windows.Shapes;
 using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
-using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -49,15 +48,11 @@ namespace TreeOfLife.Controls
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
-        private Brush _CategoryNameForeground => Common.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-
-        private Brush _CategoryNameBackground => Common.GetSolidColorBrush((_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
-
         private void _UpdateColor()
         {
-            border_CategoryName.Background = _CategoryNameBackground;
+            textBlock_CategoryName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-            textBlock_CategoryName.Foreground = _CategoryNameForeground;
+            border_CategoryName.Background = Theme.GetSolidColorBrush((_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
         }
 
         //

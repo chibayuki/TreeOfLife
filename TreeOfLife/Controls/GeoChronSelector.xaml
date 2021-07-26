@@ -42,7 +42,7 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="textBox_MaBP" MaxLength="11" Style="{DynamicResource TextBoxStyle}"/>
-                        <Label Grid.Column="2" Content="百万年前 (Ma)" VerticalContentAlignment="Center"/>
+                        <Label x:Name="label_MaBP" Grid.Column="2" Content="百万年前 (Ma)" VerticalContentAlignment="Center"/>
                     </Grid>
                 </StackPanel>
                 <StackPanel x:Name="stackPanel_CEYear" Margin="0,12,0,0" Visibility="Collapsed">
@@ -55,7 +55,7 @@ This file is part of TreeOfLife
                         </Grid.ColumnDefinitions>
                         <Button x:Name="button_ADBC" Content="公元 (AD)" Style="{DynamicResource ButtonStyle}"/>
                         <TextBox x:Name="textBox_CEYear" Grid.Column="2" MaxLength="6" Style="{DynamicResource TextBoxStyle}"/>
-                        <Label Grid.Column="4" Content="年" VerticalContentAlignment="Center"/>
+                        <Label x:Name="label_CEYear" Grid.Column="4" Content="年" VerticalContentAlignment="Center"/>
                     </Grid>
                 </StackPanel>
                 <StackPanel x:Name="stackPanel_Timespan" Margin="0,12,0,0" Visibility="Collapsed">

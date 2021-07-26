@@ -22,12 +22,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Extensions;
 using TreeOfLife.Geology;
 using TreeOfLife.Geology.Extensions;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
-using TreeOfLife.Views;
+
+using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
@@ -36,9 +36,75 @@ namespace TreeOfLife.Controls
     /// </summary>
     public partial class GeoChronSpan : UserControl
     {
-        private GeoChron _Birth = null;
-        private GeoChron _Extinction = null;
-        private TaxonomicCategory _Category = TaxonomicCategory.Unranked;
+        private class _GeoChronSymbol
+        {
+            private Border _Container = null;
+            private TextBlock _SymbolText = null;
+
+            private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
+            private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+            private void _UpdateColor()
+            {
+                _SymbolText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60));
+
+                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            }
+
+            //
+
+            public _GeoChronSymbol()
+            {
+                _SymbolText = new TextBlock()
+                {
+                    FontSize = 11,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 2, 0, 2)
+                };
+
+                _Container = new Border()
+                {
+                    Child = _SymbolText,
+                    CornerRadius = new CornerRadius(2),
+                    Margin = new Thickness(0, 0, 2, 0)
+                };
+            }
+
+            //
+
+            public string SymbolText
+            {
+                get => _SymbolText.Text;
+                set => _SymbolText.Text = value;
+            }
+
+            public ColorX ThemeColor
+            {
+                get => _ThemeColor;
+
+                set
+                {
+                    _ThemeColor = value;
+
+                    _UpdateColor();
+                }
+            }
+
+            public bool IsDarkTheme
+            {
+                get => _IsDarkTheme;
+
+                set
+                {
+                    _IsDarkTheme = value;
+
+                    _UpdateColor();
+                }
+            }
+
+            public FrameworkElement Container => _Container;
+        }
 
         //
 
@@ -141,7 +207,7 @@ namespace TreeOfLife.Controls
             return _GeoChronToColumnIndexTable[geoChron.IsTimespan ? geoChron : geoChron.Superior];
         }
 
-        private static Dictionary<GeoChron, string> _GeoChronToSymbolTable = new Dictionary<GeoChron, string>()
+        private static readonly Dictionary<GeoChron, string> _GeoChronToSymbolTable = new Dictionary<GeoChron, string>()
         {
             { GeoChron.GetGeoChron(Period.Cambrian), "Ꞓ" },
             { GeoChron.GetGeoChron(Period.Ordovician), "O" },
@@ -159,6 +225,14 @@ namespace TreeOfLife.Controls
             { GeoChron.GetGeoChron(Period.Quaternary), "Q" }
         };
 
+        //
+
+        private GeoChron _Birth = null;
+        private GeoChron _Extinction = null;
+        private TaxonomicCategory _Category = TaxonomicCategory.Unranked;
+
+        private Dictionary<GeoChron, _GeoChronSymbol> _GeoChronSymbolsTable = new Dictionary<GeoChron, _GeoChronSymbol>();
+
         private Border border_PreCambrianMainly_FullWidth = null;
         private Border border_PreCambrianMainly = null;
         private Border border_PhanerozoicMainly_FullWidth = null;
@@ -174,15 +248,6 @@ namespace TreeOfLife.Controls
 
             // 网格与地质年代标签：
 
-            const double fontSize = 11;
-            const HorizontalAlignment horizontalContentAlignment = HorizontalAlignment.Center;
-            const VerticalAlignment verticalContentAlignment = VerticalAlignment.Center;
-            Thickness padding = new Thickness(0, 2, 0, 2);
-            Thickness margin = new Thickness(0, 0, 2, 0);
-            CornerRadius cornerRadius = new CornerRadius(2);
-            Func<GeoChron, Brush> getForeground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_LAB(60).ToWpfColor());
-            Func<GeoChron, Brush> getBackground = (geoChron) => Common.GetSolidColorBrush(geoChron.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
-
             GeoChron[] eons = new GeoChron[]
             {
                 GeoChron.GetGeoChron(Eon.Hadean),
@@ -196,54 +261,36 @@ namespace TreeOfLife.Controls
                 GeoChron eon = eons[eonIndex];
 
                 // "宙"标签
-                TextBlock textBlock_Eon = new TextBlock()
+                _GeoChronSymbol symbol_Eon = new _GeoChronSymbol()
                 {
-                    Text = eon.GetChineseName(),
-                    Foreground = getForeground(eon),
-                    FontSize = fontSize,
-                    HorizontalAlignment = horizontalContentAlignment,
-                    VerticalAlignment = verticalContentAlignment,
-                    Margin = padding
+                    SymbolText = eon.GetChineseName(),
+                    ThemeColor = eon.GetThemeColor(),
+                    IsDarkTheme = _IsDarkTheme
                 };
 
-                Border border_Eon = new Border()
-                {
-                    Child = textBlock_Eon,
-                    Background = getBackground(eon),
-                    CornerRadius = cornerRadius,
-                    Margin = margin
-                };
+                _GeoChronSymbolsTable.Add(eon, symbol_Eon);
 
-                border_Eon.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
-                border_Eon.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
+                symbol_Eon.Container.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
+                symbol_Eon.Container.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
 
-                grid_PreCambrianMainly.Children.Add(border_Eon);
+                grid_PreCambrianMainly.Children.Add(symbol_Eon.Container);
 
                 if (eonIndex == eons.Length - 1)
                 {
                     // "前寒武纪"标签
-                    TextBlock textBlock_Period = new TextBlock()
+                    _GeoChronSymbol symbol_Period = new _GeoChronSymbol()
                     {
-                        Text = "PreꞒ",
-                        Foreground = getForeground(GeoChron.Empty),
-                        FontSize = fontSize,
-                        HorizontalAlignment = horizontalContentAlignment,
-                        VerticalAlignment = verticalContentAlignment,
-                        Margin = padding
+                        SymbolText = "PreꞒ",
+                        ThemeColor = GeoChron.Empty.GetThemeColor(),
+                        IsDarkTheme = _IsDarkTheme
                     };
 
-                    Border border_Period = new Border()
-                    {
-                        Child = textBlock_Period,
-                        Background = getBackground(GeoChron.Empty),
-                        CornerRadius = cornerRadius,
-                        Margin = margin
-                    };
+                    _GeoChronSymbolsTable.Add(GeoChron.Empty, symbol_Period);
 
-                    border_Period.SetValue(Grid.ColumnProperty, 0);
-                    border_Period.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
+                    symbol_Period.Container.SetValue(Grid.ColumnProperty, 0);
+                    symbol_Period.Container.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
 
-                    grid_PhanerozoicMainly.Children.Add(border_Period);
+                    grid_PhanerozoicMainly.Children.Add(symbol_Period.Container);
                 }
 
                 if (eon.HasTimespanSubordinates)
@@ -296,28 +343,19 @@ namespace TreeOfLife.Controls
                                 if (eonIndex == eons.Length - 1)
                                 {
                                     // "纪"标签
-                                    TextBlock textBlock_Period = new TextBlock()
+                                    _GeoChronSymbol symbol_Period = new _GeoChronSymbol()
                                     {
-                                        Text = _GeoChronToSymbolTable[period],
-                                        Foreground = getForeground(period),
-                                        FontSize = fontSize,
-                                        HorizontalAlignment = horizontalContentAlignment,
-                                        VerticalAlignment = verticalContentAlignment,
-                                        Margin = padding
+                                        SymbolText = _GeoChronToSymbolTable[period],
+                                        ThemeColor = period.GetThemeColor(),
+                                        IsDarkTheme = _IsDarkTheme
                                     };
 
-                                    Border border_Period = new Border()
-                                    {
-                                        Child = textBlock_Period,
-                                        Background = getBackground(period),
-                                        CornerRadius = cornerRadius,
-                                        Margin = margin
-                                    };
+                                    _GeoChronSymbolsTable.Add(period, symbol_Period);
 
-                                    border_Period.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
-                                    border_Period.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
+                                    symbol_Period.Container.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
+                                    symbol_Period.Container.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
 
-                                    grid_PhanerozoicMainly.Children.Add(border_Period);
+                                    grid_PhanerozoicMainly.Children.Add(symbol_Period.Container);
                                 }
                             }
                         }
@@ -521,24 +559,28 @@ namespace TreeOfLife.Controls
             }
         }
 
-        private void _UpdateColor()
-        {
-            Brush brush_FullWidth = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_HSL(90).ToWpfColor());
-            Brush brush = Common.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(70).ToWpfColor());
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
 
-            border_PreCambrianMainly_FullWidth.Background = brush_FullWidth;
-            border_PreCambrianMainly_FullWidth.BorderBrush = brush;
-            border_PreCambrianMainly.Background = brush;
-            border_PhanerozoicMainly_FullWidth.Background = brush_FullWidth;
-            border_PhanerozoicMainly_FullWidth.BorderBrush = brush;
-            border_PhanerozoicMainly.Background = brush;
+        private void _UpdateTheme()
+        {
+            foreach (var item in _GeoChronSymbolsTable)
+            {
+                item.Value.IsDarkTheme = _IsDarkTheme;
+            }
         }
 
-        private void _Update()
+        private void _UpdateColor()
         {
-            _UpdateContent();
-            _UpdateGraph();
-            _UpdateColor();
+            Brush background = Theme.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            Brush borderAndFill = Theme.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(_IsDarkTheme ? 30 : 70));
+
+            border_PreCambrianMainly_FullWidth.Background = background;
+            border_PreCambrianMainly_FullWidth.BorderBrush = borderAndFill;
+            border_PreCambrianMainly.Background = borderAndFill;
+
+            border_PhanerozoicMainly_FullWidth.Background = background;
+            border_PhanerozoicMainly_FullWidth.BorderBrush = borderAndFill;
+            border_PhanerozoicMainly.Background = borderAndFill;
         }
 
         //
@@ -562,7 +604,8 @@ namespace TreeOfLife.Controls
             {
                 _Birth = value;
 
-                _Update();
+                _UpdateContent();
+                _UpdateGraph();
             }
         }
 
@@ -574,7 +617,8 @@ namespace TreeOfLife.Controls
             {
                 _Extinction = value;
 
-                _Update();
+                _UpdateContent();
+                _UpdateGraph();
             }
         }
 
@@ -590,13 +634,29 @@ namespace TreeOfLife.Controls
             }
         }
 
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateTheme();
+            }
+        }
+
+        //
+
         public void Update(GeoChron birth, GeoChron extinction, TaxonomicCategory category)
         {
             _Birth = birth;
             _Extinction = extinction;
             _Category = category;
 
-            _Update();
+            _UpdateContent();
+            _UpdateGraph();
+            _UpdateColor();
         }
     }
 }

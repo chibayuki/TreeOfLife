@@ -346,7 +346,7 @@ namespace TreeOfLife.Geology.Extensions
             public const string Present = "至今";
         }
 
-        private static Dictionary<int, string> _EnumValueToNameTable = new Dictionary<int, string>()
+        private static readonly Dictionary<int, string> _EnumValueToNameTable = new Dictionary<int, string>()
         {
             { (int)GeoChronType.Empty, _Names.Empty },
 

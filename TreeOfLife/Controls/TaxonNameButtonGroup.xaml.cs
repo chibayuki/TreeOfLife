@@ -22,9 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Extensions;
 using TreeOfLife.Taxonomy;
-using TreeOfLife.Views;
 
 using ColorX = Com.Chromatics.ColorX;
 
@@ -78,7 +76,7 @@ namespace TreeOfLife.Controls
             private void _UpdateGroupNameColor()
             {
                 _NameText.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
-                _NameBorder.Background = Common.GetSolidColorBrush(_GroupNameColor.AtLightness_LAB(50).ToWpfColor());
+                _NameBorder.Background = Theme.GetSolidColorBrush(_GroupNameColor.AtLightness_LAB(50));
             }
 
             private void _UpdateTheme()

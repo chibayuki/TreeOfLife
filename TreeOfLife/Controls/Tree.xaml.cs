@@ -152,7 +152,10 @@ namespace TreeOfLife.Controls
 
         private void _UpdateTheme()
         {
-            _RootNode.IsDarkTheme = _IsDarkTheme;
+            if (_RootNode is not null)
+            {
+                _RootNode.IsDarkTheme = _IsDarkTheme;
+            }
         }
 
         //

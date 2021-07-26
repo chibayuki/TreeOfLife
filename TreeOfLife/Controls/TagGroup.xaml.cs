@@ -22,9 +22,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Extensions;
-using TreeOfLife.Views;
-
 using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
@@ -44,8 +41,8 @@ namespace TreeOfLife.Controls
 
             private void _UpdateColor()
             {
-                _TagText.Foreground = Common.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-                _Container.Background = Common.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90).ToWpfColor());
+                _TagText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60));
+                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
             }
 
             //

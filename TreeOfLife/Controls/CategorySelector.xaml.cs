@@ -381,6 +381,23 @@ namespace TreeOfLife.Controls
 
         //
 
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private void _UpdateTheme()
+        {
+            foreach (var item in _BasicCategoryButtons)
+            {
+                item.Value.IsDarkTheme = _IsDarkTheme;
+            }
+
+            foreach (var item in _CategoriesButtons)
+            {
+                item.Value.IsDarkTheme = _IsDarkTheme;
+            }
+        }
+
+        //
+
         public CategorySelector()
         {
             InitializeComponent();
@@ -410,6 +427,18 @@ namespace TreeOfLife.Controls
 
                     CategoryChanged?.Invoke(this, _Category);
                 }
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateTheme();
             }
         }
 

@@ -24,10 +24,10 @@ using System.Windows.Shapes;
 
 using System.Text.RegularExpressions;
 
-using TreeOfLife.Extensions;
 using TreeOfLife.Geology;
 using TreeOfLife.Geology.Extensions;
-using TreeOfLife.Views;
+
+using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Controls
 {
@@ -283,7 +283,7 @@ namespace TreeOfLife.Controls
                                                 new Point(4, 0.5),
                                                 new Point(8, 4.5)
                                             }),
-                                            Stroke = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50).ToWpfColor()),
+                                            Stroke = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
                                             HorizontalAlignment = HorizontalAlignment.Center,
                                             VerticalAlignment = VerticalAlignment.Top
                                         };
@@ -295,7 +295,7 @@ namespace TreeOfLife.Controls
                                         {
                                             BorderThickness = new Thickness(1),
                                             Height = 1,
-                                            BorderBrush = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50).ToWpfColor()),
+                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
                                             VerticalAlignment = VerticalAlignment.Center,
                                             SnapsToDevicePixels = true
                                         };
@@ -307,7 +307,7 @@ namespace TreeOfLife.Controls
                                         {
                                             BorderThickness = new Thickness(1),
                                             Height = 1,
-                                            BorderBrush = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50).ToWpfColor()),
+                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
                                             VerticalAlignment = VerticalAlignment.Center,
                                             SnapsToDevicePixels = true
                                         };
@@ -329,7 +329,7 @@ namespace TreeOfLife.Controls
                                             {
                                                 BorderThickness = new Thickness(1),
                                                 Height = 1,
-                                                BorderBrush = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50).ToWpfColor()),
+                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
                                                 VerticalAlignment = VerticalAlignment.Center,
                                                 SnapsToDevicePixels = true,
                                                 Visibility = Visibility.Collapsed
@@ -350,7 +350,7 @@ namespace TreeOfLife.Controls
                                             {
                                                 BorderThickness = new Thickness(1),
                                                 Height = 1,
-                                                BorderBrush = Common.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50).ToWpfColor()),
+                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
                                                 VerticalAlignment = VerticalAlignment.Center,
                                                 SnapsToDevicePixels = true,
                                                 Visibility = Visibility.Collapsed
@@ -874,6 +874,25 @@ namespace TreeOfLife.Controls
 
         //
 
+        private bool _IsDarkTheme = false; // 是否为暗色主题。
+
+        private void _UpdateTheme()
+        {
+            foreach (var item in _GeoChronButtons)
+            {
+                item.Value.IsDarkTheme = _IsDarkTheme;
+            }
+
+            //
+
+            Brush foreground = Theme.GetSolidColorBrush(ColorX.FromHSL(0, 0, _IsDarkTheme ? 70 : 30));
+
+            label_MaBP.Foreground = foreground;
+            label_CEYear.Foreground = foreground;
+        }
+
+        //
+
         public GeoChronSelector()
         {
             InitializeComponent();
@@ -905,6 +924,18 @@ namespace TreeOfLife.Controls
 
                     GeoChronChanged?.Invoke(this, _GeoChron);
                 }
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get => _IsDarkTheme;
+
+            set
+            {
+                _IsDarkTheme = value;
+
+                _UpdateTheme();
             }
         }
 

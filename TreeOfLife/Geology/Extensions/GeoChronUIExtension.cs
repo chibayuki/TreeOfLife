@@ -153,7 +153,7 @@ namespace TreeOfLife.Geology.Extensions
             public static readonly ColorX Present = Color.Black;
         }
 
-        private static Dictionary<int, ColorX> _EnumValueToColorTable = new Dictionary<int, ColorX>()
+        private static readonly Dictionary<int, ColorX> _EnumValueToColorTable = new Dictionary<int, ColorX>()
         {
             { (int)GeoChronType.Empty, _Colors.Empty },
 
