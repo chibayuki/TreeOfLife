@@ -13,49 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Windows.Media;
-
-using ColorX = Com.Chromatics.ColorX;
-
 namespace TreeOfLife.Views.Tree
 {
     public sealed class ViewModel_Tree : ViewModel
     {
-        #region 主题
-
-        private bool _IsDarkTheme;
-
-        private Brush _Tree_BackGround;
-
-        private void _UpdateColors()
-        {
-            Tree_BackGround = Theme.GetSolidColorBrush(_IsDarkTheme ? ColorX.FromHSL(0, 0, 2) : ColorX.FromHSL(0, 0, 98));
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public Brush Tree_BackGround
-        {
-            get => _Tree_BackGround;
-
-            set
-            {
-                _Tree_BackGround = value;
-
-                NotifyPropertyChanged(nameof(Tree_BackGround));
-            }
-        }
-
-        #endregion
     }
 }

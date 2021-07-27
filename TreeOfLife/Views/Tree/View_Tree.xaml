@@ -19,7 +19,7 @@ This file is part of TreeOfLife
     <UserControl.DataContext>
         <local:ViewModel_Tree/>
     </UserControl.DataContext>
-    <Grid Background="{Binding Tree_BackGround}">
+    <Grid Background="{DynamicResource Tree.Background}">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Controls:Tree x:Name="tree" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </ScrollViewer>

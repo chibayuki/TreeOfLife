@@ -34,10 +34,6 @@ namespace TreeOfLife.Views.Tree
     /// </summary>
     public partial class View_Tree : UserControl
     {
-        public ViewModel_Tree ViewModel => this.DataContext as ViewModel_Tree;
-
-        //
-
         public View_Tree()
         {
             InitializeComponent();
@@ -60,12 +56,7 @@ namespace TreeOfLife.Views.Tree
 
             //
 
-            Theme.IsDarkThemeChanged += (s, e) =>
-            {
-                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
-
-                tree.IsDarkTheme = Theme.IsDarkTheme;
-            };
+            Theme.IsDarkThemeChanged += (s, e) => tree.IsDarkTheme = Theme.IsDarkTheme;
         }
 
         private ContextMenu _ContextMenu;
@@ -348,7 +339,9 @@ namespace TreeOfLife.Views.Tree
 
         //
 
-        #region 系统发生树
+        public ViewModel_Tree ViewModel => this.DataContext as ViewModel_Tree;
+
+        //
 
         private TreeNodeItem _SubTreeRoot = null; // 子树的根节点。
 
@@ -661,7 +654,5 @@ namespace TreeOfLife.Views.Tree
 
             tree.UpdateContent(_SubTreeRoot);
         }
-
-        #endregion
     }
 }

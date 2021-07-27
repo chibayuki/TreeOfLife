@@ -17,9 +17,9 @@ namespace TreeOfLife.Views.Search
 {
     public sealed class ViewModel_Search : ViewModel
     {
-        #region 搜索
-
         public Action ClickSearchResult { get; set; }
+
+        //
 
         private string _KeyWord;
 
@@ -34,29 +34,5 @@ namespace TreeOfLife.Views.Search
                 NotifyPropertyChanged(nameof(KeyWord));
             }
         }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme;
-
-        private void _UpdateColors()
-        {
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        #endregion
     }
 }

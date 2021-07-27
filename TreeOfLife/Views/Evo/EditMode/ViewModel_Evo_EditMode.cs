@@ -20,8 +20,6 @@ using TreeOfLife.Geology;
 using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 
-using ColorX = Com.Chromatics.ColorX;
-
 namespace TreeOfLife.Views.Evo.EditMode
 {
     public sealed class ViewModel_Evo_EditMode : ViewModel
@@ -29,8 +27,6 @@ namespace TreeOfLife.Views.Evo.EditMode
         public TaxonNameTitle TaxonNameTitle { get; set; }
 
         //
-
-        #region 类群信息
 
         private string _Name;
         private string _ChsName;
@@ -273,8 +269,6 @@ namespace TreeOfLife.Views.Evo.EditMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            TaxonColor = currentTaxon.GetThemeColor();
-
             Name = currentTaxon.ScientificName;
             ChsName = currentTaxon.ChineseName;
 
@@ -334,43 +328,5 @@ namespace TreeOfLife.Views.Evo.EditMode
                 currentTaxon.Description = _Description;
             }
         }
-
-        #endregion
-
-        #region 主题
-
-        private ColorX _TaxonColor;
-
-        private bool _IsDarkTheme;
-
-        private void _UpdateColors()
-        {
-        }
-
-        public ColorX TaxonColor
-        {
-            get => _TaxonColor;
-
-            set
-            {
-                _TaxonColor = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        #endregion
     }
 }

@@ -33,10 +33,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
     /// </summary>
     public partial class View_Evo_ViewMode : UserControl
     {
-        public ViewModel_Evo_ViewMode ViewModel => this.DataContext as ViewModel_Evo_ViewMode;
-
-        //
-
         public View_Evo_ViewMode()
         {
             InitializeComponent();
@@ -86,8 +82,6 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
-
                 taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSpan.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Tags.IsDarkTheme = Theme.IsDarkTheme;
@@ -100,7 +94,9 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
         //
 
-        #region 类群
+        public ViewModel_Evo_ViewMode ViewModel => this.DataContext as ViewModel_Evo_ViewMode;
+
+        //
 
         private GetParentsOption _GetParentsOption;
 
@@ -292,7 +288,5 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             _UpdateVisibility();
         }
-
-        #endregion
     }
 }

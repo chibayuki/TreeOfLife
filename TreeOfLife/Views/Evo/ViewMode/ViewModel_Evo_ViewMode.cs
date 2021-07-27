@@ -13,18 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Windows.Media;
-
 using TreeOfLife.Taxonomy;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.Views.Evo.ViewMode
 {
     public sealed class ViewModel_Evo_ViewMode : ViewModel
     {
-        #region 类群信息
-
         private string _Desc;
 
         public string Desc
@@ -45,58 +39,5 @@ namespace TreeOfLife.Views.Evo.ViewMode
 
             Desc = currentTaxon.Description;
         }
-
-        #endregion
-
-        #region 主题
-
-        private ColorX _TaxonColor;
-
-        private bool _IsDarkTheme;
-
-        private Brush _Desc_BackGround;
-
-        private void _UpdateColors()
-        {
-            Desc_BackGround = Theme.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-        }
-
-        public ColorX TaxonColor
-        {
-            get => _TaxonColor;
-
-            set
-            {
-                _TaxonColor = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public Brush Desc_BackGround
-        {
-            get => _Desc_BackGround;
-
-            set
-            {
-                _Desc_BackGround = value;
-
-                NotifyPropertyChanged(nameof(Desc_BackGround));
-            }
-        }
-
-        #endregion
     }
 }

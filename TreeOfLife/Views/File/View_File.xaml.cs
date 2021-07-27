@@ -35,10 +35,6 @@ namespace TreeOfLife.Views.File
 
         //
 
-        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
-
-        //
-
         public View_File()
         {
             InitializeComponent();
@@ -51,15 +47,7 @@ namespace TreeOfLife.Views.File
             button_Save.Click += Button_Save_Click;
             button_SaveAs.Click += Button_SaveAs_Click;
             button_Close.Click += Button_Close_Click;
-
-            //
-
-            Theme.IsDarkThemeChanged += (s, e) => ViewModel.IsDarkTheme = Theme.IsDarkTheme;
         }
-
-        //
-
-        #region 回调函数
 
         private void Button_Open_Click(object sender, RoutedEventArgs e)
         {
@@ -126,6 +114,8 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        #endregion
+        //
+
+        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
     }
 }

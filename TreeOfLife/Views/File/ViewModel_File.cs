@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
-using System.Windows.Media;
 
 using TreeOfLife.Phylogeny;
 
@@ -22,7 +21,14 @@ namespace TreeOfLife.Views.File
 {
     public sealed class ViewModel_File : ViewModel
     {
-        #region 文件信息
+        public Func<bool?> Open { get; set; }
+        public Func<bool?> Save { get; set; }
+        public Func<bool?> SaveAs { get; set; }
+        public Func<bool> TrySaveAndClose { get; set; }
+
+        public Action OpenDone { get; set; }
+        
+        //
 
         private string _FileName; // 文件名。
         private string _FileSize; // 文件大小。
@@ -173,55 +179,5 @@ namespace TreeOfLife.Views.File
                 ModificationTime = string.Concat(Phylogenesis.ModificationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }
-
-        #endregion
-
-        #region 文件操作
-
-        public Func<bool?> Open { get; set; }
-        public Func<bool?> Save { get; set; }
-        public Func<bool?> SaveAs { get; set; }
-        public Func<bool> TrySaveAndClose { get; set; }
-
-        public Action OpenDone { get; set; }
-
-        #endregion
-
-        #region 主题
-
-        private bool _IsDarkTheme;
-
-        private Brush _TextLabel_ForeGround;
-
-        private void _UpdateColors()
-        {
-            TextLabel_ForeGround = Theme.GetSolidColorBrush(_IsDarkTheme ? Color.FromRgb(192, 192, 192) : Color.FromRgb(64, 64, 64));
-        }
-
-        public bool IsDarkTheme
-        {
-            get => _IsDarkTheme;
-
-            set
-            {
-                _IsDarkTheme = value;
-
-                _UpdateColors();
-            }
-        }
-
-        public Brush TextLabel_ForeGround
-        {
-            get => _TextLabel_ForeGround;
-
-            set
-            {
-                _TextLabel_ForeGround = value;
-
-                NotifyPropertyChanged(nameof(TextLabel_ForeGround));
-            }
-        }
-
-        #endregion
     }
 }

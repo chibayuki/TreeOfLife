@@ -34,10 +34,6 @@ namespace TreeOfLife.Views.Search
     /// </summary>
     public partial class View_Search : UserControl
     {
-        public ViewModel_Search ViewModel => this.DataContext as ViewModel_Search;
-
-        //
-
         public View_Search()
         {
             InitializeComponent();
@@ -111,8 +107,6 @@ namespace TreeOfLife.Views.Search
 
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
-
                 taxonNameButtonGroup_SearchResult_Perfect.IsDarkTheme = Theme.IsDarkTheme;
                 taxonNameButtonGroup_SearchResult_High.IsDarkTheme = Theme.IsDarkTheme;
                 taxonNameButtonGroup_SearchResult_Low.IsDarkTheme = Theme.IsDarkTheme;
@@ -121,7 +115,9 @@ namespace TreeOfLife.Views.Search
 
         //
 
-        #region 搜索
+        public ViewModel_Search ViewModel => this.DataContext as ViewModel_Search;
+
+        //
 
         private List<TaxonNameItem> _SearchResult_Perfect = new List<TaxonNameItem>();
         private List<TaxonNameItem> _SearchResult_High = new List<TaxonNameItem>();
@@ -264,7 +260,5 @@ namespace TreeOfLife.Views.Search
 
             _UpdateVisibility();
         }
-
-        #endregion
     }
 }

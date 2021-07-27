@@ -24,12 +24,12 @@ This file is part of TreeOfLife
                 <StackPanel Orientation="Horizontal">
                     <Image Width="128" Height="128" Source="{Binding AppLogo, Mode=OneWay}"/>
                     <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
-                        <Label Content="Tree of Life" FontSize="24" Foreground="{Binding TextLabel_ForeGround}"/>
-                        <Label Content="1.0 Milestone 13" FontSize="16" Foreground="{Binding TextLabel_ForeGround}"/>
+                        <Label Style="{DynamicResource LabelStyle}" Content="Tree of Life" FontSize="24"/>
+                        <Label Style="{DynamicResource LabelStyle}" Content="1.0 Milestone 13" FontSize="16"/>
                     </StackPanel>
                 </StackPanel>
-                <Label Content="{Binding AppVersion}" Foreground="{Binding TextLabel_ForeGround}"/>
-                <Label Content="Copyright © 2021 chibayuki@foxmail.com" Foreground="{Binding TextLabel_ForeGround}"/>
+                <Label Style="{DynamicResource LabelStyle}" Content="{Binding AppVersion}"/>
+                <Label Style="{DynamicResource LabelStyle}" Content="Copyright © 2021 chibayuki@foxmail.com"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

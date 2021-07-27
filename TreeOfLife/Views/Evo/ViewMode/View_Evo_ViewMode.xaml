@@ -30,7 +30,7 @@ This file is part of TreeOfLife
                 <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
             <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
-            <Button x:Name="button_Edit" Grid.Column="1" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3" Style="{DynamicResource TransparentButtonStyle}"/>
+            <Button x:Name="button_Edit" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
         </Grid>
         <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="0,15,0,0"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
@@ -42,7 +42,7 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="即" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                        <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="即"/>
                         <Controls:TagGroup x:Name="tagGroup_Tags" Grid.Column="2"/>
                     </Grid>
                     <Grid x:Name="grid_Synonyms" Margin="0,10,0,0">
@@ -51,7 +51,7 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="又名" Style="{DynamicResource HorizontalTitleLabelStyle}"/>
+                        <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="又名"/>
                         <Controls:TagGroup x:Name="tagGroup_Synonyms" Grid.Column="2"/>
                     </Grid>
                 </StackPanel>
@@ -62,10 +62,10 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid>
-                        <Label Content="科学分类" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="科学分类"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,2">
                             <Grid>
-                                <Button x:Name="button_Least" Content="最简" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Button x:Name="button_Least" Style="{DynamicResource TransparentButtonStyle}" Content="最简" Padding="3"/>
                                 <Path x:Name="path_Least" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
@@ -74,7 +74,7 @@ This file is part of TreeOfLife
                             </Grid>
                             <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
                             <Grid>
-                                <Button x:Name="button_Summary" Content="适中" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Button x:Name="button_Summary" Style="{DynamicResource TransparentButtonStyle}" Content="适中" Padding="3"/>
                                 <Path x:Name="path_Summary" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
@@ -83,7 +83,7 @@ This file is part of TreeOfLife
                             </Grid>
                             <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
                             <Grid>
-                                <Button x:Name="button_Full" Content="完整" Padding="3" Style="{DynamicResource TransparentButtonStyle}"/>
+                                <Button x:Name="button_Full" Style="{DynamicResource TransparentButtonStyle}" Content="完整" Padding="3"/>
                                 <Path x:Name="path_Full" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
@@ -100,7 +100,7 @@ This file is part of TreeOfLife
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="下属类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="下属类群"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
@@ -109,7 +109,7 @@ This file is part of TreeOfLife
                         <RowDefinition Height="10"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Label Content="此并系群不包含，但是其演化支的类群" Style="{DynamicResource VerticalTitleLabelStyle}"/>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群不包含，但是其演化支的类群"/>
                     <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">

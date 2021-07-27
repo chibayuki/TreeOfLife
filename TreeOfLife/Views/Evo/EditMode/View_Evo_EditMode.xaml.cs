@@ -32,10 +32,6 @@ namespace TreeOfLife.Views.Evo.EditMode
     /// </summary>
     public partial class View_Evo_EditMode : UserControl
     {
-        public ViewModel_Evo_EditMode ViewModel => this.DataContext as ViewModel_Evo_EditMode;
-
-        //
-
         public View_Evo_EditMode()
         {
             InitializeComponent();
@@ -116,8 +112,6 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                ViewModel.IsDarkTheme = Theme.IsDarkTheme;
-
                 taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
                 categorySelector.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSelector_Birth.IsDarkTheme = Theme.IsDarkTheme;
@@ -643,6 +637,10 @@ namespace TreeOfLife.Views.Evo.EditMode
             _ContextMenu_IncludeBy = new ContextMenu();
             _ContextMenu_IncludeBy.Items.Add(item_IncludeBy_Remove);
         }
+
+        //
+
+        public ViewModel_Evo_EditMode ViewModel => this.DataContext as ViewModel_Evo_EditMode;
 
         //
 
