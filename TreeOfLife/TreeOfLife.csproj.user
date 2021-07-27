@@ -60,19 +60,19 @@
     <Page Update="ControlStyles\ContextMenuStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ControlStyles\Misc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ControlStyles\RadioButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ControlStyles\ScrollBarStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\TabPageButtonStyle.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="ControlStyles\TextBoxStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\TitleLabelStyle.xaml">
+    <Page Update="ControlStyles\LabelStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\CategorySelector.xaml">

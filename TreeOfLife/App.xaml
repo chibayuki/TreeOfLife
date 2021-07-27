@@ -4,19 +4,17 @@
              xmlns:local="clr-namespace:TreeOfLife"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ControlStyles/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/CheckBoxStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/ContextMenuStyle.xaml"/>
+                <ResourceDictionary Source="/ControlStyles/LabelStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/RadioButtonStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/ScrollBarStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/TabPageButtonStyle.xaml"/>
                 <ResourceDictionary Source="/ControlStyles/TextBoxStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/TitleLabelStyle.xaml"/>
+                <ResourceDictionary Source="/ControlStyles/Misc.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

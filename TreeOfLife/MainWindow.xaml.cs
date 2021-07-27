@@ -32,6 +32,7 @@ using TreeOfLife.Taxonomy;
 using TreeOfLife.Taxonomy.Extensions;
 using TreeOfLife.Views;
 
+using ColorX = Com.Chromatics.ColorX;
 using Pages = TreeOfLife.ViewModel_MainWindow.Pages;
 
 namespace TreeOfLife
@@ -42,10 +43,6 @@ namespace TreeOfLife
     public partial class MainWindow : Window
     {
         private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        //
-
-        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
 
         //
 
@@ -90,10 +87,6 @@ namespace TreeOfLife
 
             //
 
-            Theme.IsDarkTheme = false;
-
-            //
-
             this.Loaded += (s, e) =>
             {
                 Phylogenesis.New();
@@ -116,7 +109,21 @@ namespace TreeOfLife
             button_Evo.Click += (s, e) => _SelectPage(Pages.Evo);
             button_Search.Click += (s, e) => _SelectPage(Pages.Search);
             button_About.Click += (s, e) => _SelectPage(Pages.About);
+
+            button_IsDarkTheme.Click += (s, e) => Theme.IsDarkTheme = !Theme.IsDarkTheme;
+
+            //
+
+            Theme.IsDarkThemeChanged += (s, e) => button_IsDarkTheme.Content = (Theme.IsDarkTheme ? "☼" : "☽");
+
+            Random random = new Random(Environment.TickCount);
+            Theme.ThemeColor = ColorX.FromHSL(random.Next(360), random.Next(20, 60), 50);
+            Theme.IsDarkTheme = false;
         }
+
+        //
+
+        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
 
         //
 

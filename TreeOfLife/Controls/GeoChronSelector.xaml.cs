@@ -27,8 +27,6 @@ using System.Text.RegularExpressions;
 using TreeOfLife.Geology;
 using TreeOfLife.Geology.Extensions;
 
-using ColorX = Com.Chromatics.ColorX;
-
 namespace TreeOfLife.Controls
 {
     /// <summary>
@@ -882,13 +880,6 @@ namespace TreeOfLife.Controls
             {
                 item.Value.IsDarkTheme = _IsDarkTheme;
             }
-
-            //
-
-            Brush foreground = Theme.GetSolidColorBrush(ColorX.FromHSL(0, 0, _IsDarkTheme ? 70 : 30));
-
-            label_MaBP.Foreground = foreground;
-            label_CEYear.Foreground = foreground;
         }
 
         //

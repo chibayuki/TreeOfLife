@@ -71,6 +71,18 @@ namespace TreeOfLife
                 resourceDictionary["Button.Disabled.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 20));
                 resourceDictionary["Button.Disabled.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 60));
 
+                resourceDictionary["TabPageButton.Static.Background"] = Brushes.Transparent;
+                resourceDictionary["TabPageButton.Static.Foreground"] = Brushes.Black;
+
+                resourceDictionary["TabPageButton.MouseOver.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+                resourceDictionary["TabPageButton.MouseOver.Foreground"] = Brushes.Black;
+
+                resourceDictionary["TabPageButton.Pressed.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["TabPageButton.Pressed.Foreground"] = Brushes.Black;
+
+                resourceDictionary["TabPageButton.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 5));
+                resourceDictionary["TabPageButton.Disabled.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+
                 resourceDictionary["TransparentButton.Static.Foreground"] = Brushes.Gray;
                 resourceDictionary["TransparentButton.MouseOver.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
                 resourceDictionary["TransparentButton.Pressed.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
@@ -115,6 +127,14 @@ namespace TreeOfLife
                 resourceDictionary["MenuItem.Disabled.Background"] = Brushes.Transparent;
                 resourceDictionary["MenuItem.Disabled.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 60));
 
+                // LabelStyle.xaml
+
+                resourceDictionary["Label.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
+
+                resourceDictionary["TitleLabel.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 10));
+                resourceDictionary["TitleLabel.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
+                resourceDictionary["TitleLabel.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+
                 // RadioButtonStyle.xaml
 
                 resourceDictionary["RadioButton.Static.Background"] = Brushes.Black;
@@ -137,24 +157,6 @@ namespace TreeOfLife
                 resourceDictionary["ScrollBar.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
                 resourceDictionary["ScrollBar.Pressed.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
-                // TabPageButtonStyle.xaml
-
-                resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 5));
-
-                resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
-
-                resourceDictionary["TabPageButton.Static.Background"] = Brushes.Transparent;
-                resourceDictionary["TabPageButton.Static.Foreground"] = Brushes.Black;
-
-                resourceDictionary["TabPageButton.MouseOver.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
-                resourceDictionary["TabPageButton.MouseOver.Foreground"] = Brushes.Black;
-
-                resourceDictionary["TabPageButton.Pressed.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
-                resourceDictionary["TabPageButton.Pressed.Foreground"] = Brushes.Black;
-
-                resourceDictionary["TabPageButton.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 5));
-                resourceDictionary["TabPageButton.Disabled.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
-
                 // TextBoxStyle.xaml
 
                 resourceDictionary["TextBox.Static.Background"] = Brushes.Black;
@@ -165,11 +167,11 @@ namespace TreeOfLife
 
                 resourceDictionary["TextBox.Focused.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
-                // TitleLabelStyle.xaml
+                // Misc.xaml
 
-                resourceDictionary["TitleLabel.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 10));
-                resourceDictionary["TitleLabel.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
-                resourceDictionary["TitleLabel.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+                resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 5));
+                resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
+                resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 2));
             }
             else
             {
@@ -190,6 +192,18 @@ namespace TreeOfLife
                 resourceDictionary["Button.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
                 resourceDictionary["Button.Disabled.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
                 resourceDictionary["Button.Disabled.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 40));
+
+                resourceDictionary["TabPageButton.Static.Background"] = Brushes.Transparent;
+                resourceDictionary["TabPageButton.Static.Foreground"] = Brushes.White;
+
+                resourceDictionary["TabPageButton.MouseOver.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["TabPageButton.MouseOver.Foreground"] = Brushes.White;
+
+                resourceDictionary["TabPageButton.Pressed.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
+                resourceDictionary["TabPageButton.Pressed.Foreground"] = Brushes.White;
+
+                resourceDictionary["TabPageButton.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 95));
+                resourceDictionary["TabPageButton.Disabled.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
 
                 resourceDictionary["TransparentButton.Static.Foreground"] = Brushes.Gray;
                 resourceDictionary["TransparentButton.MouseOver.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
@@ -235,6 +249,14 @@ namespace TreeOfLife
                 resourceDictionary["MenuItem.Disabled.Background"] = Brushes.Transparent;
                 resourceDictionary["MenuItem.Disabled.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 40));
 
+                // LabelStyle.xaml
+
+                resourceDictionary["Label.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
+
+                resourceDictionary["TitleLabel.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 90));
+                resourceDictionary["TitleLabel.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+                resourceDictionary["TitleLabel.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
+
                 // RadioButtonStyle.xaml
 
                 resourceDictionary["RadioButton.Static.Background"] = Brushes.White;
@@ -257,24 +279,6 @@ namespace TreeOfLife
                 resourceDictionary["ScrollBar.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
                 resourceDictionary["ScrollBar.Pressed.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
-                // TabPageButtonStyle.xaml
-
-                resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 95));
-
-                resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
-
-                resourceDictionary["TabPageButton.Static.Background"] = Brushes.Transparent;
-                resourceDictionary["TabPageButton.Static.Foreground"] = Brushes.White;
-
-                resourceDictionary["TabPageButton.MouseOver.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
-                resourceDictionary["TabPageButton.MouseOver.Foreground"] = Brushes.White;
-
-                resourceDictionary["TabPageButton.Pressed.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
-                resourceDictionary["TabPageButton.Pressed.Foreground"] = Brushes.White;
-
-                resourceDictionary["TabPageButton.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 95));
-                resourceDictionary["TabPageButton.Disabled.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
-
                 // TextBoxStyle.xaml
 
                 resourceDictionary["TextBox.Static.Background"] = Brushes.White;
@@ -285,11 +289,11 @@ namespace TreeOfLife
 
                 resourceDictionary["TextBox.Focused.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
 
-                // TitleLabelStyle.xaml
+                // Misc.xaml
 
-                resourceDictionary["TitleLabel.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 90));
-                resourceDictionary["TitleLabel.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
-                resourceDictionary["TitleLabel.Foreground"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
+                resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 95));
+                resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+                resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 98));
             }
         }
 

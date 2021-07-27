@@ -643,6 +643,7 @@ namespace TreeOfLife.Controls
                 _IsDarkTheme = value;
 
                 _UpdateTheme();
+                _UpdateColor();
             }
         }
 

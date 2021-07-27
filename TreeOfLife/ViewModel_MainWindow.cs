@@ -19,8 +19,6 @@ namespace TreeOfLife
 {
     public sealed class ViewModel_MainWindow : ViewModel
     {
-        #region 页面切换
-
         public enum Pages
         {
             File,
@@ -162,7 +160,5 @@ namespace TreeOfLife
                 NotifyPropertyChanged(nameof(PageVisibility_About));
             }
         }
-
-        #endregion
     }
 }

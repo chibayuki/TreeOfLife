@@ -41,8 +41,8 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="textBox_MaBP" MaxLength="11" Style="{DynamicResource TextBoxStyle}"/>
-                        <Label x:Name="label_MaBP" Grid.Column="2" Content="百万年前 (Ma)" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="textBox_MaBP" Style="{DynamicResource TextBoxStyle}" MaxLength="11"/>
+                        <Label Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="百万年前 (Ma)"/>
                     </Grid>
                 </StackPanel>
                 <StackPanel x:Name="stackPanel_CEYear" Margin="0,12,0,0" Visibility="Collapsed">
@@ -53,9 +53,9 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="button_ADBC" Content="公元 (AD)" Style="{DynamicResource ButtonStyle}"/>
-                        <TextBox x:Name="textBox_CEYear" Grid.Column="2" MaxLength="6" Style="{DynamicResource TextBoxStyle}"/>
-                        <Label x:Name="label_CEYear" Grid.Column="4" Content="年" VerticalContentAlignment="Center"/>
+                        <Button x:Name="button_ADBC" Style="{DynamicResource ButtonStyle}" Content="公元 (AD)"/>
+                        <TextBox x:Name="textBox_CEYear" Grid.Column="2" Style="{DynamicResource TextBoxStyle}" MaxLength="6"/>
+                        <Label Grid.Column="4" Style="{DynamicResource LabelStyle}" Content="年"/>
                     </Grid>
                 </StackPanel>
                 <StackPanel x:Name="stackPanel_Timespan" Margin="0,12,0,0" Visibility="Collapsed">

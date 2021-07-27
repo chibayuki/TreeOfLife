@@ -50,12 +50,15 @@ This file is part of TreeOfLife
                     <About:View_About x:Name="view_About" Margin="25,0,25,0"/>
                 </Grid>
             </Grid>
-            <StackPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">
-                <Button x:Name="button_File" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_Evo" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_Search" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}" Style="{DynamicResource TabPageButtonStyle}"/>
-                <Button x:Name="button_About" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}" Style="{DynamicResource TabPageButtonStyle}"/>
-            </StackPanel>
+            <DockPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">
+                <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
+                <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
+                <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
+                <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
+                <Grid>
+                    <Button x:Name="button_IsDarkTheme" Style="{DynamicResource TabPageButtonStyle}" FontSize="18" VerticalAlignment="Bottom" BorderThickness="0" Height="30" Margin="0,0,-4,0" Padding="0,0,4,0"/>
+                </Grid>
+            </DockPanel>
         </Grid>
     </Grid>
 </Window>
