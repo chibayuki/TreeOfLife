@@ -47,7 +47,14 @@ namespace TreeOfLife.Controls
                 TaxonomicCategory category = _Taxon.Category;
 
                 bool basicPrimary = category.IsBasicPrimaryCategory();
-                bool bellowGenus = category.IsPrimaryOrSecondaryCategory() && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+                bool bellowGenus = false;
+
+                if (category.IsPrimaryOrSecondaryCategory())
+                {
+                    TaxonomicCategory inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
+
+                    bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= TaxonomicCategory.Genus;
+                }
 
                 textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
                 textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);

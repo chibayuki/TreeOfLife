@@ -79,7 +79,14 @@ namespace TreeOfLife.Controls
             textBlock_TaxonName.Text = (_Taxon is null ? string.Empty : _Taxon.GetShortName());
 
             bool basicPrimary = category.IsBasicPrimaryCategory();
-            bool bellowGenus = category.IsPrimaryOrSecondaryCategory() && _Taxon.GetInheritedBasicPrimaryCategory() <= TaxonomicCategory.Genus;
+            bool bellowGenus = false;
+
+            if (category.IsPrimaryOrSecondaryCategory())
+            {
+                TaxonomicCategory inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
+
+                bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= TaxonomicCategory.Genus;
+            }
 
             textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
             textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
