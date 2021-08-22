@@ -109,9 +109,11 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
-            item_SetParent.Click += (s, e) =>
+            item_SetParent.Click += async (s, e) =>
             {
-                Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -121,9 +123,11 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
-            item_ExcludeBy.Click += (s, e) =>
+            item_ExcludeBy.Click += async (s, e) =>
             {
-                Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -133,9 +137,11 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
-            item_IncludeBy.Click += (s, e) =>
+            item_IncludeBy.Click += async (s, e) =>
             {
-                Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -145,11 +151,13 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_MoveTop = new MenuItem() { Header = "移至最上" };
 
-            item_MoveTop.Click += (s, e) =>
+            item_MoveTop.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -159,11 +167,13 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_MoveUp = new MenuItem() { Header = "上移" };
 
-            item_MoveUp.Click += (s, e) =>
+            item_MoveUp.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -173,11 +183,13 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_MoveDown = new MenuItem() { Header = "下移" };
 
-            item_MoveDown.Click += (s, e) =>
+            item_MoveDown.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -187,11 +199,13 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_MoveBottom = new MenuItem() { Header = "移至最下" };
 
-            item_MoveBottom.Click += (s, e) =>
+            item_MoveBottom.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
+                Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1));
+                Common.BackgroundTaskFinish();
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -201,7 +215,7 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
 
-            item_DeleteWithoutChildren.Click += (s, e) =>
+            item_DeleteWithoutChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
@@ -210,7 +224,9 @@ namespace TreeOfLife.Views.Tree
                 {
                     Taxon taxon = rightButtonTaxon?.Parent;
 
-                    rightButtonTaxon?.RemoveCurrent(false);
+                    Common.BackgroundTaskStart();
+                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
+                    Common.BackgroundTaskFinish();
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -223,7 +239,9 @@ namespace TreeOfLife.Views.Tree
                 }
                 else
                 {
-                    rightButtonTaxon?.RemoveCurrent(false);
+                    Common.BackgroundTaskStart();
+                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
+                    Common.BackgroundTaskFinish();
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -241,7 +259,7 @@ namespace TreeOfLife.Views.Tree
 
             MenuItem item_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
 
-            item_DeleteWithinChildren.Click += (s, e) =>
+            item_DeleteWithinChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
@@ -250,7 +268,9 @@ namespace TreeOfLife.Views.Tree
                 {
                     Taxon taxon = rightButtonTaxon?.Parent;
 
-                    rightButtonTaxon?.RemoveCurrent(true);
+                    Common.BackgroundTaskStart();
+                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
+                    Common.BackgroundTaskFinish();
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -263,7 +283,9 @@ namespace TreeOfLife.Views.Tree
                 }
                 else
                 {
-                    rightButtonTaxon?.RemoveCurrent(true);
+                    Common.BackgroundTaskStart();
+                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
+                    Common.BackgroundTaskFinish();
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {

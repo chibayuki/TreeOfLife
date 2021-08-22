@@ -49,13 +49,13 @@ namespace TreeOfLife.Views.File
             button_Close.Click += Button_Close_Click;
         }
 
-        private void Button_Open_Click(object sender, RoutedEventArgs e)
+        private async void Button_Open_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.TrySaveAndClose())
+            if (await ViewModel.TrySaveAndCloseAsync())
             {
                 ViewModel.UpdateFileInfo();
 
-                bool? open = ViewModel.Open();
+                bool? open = await ViewModel.OpenAsync();
 
                 if (open is not null)
                 {
@@ -72,9 +72,9 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        private void Button_Save_Click(object sender, RoutedEventArgs e)
+        private async void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            bool? save = ViewModel.Save();
+            bool? save = await ViewModel.SaveAsync();
 
             if (save is not null)
             {
@@ -89,9 +89,9 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        private void Button_SaveAs_Click(object sender, RoutedEventArgs e)
+        private async void Button_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            bool? saveAs = ViewModel.SaveAs();
+            bool? saveAs = await ViewModel.SaveAsAsync();
 
             if (saveAs is not null)
             {
@@ -106,9 +106,9 @@ namespace TreeOfLife.Views.File
             }
         }
 
-        private void Button_Close_Click(object sender, RoutedEventArgs e)
+        private async void Button_Close_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.TrySaveAndClose())
+            if (await ViewModel.TrySaveAndCloseAsync())
             {
                 ViewModel.UpdateFileInfo();
             }

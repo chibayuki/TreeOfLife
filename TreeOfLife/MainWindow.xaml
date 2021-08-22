@@ -25,40 +25,50 @@ This file is part of TreeOfLife
         <local:ViewModel_MainWindow/>
     </Window.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="480"/>
-        </Grid.ColumnDefinitions>
-        <Tree:View_Tree x:Name="view_Tree"/>
-        <Grid Grid.Column="1">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="480"/>
             </Grid.ColumnDefinitions>
-            <Grid Background="{DynamicResource TabPage.Background}">
-                <Grid x:Name="grid_File" Visibility="{Binding PageVisibility_File}">
-                    <File:View_File x:Name="view_File" Margin="25,0,25,0"/>
+            <Tree:View_Tree x:Name="view_Tree"/>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <Grid Background="{DynamicResource TabPage.Background}">
+                    <Grid x:Name="grid_File" Visibility="{Binding PageVisibility_File}">
+                        <File:View_File x:Name="view_File" Margin="25,0,25,0"/>
+                    </Grid>
+                    <Grid x:Name="grid_Evo" Visibility="{Binding PageVisibility_Evo}">
+                        <Evo_ViewMode:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
+                        <Evo_EditMode:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
+                    </Grid>
+                    <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
+                        <Search:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
+                    </Grid>
+                    <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}">
+                        <About:View_About x:Name="view_About" Margin="25,0,25,0"/>
+                    </Grid>
                 </Grid>
-                <Grid x:Name="grid_Evo" Visibility="{Binding PageVisibility_Evo}">
-                    <Evo_ViewMode:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
-                    <Evo_EditMode:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
-                </Grid>
-                <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
-                    <Search:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
-                </Grid>
-                <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}">
-                    <About:View_About x:Name="view_About" Margin="25,0,25,0"/>
-                </Grid>
+                <DockPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">
+                    <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
+                    <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
+                    <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
+                    <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
+                    <Grid>
+                        <Button x:Name="button_IsDarkTheme" Style="{DynamicResource TabPageButtonStyle}" FontSize="18" VerticalAlignment="Bottom" BorderThickness="0" Height="30" Margin="0,0,-4,0" Padding="0,0,4,0"/>
+                    </Grid>
+                </DockPanel>
             </Grid>
-            <DockPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">
-                <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
-                <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
-                <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
-                <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
-                <Grid>
-                    <Button x:Name="button_IsDarkTheme" Style="{DynamicResource TabPageButtonStyle}" FontSize="18" VerticalAlignment="Bottom" BorderThickness="0" Height="30" Margin="0,0,-4,0" Padding="0,0,4,0"/>
-                </Grid>
-            </DockPanel>
+        </Grid>
+        <Grid x:Name="grid_WaitingForBackgroundTaskPrompt" Background="#01808080" Visibility="Collapsed">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource TitleLabel.Background}" BorderBrush="{DynamicResource TitleLabel.BorderBrush}" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3" BlurRadius="15" Opacity="0.3" Direction="270"/>
+                </Border.Effect>
+                <TextBlock Text="正在等待后台操作完成…" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,20,40,20" Foreground="{DynamicResource TitleLabel.Foreground}"/>
+            </Border>
         </Grid>
     </Grid>
 </Window>

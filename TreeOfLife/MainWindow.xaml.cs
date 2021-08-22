@@ -77,13 +77,26 @@ namespace TreeOfLife
             Common.ApplyToTaxon = view_Evo_EditMode.ViewModel.ApplyToTaxon;
             Common.UpdateTree = view_Tree.UpdateSubTree;
 
-            view_File.ViewModel.Open = _Open;
-            view_File.ViewModel.Save = _Save;
-            view_File.ViewModel.SaveAs = _SaveAs;
-            view_File.ViewModel.TrySaveAndClose = _TrySaveAndClose;
+            Common.BackgroundTaskStart = () =>
+            {
+                if (grid_WaitingForBackgroundTaskPrompt.IsVisible)
+                {
+                    MessageBox.Show("非法操作。", _AppName, MessageBoxButton.OK);
+                    Environment.Exit(-1);
+                }
+
+                grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Visible;
+            };
+            Common.BackgroundTaskFinish = () => grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Collapsed;
+
+            view_File.ViewModel.OpenAsync = _OpenAsync;
+            view_File.ViewModel.SaveAsync = _SaveAsync;
+            view_File.ViewModel.SaveAsAsync = _SaveAsAsync;
+            view_File.ViewModel.TrySaveAndCloseAsync = _TrySaveAndCloseAsync;
+
             view_File.ViewModel.OpenDone = () => _SelectPage(Pages.Evo);
 
-            view_Search.ViewModel.ClickSearchResult = () => _SelectPage(Pages.Evo);
+            view_Search.ViewModel.ClickedSearchResult = () => _SelectPage(Pages.Evo);
 
             //
 
@@ -99,7 +112,7 @@ namespace TreeOfLife
 
             this.Closing += (s, e) =>
             {
-                if (!_TrySaveAndClose())
+                if (grid_WaitingForBackgroundTaskPrompt.IsVisible || !_TrySaveAndClose())
                 {
                     e.Cancel = true;
                 }
@@ -151,7 +164,7 @@ namespace TreeOfLife
         private bool _Saved = false;
 
         // true=成功，false=失败，null=取消
-        private bool? _Open()
+        private async Task<bool?> _OpenAsync()
         {
             bool? result = null;
 
@@ -159,7 +172,9 @@ namespace TreeOfLife
 
             if (r ?? false)
             {
-                result = Phylogenesis.Open(_OpenFileDialog.FileName);
+                Common.BackgroundTaskStart();
+                result = await Task.Run(() => Phylogenesis.Open(_OpenFileDialog.FileName));
+                Common.BackgroundTaskFinish();
             }
 
             if (result ?? false)
@@ -174,6 +189,75 @@ namespace TreeOfLife
         }
 
         // true=成功，false=失败，null=取消
+        private async Task<bool?> _SaveAsync()
+        {
+            bool? result = null;
+
+            if (_Saved)
+            {
+                if (File.Exists(Phylogenesis.FileName))
+                {
+                    if (Phylogenesis.PackageVersion == PackageVersion.Latest.Version)
+                    {
+                        // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
+                        result = true;
+                    }
+                    // 如果文件版本不是最新，那么重新保存
+                    else
+                    {
+                        Common.BackgroundTaskStart();
+                        result = await Task.Run(Phylogenesis.Save);
+                        Common.BackgroundTaskFinish();
+                    }
+                }
+                // 如果文件已经保存，但不存在（被删除/移动存储介质弹出），那么重新保存
+                else
+                {
+                    Common.BackgroundTaskStart();
+                    result = await Task.Run(Phylogenesis.Save);
+                    Common.BackgroundTaskFinish();
+
+                    // 如果保存失败，那么另存为
+                    if (!result.Value)
+                    {
+                        bool? r = _SaveFileDialog.ShowDialog();
+
+                        if (r ?? false)
+                        {
+                            Common.BackgroundTaskStart();
+                            result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                            Common.BackgroundTaskFinish();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Phylogenesis.FileName))
+                {
+                    Common.BackgroundTaskStart();
+                    result = await Task.Run(Phylogenesis.Save);
+                    Common.BackgroundTaskFinish();
+                }
+                // 首次保存等同于另存为
+                else
+                {
+                    bool? r = _SaveFileDialog.ShowDialog();
+
+                    if (r ?? false)
+                    {
+                        Common.BackgroundTaskStart();
+                        result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                        Common.BackgroundTaskFinish();
+                    }
+                }
+            }
+
+            _Saved = (result ?? false);
+
+            return result;
+        }
+
         private bool? _Save()
         {
             bool? result = null;
@@ -234,7 +318,7 @@ namespace TreeOfLife
         }
 
         // true=成功，false=失败，null=取消
-        private bool? _SaveAs()
+        private async Task<bool?> _SaveAsAsync()
         {
             bool? result = null;
 
@@ -242,7 +326,9 @@ namespace TreeOfLife
 
             if (r ?? false)
             {
-                result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                Common.BackgroundTaskStart();
+                result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                Common.BackgroundTaskFinish();
             }
 
             _Saved = (result ?? false);
@@ -251,6 +337,28 @@ namespace TreeOfLife
         }
 
         // true=成功，false=失败
+        private async Task<bool> _CloseAsync()
+        {
+            Common.RightButtonTaxon = null;
+            Common.SelectedTaxon = null;
+
+            view_Search.ClearSearchResult();
+
+            Common.BackgroundTaskStart();
+            bool result = await Task.Run(Phylogenesis.Close);
+            Common.BackgroundTaskFinish();
+
+            if (result)
+            {
+                _SetCurrentTaxon(Phylogenesis.Root);
+                view_Tree.UpdateSubTree();
+
+                _Saved = false;
+            }
+
+            return result;
+        }
+
         private bool _Close()
         {
             Common.RightButtonTaxon = null;
@@ -272,6 +380,94 @@ namespace TreeOfLife
         }
 
         // true=成功，false=失败或取消
+        private async Task<bool> _TrySaveAndCloseAsync()
+        {
+            // 未保存过且内容为空，无需关闭，认为关闭成功
+            if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
+            {
+                // 这种状态下有可能右键选择了顶级类群
+                Common.RightButtonTaxon = null;
+                Common.SelectedTaxon = null;
+
+                view_Search.ClearSearchResult();
+
+                return true;
+            }
+            // 已保存，直接关闭
+            else if (_Saved)
+            {
+                if (await _CloseAsync())
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+
+                    return false;
+                }
+            }
+            // 未保存，提示是否保存
+            else
+            {
+                MessageBoxResult r = MessageBox.Show("是否保存？", _AppName, MessageBoxButton.YesNoCancel);
+
+                switch (r)
+                {
+                    // 选择取消，什么也不做
+                    case MessageBoxResult.Cancel: return false;
+
+                    // 选择保存，先保存再关闭
+                    case MessageBoxResult.Yes:
+                        {
+                            bool? save = await _SaveAsync();
+
+                            if (save is not null)
+                            {
+                                if (save.Value)
+                                {
+                                    if (await _CloseAsync())
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+
+                    // 选择不保存，直接关闭
+                    case MessageBoxResult.No:
+                        if (await _CloseAsync())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+
+                            return false;
+                        }
+
+                    default: return false;
+                }
+            }
+        }
+
         private bool _TrySaveAndClose()
         {
             // 未保存过且内容为空，无需关闭，认为关闭成功

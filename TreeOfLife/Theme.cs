@@ -171,6 +171,7 @@ namespace TreeOfLife
 
                 resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 5));
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
+
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 2));
             }
             else
@@ -293,6 +294,7 @@ namespace TreeOfLife
 
                 resourceDictionary["TabPage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 95));
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 98));
             }
         }

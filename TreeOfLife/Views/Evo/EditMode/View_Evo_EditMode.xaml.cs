@@ -181,9 +181,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Current_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
-            item_Current_SetParent.Click += (s, e) =>
+            item_Current_SetParent.Click += async (s, e) =>
             {
-                Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateParents();
 
@@ -192,9 +194,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Current_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
-            item_Current_ExcludeBy.Click += (s, e) =>
+            item_Current_ExcludeBy.Click += async (s, e) =>
             {
-                Views.Common.SelectedTaxon?.AddExclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.SelectedTaxon?.AddExclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludeByWithVisibility();
 
@@ -203,9 +207,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Current_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
-            item_Current_IncludeBy.Click += (s, e) =>
+            item_Current_IncludeBy.Click += async (s, e) =>
             {
-                Views.Common.SelectedTaxon?.AddInclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.SelectedTaxon?.AddInclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludeByWithVisibility();
 
@@ -258,9 +264,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_SetParent = new MenuItem() { Header = "继承选择的类群" };
 
-            item_Children_SetParent.Click += (s, e) =>
+            item_Children_SetParent.Click += async (s, e) =>
             {
-                Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateParents();
                 _UpdateChildrenWithVisibility();
@@ -270,11 +278,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
-            item_Children_ExcludeBy.Click += (s, e) =>
+            item_Children_ExcludeBy.Click += async (s, e) =>
             {
                 Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                selectedTaxon?.AddExclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => selectedTaxon?.AddExclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 ViewModel.UpdateTitle();
 
@@ -288,11 +298,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
-            item_Children_IncludeBy.Click += (s, e) =>
+            item_Children_IncludeBy.Click += async (s, e) =>
             {
                 Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                selectedTaxon?.AddInclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => selectedTaxon?.AddInclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 ViewModel.UpdateTitle();
 
@@ -306,11 +318,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
 
-            item_Children_MoveTop.Click += (s, e) =>
+            item_Children_MoveTop.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateChildren();
 
@@ -319,11 +333,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
 
-            item_Children_MoveUp.Click += (s, e) =>
+            item_Children_MoveUp.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateChildren();
 
@@ -332,11 +348,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
 
-            item_Children_MoveDown.Click += (s, e) =>
+            item_Children_MoveDown.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateChildren();
 
@@ -345,11 +363,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
 
-            item_Children_MoveBottom.Click += (s, e) =>
+            item_Children_MoveBottom.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateChildren();
 
@@ -358,11 +378,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
 
-            item_Children_DeleteWithoutChildren.Click += (s, e) =>
+            item_Children_DeleteWithoutChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.RemoveCurrent(false);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
+                Views.Common.BackgroundTaskFinish();
 
                 if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
@@ -378,11 +400,13 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
 
-            item_Children_DeleteWithinChildren.Click += (s, e) =>
+            item_Children_DeleteWithinChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                rightButtonTaxon?.RemoveCurrent(true);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
+                Views.Common.BackgroundTaskFinish();
 
                 if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
@@ -445,57 +469,71 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Excludes_MoveTop = new MenuItem() { Header = "移至最上" };
 
-            item_Excludes_MoveTop.Click += (s, e) =>
+            item_Excludes_MoveTop.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), 0);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), 0));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludes();
             };
 
             MenuItem item_Excludes_MoveUp = new MenuItem() { Header = "上移" };
 
-            item_Excludes_MoveUp.Click += (s, e) =>
+            item_Excludes_MoveUp.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
-
-                currentTaxon.SwapExclude(index, index - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() =>
+                {
+                    int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
+                    currentTaxon.SwapExclude(index, index - 1);
+                });
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludes();
             };
 
             MenuItem item_Excludes_MoveDown = new MenuItem() { Header = "下移" };
 
-            item_Excludes_MoveDown.Click += (s, e) =>
+            item_Excludes_MoveDown.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
-
-                currentTaxon.SwapExclude(index, index + 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() =>
+                {
+                    int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
+                    currentTaxon.SwapExclude(index, index + 1);
+                });
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludes();
             };
 
             MenuItem item_Excludes_MoveBottom = new MenuItem() { Header = "移至最下" };
 
-            item_Excludes_MoveBottom.Click += (s, e) =>
+            item_Excludes_MoveBottom.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludes();
             };
 
             MenuItem item_Excludes_Remove = new MenuItem() { Header = "解除排除关系" };
 
-            item_Excludes_Remove.Click += (s, e) =>
+            item_Excludes_Remove.Click += async (s, e) =>
             {
-                Views.Common.CurrentTaxon.RemoveExclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.CurrentTaxon.RemoveExclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 ViewModel.UpdateTitle();
 
@@ -527,9 +565,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_ExcludeBy_Remove = new MenuItem() { Header = "解除排除关系" };
 
-            item_ExcludeBy_Remove.Click += (s, e) =>
+            item_ExcludeBy_Remove.Click += async (s, e) =>
             {
-                Views.Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateExcludeByWithVisibility();
 
@@ -543,57 +583,71 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_Includes_MoveTop = new MenuItem() { Header = "移至最上" };
 
-            item_Includes_MoveTop.Click += (s, e) =>
+            item_Includes_MoveTop.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), 0);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), 0));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludes();
             };
 
             MenuItem item_Includes_MoveUp = new MenuItem() { Header = "上移" };
 
-            item_Includes_MoveUp.Click += (s, e) =>
+            item_Includes_MoveUp.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
-
-                currentTaxon.SwapInclude(index, index - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() =>
+                {
+                    int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
+                    currentTaxon.SwapInclude(index, index - 1);
+                });
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludes();
             };
 
             MenuItem item_Includes_MoveDown = new MenuItem() { Header = "下移" };
 
-            item_Includes_MoveDown.Click += (s, e) =>
+            item_Includes_MoveDown.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
-
-                currentTaxon.SwapInclude(index, index + 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() =>
+                {
+                    int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
+                    currentTaxon.SwapInclude(index, index + 1);
+                });
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludes();
             };
 
             MenuItem item_Includes_MoveBottom = new MenuItem() { Header = "移至最下" };
 
-            item_Includes_MoveBottom.Click += (s, e) =>
+            item_Includes_MoveBottom.Click += async (s, e) =>
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), currentTaxon.Includes.Count - 1));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludes();
             };
 
             MenuItem item_Includes_Remove = new MenuItem() { Header = "解除包含关系" };
 
-            item_Includes_Remove.Click += (s, e) =>
+            item_Includes_Remove.Click += async (s, e) =>
             {
-                Views.Common.CurrentTaxon.RemoveInclude(Views.Common.RightButtonTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.CurrentTaxon.RemoveInclude(Views.Common.RightButtonTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 ViewModel.UpdateTitle();
 
@@ -625,9 +679,11 @@ namespace TreeOfLife.Views.Evo.EditMode
 
             MenuItem item_IncludeBy_Remove = new MenuItem() { Header = "解除包含关系" };
 
-            item_IncludeBy_Remove.Click += (s, e) =>
+            item_IncludeBy_Remove.Click += async (s, e) =>
             {
-                Views.Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => Views.Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon));
+                Views.Common.BackgroundTaskFinish();
 
                 _UpdateIncludeByWithVisibility();
 
@@ -713,13 +769,15 @@ namespace TreeOfLife.Views.Evo.EditMode
             grid_Rename.Visibility = Visibility.Collapsed;
         }
 
-        private void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
+        private async void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
         {
             Taxon parent = Views.Common.CurrentTaxon.AddParentUplevel();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
-                parent.ParseCurrent(textBox_Parent.Text);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => parent.ParseCurrent(textBox_Parent.Text));
+                Views.Common.BackgroundTaskFinish();
 
                 textBox_Parent.Clear();
             }
@@ -731,13 +789,15 @@ namespace TreeOfLife.Views.Evo.EditMode
             Views.Common.UpdateTree();
         }
 
-        private void Button_AddParentDownlevel_Click(object sender, RoutedEventArgs e)
+        private async void Button_AddParentDownlevel_Click(object sender, RoutedEventArgs e)
         {
             Taxon parent = Views.Common.CurrentTaxon.AddParentDownlevel();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
-                parent.ParseCurrent(textBox_Parent.Text);
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => parent.ParseCurrent(textBox_Parent.Text));
+                Views.Common.BackgroundTaskFinish();
 
                 textBox_Parent.Clear();
             }
@@ -749,17 +809,23 @@ namespace TreeOfLife.Views.Evo.EditMode
             Views.Common.UpdateTree();
         }
 
-        private void Button_AddChildren_Click(object sender, RoutedEventArgs e)
+        private async void Button_AddChildren_Click(object sender, RoutedEventArgs e)
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
             if (string.IsNullOrEmpty(textBox_Children.Text))
             {
-                currentTaxon.AddChild();
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(currentTaxon.AddChild);
+                Views.Common.BackgroundTaskFinish();
             }
             else
             {
-                currentTaxon.ParseChildren(textBox_Children.Text.Split(Environment.NewLine));
+                string children = textBox_Children.Text;
+
+                Views.Common.BackgroundTaskStart();
+                await Task.Run(() => currentTaxon.ParseChildren(children.Split(Environment.NewLine)));
+                Views.Common.BackgroundTaskFinish();
 
                 textBox_Children.Clear();
             }

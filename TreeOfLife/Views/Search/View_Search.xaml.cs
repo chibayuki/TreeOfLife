@@ -48,11 +48,11 @@ namespace TreeOfLife.Views.Search
                 }
             };
 
-            textBox_Search.KeyUp += (s, e) =>
+            textBox_Search.KeyUp += async (s, e) =>
             {
                 if (e.Key == Key.Enter)
                 {
-                    _SearchAndUpdateResult();
+                    await _SearchAndUpdateResultAsync();
 
                     textBox_Search.SelectAll();
                 }
@@ -64,9 +64,9 @@ namespace TreeOfLife.Views.Search
                 }
             };
 
-            button_Search.Click += (s, e) =>
+            button_Search.Click += async (s, e) =>
             {
-                _SearchAndUpdateResult();
+                await _SearchAndUpdateResultAsync();
 
                 textBox_Search.Focus();
                 textBox_Search.SelectAll();
@@ -81,7 +81,7 @@ namespace TreeOfLife.Views.Search
                 else
                 {
                     Common.SetCurrentTaxon(e.Taxon);
-                    ViewModel.ClickSearchResult();
+                    ViewModel.ClickedSearchResult();
                 }
             };
 
@@ -133,47 +133,41 @@ namespace TreeOfLife.Views.Search
         }
 
         // 搜索并更新结果。
-        private void _SearchAndUpdateResult()
+        private async Task _SearchAndUpdateResultAsync()
         {
-            _SearchResult_Perfect.Clear();
-            _SearchResult_High.Clear();
-            _SearchResult_Low.Clear();
+            string keyWord = ViewModel.KeyWord;
 
-            IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult;
+            Common.BackgroundTaskStart();
+            await Task.Run(() =>
+            {
+                _SearchResult_Perfect.Clear();
+                _SearchResult_High.Clear();
+                _SearchResult_Low.Clear();
 
-#if !DEBUG
-            try
-#endif
-            {
-                searchResult = Phylogenesis.Root.Search(ViewModel.KeyWord);
-            }
-#if !DEBUG
-            catch
-            {
-                searchResult = null;
-            }
-#endif
+                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Phylogenesis.Root.Search(keyWord);
 
-            if (searchResult is not null)
-            {
-                for (int i = 0; i < searchResult.Count; i++)
+                if (searchResult is not null)
                 {
-                    (Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel) = searchResult[i];
+                    for (int i = 0; i < searchResult.Count; i++)
+                    {
+                        (Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel) = searchResult[i];
 
-                    if (matchLevel == TaxonSearchExtension.MatchLevel.Perfect)
-                    {
-                        _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
-                    }
-                    else if (matchLevel == TaxonSearchExtension.MatchLevel.High)
-                    {
-                        _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
-                    }
-                    else
-                    {
-                        _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
+                        if (matchLevel == TaxonSearchExtension.MatchLevel.Perfect)
+                        {
+                            _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
+                        }
+                        else if (matchLevel == TaxonSearchExtension.MatchLevel.High)
+                        {
+                            _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
+                        }
+                        else
+                        {
+                            _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
+                        }
                     }
                 }
-            }
+            });
+            Common.BackgroundTaskFinish();
 
             taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
 

@@ -21,10 +21,10 @@ namespace TreeOfLife.Views.File
 {
     public sealed class ViewModel_File : ViewModel
     {
-        public Func<bool?> Open { get; set; }
-        public Func<bool?> Save { get; set; }
-        public Func<bool?> SaveAs { get; set; }
-        public Func<bool> TrySaveAndClose { get; set; }
+        public Func<Task<bool?>> OpenAsync { get; set; }
+        public Func<Task<bool?>> SaveAsync { get; set; }
+        public Func<Task<bool?>> SaveAsAsync { get; set; }
+        public Func<Task<bool>> TrySaveAndCloseAsync { get; set; }
 
         public Action OpenDone { get; set; }
         

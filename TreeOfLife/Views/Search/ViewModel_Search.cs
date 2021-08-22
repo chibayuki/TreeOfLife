@@ -17,7 +17,7 @@ namespace TreeOfLife.Views.Search
 {
     public sealed class ViewModel_Search : ViewModel
     {
-        public Action ClickSearchResult { get; set; }
+        public Action ClickedSearchResult { get; set; }
 
         //
 
