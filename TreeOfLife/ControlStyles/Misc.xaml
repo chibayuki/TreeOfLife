@@ -12,6 +12,7 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="TabPage.Background"/>
     <SolidColorBrush x:Key="TabPageSide.Background"/>
+    
     <SolidColorBrush x:Key="Tree.Background"/>
 
 </ResourceDictionary>
