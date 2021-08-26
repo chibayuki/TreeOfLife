@@ -7,117 +7,117 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Controls\CategorySelector.xaml.cs">
+    <Compile Update="UI\Controls\CategorySelector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\CategoryNameButton.xaml.cs">
+    <Compile Update="UI\Controls\CategoryNameButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\GeoChronSpan.xaml.cs">
+    <Compile Update="UI\Controls\GeoChronSpan.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TagGroup.xaml.cs">
+    <Compile Update="UI\Controls\TagGroup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TaxonNameButtonGroup.xaml.cs">
+    <Compile Update="UI\Controls\TaxonNameButtonGroup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TaxonNameTitle.xaml.cs">
+    <Compile Update="UI\Controls\TaxonNameTitle.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Tree.xaml.cs">
+    <Compile Update="UI\Controls\Tree.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\TreeNodeButton.xaml.cs">
+    <Compile Update="UI\Controls\TreeNodeButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\About\View_About.xaml.cs">
+    <Compile Update="UI\Views\About\View_About.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Evo\EditMode\View_Evo_EditMode.xaml.cs">
+    <Compile Update="UI\Views\Evo\EditMode\View_Evo_EditMode.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Evo\ViewMode\View_Evo_ViewMode.xaml.cs">
+    <Compile Update="UI\Views\Evo\ViewMode\View_Evo_ViewMode.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\File\View_File.xaml.cs">
+    <Compile Update="UI\Views\File\View_File.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Search\View_Search.xaml.cs">
+    <Compile Update="UI\Views\Search\View_Search.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Tree\View_Tree.xaml.cs">
+    <Compile Update="UI\Views\Tree\View_Tree.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ControlStyles\ButtonStyle.xaml">
+    <Page Update="UI\ControlStyles\ButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\CheckBoxStyle.xaml">
+    <Page Update="UI\ControlStyles\CheckBoxStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\ContextMenuStyle.xaml">
+    <Page Update="UI\ControlStyles\ContextMenuStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\Misc.xaml">
+    <Page Update="UI\ControlStyles\Misc.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\RadioButtonStyle.xaml">
+    <Page Update="UI\ControlStyles\RadioButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\ScrollBarStyle.xaml">
+    <Page Update="UI\ControlStyles\ScrollBarStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\TextBoxStyle.xaml">
+    <Page Update="UI\ControlStyles\TextBoxStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ControlStyles\LabelStyle.xaml">
+    <Page Update="UI\ControlStyles\LabelStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\CategorySelector.xaml">
+    <Page Update="UI\Controls\CategorySelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\CategoryNameButton.xaml">
+    <Page Update="UI\Controls\CategoryNameButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\GeoChronSpan.xaml">
+    <Page Update="UI\Controls\GeoChronSpan.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TagGroup.xaml">
+    <Page Update="UI\Controls\TagGroup.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TaxonNameTitle.xaml">
+    <Page Update="UI\Controls\TaxonNameTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Tree.xaml">
+    <Page Update="UI\Controls\Tree.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TreeNodeButton.xaml">
+    <Page Update="UI\Controls\TreeNodeButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="UI\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\TaxonNameButtonGroup.xaml">
+    <Page Update="UI\Controls\TaxonNameButtonGroup.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\About\View_About.xaml">
+    <Page Update="UI\Views\About\View_About.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Evo\EditMode\View_Evo_EditMode.xaml">
+    <Page Update="UI\Views\Evo\EditMode\View_Evo_EditMode.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Evo\ViewMode\View_Evo_ViewMode.xaml">
+    <Page Update="UI\Views\Evo\ViewMode\View_Evo_ViewMode.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\File\View_File.xaml">
+    <Page Update="UI\Views\File\View_File.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Search\View_Search.xaml">
+    <Page Update="UI\Views\Search\View_Search.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Tree\View_Tree.xaml">
+    <Page Update="UI\Views\Tree\View_Tree.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

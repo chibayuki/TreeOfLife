@@ -1,0 +1,36 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1240.1000.M12.210718-2000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Views.About.View_About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views.About"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_About/>
+    </UserControl.DataContext>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,25,25,25">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="128" Height="128" Source="{Binding AppLogo, Mode=OneWay}"/>
+                    <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
+                        <Label Style="{DynamicResource LabelStyle}" Content="Tree of Life" FontSize="24"/>
+                        <Label Style="{DynamicResource LabelStyle}" Content="1.0 Milestone 13" FontSize="16"/>
+                    </StackPanel>
+                </StackPanel>
+                <Label Style="{DynamicResource LabelStyle}" Content="{Binding AppVersion}"/>
+                <Label Style="{DynamicResource LabelStyle}" Content="Copyright © 2021 chibayuki@foxmail.com"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

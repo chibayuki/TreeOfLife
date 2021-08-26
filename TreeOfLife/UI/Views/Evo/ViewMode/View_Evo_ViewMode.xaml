@@ -1,0 +1,121 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1240.1000.M12.210718-2000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Views.Evo.ViewMode.View_Evo_ViewMode"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views.Evo.ViewMode"
+             xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Evo_ViewMode/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="25,25,25,0">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
+            </Grid.Effect>
+            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
+            <Button x:Name="button_Edit" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
+        </Grid>
+        <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="0,15,0,0"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <StackPanel x:Name="stackPanel_TagsAndSynonyms" Margin="0,15,0,0">
+                    <Grid x:Name="grid_Tags" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="即"/>
+                        <Controls:TagGroup x:Name="tagGroup_Tags" Grid.Column="2"/>
+                    </Grid>
+                    <Grid x:Name="grid_Synonyms" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="又名"/>
+                        <Controls:TagGroup x:Name="tagGroup_Synonyms" Grid.Column="2"/>
+                    </Grid>
+                </StackPanel>
+                <Grid x:Name="grid_Parents" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="科学分类"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,2">
+                            <Grid>
+                                <Button x:Name="button_Least" Style="{DynamicResource TransparentButtonStyle}" Content="最简" Padding="3"/>
+                                <Path x:Name="path_Least" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                            <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
+                            <Grid>
+                                <Button x:Name="button_Summary" Style="{DynamicResource TransparentButtonStyle}" Content="适中" Padding="3"/>
+                                <Path x:Name="path_Summary" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                            <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
+                            <Grid>
+                                <Button x:Name="button_Full" Style="{DynamicResource TransparentButtonStyle}" Content="完整" Padding="3"/>
+                                <Path x:Name="path_Full" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_Children" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="下属类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群不包含，但是其演化支的类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_Desc" Margin="0,25,0,0">
+                    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

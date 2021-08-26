@@ -1,0 +1,77 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1240.1000.M12.210718-2000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Views.Search.View_Search"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views.Search"
+             xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"  
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Search/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grid_Name" Margin="25,25,25,0" Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBox_Search" Style="{DynamicResource TextBoxStyle}" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="button_Search" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="检索"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无结果"/>
+                </Grid>
+                <Grid x:Name="grid_SearchResult_Perfect" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="最相关结果"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult_Perfect" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_SearchResult_High" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="较相关结果"/>
+                        <Button x:Name="button_ExpandHigh" Style="{DynamicResource TransparentButtonStyle}" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3"/>
+                    </Grid>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult_High" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_SearchResult_Low" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="次相关结果"/>
+                        <Button x:Name="button_ExpandLow" Style="{DynamicResource TransparentButtonStyle}" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3"/>
+                    </Grid>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_SearchResult_Low" Grid.Row="2"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -2,18 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TreeOfLife"
-             StartupUri="MainWindow.xaml">
+             StartupUri="UI/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ControlStyles/ButtonStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/CheckBoxStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/ContextMenuStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/LabelStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/RadioButtonStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/ScrollBarStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/TextBoxStyle.xaml"/>
-                <ResourceDictionary Source="/ControlStyles/Misc.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/CheckBoxStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/ContextMenuStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/LabelStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/RadioButtonStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/ScrollBarStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/TextBoxStyle.xaml"/>
+                <ResourceDictionary Source="UI/ControlStyles/Misc.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

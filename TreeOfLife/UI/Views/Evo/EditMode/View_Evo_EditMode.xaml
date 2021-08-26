@@ -1,0 +1,236 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1240.1000.M12.210718-2000
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Views.Evo.EditMode.View_Evo_EditMode"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views.Evo.EditMode"
+             xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="1500" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Evo_EditMode/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="25,25,25,0" x:Name="grid_CurrentTaxon">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
+            </Grid.Effect>
+            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
+            <Button x:Name="button_Back" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_Name" Margin="0,25,0,0">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="学名"/>
+                            <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding Name}"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="中文名"/>
+                            <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="grid_Category" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="分级"/>
+                    <StackPanel Grid.Column="2">
+                        <Controls:CategorySelector x:Name="categorySelector"/>
+                        <Grid x:Name="grid_Rename" Margin="0,5,0,0">
+                            <Label x:Name="label_Rename" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
+                            <Button x:Name="button_Rename" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="grid_State" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="状态"/>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Style="{DynamicResource CheckBoxStyle}" Content="已灭绝 (†)" IsChecked="{Binding IsExtinct}"/>
+                        <CheckBox Grid.Column="2" Style="{DynamicResource CheckBoxStyle}" Content="分类地位存疑 (?)" IsChecked="{Binding IsUnsure}"/>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="grid_Chron" Margin="0,25,0,0">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="诞生于"/>
+                            <Controls:GeoChronSelector x:Name="geoChronSelector_Birth" Grid.Column="2"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Grid_Extinction}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="灭绝于"/>
+                            <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction" Grid.Column="2"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="grid_Synonyms" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="异名"/>
+                    <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Synonyms}"/>
+                </Grid>
+                <Grid x:Name="grid_Tags" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="标签"/>
+                    <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Tags}"/>
+                </Grid>
+                <Grid x:Name="grid_Desc" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="描述"/>
+                    <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Description}"/>
+                </Grid>
+                <Grid x:Name="grid_Parents" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="上级类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="插入&#xD;&#xA;类群"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox x:Name="textBox_Parent" Style="{DynamicResource TextBoxStyle}" Height="25"/>
+                        <Grid Margin="0,10,0,0" Height="25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_AddParentUplevel" Style="{DynamicResource ButtonStyle}" Content="添加为上级"/>
+                            <Button x:Name="button_AddParentDownlevel" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="添加为下级"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="grid_Children" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="下级类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
+                </Grid>
+                <Grid Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="添加&#xD;&#xA;下级&#xD;&#xA;类群"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox x:Name="textBox_Children" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True"/>
+                        <Grid Margin="0,10,0,0" Height="25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_AddChildren" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="添加"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群排除的类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="排除此类群的并系群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_ExcludeBy" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_Includes" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此复系群包含的类群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_Includes" Grid.Row="2"/>
+                </Grid>
+                <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="包含此类群的复系群"/>
+                    <Controls:TaxonNameButtonGroup x:Name="taxonNameButtonGroup_IncludeBy" Grid.Row="2"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

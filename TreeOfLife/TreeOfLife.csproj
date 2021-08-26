@@ -10,7 +10,8 @@
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
     <Version>1.0.1240.1000</Version>
-    <ApplicationIcon>Resources\AppLogo_256.ico</ApplicationIcon>
+    <ApplicationIcon>UI\Resources\AppLogo_256.ico</ApplicationIcon>
+    <StartupObject>TreeOfLife.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,17 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resource.Designer.cs">
+    <Compile Update="UI\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
+      <DependentUpon>UI\Resource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resource.resx">
+    <EmbeddedResource Update="UI\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <LastGenOutput>UI\Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
