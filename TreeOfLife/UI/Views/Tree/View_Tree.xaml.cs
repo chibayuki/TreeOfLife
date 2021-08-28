@@ -22,10 +22,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.UI.Controls;
-using TreeOfLife.Core.Phylogeny;
+using TreeOfLife.Core;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Controls;
 
 namespace TreeOfLife.UI.Views.Tree
 {
@@ -627,9 +627,9 @@ namespace TreeOfLife.UI.Views.Tree
         // 更新子树。
         public void UpdateSubTree()
         {
-            if (Phylogenesis.Root.IsFinal)
+            if (Top.Root.IsFinal)
             {
-                _NamedTaxon = Phylogenesis.Root;
+                _NamedTaxon = Top.Root;
 
                 _SubTreeRoot = new TreeNodeItem() { Taxon = _NamedTaxon };
             }

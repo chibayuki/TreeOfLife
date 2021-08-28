@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 using TreeOfLife.Core.Taxonomy;
 
-namespace TreeOfLife.Core.Phylogeny
+namespace TreeOfLife.Core
 {
-    // 系统发生树。
+    // 系统发生树（演化树）。
     public sealed class PhylogeneticTree
     {
         private Taxon _Root; // 假设存在的顶级类群。

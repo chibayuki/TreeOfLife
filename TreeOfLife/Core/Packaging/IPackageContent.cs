@@ -18,12 +18,12 @@ namespace TreeOfLife.Core.Packaging
     // 包内容行为。
     public interface IPackageContent
     {
-        PackageVersion Version { get; }
+        PackageVersion Version { get; } // 版本。
 
-        void TranslateFrom(object data);
-        void TranslateTo(object data);
+        void TranslateFrom(object data); // 从内存数据转换。
+        void TranslateTo(object data); // 转换到内存数据。
 
-        void Serialize(string directory);
-        void Deserialize(string directory);
+        void Serialize(string directory); // 序列化文件到指定目录。
+        void Deserialize(string directory); // 从指定目录反序列化文件。
     }
 }

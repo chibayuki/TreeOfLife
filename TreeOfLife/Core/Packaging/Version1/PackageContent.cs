@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using TreeOfLife.Core.Packaging.Version1.Details;
-using TreeOfLife.Core.Phylogeny;
 
 namespace TreeOfLife.Core.Packaging.Version1
 {

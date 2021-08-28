@@ -22,7 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using System.Reflection;
+using TreeOfLife.Core;
 
 namespace TreeOfLife.UI.Views.File
 {
@@ -31,10 +31,6 @@ namespace TreeOfLife.UI.Views.File
     /// </summary>
     public partial class View_File : UserControl
     {
-        private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        //
-
         public View_File()
         {
             InitializeComponent();
@@ -66,7 +62,7 @@ namespace TreeOfLife.UI.Views.File
                     }
                     else
                     {
-                        MessageBox.Show("打开失败。", _AppName, MessageBoxButton.OK);
+                        MessageBox.Show("打开失败。", Top.AppName, MessageBoxButton.OK);
                     }
                 }
             }
@@ -84,7 +80,7 @@ namespace TreeOfLife.UI.Views.File
                 }
                 else
                 {
-                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                    MessageBox.Show("保存失败。", Top.AppName, MessageBoxButton.OK);
                 }
             }
         }
@@ -101,7 +97,7 @@ namespace TreeOfLife.UI.Views.File
                 }
                 else
                 {
-                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                    MessageBox.Show("保存失败。", Top.AppName, MessageBoxButton.OK);
                 }
             }
         }

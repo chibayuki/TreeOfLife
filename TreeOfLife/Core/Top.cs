@@ -13,19 +13,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Reflection;
+
 using TreeOfLife.Core.Packaging;
 using TreeOfLife.Core.Taxonomy;
 
-namespace TreeOfLife.Core.Phylogeny
+namespace TreeOfLife.Core
 {
-    // 系统发生学。
-    public static class Phylogenesis
+    // 顶级类。提供内存数据访问与文件操作的单例。
+    public static class Top
     {
         private static PhylogeneticTree _PhylogeneticTree = null;
 
         private static Package _Package = null;
 
         //
+
+        public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
 
         public static Taxon Root => _PhylogeneticTree?.Root;
 
@@ -48,7 +52,7 @@ namespace TreeOfLife.Core.Phylogeny
         {
             _PhylogeneticTree = new PhylogeneticTree();
 
-            _Package = Package.Create();
+            _Package = Package.CreateNew();
 
             return true;
         }
@@ -62,7 +66,7 @@ namespace TreeOfLife.Core.Phylogeny
             try
 #endif
             {
-                _Package = Package.Open(fileName, out IPackageContent packageContent);
+                _Package = Package.OpenFromFile(fileName, out IPackageContent packageContent);
 
                 _PhylogeneticTree = new PhylogeneticTree();
 
@@ -74,7 +78,7 @@ namespace TreeOfLife.Core.Phylogeny
                 _PhylogeneticTree = new PhylogeneticTree();
 
                 _Package?.Close();
-                _Package = Package.Create();
+                _Package = Package.CreateNew();
 
                 result = false;
             }
@@ -96,7 +100,7 @@ namespace TreeOfLife.Core.Phylogeny
 
                 packageContent.TranslateFrom(_PhylogeneticTree);
 
-                _Package.Save(packageContent);
+                _Package.SaveToFile(packageContent);
             }
 #if !DEBUG
             catch
@@ -121,7 +125,7 @@ namespace TreeOfLife.Core.Phylogeny
 
                 packageContent.TranslateFrom(_PhylogeneticTree);
 
-                _Package.SaveAs(packageContent, fileName);
+                _Package.SaveToFile(packageContent, fileName);
             }
 #if !DEBUG
          catch

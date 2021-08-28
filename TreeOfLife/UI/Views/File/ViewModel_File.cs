@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 
-using TreeOfLife.Core.Phylogeny;
+using TreeOfLife.Core;
 
 namespace TreeOfLife.UI.Views.File
 {
@@ -163,10 +163,10 @@ namespace TreeOfLife.UI.Views.File
 
         public void UpdateFileInfo()
         {
-            PackageSize = _GetSizeString(Phylogenesis.PackageSize);
-            CreationTime = string.Concat(Phylogenesis.CreationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.CreationTime.ToLocalTime().ToLongTimeString());
+            PackageSize = _GetSizeString(Top.PackageSize);
+            CreationTime = string.Concat(Top.CreationTime.ToLocalTime().ToLongDateString(), " ", Top.CreationTime.ToLocalTime().ToLongTimeString());
 
-            if (string.IsNullOrWhiteSpace(Phylogenesis.FileName))
+            if (string.IsNullOrWhiteSpace(Top.FileName))
             {
                 FileName = "(未保存)";
                 FileSize = "(未保存)";
@@ -174,9 +174,9 @@ namespace TreeOfLife.UI.Views.File
             }
             else
             {
-                FileName = Path.GetFileNameWithoutExtension(Phylogenesis.FileName);
-                FileSize = _GetSizeString(new FileInfo(Phylogenesis.FileName).Length);
-                ModificationTime = string.Concat(Phylogenesis.ModificationTime.ToLocalTime().ToLongDateString(), " ", Phylogenesis.ModificationTime.ToLocalTime().ToLongTimeString());
+                FileName = Path.GetFileNameWithoutExtension(Top.FileName);
+                FileSize = _GetSizeString(new FileInfo(Top.FileName).Length);
+                ModificationTime = string.Concat(Top.ModificationTime.ToLocalTime().ToLongDateString(), " ", Top.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }
     }

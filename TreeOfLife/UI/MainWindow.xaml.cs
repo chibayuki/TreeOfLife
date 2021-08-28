@@ -24,10 +24,9 @@ using System.Windows.Shapes;
 
 using Microsoft.Win32;
 using System.IO;
-using System.Reflection;
 
+using TreeOfLife.Core;
 using TreeOfLife.Core.Packaging;
-using TreeOfLife.Core.Phylogeny;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Views;
@@ -42,10 +41,6 @@ namespace TreeOfLife.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        //
-
         public MainWindow()
         {
             InitializeComponent();
@@ -81,7 +76,7 @@ namespace TreeOfLife.UI
             {
                 if (grid_WaitingForBackgroundTaskPrompt.IsVisible)
                 {
-                    MessageBox.Show("非法操作。", _AppName, MessageBoxButton.OK);
+                    MessageBox.Show("非法操作。", Core.Top.AppName, MessageBoxButton.OK);
                     Environment.Exit(-1);
                 }
 
@@ -102,9 +97,9 @@ namespace TreeOfLife.UI
 
             this.Loaded += (s, e) =>
             {
-                Phylogenesis.New();
+                Core.Top.New();
 
-                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetCurrentTaxon(Core.Top.Root);
                 _SetEditMode(false);
 
                 _SelectPage(Pages.File);
@@ -173,13 +168,13 @@ namespace TreeOfLife.UI
             if (r ?? false)
             {
                 Common.BackgroundTaskStart();
-                result = await Task.Run(() => Phylogenesis.Open(_OpenFileDialog.FileName));
+                result = await Task.Run(() => Core.Top.Open(_OpenFileDialog.FileName));
                 Common.BackgroundTaskFinish();
             }
 
             if (result ?? false)
             {
-                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetCurrentTaxon(Core.Top.Root);
                 view_Tree.UpdateSubTree();
 
                 _Saved = true;
@@ -195,9 +190,9 @@ namespace TreeOfLife.UI
 
             if (_Saved)
             {
-                if (File.Exists(Phylogenesis.FileName))
+                if (File.Exists(Core.Top.FileName))
                 {
-                    if (Phylogenesis.PackageVersion == PackageVersion.Latest.Version)
+                    if (Core.Top.PackageVersion == PackageVersion.Latest.Version)
                     {
                         // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
                         result = true;
@@ -206,7 +201,7 @@ namespace TreeOfLife.UI
                     else
                     {
                         Common.BackgroundTaskStart();
-                        result = await Task.Run(Phylogenesis.Save);
+                        result = await Task.Run(Core.Top.Save);
                         Common.BackgroundTaskFinish();
                     }
                 }
@@ -214,7 +209,7 @@ namespace TreeOfLife.UI
                 else
                 {
                     Common.BackgroundTaskStart();
-                    result = await Task.Run(Phylogenesis.Save);
+                    result = await Task.Run(Core.Top.Save);
                     Common.BackgroundTaskFinish();
 
                     // 如果保存失败，那么另存为
@@ -225,7 +220,7 @@ namespace TreeOfLife.UI
                         if (r ?? false)
                         {
                             Common.BackgroundTaskStart();
-                            result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                            result = await Task.Run(() => Core.Top.SaveAs(_SaveFileDialog.FileName));
                             Common.BackgroundTaskFinish();
                         }
                     }
@@ -233,10 +228,10 @@ namespace TreeOfLife.UI
             }
             else
             {
-                if (!string.IsNullOrEmpty(Phylogenesis.FileName))
+                if (!string.IsNullOrEmpty(Core.Top.FileName))
                 {
                     Common.BackgroundTaskStart();
-                    result = await Task.Run(Phylogenesis.Save);
+                    result = await Task.Run(Core.Top.Save);
                     Common.BackgroundTaskFinish();
                 }
                 // 首次保存等同于另存为
@@ -247,7 +242,7 @@ namespace TreeOfLife.UI
                     if (r ?? false)
                     {
                         Common.BackgroundTaskStart();
-                        result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                        result = await Task.Run(() => Core.Top.SaveAs(_SaveFileDialog.FileName));
                         Common.BackgroundTaskFinish();
                     }
                 }
@@ -264,9 +259,9 @@ namespace TreeOfLife.UI
 
             if (_Saved)
             {
-                if (File.Exists(Phylogenesis.FileName))
+                if (File.Exists(Core.Top.FileName))
                 {
-                    if (Phylogenesis.PackageVersion == PackageVersion.Latest.Version)
+                    if (Core.Top.PackageVersion == PackageVersion.Latest.Version)
                     {
                         // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
                         result = true;
@@ -274,13 +269,13 @@ namespace TreeOfLife.UI
                     // 如果文件版本不是最新，那么重新保存
                     else
                     {
-                        result = Phylogenesis.Save();
+                        result = Core.Top.Save();
                     }
                 }
                 // 如果文件已经保存，但不存在（被删除/移动存储介质弹出），那么重新保存
                 else
                 {
-                    result = Phylogenesis.Save();
+                    result = Core.Top.Save();
 
                     // 如果保存失败，那么另存为
                     if (!result.Value)
@@ -289,16 +284,16 @@ namespace TreeOfLife.UI
 
                         if (r ?? false)
                         {
-                            result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                            result = Core.Top.SaveAs(_SaveFileDialog.FileName);
                         }
                     }
                 }
             }
             else
             {
-                if (!string.IsNullOrEmpty(Phylogenesis.FileName))
+                if (!string.IsNullOrEmpty(Core.Top.FileName))
                 {
-                    result = Phylogenesis.Save();
+                    result = Core.Top.Save();
                 }
                 // 首次保存等同于另存为
                 else
@@ -307,7 +302,7 @@ namespace TreeOfLife.UI
 
                     if (r ?? false)
                     {
-                        result = Phylogenesis.SaveAs(_SaveFileDialog.FileName);
+                        result = Core.Top.SaveAs(_SaveFileDialog.FileName);
                     }
                 }
             }
@@ -327,7 +322,7 @@ namespace TreeOfLife.UI
             if (r ?? false)
             {
                 Common.BackgroundTaskStart();
-                result = await Task.Run(() => Phylogenesis.SaveAs(_SaveFileDialog.FileName));
+                result = await Task.Run(() => Core.Top.SaveAs(_SaveFileDialog.FileName));
                 Common.BackgroundTaskFinish();
             }
 
@@ -345,12 +340,12 @@ namespace TreeOfLife.UI
             view_Search.ClearSearchResult();
 
             Common.BackgroundTaskStart();
-            bool result = await Task.Run(Phylogenesis.Close);
+            bool result = await Task.Run(Core.Top.Close);
             Common.BackgroundTaskFinish();
 
             if (result)
             {
-                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetCurrentTaxon(Core.Top.Root);
                 view_Tree.UpdateSubTree();
 
                 _Saved = false;
@@ -366,11 +361,11 @@ namespace TreeOfLife.UI
 
             view_Search.ClearSearchResult();
 
-            bool result = Phylogenesis.Close();
+            bool result = Core.Top.Close();
 
             if (result)
             {
-                _SetCurrentTaxon(Phylogenesis.Root);
+                _SetCurrentTaxon(Core.Top.Root);
                 view_Tree.UpdateSubTree();
 
                 _Saved = false;
@@ -383,7 +378,7 @@ namespace TreeOfLife.UI
         private async Task<bool> _TrySaveAndCloseAsync()
         {
             // 未保存过且内容为空，无需关闭，认为关闭成功
-            if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
+            if (string.IsNullOrEmpty(Core.Top.FileName) && Core.Top.IsEmpty)
             {
                 // 这种状态下有可能右键选择了顶级类群
                 Common.RightButtonTaxon = null;
@@ -402,7 +397,7 @@ namespace TreeOfLife.UI
                 }
                 else
                 {
-                    MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                    MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                     return false;
                 }
@@ -410,7 +405,7 @@ namespace TreeOfLife.UI
             // 未保存，提示是否保存
             else
             {
-                MessageBoxResult r = MessageBox.Show("是否保存？", _AppName, MessageBoxButton.YesNoCancel);
+                MessageBoxResult r = MessageBox.Show("是否保存？", Core.Top.AppName, MessageBoxButton.YesNoCancel);
 
                 switch (r)
                 {
@@ -432,14 +427,14 @@ namespace TreeOfLife.UI
                                     }
                                     else
                                     {
-                                        MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                                        MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                                         return false;
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                                    MessageBox.Show("保存失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                                     return false;
                                 }
@@ -458,7 +453,7 @@ namespace TreeOfLife.UI
                         }
                         else
                         {
-                            MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                            MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                             return false;
                         }
@@ -471,7 +466,7 @@ namespace TreeOfLife.UI
         private bool _TrySaveAndClose()
         {
             // 未保存过且内容为空，无需关闭，认为关闭成功
-            if (string.IsNullOrEmpty(Phylogenesis.FileName) && Phylogenesis.IsEmpty)
+            if (string.IsNullOrEmpty(Core.Top.FileName) && Core.Top.IsEmpty)
             {
                 // 这种状态下有可能右键选择了顶级类群
                 Common.RightButtonTaxon = null;
@@ -490,7 +485,7 @@ namespace TreeOfLife.UI
                 }
                 else
                 {
-                    MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                    MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                     return false;
                 }
@@ -498,7 +493,7 @@ namespace TreeOfLife.UI
             // 未保存，提示是否保存
             else
             {
-                MessageBoxResult r = MessageBox.Show("是否保存？", _AppName, MessageBoxButton.YesNoCancel);
+                MessageBoxResult r = MessageBox.Show("是否保存？", Core.Top.AppName, MessageBoxButton.YesNoCancel);
 
                 switch (r)
                 {
@@ -520,14 +515,14 @@ namespace TreeOfLife.UI
                                     }
                                     else
                                     {
-                                        MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                                        MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                                         return false;
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("保存失败。", _AppName, MessageBoxButton.OK);
+                                    MessageBox.Show("保存失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                                     return false;
                                 }
@@ -546,7 +541,7 @@ namespace TreeOfLife.UI
                         }
                         else
                         {
-                            MessageBox.Show("关闭失败。", _AppName, MessageBoxButton.OK);
+                            MessageBox.Show("关闭失败。", Core.Top.AppName, MessageBoxButton.OK);
 
                             return false;
                         }
@@ -619,7 +614,7 @@ namespace TreeOfLife.UI
         private void _SetCurrentTaxon(Taxon taxon)
         {
             // 防止选择已删除的类群。
-            if (taxon.IsRoot && taxon != Phylogenesis.Root)
+            if (taxon.IsRoot && taxon != Core.Top.Root)
             {
                 throw new InvalidOperationException();
             }

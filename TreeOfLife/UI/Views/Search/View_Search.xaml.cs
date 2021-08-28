@@ -22,10 +22,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.UI.Controls;
-using TreeOfLife.Core.Phylogeny;
+using TreeOfLife.Core;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Controls;
 
 namespace TreeOfLife.UI.Views.Search
 {
@@ -144,7 +144,7 @@ namespace TreeOfLife.UI.Views.Search
                 _SearchResult_High.Clear();
                 _SearchResult_Low.Clear();
 
-                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Phylogenesis.Root.Search(keyWord);
+                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Top.Root.Search(keyWord);
 
                 if (searchResult is not null)
                 {

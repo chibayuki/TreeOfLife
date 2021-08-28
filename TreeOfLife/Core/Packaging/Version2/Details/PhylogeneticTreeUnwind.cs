@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 using System.IO;
 
-using TreeOfLife.Core.Phylogeny;
 using TreeOfLife.Core.Taxonomy;
 
 namespace TreeOfLife.Core.Packaging.Version2.Details

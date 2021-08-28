@@ -23,10 +23,6 @@ namespace TreeOfLife.Core.Packaging
     // 包。
     public sealed class Package
     {
-        private static readonly string _AppName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        //
-
         private bool _Closed = false; // 包是否已关闭。
 
         private string _FileName = null; // 文件名。
@@ -43,7 +39,7 @@ namespace TreeOfLife.Core.Packaging
 
         private void _InitDirs()
         {
-            _TempDir = Path.Combine(Path.GetTempPath(), _AppName, Guid.NewGuid().ToString().ToUpperInvariant());
+            _TempDir = Path.Combine(Path.GetTempPath(), Top.AppName, Guid.NewGuid().ToString().ToUpperInvariant());
             _PackageDir = Path.Combine(_TempDir, "package");
             _VersionFileName = Path.Combine(_PackageDir, "_version");
             _InfoDir = Path.Combine(_PackageDir, "info");
@@ -202,14 +198,14 @@ namespace TreeOfLife.Core.Packaging
 
         //
 
-        // 创建。
-        public static Package Create()
+        // 创建新对象。
+        public static Package CreateNew()
         {
             return new Package();
         }
 
-        // 打开。
-        public static Package Open(string fileName, out IPackageContent packageContent)
+        // 从文件打开。
+        public static Package OpenFromFile(string fileName, out IPackageContent packageContent)
         {
             Package package = new Package(fileName);
 
@@ -225,8 +221,8 @@ namespace TreeOfLife.Core.Packaging
             return package;
         }
 
-        // 保存。
-        public void Save(IPackageContent packageContent)
+        // 保存到当前关联的文件。
+        public void SaveToFile(IPackageContent packageContent)
         {
             if (_Closed)
             {
@@ -248,8 +244,8 @@ namespace TreeOfLife.Core.Packaging
             _Compress(_PackageDir, _FileName);
         }
 
-        // 另存为。
-        public void SaveAs(IPackageContent packageContent, string fileName)
+        // 保存到其他文件。
+        public void SaveToFile(IPackageContent packageContent, string fileName)
         {
             if (_Closed)
             {
@@ -260,10 +256,10 @@ namespace TreeOfLife.Core.Packaging
 
             FileName = fileName;
 
-            Save(packageContent);
+            SaveToFile(packageContent);
         }
 
-        // 关闭。
+        // 关闭并不再使用此对象。
         public void Close()
         {
             if (_Closed)

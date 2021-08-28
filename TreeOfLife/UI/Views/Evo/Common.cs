@@ -16,9 +16,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-using TreeOfLife.UI.Controls;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Controls;
 
 using ColorX = Com.Chromatics.ColorX;
 

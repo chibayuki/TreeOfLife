@@ -14,9 +14,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
-using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
+using TreeOfLife.Core;
 
 namespace TreeOfLife.UI.Views.About
 {
@@ -44,6 +45,6 @@ namespace TreeOfLife.UI.Views.About
             }
         }
 
-        public string AppVersion => "版本: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string AppVersion => "版本: " + Top.AppName;
     }
 }

@@ -15,10 +15,10 @@ using System.Threading.Tasks;
 
 using System.Windows;
 
-using TreeOfLife.UI.Controls;
 using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Controls;
 
 namespace TreeOfLife.UI.Views.Evo.EditMode
 {
