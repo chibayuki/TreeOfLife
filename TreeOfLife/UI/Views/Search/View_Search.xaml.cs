@@ -137,14 +137,14 @@ namespace TreeOfLife.UI.Views.Search
         {
             string keyWord = ViewModel.KeyWord;
 
-            Common.BackgroundTaskStart();
+            AsyncMethod.Start();
             await Task.Run(() =>
             {
                 _SearchResult_Perfect.Clear();
                 _SearchResult_High.Clear();
                 _SearchResult_Low.Clear();
 
-                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Top.Root.Search(keyWord);
+                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Entrance.Root.Search(keyWord);
 
                 if (searchResult is not null)
                 {
@@ -167,7 +167,7 @@ namespace TreeOfLife.UI.Views.Search
                     }
                 }
             });
-            Common.BackgroundTaskFinish();
+            AsyncMethod.Finish();
 
             taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
 

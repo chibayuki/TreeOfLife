@@ -163,10 +163,10 @@ namespace TreeOfLife.UI.Views.File
 
         public void UpdateFileInfo()
         {
-            PackageSize = _GetSizeString(Top.PackageSize);
-            CreationTime = string.Concat(Top.CreationTime.ToLocalTime().ToLongDateString(), " ", Top.CreationTime.ToLocalTime().ToLongTimeString());
+            PackageSize = _GetSizeString(Entrance.PackageSize);
+            CreationTime = string.Concat(Entrance.CreationTime.ToLocalTime().ToLongDateString(), " ", Entrance.CreationTime.ToLocalTime().ToLongTimeString());
 
-            if (string.IsNullOrWhiteSpace(Top.FileName))
+            if (string.IsNullOrWhiteSpace(Entrance.FileName))
             {
                 FileName = "(未保存)";
                 FileSize = "(未保存)";
@@ -174,9 +174,9 @@ namespace TreeOfLife.UI.Views.File
             }
             else
             {
-                FileName = Path.GetFileNameWithoutExtension(Top.FileName);
-                FileSize = _GetSizeString(new FileInfo(Top.FileName).Length);
-                ModificationTime = string.Concat(Top.ModificationTime.ToLocalTime().ToLongDateString(), " ", Top.ModificationTime.ToLocalTime().ToLongTimeString());
+                FileName = Path.GetFileNameWithoutExtension(Entrance.FileName);
+                FileSize = _GetSizeString(new FileInfo(Entrance.FileName).Length);
+                ModificationTime = string.Concat(Entrance.ModificationTime.ToLocalTime().ToLongDateString(), " ", Entrance.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }
     }

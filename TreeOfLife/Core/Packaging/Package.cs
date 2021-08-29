@@ -39,7 +39,7 @@ namespace TreeOfLife.Core.Packaging
 
         private void _InitDirs()
         {
-            _TempDir = Path.Combine(Path.GetTempPath(), Top.AppName, Guid.NewGuid().ToString().ToUpperInvariant());
+            _TempDir = Path.Combine(Path.GetTempPath(), Entrance.AppName, Guid.NewGuid().ToString().ToUpperInvariant());
             _PackageDir = Path.Combine(_TempDir, "package");
             _VersionFileName = Path.Combine(_PackageDir, "_version");
             _InfoDir = Path.Combine(_PackageDir, "info");

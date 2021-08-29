@@ -62,7 +62,7 @@ namespace TreeOfLife.UI.Views.File
                     }
                     else
                     {
-                        MessageBox.Show("打开失败。", Top.AppName, MessageBoxButton.OK);
+                        MessageBox.Show("打开失败。", Entrance.AppName, MessageBoxButton.OK);
                     }
                 }
             }
@@ -80,7 +80,7 @@ namespace TreeOfLife.UI.Views.File
                 }
                 else
                 {
-                    MessageBox.Show("保存失败。", Top.AppName, MessageBoxButton.OK);
+                    MessageBox.Show("保存失败。", Entrance.AppName, MessageBoxButton.OK);
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace TreeOfLife.UI.Views.File
                 }
                 else
                 {
-                    MessageBox.Show("保存失败。", Top.AppName, MessageBoxButton.OK);
+                    MessageBox.Show("保存失败。", Entrance.AppName, MessageBoxButton.OK);
                 }
             }
         }

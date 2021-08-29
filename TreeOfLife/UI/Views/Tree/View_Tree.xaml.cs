@@ -111,9 +111,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             item_SetParent.Click += async (s, e) =>
             {
-                Common.BackgroundTaskStart();
-                await Task.Run(() => Common.RightButtonTaxon?.SetParent(Common.SelectedTaxon));
-                Common.BackgroundTaskFinish();
+                await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -125,9 +123,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             item_ExcludeBy.Click += async (s, e) =>
             {
-                Common.BackgroundTaskStart();
-                await Task.Run(() => Common.SelectedTaxon?.AddExclude(Common.RightButtonTaxon));
-                Common.BackgroundTaskFinish();
+                await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -139,9 +135,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             item_IncludeBy.Click += async (s, e) =>
             {
-                Common.BackgroundTaskStart();
-                await Task.Run(() => Common.SelectedTaxon?.AddInclude(Common.RightButtonTaxon));
-                Common.BackgroundTaskFinish();
+                await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -155,9 +149,7 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0));
-                Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -171,9 +163,7 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1));
-                Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -187,9 +177,7 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1));
-                Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -203,9 +191,7 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
 
-                Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1));
-                Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
                 Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
@@ -222,11 +208,9 @@ namespace TreeOfLife.UI.Views.Tree
                 // 如果当前类群是要删除的类群，删除后需跳转至被删除类群的父类群
                 if (Common.CurrentTaxon == rightButtonTaxon)
                 {
-                    Taxon taxon = rightButtonTaxon?.Parent;
+                    Taxon taxon = rightButtonTaxon.Parent;
 
-                    Common.BackgroundTaskStart();
-                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
-                    Common.BackgroundTaskFinish();
+                    await rightButtonTaxon.RemoveCurrentAsync(false);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -239,9 +223,7 @@ namespace TreeOfLife.UI.Views.Tree
                 }
                 else
                 {
-                    Common.BackgroundTaskStart();
-                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
-                    Common.BackgroundTaskFinish();
+                    await rightButtonTaxon.RemoveCurrentAsync(false);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -266,11 +248,9 @@ namespace TreeOfLife.UI.Views.Tree
                 // 如果当前类群继承自要删除的类群，删除后需跳转至被删除类群的父类群
                 if (Common.CurrentTaxon.InheritFrom(rightButtonTaxon))
                 {
-                    Taxon taxon = rightButtonTaxon?.Parent;
+                    Taxon taxon = rightButtonTaxon.Parent;
 
-                    Common.BackgroundTaskStart();
-                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
-                    Common.BackgroundTaskFinish();
+                    await rightButtonTaxon.RemoveCurrentAsync(true);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -283,9 +263,7 @@ namespace TreeOfLife.UI.Views.Tree
                 }
                 else
                 {
-                    Common.BackgroundTaskStart();
-                    await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
-                    Common.BackgroundTaskFinish();
+                    await rightButtonTaxon.RemoveCurrentAsync(true);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
                     {
@@ -627,9 +605,9 @@ namespace TreeOfLife.UI.Views.Tree
         // 更新子树。
         public void UpdateSubTree()
         {
-            if (Top.Root.IsFinal)
+            if (Entrance.Root.IsFinal)
             {
-                _NamedTaxon = Top.Root;
+                _NamedTaxon = Entrance.Root;
 
                 _SubTreeRoot = new TreeNodeItem() { Taxon = _NamedTaxon };
             }

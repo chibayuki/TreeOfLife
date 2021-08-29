@@ -45,6 +45,6 @@ namespace TreeOfLife.UI.Views.About
             }
         }
 
-        public string AppVersion => "版本: " + Top.AppName;
+        public string AppVersion => "版本: " + Entrance.AppName;
     }
 }

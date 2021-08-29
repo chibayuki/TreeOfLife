@@ -39,10 +39,5 @@ namespace TreeOfLife.UI.Views
         public static Action ApplyToTaxon { get; set; }
 
         public static Action UpdateTree { get; set; }
-
-        //
-
-        public static Action BackgroundTaskStart { get; set; } // 后台任务开始时调用此方法。
-        public static Action BackgroundTaskFinish { get; set; } // 后台任务完成时调用此方法。
     }
 }

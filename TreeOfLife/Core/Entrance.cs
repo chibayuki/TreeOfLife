@@ -20,8 +20,8 @@ using TreeOfLife.Core.Taxonomy;
 
 namespace TreeOfLife.Core
 {
-    // 顶级类。提供内存数据访问与文件操作的单例。
-    public static class Top
+    // 提供内存数据访问与文件操作的单例。
+    public static class Entrance
     {
         private static PhylogeneticTree _PhylogeneticTree = null;
 

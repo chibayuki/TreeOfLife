@@ -183,9 +183,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Current_SetParent.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.RightButtonTaxon.SetParentAsync(Views.Common.SelectedTaxon);
 
                 _UpdateParents();
 
@@ -196,9 +194,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Current_ExcludeBy.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.SelectedTaxon?.AddExclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.SelectedTaxon.AddExcludeAsync(Views.Common.RightButtonTaxon);
 
                 _UpdateExcludeByWithVisibility();
 
@@ -209,9 +205,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Current_IncludeBy.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.SelectedTaxon?.AddInclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.SelectedTaxon.AddIncludeAsync(Views.Common.RightButtonTaxon);
 
                 _UpdateIncludeByWithVisibility();
 
@@ -266,9 +260,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Children_SetParent.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.RightButtonTaxon?.SetParent(Views.Common.SelectedTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.RightButtonTaxon.SetParentAsync(Views.Common.SelectedTaxon);
 
                 _UpdateParents();
                 _UpdateChildrenWithVisibility();
@@ -282,9 +274,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => selectedTaxon?.AddExclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await selectedTaxon.AddExcludeAsync(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -302,9 +292,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => selectedTaxon?.AddInclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await selectedTaxon.AddIncludeAsync(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -322,9 +310,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, 0));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
                 _UpdateChildren();
 
@@ -337,9 +323,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index - 1));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
                 _UpdateChildren();
 
@@ -352,9 +336,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.SwapChild(rightButtonTaxon.Index, rightButtonTaxon.Index + 1));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
                 _UpdateChildren();
 
@@ -367,9 +349,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.Parent.MoveChild(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
                 _UpdateChildren();
 
@@ -382,9 +362,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.RemoveCurrent(false));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.RemoveCurrentAsync(false);
 
                 if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
@@ -404,9 +382,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon rightButtonTaxon = Views.Common.RightButtonTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => rightButtonTaxon?.RemoveCurrent(true));
-                Views.Common.BackgroundTaskFinish();
+                await rightButtonTaxon.RemoveCurrentAsync(true);
 
                 if (Views.Common.SelectedTaxon == rightButtonTaxon)
                 {
@@ -473,9 +449,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), 0));
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.MoveExcludeAsync(await currentTaxon.GetIndexOfExcludeAsync(Views.Common.RightButtonTaxon), 0);
 
                 _UpdateExcludes();
             };
@@ -486,13 +460,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() =>
-                {
-                    int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
-                    currentTaxon.SwapExclude(index, index - 1);
-                });
-                Views.Common.BackgroundTaskFinish();
+                int index = await currentTaxon.GetIndexOfExcludeAsync(Views.Common.RightButtonTaxon);
+                await currentTaxon.SwapExcludeAsync(index, index - 1);
 
                 _UpdateExcludes();
             };
@@ -503,13 +472,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() =>
-                {
-                    int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
-                    currentTaxon.SwapExclude(index, index + 1);
-                });
-                Views.Common.BackgroundTaskFinish();
+                int index = await currentTaxon.GetIndexOfExcludeAsync(Views.Common.RightButtonTaxon);
+                await currentTaxon.SwapExcludeAsync(index, index + 1);
 
                 _UpdateExcludes();
             };
@@ -520,9 +484,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => currentTaxon.MoveExclude(currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1));
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.MoveExcludeAsync(await currentTaxon.GetIndexOfExcludeAsync(Views.Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
 
                 _UpdateExcludes();
             };
@@ -531,9 +493,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Excludes_Remove.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.CurrentTaxon.RemoveExclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.CurrentTaxon.RemoveExcludeAsync(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -567,9 +527,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_ExcludeBy_Remove.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.RightButtonTaxon.RemoveExclude(Views.Common.CurrentTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.RightButtonTaxon.RemoveExcludeAsync(Views.Common.CurrentTaxon);
 
                 _UpdateExcludeByWithVisibility();
 
@@ -587,9 +545,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), 0));
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.MoveIncludeAsync(await currentTaxon.GetIndexOfIncludeAsync(Views.Common.RightButtonTaxon), 0);
 
                 _UpdateIncludes();
             };
@@ -600,13 +556,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() =>
-                {
-                    int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
-                    currentTaxon.SwapInclude(index, index - 1);
-                });
-                Views.Common.BackgroundTaskFinish();
+                int index = await currentTaxon.GetIndexOfIncludeAsync(Views.Common.RightButtonTaxon);
+                await currentTaxon.SwapIncludeAsync(index, index - 1);
 
                 _UpdateIncludes();
             };
@@ -617,13 +568,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() =>
-                {
-                    int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
-                    currentTaxon.SwapInclude(index, index + 1);
-                });
-                Views.Common.BackgroundTaskFinish();
+                int index = await currentTaxon.GetIndexOfIncludeAsync(Views.Common.RightButtonTaxon);
+                await currentTaxon.SwapIncludeAsync(index, index + 1);
 
                 _UpdateIncludes();
             };
@@ -634,9 +580,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => currentTaxon.MoveInclude(currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon), currentTaxon.Includes.Count - 1));
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.MoveIncludeAsync(await currentTaxon.GetIndexOfIncludeAsync(Views.Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
 
                 _UpdateIncludes();
             };
@@ -645,9 +589,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_Includes_Remove.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.CurrentTaxon.RemoveInclude(Views.Common.RightButtonTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.CurrentTaxon.RemoveIncludeAsync(Views.Common.RightButtonTaxon);
 
                 ViewModel.UpdateTitle();
 
@@ -681,9 +623,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             item_IncludeBy_Remove.Click += async (s, e) =>
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => Views.Common.RightButtonTaxon.RemoveInclude(Views.Common.CurrentTaxon));
-                Views.Common.BackgroundTaskFinish();
+                await Views.Common.RightButtonTaxon.RemoveIncludeAsync(Views.Common.CurrentTaxon);
 
                 _UpdateIncludeByWithVisibility();
 
@@ -771,13 +711,11 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
         private async void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
         {
-            Taxon parent = Views.Common.CurrentTaxon.AddParentUplevel();
+            Taxon parent = await Views.Common.CurrentTaxon.AddParentUplevelAsync();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => parent.ParseCurrent(textBox_Parent.Text));
-                Views.Common.BackgroundTaskFinish();
+                await parent.ParseCurrentAsync(textBox_Parent.Text);
 
                 textBox_Parent.Clear();
             }
@@ -791,13 +729,11 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
         private async void Button_AddParentDownlevel_Click(object sender, RoutedEventArgs e)
         {
-            Taxon parent = Views.Common.CurrentTaxon.AddParentDownlevel();
+            Taxon parent = await Views.Common.CurrentTaxon.AddParentDownlevelAsync();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => parent.ParseCurrent(textBox_Parent.Text));
-                Views.Common.BackgroundTaskFinish();
+                await parent.ParseCurrentAsync(textBox_Parent.Text);
 
                 textBox_Parent.Clear();
             }
@@ -815,17 +751,13 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             if (string.IsNullOrEmpty(textBox_Children.Text))
             {
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(currentTaxon.AddChild);
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.AddChildAsync();
             }
             else
             {
                 string children = textBox_Children.Text;
 
-                Views.Common.BackgroundTaskStart();
-                await Task.Run(() => currentTaxon.ParseChildren(children.Split(Environment.NewLine)));
-                Views.Common.BackgroundTaskFinish();
+                await currentTaxon.ParseChildrenAsync(children.Split(Environment.NewLine));
 
                 textBox_Children.Clear();
             }
