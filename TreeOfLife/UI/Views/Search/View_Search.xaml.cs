@@ -144,27 +144,21 @@ namespace TreeOfLife.UI.Views.Search
                 _SearchResult_High.Clear();
                 _SearchResult_Low.Clear();
 
-                IReadOnlyList<(Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel)> searchResult = Entrance.Root.Search(keyWord);
+                IReadOnlyDictionary<TaxonSearchExtension.MatchLevel, IReadOnlyList<Taxon>> searchResult = Entrance.Root.SearchAndGroupByMatchLevel(keyWord);
 
-                if (searchResult is not null)
+                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Perfect])
                 {
-                    for (int i = 0; i < searchResult.Count; i++)
-                    {
-                        (Taxon taxon, TaxonSearchExtension.MatchLevel matchLevel) = searchResult[i];
+                    _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
+                }
 
-                        if (matchLevel == TaxonSearchExtension.MatchLevel.Perfect)
-                        {
-                            _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
-                        }
-                        else if (matchLevel == TaxonSearchExtension.MatchLevel.High)
-                        {
-                            _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
-                        }
-                        else
-                        {
-                            _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
-                        }
-                    }
+                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.High])
+                {
+                    _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
+                }
+
+                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Low])
+                {
+                    _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
                 }
             });
             AsyncMethod.Finish();

@@ -513,5 +513,30 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 return result;
             }
         }
+
+        // 搜索符合指定的关键词的子类群（并按匹配程度分组）。
+        public static IReadOnlyDictionary<MatchLevel, IReadOnlyList<Taxon>> SearchAndGroupByMatchLevel(this Taxon taxon, string keyWord)
+        {
+            List<Taxon> perfect = new List<Taxon>();
+            List<Taxon> high = new List<Taxon>();
+            List<Taxon> low = new List<Taxon>();
+
+            foreach ((Taxon t, MatchLevel matchLevel) in taxon.Search(keyWord))
+            {
+                switch (matchLevel)
+                {
+                    case MatchLevel.Perfect: perfect.Add(t); break;
+                    case MatchLevel.High: high.Add(t); break;
+                    case MatchLevel.Low: low.Add(t); break;
+                }
+            }
+
+            return new Dictionary<MatchLevel, IReadOnlyList<Taxon>>()
+            {
+                { MatchLevel.Perfect, perfect },
+                { MatchLevel.High, high },
+                { MatchLevel.Low, low }
+            };
+        }
     }
 }
