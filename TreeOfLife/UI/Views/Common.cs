@@ -32,12 +32,12 @@ namespace TreeOfLife.UI.Views
 
         //
 
+        public static Action UpdateCurrentTaxonInfo { get; set; }
+        public static Action UpdateTree { get; set; }
+
+        //
+
         public static Taxon RightButtonTaxon { get; set; } = null;
         public static Taxon SelectedTaxon { get; set; } = null;
-
-        public static Action UpdateCurrentTaxonInfo { get; set; }
-        public static Action ApplyToTaxon { get; set; }
-
-        public static Action UpdateTree { get; set; }
     }
 }

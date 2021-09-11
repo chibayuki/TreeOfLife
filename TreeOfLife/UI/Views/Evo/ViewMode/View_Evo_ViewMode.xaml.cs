@@ -272,7 +272,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
         public void UpdateCurrentTaxonInfo()
         {
-            ViewModel.UpdateFromTaxon();
+            ViewModel.LoadFromTaxon();
 
             _UpdateTitle();
 

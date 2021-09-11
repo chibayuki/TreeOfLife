@@ -113,7 +113,6 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -125,7 +124,6 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -137,7 +135,6 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -151,7 +148,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -165,7 +161,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -179,7 +174,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -193,7 +187,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
-                Common.ApplyToTaxon();
                 Common.UpdateCurrentTaxonInfo();
 
                 UpdateSubTree();
@@ -232,7 +225,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                     Common.RightButtonTaxon = null;
 
-                    Common.ApplyToTaxon();
                     Common.UpdateCurrentTaxonInfo();
 
                     UpdateSubTree();
@@ -272,7 +264,6 @@ namespace TreeOfLife.UI.Views.Tree
 
                     Common.RightButtonTaxon = null;
 
-                    Common.ApplyToTaxon();
                     Common.UpdateCurrentTaxonInfo();
 
                     UpdateSubTree();

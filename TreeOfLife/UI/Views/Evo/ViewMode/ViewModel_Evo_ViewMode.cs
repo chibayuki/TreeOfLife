@@ -33,7 +33,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
             }
         }
 
-        public void UpdateFromTaxon()
+        public void LoadFromTaxon()
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 

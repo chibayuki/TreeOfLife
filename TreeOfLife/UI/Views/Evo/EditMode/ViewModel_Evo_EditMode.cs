@@ -53,7 +53,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _Name = value;
 
-                NotifyPropertyChanged(nameof(Name));
+                //
+
+                if(_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Name));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.ScientificName = _Name.Trim();
+                    }
+                }
 
                 //
 
@@ -69,7 +83,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _ChsName = value;
 
-                NotifyPropertyChanged(nameof(ChsName));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(ChsName));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.ChineseName = _ChsName.Trim();
+                    }
+                }
 
                 //
 
@@ -85,7 +113,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _IsExtinct = value;
 
-                NotifyPropertyChanged(nameof(IsExtinct));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(IsExtinct));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.IsExtinct = _IsExtinct;
+                    }
+                }
 
                 //
 
@@ -114,7 +156,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _IsUnsure = value;
 
-                NotifyPropertyChanged(nameof(IsUnsure));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(IsUnsure));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.IsUnsure = _IsUnsure;
+                    }
+                }
 
                 //
 
@@ -130,6 +186,29 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _Category = value;
 
+                //
+
+                if (!_LoadingFromTaxon)
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        // 匿名类群的分类阶元始终为未分级
+                        if (string.IsNullOrEmpty(currentTaxon.ScientificName) && string.IsNullOrEmpty(currentTaxon.ChineseName))
+                        {
+                            currentTaxon.Category = TaxonomicCategory.Unranked;
+                        }
+                        // 只对具名类群应用分类阶元
+                        else
+                        {
+                            currentTaxon.Category = _Category;
+                        }
+                    }
+                }
+
+                //
+
                 UpdateTitle();
             }
         }
@@ -137,13 +216,45 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         public GeoChron Birth
         {
             get => _Birth;
-            set => _Birth = value;
+
+            set
+            {
+                _Birth = value;
+
+                //
+
+                if (!_LoadingFromTaxon)
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.Birth = _Birth;
+                    }
+                }
+            }
         }
 
         public GeoChron Extinction
         {
             get => _Extinction;
-            set => _Extinction = value;
+
+            set
+            {
+                _Extinction = value;
+
+                //
+
+                if (!_LoadingFromTaxon)
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.Extinction = _Extinction;
+                    }
+                }
+            }
         }
 
         public Visibility Grid_Extinction
@@ -166,7 +277,26 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _Synonyms = value;
 
-                NotifyPropertyChanged(nameof(Synonyms));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Synonyms));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.Synonyms.Clear();
+                        currentTaxon.Synonyms.AddRange(
+                            from s in _Synonyms.Split(Environment.NewLine)
+                            let synonym = s?.Trim()
+                            where !string.IsNullOrEmpty(synonym)
+                            select synonym);
+                    }
+                }
             }
         }
 
@@ -178,7 +308,26 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _Tags = value;
 
-                NotifyPropertyChanged(nameof(Tags));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Tags));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.Tags.Clear();
+                        currentTaxon.Tags.AddRange(
+                            from s in _Tags.Split(Environment.NewLine)
+                            let tag = s?.Trim()
+                            where !string.IsNullOrEmpty(tag)
+                            select tag);
+                    }
+                }
             }
         }
 
@@ -190,7 +339,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             {
                 _Description = value;
 
-                NotifyPropertyChanged(nameof(Description));
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Description));
+                }
+                else
+                {
+                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        currentTaxon.Description = _Description;
+                    }
+                }
             }
         }
 
@@ -198,75 +361,78 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            if (currentTaxon is not null)
+            TaxonomicCategory category = currentTaxon.Category;
+
+            TaxonNameTitle.ThemeColor = (currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
+
+            string name = _Name?.Trim();
+            string chsName = _ChsName?.Trim();
+
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
             {
-                TaxonomicCategory category = _Category;
+                TaxonNameTitle.Category = null;
+                TaxonNameTitle.TaxonName = "(未命名)";
+            }
+            else
+            {
+                TaxonNameTitle.Category = category;
 
-                TaxonNameTitle.ThemeColor = (currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
+                StringBuilder taxonName = new StringBuilder();
 
-                string name = _Name?.Trim();
-                string chsName = _ChsName?.Trim();
-
-                if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
+                if (_IsUnsure || _IsExtinct)
                 {
-                    TaxonNameTitle.Category = null;
-                    TaxonNameTitle.TaxonName = "(未命名)";
+                    if (_IsUnsure)
+                    {
+                        taxonName.Append('?');
+                    }
+
+                    if (_IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
                 }
-                else
+
+                if (!string.IsNullOrEmpty(chsName))
                 {
-                    TaxonNameTitle.Category = category;
+                    taxonName.Append(chsName);
 
-                    StringBuilder taxonName = new StringBuilder();
-
-                    if (_IsUnsure || _IsExtinct)
+                    if (!string.IsNullOrEmpty(name))
                     {
-                        if (_IsUnsure)
-                        {
-                            taxonName.Append('?');
-                        }
-
-                        if (_IsExtinct)
-                        {
-                            taxonName.Append('†');
-                        }
-
-                        taxonName.Append(' ');
-                    }
-
-                    if (!string.IsNullOrEmpty(chsName))
-                    {
-                        taxonName.Append(chsName);
-
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            taxonName.Append('\n');
-                            taxonName.Append(name);
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(name))
-                    {
+                        taxonName.Append('\n');
                         taxonName.Append(name);
                     }
-
-                    if (currentTaxon.IsPolyphyly)
-                    {
-                        taxonName.Append(" #");
-                    }
-                    else if (currentTaxon.IsParaphyly)
-                    {
-                        taxonName.Append(" *");
-                    }
-
-                    TaxonNameTitle.TaxonName = taxonName.ToString();
+                }
+                else if (!string.IsNullOrEmpty(name))
+                {
+                    taxonName.Append(name);
                 }
 
-                TaxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
-                TaxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+                if (currentTaxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (currentTaxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
+                }
+
+                TaxonNameTitle.TaxonName = taxonName.ToString();
             }
+
+            TaxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
+            TaxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
         }
+
+        private bool _LoadingFromTaxon = false;
 
         public void LoadFromTaxon()
         {
+            _LoadingFromTaxon = true;
+
+            //
+
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
             Name = currentTaxon.ScientificName;
@@ -283,50 +449,10 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             Synonyms = string.Join(Environment.NewLine, currentTaxon.Synonyms.ToArray());
             Tags = string.Join(Environment.NewLine, currentTaxon.Tags.ToArray());
             Description = currentTaxon.Description;
-        }
 
-        public void ApplyToTaxon()
-        {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            //
 
-            if (!currentTaxon.IsRoot)
-            {
-                currentTaxon.ScientificName = _Name.Trim();
-                currentTaxon.ChineseName = _ChsName.Trim();
-
-                currentTaxon.IsExtinct = _IsExtinct;
-                currentTaxon.IsUnsure = _IsUnsure;
-
-                currentTaxon.Birth = _Birth;
-                currentTaxon.Extinction = _Extinction;
-
-                // 只对具名类群应用分类阶元
-                if (currentTaxon.ScientificName.Length > 0 || currentTaxon.ChineseName.Length > 0)
-                {
-                    currentTaxon.Category = _Category;
-                }
-                // 匿名类群的分类阶元始终为未分级
-                else
-                {
-                    currentTaxon.Category = TaxonomicCategory.Unranked;
-                }
-
-                currentTaxon.Synonyms.Clear();
-                currentTaxon.Synonyms.AddRange(
-                    from s in _Synonyms.Split(Environment.NewLine)
-                    let synonym = s?.Trim()
-                    where !string.IsNullOrEmpty(synonym)
-                    select synonym);
-
-                currentTaxon.Tags.Clear();
-                currentTaxon.Tags.AddRange(
-                    from s in _Tags.Split(Environment.NewLine)
-                    let tag = s?.Trim()
-                    where !string.IsNullOrEmpty(tag)
-                    select tag);
-
-                currentTaxon.Description = _Description;
-            }
+            _LoadingFromTaxon = false;
         }
     }
 }

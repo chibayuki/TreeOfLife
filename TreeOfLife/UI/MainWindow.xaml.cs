@@ -69,7 +69,6 @@ namespace TreeOfLife.UI
                     view_Evo_ViewMode.UpdateCurrentTaxonInfo();
                 }
             };
-            Common.ApplyToTaxon = view_Evo_EditMode.ViewModel.ApplyToTaxon;
             Common.UpdateTree = view_Tree.UpdateSubTree;
 
             AsyncMethod.Start = () =>
@@ -544,13 +543,6 @@ namespace TreeOfLife.UI
         {
             if (Common.EditMode != editMode)
             {
-                if (Common.EditMode ?? false)
-                {
-                    view_Evo_EditMode.ViewModel.ApplyToTaxon();
-                }
-
-                //
-
                 Common.EditMode = editMode;
 
                 //
@@ -607,13 +599,6 @@ namespace TreeOfLife.UI
 
             if (Common.CurrentTaxon != taxon)
             {
-                if (Common.EditMode ?? false)
-                {
-                    view_Evo_EditMode.ViewModel.ApplyToTaxon();
-                }
-
-                //
-
                 Common.CurrentTaxon = taxon;
 
                 if (Common.EditMode ?? false)
