@@ -70,15 +70,15 @@ namespace TreeOfLife.Core.Taxonomy
         public string ScientificName
         {
             // 确保不为 null 或 WhiteSpace
-            get => (_ScientificName ?? string.Empty);
-            set => _ScientificName = (value?.Trim() ?? string.Empty);
+            get => _ScientificName ?? string.Empty;
+            set => _ScientificName = value?.Trim() ?? string.Empty;
         }
 
         public string ChineseName
         {
             // 确保不为 null 或 WhiteSpace
-            get => (_ChineseName ?? string.Empty);
-            set => _ChineseName = (value?.Trim() ?? string.Empty);
+            get => _ChineseName ?? string.Empty;
+            set => _ChineseName = value?.Trim() ?? string.Empty;
         }
 
         public List<string> Synonyms => _Synonyms;
@@ -112,15 +112,15 @@ namespace TreeOfLife.Core.Taxonomy
         public GeoChron Birth
         {
             // 确保不为 null
-            get => (_Birth ?? GeoChron.Empty);
-            set => _Birth = (value ?? GeoChron.Empty);
+            get => _Birth ?? GeoChron.Empty;
+            set => _Birth = value ?? GeoChron.Empty;
         }
 
         public GeoChron Extinction
         {
             // 确保不为 null
-            get => (_Extinction ?? GeoChron.Empty);
-            set => _Extinction = (value ?? GeoChron.Empty);
+            get => _Extinction ?? GeoChron.Empty;
+            set => _Extinction = value ?? GeoChron.Empty;
         }
 
         public Taxon Parent => _Parent;
@@ -154,10 +154,10 @@ namespace TreeOfLife.Core.Taxonomy
         }
 
         // 判断当前类群是否为顶级类群。
-        public bool IsRoot => (_Parent is null);
+        public bool IsRoot => _Parent is null;
 
         // 判断当前类群是否为末端类群。
-        public bool IsFinal => (_Children.Count <= 0);
+        public bool IsFinal => _Children.Count <= 0;
 
         // 判断当前类群是否继承自指定类群。
         public bool InheritFrom(Taxon taxon)
@@ -210,13 +210,13 @@ namespace TreeOfLife.Core.Taxonomy
         public IReadOnlyList<Taxon> Includes => _Includes;
 
         // 判断当前类群是否为单系群。
-        public bool IsMonophyly => (_Includes.Count <= 0 && _Excludes.Count <= 0);
+        public bool IsMonophyly => _Includes.Count <= 0 && _Excludes.Count <= 0;
 
         // 判断当前类群是否为并系群。
-        public bool IsParaphyly => (_Includes.Count <= 0 && _Excludes.Count > 0);
+        public bool IsParaphyly => _Includes.Count <= 0 && _Excludes.Count > 0;
 
         // 判断当前类群是否为复系群。
-        public bool IsPolyphyly => (_Includes.Count > 0);
+        public bool IsPolyphyly => _Includes.Count > 0;
 
         //
 

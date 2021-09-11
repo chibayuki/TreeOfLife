@@ -56,15 +56,15 @@ namespace TreeOfLife.UI.Controls
                     bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= TaxonomicCategory.Genus;
                 }
 
-                textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-                textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+                textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;
+                textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
             }
         }
 
         private void _UpdateSign()
         {
-            grid_Positive.Visibility = (_Sign > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Negative.Visibility = (_Sign < 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Positive.Visibility = _Sign > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Negative.Visibility = _Sign < 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool _IsRoot = false;
@@ -137,7 +137,7 @@ namespace TreeOfLife.UI.Controls
                     grid_LeftPart.Visibility = Visibility.Collapsed;
                 }
 
-                grid_RightPart.Visibility = (!_IsFinal ? Visibility.Visible : Visibility.Collapsed);
+                grid_RightPart.Visibility = !_IsFinal ? Visibility.Visible : Visibility.Collapsed;
             }
             else
             {
@@ -147,7 +147,7 @@ namespace TreeOfLife.UI.Controls
                 else _SetEntranceType(_NodeEntranceType.Normal);
 
                 grid_LeftPart.Visibility = Visibility.Visible;
-                grid_RightPart.Visibility = (!_IsFinal && _ShowButton ? Visibility.Visible : Visibility.Collapsed);
+                grid_RightPart.Visibility = !_IsFinal && _ShowButton ? Visibility.Visible : Visibility.Collapsed;
             }
 
             if (_ShowButton && _Taxon is not null)
@@ -209,7 +209,7 @@ namespace TreeOfLife.UI.Controls
         {
             Point p = Mouse.GetPosition(border_TaxonName);
 
-            return (p.X >= 0 && p.X < border_TaxonName.ActualWidth && p.Y >= 0 && p.Y < border_TaxonName.ActualHeight);
+            return p.X >= 0 && p.X < border_TaxonName.ActualWidth && p.Y >= 0 && p.Y < border_TaxonName.ActualHeight;
         }
 
         //

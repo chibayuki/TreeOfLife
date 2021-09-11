@@ -132,8 +132,8 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                         if (TaxonomicCategoryChineseExtension.TryParseCategory(chsPart, out category, out categoryNameIndex))
                         {
                             // 特殊处理"类"，"类"一般指演化支
-                            taxon.Category = (category == TaxonomicCategory.Division ? TaxonomicCategory.Clade : category);
-                            taxon.ChineseName = (categoryNameIndex == 0 ? string.Empty : chsPart);
+                            taxon.Category = category == TaxonomicCategory.Division ? TaxonomicCategory.Clade : category;
+                            taxon.ChineseName = categoryNameIndex == 0 ? string.Empty : chsPart;
                         }
                         else
                         {

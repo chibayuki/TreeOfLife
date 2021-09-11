@@ -45,7 +45,7 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateGeoChron()
         {
-            textBlock_GeoChronName.Text = (_Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName);
+            textBlock_GeoChronName.Text = _Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName;
         }
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。

@@ -78,7 +78,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _BeforeChrist = value;
 
-                button_ADBC.Content = (_BeforeChrist ? "公元前 (BC)" : "公元 (AD)");
+                button_ADBC.Content = _BeforeChrist ? "公元前 (BC)" : "公元 (AD)";
             }
         }
 
@@ -738,7 +738,7 @@ namespace TreeOfLife.UI.Controls
                             radioButton_CEYear.IsChecked = true;
                             stackPanel_CEYear.Visibility = Visibility.Visible;
 
-                            BeforeChrist = (newGeoChron.CEYear < 0);
+                            BeforeChrist = newGeoChron.CEYear < 0;
 
                             textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
                             textBox_CEYear.Focus();
@@ -855,7 +855,7 @@ namespace TreeOfLife.UI.Controls
                             radioButton_CEYear.IsChecked = true;
                             stackPanel_CEYear.Visibility = Visibility.Visible;
 
-                            BeforeChrist = (newGeoChron.CEYear < 0);
+                            BeforeChrist = newGeoChron.CEYear < 0;
 
                             textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
                             textBox_CEYear.Focus();

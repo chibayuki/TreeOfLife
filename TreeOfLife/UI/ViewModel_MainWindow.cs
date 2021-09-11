@@ -47,10 +47,10 @@ namespace TreeOfLife.UI
             PageButtonEnabled_Search = !(_CurrentPage.Value == Pages.Search);
             PageButtonEnabled_About = !(_CurrentPage.Value == Pages.About);
 
-            PageVisibility_File = (!PageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed);
-            PageVisibility_Evo = (!PageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed);
-            PageVisibility_Search = (!PageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed);
-            PageVisibility_About = (!PageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed);
+            PageVisibility_File = !PageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed;
+            PageVisibility_Evo = !PageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed;
+            PageVisibility_Search = !PageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed;
+            PageVisibility_About = !PageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public Pages? CurrentPage

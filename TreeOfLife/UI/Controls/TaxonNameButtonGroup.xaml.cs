@@ -66,7 +66,7 @@ namespace TreeOfLife.UI.Controls
             {
                 for (int i = 0; i < _Buttons.Count; i++)
                 {
-                    _Buttons[i].Margin = new Thickness(0, (i > 0 ? _ButtonMarginHeight : 0), 0, 0);
+                    _Buttons[i].Margin = new Thickness(0, i > 0 ? _ButtonMarginHeight : 0, 0, 0);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace TreeOfLife.UI.Controls
 
             private void _UpdateGroupNameColor()
             {
-                _NameText.Foreground = (_IsDarkTheme ? Brushes.Black : Brushes.White);
+                _NameText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
                 _NameBorder.Background = Theme.GetSolidColorBrush(_GroupNameColor.AtLightness_LAB(50));
             }
 
@@ -258,7 +258,7 @@ namespace TreeOfLife.UI.Controls
         {
             for (int i = 0; i < _Groups.Count; i++)
             {
-                _Groups[i].Container.Margin = new Thickness(0, (i > 0 ? _GroupMarginHeight : 0), 0, 0);
+                _Groups[i].Container.Margin = new Thickness(0, i > 0 ? _GroupMarginHeight : 0, 0, 0);
             }
         }
 

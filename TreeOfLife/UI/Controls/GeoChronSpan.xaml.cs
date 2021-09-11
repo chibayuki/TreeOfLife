@@ -271,7 +271,7 @@ namespace TreeOfLife.UI.Controls
                 _GeoChronSymbolsTable.Add(eon, symbol_Eon);
 
                 symbol_Eon.Container.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
-                symbol_Eon.Container.SetValue(Grid.ColumnSpanProperty, (eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1));
+                symbol_Eon.Container.SetValue(Grid.ColumnSpanProperty, eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1);
 
                 grid_PreCambrianMainly.Children.Add(symbol_Eon.Container);
 

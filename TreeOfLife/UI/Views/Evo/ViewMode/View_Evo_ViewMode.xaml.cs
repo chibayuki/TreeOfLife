@@ -45,13 +45,13 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
             {
                 _GetParentsOption = getParentsOption;
 
-                button_Least.IsEnabled = (_GetParentsOption != GetParentsOption.Least);
-                button_Summary.IsEnabled = (_GetParentsOption != GetParentsOption.Summary);
-                button_Full.IsEnabled = (_GetParentsOption != GetParentsOption.Full);
+                button_Least.IsEnabled = _GetParentsOption != GetParentsOption.Least;
+                button_Summary.IsEnabled = _GetParentsOption != GetParentsOption.Summary;
+                button_Full.IsEnabled = _GetParentsOption != GetParentsOption.Full;
 
-                path_Least.Visibility = (_GetParentsOption == GetParentsOption.Least ? Visibility.Visible : Visibility.Hidden);
-                path_Summary.Visibility = (_GetParentsOption == GetParentsOption.Summary ? Visibility.Visible : Visibility.Hidden);
-                path_Full.Visibility = (_GetParentsOption == GetParentsOption.Full ? Visibility.Visible : Visibility.Hidden);
+                path_Least.Visibility = _GetParentsOption == GetParentsOption.Least ? Visibility.Visible : Visibility.Hidden;
+                path_Summary.Visibility = _GetParentsOption == GetParentsOption.Summary ? Visibility.Visible : Visibility.Hidden;
+                path_Full.Visibility = _GetParentsOption == GetParentsOption.Full ? Visibility.Visible : Visibility.Hidden;
             };
 
             setGetParentsOption(GetParentsOption.Summary);
@@ -239,13 +239,13 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            grid_Tags.Visibility = (currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Synonyms.Visibility = (currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            stackPanel_TagsAndSynonyms.Visibility = (currentTaxon.Tags.Count > 0 || currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Parents.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Children.Visibility = (taxonNameButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Excludes.Visibility = (currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Desc.Visibility = (!string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed);
+            grid_Tags.Visibility = currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Synonyms.Visibility = currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            stackPanel_TagsAndSynonyms.Visibility = currentTaxon.Tags.Count > 0 || currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Parents.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Children.Visibility = taxonNameButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Excludes.Visibility = currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Desc.Visibility = !string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void _UpdateTitle()
@@ -254,13 +254,13 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
             taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
-            taxonNameTitle.Category = (currentTaxon.IsAnonymous() ? null : currentTaxon.Category);
+            taxonNameTitle.Category = currentTaxon.IsAnonymous() ? null : currentTaxon.Category;
             taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
 
             if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
             {
-                geoChronSpan.Update(currentTaxon.Birth, (currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present), currentTaxon.GetInheritedCategory());
+                geoChronSpan.Update(currentTaxon.Birth, currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present, currentTaxon.GetInheritedCategory());
 
                 geoChronSpan.Visibility = Visibility.Visible;
             }

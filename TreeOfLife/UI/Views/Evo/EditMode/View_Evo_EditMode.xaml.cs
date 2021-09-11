@@ -140,7 +140,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 Taxon selectedTaxon = Views.Common.SelectedTaxon;
 
                 selected.IsEnabled = false;
-                select.IsEnabled = (selectedTaxon != Views.Common.RightButtonTaxon);
+                select.IsEnabled = selectedTaxon != Views.Common.RightButtonTaxon;
 
                 if (selectedTaxon is null)
                 {
@@ -407,8 +407,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 item_Children_ExcludeBy.IsEnabled = selectedTaxon?.CanAddExclude(rightButtonTaxon) ?? false;
                 item_Children_IncludeBy.IsEnabled = selectedTaxon?.CanAddInclude(rightButtonTaxon) ?? false;
 
-                item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
-                item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
+                item_Children_MoveTop.IsEnabled = item_Children_MoveUp.IsEnabled = !rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0;
+                item_Children_MoveBottom.IsEnabled = item_Children_MoveDown.IsEnabled = !rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1;
 
                 if (rightButtonTaxon.IsFinal)
                 {
@@ -508,8 +508,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 int index = currentTaxon.GetIndexOfExclude(Views.Common.RightButtonTaxon);
 
-                item_Excludes_MoveTop.IsEnabled = item_Excludes_MoveUp.IsEnabled = (index > 0);
-                item_Excludes_MoveBottom.IsEnabled = item_Excludes_MoveDown.IsEnabled = (index < currentTaxon.Excludes.Count - 1);
+                item_Excludes_MoveTop.IsEnabled = item_Excludes_MoveUp.IsEnabled = index > 0;
+                item_Excludes_MoveBottom.IsEnabled = item_Excludes_MoveDown.IsEnabled = index < currentTaxon.Excludes.Count - 1;
             };
 
             _ContextMenu_Excludes = new ContextMenu();
@@ -604,8 +604,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 int index = currentTaxon.GetIndexOfInclude(Views.Common.RightButtonTaxon);
 
-                item_Includes_MoveTop.IsEnabled = item_Includes_MoveUp.IsEnabled = (index > 0);
-                item_Includes_MoveBottom.IsEnabled = item_Includes_MoveDown.IsEnabled = (index < currentTaxon.Includes.Count - 1);
+                item_Includes_MoveTop.IsEnabled = item_Includes_MoveUp.IsEnabled = index > 0;
+                item_Includes_MoveBottom.IsEnabled = item_Includes_MoveDown.IsEnabled = index < currentTaxon.Includes.Count - 1;
             };
 
             _ContextMenu_Includes = new ContextMenu();
@@ -793,7 +793,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             _UpdateChildren();
 
-            grid_Children.Visibility = (!Views.Common.CurrentTaxon.IsFinal ? Visibility.Visible : Visibility.Collapsed);
+            grid_Children.Visibility = !Views.Common.CurrentTaxon.IsFinal ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 更新 Excludes。
@@ -811,7 +811,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             _UpdateExcludes();
 
-            grid_Excludes.Visibility = (Views.Common.CurrentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Excludes.Visibility = Views.Common.CurrentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 更新 ExcludeBy。
@@ -829,7 +829,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             _UpdateExcludeBy();
 
-            grid_ExcludeBy.Visibility = (Views.Common.CurrentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_ExcludeBy.Visibility = Views.Common.CurrentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 更新 Includes。
@@ -847,7 +847,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             _UpdateIncludes();
 
-            grid_Includes.Visibility = (Views.Common.CurrentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Includes.Visibility = Views.Common.CurrentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 更新 IncludeBy。
@@ -865,7 +865,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             _UpdateIncludeBy();
 
-            grid_IncludeBy.Visibility = (Views.Common.CurrentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_IncludeBy.Visibility = Views.Common.CurrentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 更新可见性。
@@ -873,20 +873,20 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            grid_Name.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Category.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_State.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Chron.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Synonyms.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Tags.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Desc.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Parents.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_AddParent.Visibility = (!currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed);
-            grid_Children.Visibility = (!currentTaxon.IsFinal ? Visibility.Visible : Visibility.Collapsed);
-            grid_Excludes.Visibility = (currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_ExcludeBy.Visibility = (currentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Includes.Visibility = (currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_IncludeBy.Visibility = (currentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Name.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Category.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_State.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Chron.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Synonyms.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Tags.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Desc.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Parents.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_AddParent.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Children.Visibility = !currentTaxon.IsFinal ? Visibility.Visible : Visibility.Collapsed;
+            grid_Excludes.Visibility = currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_ExcludeBy.Visibility = currentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Includes.Visibility = currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_IncludeBy.Visibility = currentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void UpdateCurrentTaxonInfo()

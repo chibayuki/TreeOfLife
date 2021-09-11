@@ -693,7 +693,7 @@ namespace TreeOfLife.Core.Geology.Extensions
                 }
                 else
                 {
-                    return null;
+                    throw new ArgumentException();
                 }
             }
         }

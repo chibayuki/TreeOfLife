@@ -76,7 +76,7 @@ namespace TreeOfLife.UI.Controls
                 }
             }
 
-            textBlock_TaxonName.Text = (_Taxon is null ? string.Empty : _Taxon.GetShortName());
+            textBlock_TaxonName.Text = _Taxon is null ? string.Empty : _Taxon.GetShortName();
 
             bool basicPrimary = category.IsBasicPrimaryCategory();
             bool bellowGenus = false;
@@ -88,14 +88,14 @@ namespace TreeOfLife.UI.Controls
                 bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= TaxonomicCategory.Genus;
             }
 
-            textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = (bellowGenus ? FontStyles.Italic : FontStyles.Normal);
-            textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = (basicPrimary ? FontWeights.Bold : FontWeights.Normal);
+            textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;
+            textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
         }
 
         private void _UpdateSign()
         {
-            grid_Positive.Visibility = (_Sign > 0 ? Visibility.Visible : Visibility.Collapsed);
-            grid_Negative.Visibility = (_Sign < 0 ? Visibility.Visible : Visibility.Collapsed);
+            grid_Positive.Visibility = _Sign > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Negative.Visibility = _Sign < 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private double _CategoryNameWidth = 50; // 分类阶元名称宽度。

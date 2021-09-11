@@ -108,7 +108,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     }
                 }
 
-                return (nameIsMatched && categoryIsMatched);
+                return nameIsMatched && categoryIsMatched;
             }
         }
 
@@ -182,7 +182,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             if (!taxon.IsRoot)
             {
-                Taxon parent = (skipParaphyly ? taxon._GetParentSkipParaphyly() : taxon.Parent);
+                Taxon parent = skipParaphyly ? taxon._GetParentSkipParaphyly() : taxon.Parent;
 
                 while (parent is not null)
                 {
@@ -201,7 +201,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                         parents.Add(parent);
                     }
 
-                    parent = (skipParaphyly ? parent._GetParentSkipParaphyly() : parent.Parent);
+                    parent = skipParaphyly ? parent._GetParentSkipParaphyly() : parent.Parent;
                 }
             }
 

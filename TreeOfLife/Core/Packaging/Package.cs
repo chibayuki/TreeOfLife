@@ -126,7 +126,7 @@ namespace TreeOfLife.Core.Packaging
 
             string fileName = Path.GetFileNameWithoutExtension(destinationArchiveFileName);
             string randomFileName = Path.GetRandomFileName();
-            string tmpFile = Path.Combine(dir, string.Concat((fileName.Length > 6 ? fileName[0..6] : fileName), "~", (randomFileName.Length > 6 ? randomFileName[0..6] : randomFileName), ".tmp"));
+            string tmpFile = Path.Combine(dir, string.Concat(fileName.Length > 6 ? fileName[0..6] : fileName, "~", randomFileName.Length > 6 ? randomFileName[0..6] : randomFileName, ".tmp"));
 
             // 先压缩到用户文件同目录下的临时文件，压缩成功之后，再更新用户文件
             ZipFile.CreateFromDirectory(sourceDirectoryName, tmpFile, CompressionLevel.Optimal, false);

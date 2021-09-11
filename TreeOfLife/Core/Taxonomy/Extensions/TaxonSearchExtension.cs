@@ -60,7 +60,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     }
                     else
                     {
-                        matrix[i, j] = (continuous ? 0 : Math.Max(matrix[i - 1, j], matrix[i, j - 1]));
+                        matrix[i, j] = continuous ? 0 : Math.Max(matrix[i - 1, j], matrix[i, j - 1]);
                     }
                 }
             }
@@ -318,7 +318,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                         if (!string.IsNullOrEmpty(taxon.ChineseName))
                         {
                             string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
-                            string keyWordWithoutCategory = (taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory);
+                            string keyWordWithoutCategory = taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory;
 
                             (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
                             result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
@@ -417,7 +417,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             if (string.IsNullOrEmpty(keyWord))
             {
-                return null;
+                return new List<(Taxon, MatchLevel)>();
             }
             else
             {

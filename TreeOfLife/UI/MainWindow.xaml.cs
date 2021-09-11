@@ -121,7 +121,7 @@ namespace TreeOfLife.UI
 
             //
 
-            Theme.IsDarkThemeChanged += (s, e) => button_IsDarkTheme.Content = (Theme.IsDarkTheme ? "☼" : "☽");
+            Theme.IsDarkThemeChanged += (s, e) => button_IsDarkTheme.Content = Theme.IsDarkTheme ? "☼" : "☽";
 
             Random random = new Random(Environment.TickCount);
             Theme.ThemeColor = ColorX.FromHSL(random.Next(360), random.Next(20, 60), 50);
@@ -235,7 +235,7 @@ namespace TreeOfLife.UI
                 }
             }
 
-            _Saved = (result ?? false);
+            _Saved = result ?? false;
 
             return result;
         }
@@ -294,7 +294,7 @@ namespace TreeOfLife.UI
                 }
             }
 
-            _Saved = (result ?? false);
+            _Saved = result ?? false;
 
             return result;
         }
@@ -311,7 +311,7 @@ namespace TreeOfLife.UI
                 result = await AsyncMethod.SaveAsAsync(_SaveFileDialog.FileName);
             }
 
-            _Saved = (result ?? false);
+            _Saved = result ?? false;
 
             return result;
         }
@@ -547,8 +547,8 @@ namespace TreeOfLife.UI
 
                 //
 
-                view_Evo_ViewMode.Visibility = (!editMode ? Visibility.Visible : Visibility.Collapsed);
-                view_Evo_EditMode.Visibility = (editMode ? Visibility.Visible : Visibility.Collapsed);
+                view_Evo_ViewMode.Visibility = !editMode ? Visibility.Visible : Visibility.Collapsed;
+                view_Evo_EditMode.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
 
                 //
 

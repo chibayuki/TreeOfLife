@@ -42,7 +42,7 @@ namespace TreeOfLife.UI.Views.Evo
                 {
                     categoryOfGroup = taxon.Category.BasicCategory();
 
-                    groups.Add(((categoryOfGroup.IsPrimaryOrSecondaryCategory() ? categoryOfGroup.GetChineseName() : string.Empty), taxon.GetThemeColor(), new List<TaxonNameItem>()));
+                    groups.Add((categoryOfGroup.IsPrimaryOrSecondaryCategory() ? categoryOfGroup.GetChineseName() : string.Empty, taxon.GetThemeColor(), new List<TaxonNameItem>()));
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace TreeOfLife.UI.Views.Evo
                 ((List<TaxonNameItem>)groups[groupIndex].items).Add(new TaxonNameItem()
                 {
                     Taxon = taxon,
-                    IsChecked = (taxon == Views.Common.CurrentTaxon),
+                    IsChecked = taxon == Views.Common.CurrentTaxon,
                     Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }

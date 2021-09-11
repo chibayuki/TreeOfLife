@@ -363,10 +363,10 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             TaxonomicCategory category = currentTaxon.Category;
 
-            TaxonNameTitle.ThemeColor = (currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor());
+            TaxonNameTitle.ThemeColor = currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
 
-            string name = _Name?.Trim();
-            string chsName = _ChsName?.Trim();
+            string name = currentTaxon.ScientificName;
+            string chsName = currentTaxon.ChineseName;
 
             if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
             {
@@ -379,14 +379,14 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 StringBuilder taxonName = new StringBuilder();
 
-                if (_IsUnsure || _IsExtinct)
+                if (currentTaxon.IsUnsure || currentTaxon.IsExtinct)
                 {
-                    if (_IsUnsure)
+                    if (currentTaxon.IsUnsure)
                     {
                         taxonName.Append('?');
                     }
 
-                    if (_IsExtinct)
+                    if (currentTaxon.IsExtinct)
                     {
                         taxonName.Append('†');
                     }

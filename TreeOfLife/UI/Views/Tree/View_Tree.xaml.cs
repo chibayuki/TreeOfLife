@@ -68,7 +68,7 @@ namespace TreeOfLife.UI.Views.Tree
                 Taxon selectedTaxon = Common.SelectedTaxon;
 
                 selected.IsEnabled = false;
-                select.IsEnabled = (selectedTaxon != Common.RightButtonTaxon);
+                select.IsEnabled = selectedTaxon != Common.RightButtonTaxon;
 
                 if (selectedTaxon is null)
                 {
@@ -281,8 +281,8 @@ namespace TreeOfLife.UI.Views.Tree
                 item_ExcludeBy.IsEnabled = selectedTaxon?.CanAddExclude(rightButtonTaxon) ?? false;
                 item_IncludeBy.IsEnabled = selectedTaxon?.CanAddInclude(rightButtonTaxon) ?? false;
 
-                item_MoveTop.IsEnabled = item_MoveUp.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0);
-                item_MoveBottom.IsEnabled = item_MoveDown.IsEnabled = (!rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1);
+                item_MoveTop.IsEnabled = item_MoveUp.IsEnabled = !rightButtonTaxon.IsRoot && rightButtonTaxon.Index > 0;
+                item_MoveBottom.IsEnabled = item_MoveDown.IsEnabled = !rightButtonTaxon.IsRoot && rightButtonTaxon.Index < rightButtonTaxon.Parent.Children.Count - 1;
 
                 if (rightButtonTaxon.IsRoot)
                 {
@@ -559,8 +559,8 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 node.Sign = node.Sign;
 
-                node.IsRoot = (node.Parent is null);
-                node.IsFinal = (node.Children.Count <= 0);
+                node.IsRoot = node.Parent is null;
+                node.IsFinal = node.Children.Count <= 0;
 
                 if (node.IsRoot)
                 {
@@ -569,12 +569,12 @@ namespace TreeOfLife.UI.Views.Tree
                 }
                 else
                 {
-                    node.IsFirst = (node.Parent.Children.IndexOf(node) <= 0);
-                    node.IsLast = (node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1);
+                    node.IsFirst = node.Parent.Children.IndexOf(node) <= 0;
+                    node.IsLast = node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1;
                 }
 
-                node.ShowButton = ((Common.EditMode ?? false) ? true : node.Taxon.IsNamed());
-                node.IsChecked = (node.Taxon == Common.CurrentTaxon);
+                node.ShowButton = (Common.EditMode ?? false) ? true : node.Taxon.IsNamed();
+                node.IsChecked = node.Taxon == Common.CurrentTaxon;
 
                 if (Common.EditMode ?? false)
                 {

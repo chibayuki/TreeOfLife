@@ -50,11 +50,11 @@ namespace TreeOfLife.UI.Controls
 
                 if (_IsParaphyly)
                 {
-                    textBlock_CategoryName.Text = (category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群");
+                    textBlock_CategoryName.Text = category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群";
                 }
                 else if (_IsPolyphyly)
                 {
-                    textBlock_CategoryName.Text = (category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群");
+                    textBlock_CategoryName.Text = category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群";
                 }
                 else
                 {

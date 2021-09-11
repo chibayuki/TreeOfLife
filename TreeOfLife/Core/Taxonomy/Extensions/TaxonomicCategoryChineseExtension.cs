@@ -217,7 +217,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             }
             else
             {
-                return null;
+                throw new ArgumentException();
             }
         }
 

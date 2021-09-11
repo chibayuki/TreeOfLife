@@ -51,7 +51,7 @@ namespace TreeOfLife.Core.Geology
                 Func<int, double, GeoChron> BuildSubordinate = (enumValue, endMaBP) =>
                 {
                     startTimepoint = endTimepoint;
-                    endTimepoint = (double.IsNaN(endMaBP) ? Present : new GeoChron(endMaBP));
+                    endTimepoint = double.IsNaN(endMaBP) ? Present : new GeoChron(endMaBP);
 
                     GeoChron geoChron = new GeoChron(enumValue, new GeoChron[] { startTimepoint, endTimepoint });
 
@@ -509,7 +509,7 @@ namespace TreeOfLife.Core.Geology
         // 根据 CEYear 时间点获取所属地质年代。
         private static GeoChron _GetGeoChronByCEYear(int ceYear) => _GetGeoChronByMaBP(_CEYearToMaBP(ceYear));
 
-        private static double _CEYearToMaBP(int ceYear) => ((_BPBaseYear - (ceYear < 0 ? ceYear + 1 : ceYear)) * 0.000001);
+        private static double _CEYearToMaBP(int ceYear) => (_BPBaseYear - (ceYear < 0 ? ceYear + 1 : ceYear)) * 0.000001;
 
         private int _EnumValue; // 枚举值
         private GeoChronType _Type; // 类型
@@ -797,7 +797,7 @@ namespace TreeOfLife.Core.Geology
             _Type = GeoChronType.CEYear;
             _MaBP = null;
             _CEYear = ceYear;
-            _String = (ceYear < 0 ? _BCPrefix + -ceYear : _ADPrefix + ceYear);
+            _String = ceYear < 0 ? _BCPrefix + -ceYear : _ADPrefix + ceYear;
             _Superior = null;
             _Subordinates = null;
             _Start = this;
@@ -831,13 +831,13 @@ namespace TreeOfLife.Core.Geology
 
         public bool HasTimespanSubordinates => _HasTimespanSubordinates;
 
-        public bool IsEmpty => (_Type == GeoChronType.Empty);
+        public bool IsEmpty => _Type == GeoChronType.Empty;
 
-        public bool IsPresent => (_Type == GeoChronType.Present);
+        public bool IsPresent => _Type == GeoChronType.Present;
 
-        public bool IsTimespan => (_Type is GeoChronType.Eon or GeoChronType.Era or GeoChronType.Period or GeoChronType.Epoch or GeoChronType.Age);
+        public bool IsTimespan => _Type is GeoChronType.Eon or GeoChronType.Era or GeoChronType.Period or GeoChronType.Epoch or GeoChronType.Age;
 
-        public bool IsTimepoint => (_Type is GeoChronType.MaBP or GeoChronType.CEYear or GeoChronType.Present);
+        public bool IsTimepoint => _Type is GeoChronType.MaBP or GeoChronType.CEYear or GeoChronType.Present;
 
         public override bool Equals(object obj)
         {
@@ -853,7 +853,7 @@ namespace TreeOfLife.Core.Geology
             {
                 GeoChron geoChron = obj as GeoChron;
 
-                return (_EnumValue == geoChron._EnumValue && _Type == geoChron._Type && _MaBP == geoChron._MaBP && _CEYear == geoChron._CEYear);
+                return _EnumValue == geoChron._EnumValue && _Type == geoChron._Type && _MaBP == geoChron._MaBP && _CEYear == geoChron._CEYear;
             }
         }
 
@@ -913,7 +913,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._EnumValue == right._EnumValue && left._Type == right._Type && left._MaBP == right._MaBP && left._CEYear == right._CEYear);
+                return left._EnumValue == right._EnumValue && left._Type == right._Type && left._MaBP == right._MaBP && left._CEYear == right._CEYear;
             }
         }
 
@@ -929,7 +929,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._EnumValue != right._EnumValue || left._Type != right._Type || left._MaBP != right._MaBP || left._CEYear != right._CEYear);
+                return left._EnumValue != right._EnumValue || left._Type != right._Type || left._MaBP != right._MaBP || left._CEYear != right._CEYear;
             }
         }
 
@@ -945,7 +945,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._StartTimepointAsMaBP > right._StartTimepointAsMaBP && left._EndTimepointAsMaBP >= right._StartTimepointAsMaBP);
+                return left._StartTimepointAsMaBP > right._StartTimepointAsMaBP && left._EndTimepointAsMaBP >= right._StartTimepointAsMaBP;
             }
         }
 
@@ -961,7 +961,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._EndTimepointAsMaBP < right._EndTimepointAsMaBP && left._StartTimepointAsMaBP <= right._EndTimepointAsMaBP);
+                return left._EndTimepointAsMaBP < right._EndTimepointAsMaBP && left._StartTimepointAsMaBP <= right._EndTimepointAsMaBP;
             }
         }
 
@@ -977,7 +977,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._StartTimepointAsMaBP >= right._StartTimepointAsMaBP && left._EndTimepointAsMaBP >= right._EndTimepointAsMaBP);
+                return left._StartTimepointAsMaBP >= right._StartTimepointAsMaBP && left._EndTimepointAsMaBP >= right._EndTimepointAsMaBP;
             }
         }
 
@@ -993,7 +993,7 @@ namespace TreeOfLife.Core.Geology
             }
             else
             {
-                return (left._StartTimepointAsMaBP <= right._StartTimepointAsMaBP && left._EndTimepointAsMaBP <= right._EndTimepointAsMaBP);
+                return left._StartTimepointAsMaBP <= right._StartTimepointAsMaBP && left._EndTimepointAsMaBP <= right._EndTimepointAsMaBP;
             }
         }
     }

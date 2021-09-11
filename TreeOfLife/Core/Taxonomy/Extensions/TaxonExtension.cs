@@ -28,7 +28,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            return (string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName));
+            return string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName);
         }
 
         // 判断类群是否具名。
@@ -41,7 +41,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            return (!string.IsNullOrEmpty(taxon.ScientificName) || !string.IsNullOrEmpty(taxon.ChineseName));
+            return !string.IsNullOrEmpty(taxon.ScientificName) || !string.IsNullOrEmpty(taxon.ChineseName);
         }
 
         //
