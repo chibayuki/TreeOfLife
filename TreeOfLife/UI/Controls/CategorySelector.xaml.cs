@@ -32,16 +32,16 @@ namespace TreeOfLife.UI.Controls
     /// </summary>
     public partial class CategorySelector : UserControl
     {
-        private Dictionary<TaxonomicCategory, CategoryNameButton> _BasicCategoryButtons = new Dictionary<TaxonomicCategory, CategoryNameButton>();
-        private Dictionary<TaxonomicCategory, CategoryNameButton> _CategoriesButtons = new Dictionary<TaxonomicCategory, CategoryNameButton>();
-        private Dictionary<TaxonomicCategory, Panel> _CategoriesPanels = new Dictionary<TaxonomicCategory, Panel>();
+        private Dictionary<Category, CategoryNameButton> _BasicCategoryButtons = new Dictionary<Category, CategoryNameButton>();
+        private Dictionary<Category, CategoryNameButton> _CategoriesButtons = new Dictionary<Category, CategoryNameButton>();
+        private Dictionary<Category, Panel> _CategoriesPanels = new Dictionary<Category, Panel>();
 
         //
 
-        private void radioButton_PrimaryCategory_Checked(object sender, RoutedEventArgs e) => Category = TaxonomicCategory.Domain;
-        private void radioButton_SecondaryCategory_Checked(object sender, RoutedEventArgs e) => Category = TaxonomicCategory.Tribe;
-        private void radioButton_Clade_Checked(object sender, RoutedEventArgs e) => Category = TaxonomicCategory.Clade;
-        private void radioButton_Unranked_Checked(object sender, RoutedEventArgs e) => Category = TaxonomicCategory.Unranked;
+        private void radioButton_PrimaryCategory_Checked(object sender, RoutedEventArgs e) => Category = Category.Domain;
+        private void radioButton_SecondaryCategory_Checked(object sender, RoutedEventArgs e) => Category = Category.Tribe;
+        private void radioButton_Clade_Checked(object sender, RoutedEventArgs e) => Category = Category.Clade;
+        private void radioButton_Unranked_Checked(object sender, RoutedEventArgs e) => Category = Category.Unranked;
 
         private void _AddRadioButtonsEvents()
         {
@@ -61,7 +61,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        private void _InitBasicCategoryControls(Panel basicCategoryPanel, TaxonomicCategory basicCategory, Panel categoriesPanel, IEnumerable<TaxonomicCategory> categories)
+        private void _InitBasicCategoryControls(Panel basicCategoryPanel, Category basicCategory, Panel categoriesPanel, IEnumerable<Category> categories)
         {
             CategoryNameButton button_Basic = new CategoryNameButton()
             {
@@ -101,98 +101,98 @@ namespace TreeOfLife.UI.Controls
 
         private void _InitCategoryControls()
         {
-            foreach (var item in new (TaxonomicCategory basicCategory, TaxonomicCategory[] categories)[] {
-                (TaxonomicCategory.Domain, new TaxonomicCategory[] {
-                    TaxonomicCategory.Superdomain,
-                    TaxonomicCategory.Domain }),
-                (TaxonomicCategory.Kingdom, new TaxonomicCategory[] {
-                    TaxonomicCategory.Superkingdom,
-                    TaxonomicCategory.Kingdom,
-                    TaxonomicCategory.Subkingdom,
-                    TaxonomicCategory.Infrakingdom }),
-                (TaxonomicCategory.Phylum, new TaxonomicCategory[] {
-                    TaxonomicCategory.Superphylum,
-                    TaxonomicCategory.Phylum,
-                    TaxonomicCategory.Subphylum,
-                    TaxonomicCategory.Infraphylum,
-                    TaxonomicCategory.Parvphylum }),
-                (TaxonomicCategory.Class, new TaxonomicCategory[] {
-                    TaxonomicCategory.Megaclass,
-                    TaxonomicCategory.Superclass,
-                    TaxonomicCategory.Grandclass,
-                    TaxonomicCategory.Hyperclass,
-                    TaxonomicCategory.Class,
-                    TaxonomicCategory.Subclass,
-                    TaxonomicCategory.Infraclass,
-                    TaxonomicCategory.Parvclass }),
-                (TaxonomicCategory.Order, new TaxonomicCategory[] {
-                    TaxonomicCategory.Gigaorder,
-                    TaxonomicCategory.Megaorder,
-                    TaxonomicCategory.Superorder,
-                    TaxonomicCategory.Grandorder,
-                    TaxonomicCategory.Hyperorder,
-                    TaxonomicCategory.Order,
-                    TaxonomicCategory.Nanorder,
-                    TaxonomicCategory.Hypoorder,
-                    TaxonomicCategory.Minorder,
-                    TaxonomicCategory.Suborder,
-                    TaxonomicCategory.Infraorder,
-                    TaxonomicCategory.Parvorder }),
-                (TaxonomicCategory.Family, new TaxonomicCategory[] {
-                    TaxonomicCategory.Gigafamily,
-                    TaxonomicCategory.Megafamily,
-                    TaxonomicCategory.Superfamily,
-                    TaxonomicCategory.Grandfamily,
-                    TaxonomicCategory.Hyperfamily,
-                    TaxonomicCategory.Epifamily,
-                    TaxonomicCategory.Family,
-                    TaxonomicCategory.Subfamily,
-                    TaxonomicCategory.Infrafamily }),
-                (TaxonomicCategory.Genus, new TaxonomicCategory[] {
-                    TaxonomicCategory.Genus,
-                    TaxonomicCategory.Subgenus,
-                    TaxonomicCategory.Infragenus }),
-                (TaxonomicCategory.Species, new TaxonomicCategory[] {
-                    TaxonomicCategory.Superspecies,
-                    TaxonomicCategory.Species,
-                    TaxonomicCategory.Subspecies,
-                    TaxonomicCategory.Variety,
-                    TaxonomicCategory.Subvariety })
+            foreach (var item in new (Category basicCategory, Category[] categories)[] {
+                (Category.Domain, new Category[] {
+                    Category.Superdomain,
+                    Category.Domain }),
+                (Category.Kingdom, new Category[] {
+                    Category.Superkingdom,
+                    Category.Kingdom,
+                    Category.Subkingdom,
+                    Category.Infrakingdom }),
+                (Category.Phylum, new Category[] {
+                    Category.Superphylum,
+                    Category.Phylum,
+                    Category.Subphylum,
+                    Category.Infraphylum,
+                    Category.Parvphylum }),
+                (Category.Class, new Category[] {
+                    Category.Megaclass,
+                    Category.Superclass,
+                    Category.Grandclass,
+                    Category.Hyperclass,
+                    Category.Class,
+                    Category.Subclass,
+                    Category.Infraclass,
+                    Category.Parvclass }),
+                (Category.Order, new Category[] {
+                    Category.Gigaorder,
+                    Category.Megaorder,
+                    Category.Superorder,
+                    Category.Grandorder,
+                    Category.Hyperorder,
+                    Category.Order,
+                    Category.Nanorder,
+                    Category.Hypoorder,
+                    Category.Minorder,
+                    Category.Suborder,
+                    Category.Infraorder,
+                    Category.Parvorder }),
+                (Category.Family, new Category[] {
+                    Category.Gigafamily,
+                    Category.Megafamily,
+                    Category.Superfamily,
+                    Category.Grandfamily,
+                    Category.Hyperfamily,
+                    Category.Epifamily,
+                    Category.Family,
+                    Category.Subfamily,
+                    Category.Infrafamily }),
+                (Category.Genus, new Category[] {
+                    Category.Genus,
+                    Category.Subgenus,
+                    Category.Infragenus }),
+                (Category.Species, new Category[] {
+                    Category.Superspecies,
+                    Category.Species,
+                    Category.Subspecies,
+                    Category.Variety,
+                    Category.Subvariety })
             })
             {
                 _InitBasicCategoryControls(stackPanel_BasicPrimaryCategories, item.basicCategory, grid_PrimaryCategories, item.categories);
             }
 
-            foreach (var item in new (TaxonomicCategory basicCategory, TaxonomicCategory[] categories)[] {
-                (TaxonomicCategory.Tribe, new TaxonomicCategory[] {
-                    TaxonomicCategory.Supertribe,
-                    TaxonomicCategory.Tribe,
-                    TaxonomicCategory.Subtribe,
-                    TaxonomicCategory.Infratribe }),
-                (TaxonomicCategory.Cohort, new TaxonomicCategory[] {
-                    TaxonomicCategory.Megacohort,
-                    TaxonomicCategory.Supercohort,
-                    TaxonomicCategory.Cohort,
-                    TaxonomicCategory.Subcohort,
-                    TaxonomicCategory.Infracohort }),
-                (TaxonomicCategory.Section, new TaxonomicCategory[] {
-                    TaxonomicCategory.Supersection,
-                    TaxonomicCategory.Section,
-                    TaxonomicCategory.Subsection,
-                    TaxonomicCategory.Infrasection }),
-                (TaxonomicCategory.Division, new TaxonomicCategory[] {
-                    TaxonomicCategory.Superdivision,
-                    TaxonomicCategory.Division,
-                    TaxonomicCategory.Subdivision,
-                    TaxonomicCategory.Infradivision }),
-                (TaxonomicCategory.Series, new TaxonomicCategory[] {
-                    TaxonomicCategory.Series,
-                    TaxonomicCategory.Subseries }),
-                (TaxonomicCategory.Form, new TaxonomicCategory[] {
-                    TaxonomicCategory.Form,
-                    TaxonomicCategory.Subform }),
-                (TaxonomicCategory.Strain, new TaxonomicCategory[] {
-                    TaxonomicCategory.Strain })
+            foreach (var item in new (Category basicCategory, Category[] categories)[] {
+                (Category.Tribe, new Category[] {
+                    Category.Supertribe,
+                    Category.Tribe,
+                    Category.Subtribe,
+                    Category.Infratribe }),
+                (Category.Cohort, new Category[] {
+                    Category.Megacohort,
+                    Category.Supercohort,
+                    Category.Cohort,
+                    Category.Subcohort,
+                    Category.Infracohort }),
+                (Category.Section, new Category[] {
+                    Category.Supersection,
+                    Category.Section,
+                    Category.Subsection,
+                    Category.Infrasection }),
+                (Category.Division, new Category[] {
+                    Category.Superdivision,
+                    Category.Division,
+                    Category.Subdivision,
+                    Category.Infradivision }),
+                (Category.Series, new Category[] {
+                    Category.Series,
+                    Category.Subseries }),
+                (Category.Form, new Category[] {
+                    Category.Form,
+                    Category.Subform }),
+                (Category.Strain, new Category[] {
+                    Category.Strain })
             })
             {
                 _InitBasicCategoryControls(stackPanel_BasicSecondaryCategories, item.basicCategory, grid_SecondaryCategories, item.categories);
@@ -222,9 +222,9 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 当前选择的分类阶元。
+        private Category _Category = Category.Unranked; // 当前选择的分类阶元。
 
-        private void _UpdateCategory(TaxonomicCategory oldCategory, TaxonomicCategory newCategory)
+        private void _UpdateCategory(Category oldCategory, Category newCategory)
         {
             if (oldCategory != newCategory)
             {
@@ -411,7 +411,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public TaxonomicCategory Category
+        public Category Category
         {
             get => _Category;
 
@@ -444,6 +444,6 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public EventHandler<TaxonomicCategory> CategoryChanged;
+        public EventHandler<Category> CategoryChanged;
     }
 }

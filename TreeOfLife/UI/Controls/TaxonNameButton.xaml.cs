@@ -40,9 +40,9 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateTaxon()
         {
-            TaxonomicCategory category = _Taxon.Category;
+            Category category = _Taxon.Category;
 
-            if (_Taxon is null || _Taxon.IsAnonymous())
+            if (_Taxon is null || _Taxon.IsAnonymous)
             {
                 textBlock_CategoryName.Text = string.Empty;
             }
@@ -83,9 +83,9 @@ namespace TreeOfLife.UI.Controls
 
             if (category.IsPrimaryOrSecondaryCategory())
             {
-                TaxonomicCategory inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
+                Category inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
 
-                bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= TaxonomicCategory.Genus;
+                bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= Category.Genus;
             }
 
             textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;

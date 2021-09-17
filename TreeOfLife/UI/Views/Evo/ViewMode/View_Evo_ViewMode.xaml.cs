@@ -140,7 +140,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
                     foreach (var exclude in currentTaxon.Excludes)
                     {
-                        if (exclude.IsNamed())
+                        if (exclude.IsNamed)
                         {
                             if (child == exclude)
                             {
@@ -176,7 +176,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
                 // 若具名子类群是并系群，添加并系群排除的类群
                 foreach (var exclude in child.Excludes)
                 {
-                    if (exclude.IsNamed())
+                    if (exclude.IsNamed)
                     {
                         children.Add((exclude, -1));
                     }
@@ -193,7 +193,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
             // 若当前类群是复系群，添加复系群包含的类群
             foreach (var include in currentTaxon.Includes)
             {
-                if (include.IsNamed())
+                if (include.IsNamed)
                 {
                     children.Add((include, +1));
                 }
@@ -218,7 +218,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             foreach (var exclude in currentTaxon.Excludes)
             {
-                if (exclude.IsNamed())
+                if (exclude.IsNamed)
                 {
                     excludes.Add(exclude);
                 }
@@ -254,7 +254,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
             taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
-            taxonNameTitle.Category = currentTaxon.IsAnonymous() ? null : currentTaxon.Category;
+            taxonNameTitle.Category = currentTaxon.IsAnonymous ? null : currentTaxon.Category;
             taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
 

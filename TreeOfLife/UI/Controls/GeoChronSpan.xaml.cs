@@ -229,7 +229,7 @@ namespace TreeOfLife.UI.Controls
 
         private GeoChron _Birth = null;
         private GeoChron _Extinction = null;
-        private TaxonomicCategory _Category = TaxonomicCategory.Unranked;
+        private Category _Category = Category.Unranked;
 
         private Dictionary<GeoChron, _GeoChronSymbol> _GeoChronSymbolsTable = new Dictionary<GeoChron, _GeoChronSymbol>();
 
@@ -622,7 +622,7 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public TaxonomicCategory Category
+        public Category Category
         {
             get => _Category;
 
@@ -649,7 +649,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public void Update(GeoChron birth, GeoChron extinction, TaxonomicCategory category)
+        public void Update(GeoChron birth, GeoChron extinction, Category category)
         {
             _Birth = birth;
             _Extinction = extinction;

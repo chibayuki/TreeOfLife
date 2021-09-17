@@ -37,7 +37,7 @@ namespace TreeOfLife.Core.Taxonomy
         private List<string> _Tags = new List<string>(); // 标签。
         private string _Description = string.Empty; // 描述。
 
-        private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
+        private Category _Category = Category.Unranked; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
         private bool _IsUnsure = false; // 存疑。
@@ -81,6 +81,12 @@ namespace TreeOfLife.Core.Taxonomy
             set => _ChineseName = value?.Trim() ?? string.Empty;
         }
 
+        // 判断类群是否匿名。
+        public bool IsAnonymous => string.IsNullOrEmpty(_ScientificName) && string.IsNullOrEmpty(_ChineseName);
+
+        // 判断类群是否具名。
+        public bool IsNamed => !string.IsNullOrEmpty(_ScientificName) || !string.IsNullOrEmpty(_ChineseName);
+
         public List<string> Synonyms => _Synonyms;
 
         public List<string> Tags => _Tags;
@@ -91,7 +97,7 @@ namespace TreeOfLife.Core.Taxonomy
             set => _Description = value;
         }
 
-        public TaxonomicCategory Category
+        public Category Category
         {
             get => _Category;
             set => _Category = value;

@@ -78,7 +78,7 @@ namespace TreeOfLife.UI.Views.Tree
                 {
                     selected.Visibility = Visibility.Visible;
 
-                    if (selectedTaxon.IsAnonymous())
+                    if (selectedTaxon.IsAnonymous)
                     {
                         selected.Header = "已选择: \"(未命名)\"";
                     }
@@ -352,7 +352,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             foreach (var exclude in child.Excludes)
             {
-                if (exclude.IsNamed())
+                if (exclude.IsNamed)
                 {
                     TreeNodeItem excludeNode = new TreeNodeItem() { Taxon = exclude };
                     excludeNode.Sign = -1;
@@ -386,7 +386,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             foreach (var include in node.Taxon.Includes)
             {
-                if (include.IsNamed())
+                if (include.IsNamed)
                 {
                     TreeNodeItem includeNode = new TreeNodeItem() { Taxon = include };
                     includeNode.Sign = +1;
@@ -420,7 +420,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             //
 
-            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed)
             {
                 _CurrentChildrenDepth++;
             }
@@ -450,7 +450,7 @@ namespace TreeOfLife.UI.Views.Tree
                 }
             }
 
-            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed)
             {
                 _CurrentChildrenDepth--;
             }
@@ -468,7 +468,7 @@ namespace TreeOfLife.UI.Views.Tree
 
             //
 
-            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed)
             {
                 _CurrentSiblingsDepth++;
             }
@@ -498,7 +498,7 @@ namespace TreeOfLife.UI.Views.Tree
                 }
             }
 
-            if (node.Taxon.IsRoot || node.Taxon.IsNamed())
+            if (node.Taxon.IsRoot || node.Taxon.IsNamed)
             {
                 _CurrentSiblingsDepth--;
             }
@@ -520,7 +520,7 @@ namespace TreeOfLife.UI.Views.Tree
 
                 _BuildSubTreeForChildren(node);
             }
-            else if (node.Taxon.IsNamed() && !_NamedTaxon.InheritFrom(node.Taxon))
+            else if (node.Taxon.IsNamed && !_NamedTaxon.InheritFrom(node.Taxon))
             {
                 _CurrentSiblingsDepth = -1;
 
@@ -573,7 +573,7 @@ namespace TreeOfLife.UI.Views.Tree
                     node.IsLast = node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1;
                 }
 
-                node.ShowButton = (Common.EditMode ?? false) ? true : node.Taxon.IsNamed();
+                node.ShowButton = (Common.EditMode ?? false) ? true : node.Taxon.IsNamed;
                 node.IsChecked = node.Taxon == Common.CurrentTaxon;
 
                 if (Common.EditMode ?? false)
@@ -606,7 +606,7 @@ namespace TreeOfLife.UI.Views.Tree
             {
                 Taxon currentTaxon = Common.CurrentTaxon;
 
-                if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
+                if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous)
                 {
                     _NamedTaxon = currentTaxon.GetNamedParent();
 

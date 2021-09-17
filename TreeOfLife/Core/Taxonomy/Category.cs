@@ -13,10 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.Core.Packaging.Version2.Details
+namespace TreeOfLife.Core.Taxonomy
 {
     // 生物分类阶元。
-    public enum TaxonomicCategory
+    public enum Category
     {
         Unranked = 0, // 未分级。
 

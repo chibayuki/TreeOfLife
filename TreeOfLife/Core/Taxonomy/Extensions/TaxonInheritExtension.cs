@@ -38,9 +38,170 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         Any = NamedOrAnonymous | AnyCategory // 匹配任意类群
     }
 
-    // 生物分类单元（类群）的父类群相关扩展方法。
-    public static class TaxonParentExtension
+    // 生物分类单元（类群）的继承相关扩展方法。
+    public static class TaxonInheritExtension
     {
+        // 获取继承的分类阶元。
+        public static Category GetInheritedCategory(this Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.Category.IsPrimaryOrSecondaryCategory())
+            {
+                return taxon.Category;
+            }
+            else
+            {
+                Taxon nearestPrimaryOrSecondaryCategoryParent = null;
+                Taxon parent = taxon.Parent;
+
+                while (parent is not null)
+                {
+                    if (parent.Category.IsPrimaryOrSecondaryCategory())
+                    {
+                        nearestPrimaryOrSecondaryCategoryParent = parent;
+
+                        break;
+                    }
+                    else
+                    {
+                        parent = parent.Parent;
+                    }
+                }
+
+                if (nearestPrimaryOrSecondaryCategoryParent is null)
+                {
+                    return taxon.Root.Category;
+                }
+                else
+                {
+                    return nearestPrimaryOrSecondaryCategoryParent.Category;
+                }
+            }
+        }
+
+        // 获取继承的基本分类阶元。
+        public static Category GetInheritedBasicCategory(this Taxon taxon)
+        {
+            return taxon.GetInheritedCategory().BasicCategory();
+        }
+
+        // 获取继承的主要分类阶元。
+        public static Category GetInheritedPrimaryCategory(this Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.Category.IsPrimaryCategory())
+            {
+                return taxon.Category;
+            }
+            else
+            {
+                Taxon nearestPrimaryCategoryParent = null;
+                Taxon parent = taxon.Parent;
+
+                while (parent is not null)
+                {
+                    if (parent.Category.IsPrimaryCategory())
+                    {
+                        nearestPrimaryCategoryParent = parent;
+
+                        break;
+                    }
+                    else
+                    {
+                        parent = parent.Parent;
+                    }
+                }
+
+                if (nearestPrimaryCategoryParent is null)
+                {
+                    return taxon.Root.Category;
+                }
+                else
+                {
+                    return nearestPrimaryCategoryParent.Category;
+                }
+            }
+        }
+
+        // 获取继承的基本主要分类阶元。
+        public static Category GetInheritedBasicPrimaryCategory(this Taxon taxon)
+        {
+            return taxon.GetInheritedPrimaryCategory().BasicCategory();
+        }
+
+        //
+
+        // 获取具名父类群。
+        public static Taxon GetNamedParent(this Taxon taxon)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            Taxon parent = taxon.Parent;
+
+            while (parent is not null)
+            {
+                if (parent.IsNamed)
+                {
+                    return parent;
+                }
+                else
+                {
+                    parent = parent.Parent;
+                }
+            }
+
+            return null;
+        }
+
+        // 获取具名子类群（并递归获取匿名子类群的所有的具名子类群）。
+        public static IReadOnlyList<Taxon> GetNamedChildren(this Taxon taxon, bool recursive = true)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            List<Taxon> children = new List<Taxon>();
+
+            foreach (var child in taxon.Children)
+            {
+                if (child.IsNamed)
+                {
+                    children.Add(child);
+                }
+                else
+                {
+                    if (recursive)
+                    {
+                        children.AddRange(child.GetNamedChildren(true));
+                    }
+                }
+            }
+
+            return children;
+        }
+
+        //
+
         private static bool _IsMatched(this Taxon taxon, TaxonFilter filter)
         {
             if (taxon is null)
@@ -67,11 +228,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 {
                     nameIsMatched = true;
                 }
-                else if (taxon.IsNamed() && filter.HasFlag(TaxonFilter.Named))
+                else if (taxon.IsNamed && filter.HasFlag(TaxonFilter.Named))
                 {
                     nameIsMatched = true;
                 }
-                else if (taxon.IsAnonymous() && filter.HasFlag(TaxonFilter.Anonymous))
+                else if (taxon.IsAnonymous && filter.HasFlag(TaxonFilter.Anonymous))
                 {
                     nameIsMatched = true;
                 }

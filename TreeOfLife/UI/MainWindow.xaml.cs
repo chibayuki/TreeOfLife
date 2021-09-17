@@ -566,7 +566,7 @@ namespace TreeOfLife.UI
                     Taxon currentTaxon = Common.CurrentTaxon;
 
                     // 退出编辑模式时，应位于具名类群（或顶级类群）
-                    if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous())
+                    if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous)
                     {
                         Taxon parent = currentTaxon.GetNamedParent();
 

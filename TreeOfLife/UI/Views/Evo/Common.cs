@@ -32,7 +32,7 @@ namespace TreeOfLife.UI.Views.Evo
             var groups = new List<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)>();
 
             int groupIndex = 0;
-            TaxonomicCategory categoryOfGroup = TaxonomicCategory.Unranked;
+            Category categoryOfGroup = Category.Unranked;
 
             for (int i = 0; i < taxons.Count; i++)
             {
@@ -46,7 +46,7 @@ namespace TreeOfLife.UI.Views.Evo
                 }
                 else
                 {
-                    TaxonomicCategory basicCategory = taxon.GetInheritedBasicCategory();
+                    Category basicCategory = taxon.GetInheritedBasicCategory();
 
                     if (categoryOfGroup != basicCategory)
                     {

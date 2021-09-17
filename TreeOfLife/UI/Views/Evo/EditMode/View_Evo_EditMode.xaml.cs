@@ -150,7 +150,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 {
                     selected.Visibility = Visibility.Visible;
 
-                    if (selectedTaxon.IsAnonymous())
+                    if (selectedTaxon.IsAnonymous)
                     {
                         selected.Header = "已选择: \"(未命名)\"";
                     }
@@ -644,7 +644,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
         private string _ChsRename = string.Empty; // 可更新的中文名。
 
-        private void CategorySelector_CategoryChanged(object sender, TaxonomicCategory e)
+        private void CategorySelector_CategoryChanged(object sender, Category e)
         {
             ViewModel.Category = e;
 
@@ -654,7 +654,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             if (!string.IsNullOrEmpty(ViewModel.ChsName))
             {
-                string chsNameWithoutCategory = TaxonomicCategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+                string chsNameWithoutCategory = CategoryChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
 
                 if (!string.IsNullOrEmpty(chsNameWithoutCategory))
                 {

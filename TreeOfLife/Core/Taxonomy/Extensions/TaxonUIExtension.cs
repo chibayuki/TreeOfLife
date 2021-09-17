@@ -44,7 +44,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         private static ColorX _OthersColor = Color.Black;
 
         // 获取分类阶元的主题颜色。
-        public static ColorX GetThemeColor(this TaxonomicCategory category)
+        public static ColorX GetThemeColor(this Category category)
         {
             if (category.IsPrimaryCategory())
             {
@@ -77,6 +77,150 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             return taxon.GetInheritedCategory().GetThemeColor();
         }
+
+        //
+
+        // 获取类群的短名称。
+        public static string GetShortName(this Taxon taxon, char separator = ' ')
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.IsAnonymous)
+            {
+                return "(未命名)";
+            }
+            else
+            {
+                StringBuilder taxonName = new StringBuilder();
+
+                if (taxon.IsUnsure || taxon.IsExtinct)
+                {
+                    if (taxon.IsUnsure)
+                    {
+                        taxonName.Append('?');
+                    }
+
+                    if (taxon.IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
+                }
+
+                if (!string.IsNullOrEmpty(taxon.ChineseName))
+                {
+                    taxonName.Append(taxon.ChineseName);
+
+                    if (!string.IsNullOrEmpty(taxon.ScientificName))
+                    {
+                        taxonName.Append(separator);
+                        taxonName.Append(taxon.ScientificName);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(taxon.ScientificName))
+                {
+                    taxonName.Append(taxon.ScientificName);
+                }
+
+                if (taxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (taxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
+                }
+
+                return taxonName.ToString();
+            }
+        }
+
+        // 获取类群的长名称。
+        public static string GetLongName(this Taxon taxon, char separator = ' ')
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            if (taxon.IsAnonymous)
+            {
+                return "(未命名)";
+            }
+            else
+            {
+                StringBuilder taxonName = new StringBuilder();
+
+                if (taxon.IsUnsure || taxon.IsExtinct)
+                {
+                    if (taxon.IsUnsure)
+                    {
+                        taxonName.Append('?');
+                    }
+
+                    if (taxon.IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
+                }
+
+                if (!string.IsNullOrEmpty(taxon.ChineseName))
+                {
+                    taxonName.Append(taxon.ChineseName);
+
+                    if (!string.IsNullOrEmpty(taxon.ScientificName))
+                    {
+                        taxonName.Append(separator);
+                        taxonName.Append(taxon.ScientificName);
+                    }
+                }
+                else
+                {
+                    Category category = taxon.Category;
+
+                    if (category.IsPrimaryOrSecondaryCategory())
+                    {
+                        taxonName.Append(category.GetChineseName());
+
+                        if (!string.IsNullOrEmpty(taxon.ScientificName))
+                        {
+                            taxonName.Append(separator);
+                            taxonName.Append(taxon.ScientificName);
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(taxon.ScientificName))
+                        {
+                            taxonName.Append(taxon.ScientificName);
+                        }
+                    }
+                }
+
+                if (taxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (taxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
+                }
+
+                return taxonName.ToString();
+            }
+        }
+
+        //
 
         // 获取若干层父类群。
         public static IReadOnlyList<Taxon> GetParents(this Taxon taxon, GetParentsOption option)

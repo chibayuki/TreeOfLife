@@ -35,7 +35,7 @@ namespace TreeOfLife.UI.Controls
     /// </summary>
     public partial class CategoryNameButton : UserControl
     {
-        private TaxonomicCategory _Category = TaxonomicCategory.Unranked; // 分类阶元。
+        private Category _Category = Category.Unranked; // 分类阶元。
 
         private void _UpdateCategory()
         {
@@ -84,7 +84,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public TaxonomicCategory Category
+        public Category Category
         {
             get => _Category;
 

@@ -126,24 +126,24 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                     if (!string.IsNullOrWhiteSpace(chsPart))
                     {
-                        TaxonomicCategory category;
+                        Category category;
                         int categoryNameIndex;
 
-                        if (TaxonomicCategoryChineseExtension.TryParseCategory(chsPart, out category, out categoryNameIndex))
+                        if (CategoryChineseExtension.TryParseCategory(chsPart, out category, out categoryNameIndex))
                         {
                             // 特殊处理"类"，"类"一般指演化支
-                            taxon.Category = category == TaxonomicCategory.Division ? TaxonomicCategory.Clade : category;
+                            taxon.Category = category == Category.Division ? Category.Clade : category;
                             taxon.ChineseName = categoryNameIndex == 0 ? string.Empty : chsPart;
                         }
                         else
                         {
-                            taxon.Category = TaxonomicCategory.Clade;
+                            taxon.Category = Category.Clade;
                             taxon.ChineseName = chsPart;
                         }
                     }
                     else
                     {
-                        taxon.Category = TaxonomicCategory.Clade;
+                        taxon.Category = Category.Clade;
                     }
                 }
             }
@@ -177,11 +177,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                     if (wordNum == 1)
                     {
-                        child.Category = TaxonomicCategory.Species;
+                        child.Category = Category.Species;
                     }
                     else if (wordNum == 2)
                     {
-                        child.Category = TaxonomicCategory.Subspecies;
+                        child.Category = Category.Subspecies;
                     }
                 }
             }

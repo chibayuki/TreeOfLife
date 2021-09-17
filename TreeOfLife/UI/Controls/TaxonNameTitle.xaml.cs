@@ -34,7 +34,7 @@ namespace TreeOfLife.UI.Controls
     /// </summary>
     public partial class TaxonNameTitle : UserControl
     {
-        private TaxonomicCategory? _Category;
+        private Category? _Category;
         private bool _IsParaphyly;
         private bool _IsPolyphyly;
 
@@ -46,7 +46,7 @@ namespace TreeOfLife.UI.Controls
             }
             else
             {
-                TaxonomicCategory category = _Category.Value;
+                Category category = _Category.Value;
 
                 if (_IsParaphyly)
                 {
@@ -100,7 +100,7 @@ namespace TreeOfLife.UI.Controls
             set => textBlock_TaxonName.Text = value;
         }
 
-        public TaxonomicCategory? Category
+        public Category? Category
         {
             get => _Category;
 

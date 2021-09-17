@@ -120,7 +120,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             }
             else
             {
-                return TaxonomicCategoryChineseExtension.SplitChineseName(taxon.ChineseName).headPart;
+                return CategoryChineseExtension.SplitChineseName(taxon.ChineseName).headPart;
             }
         }
 
@@ -133,7 +133,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         }
 
         // 获取两个分类阶元的相关性。
-        private static _CategoryRelativity _GetCategoryRelativity(TaxonomicCategory category1, TaxonomicCategory category2)
+        private static _CategoryRelativity _GetCategoryRelativity(Category category1, Category category2)
         {
             // 分类阶元相同
             if (category1 == category2)
@@ -262,7 +262,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         private static List<_MatchResult> _MatchResults; // 匹配结果列表。
 
         private static string _KeyWord; // 关键字。
-        private static TaxonomicCategory? _KeyWordCategory; // 关键字中包含的分类阶元。
+        private static Category? _KeyWordCategory; // 关键字中包含的分类阶元。
         private static string _KeyWordWithoutCategory; // 关键字除了表示分类阶元（如果有）之外的部分。
         private static string _KeyWordWithoutCategoryAsClade; // 当关键字中包含的分类阶元为类并将其视为演化支时，关键字除了表示分类阶元之外的部分。
 
@@ -380,7 +380,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             foreach (var child in taxon.Children)
             {
-                if (child.IsNamed())
+                if (child.IsNamed)
                 {
                     _MatchResult mr = _GetMatchResultOfTaxon(child);
 
@@ -424,7 +424,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 _MatchResults = new List<_MatchResult>();
 
                 _KeyWord = keyWord;
-                (_KeyWordWithoutCategory, _, _KeyWordCategory) = TaxonomicCategoryChineseExtension.SplitChineseName(_KeyWord);
+                (_KeyWordWithoutCategory, _, _KeyWordCategory) = CategoryChineseExtension.SplitChineseName(_KeyWord);
 
                 if (_KeyWordCategory is not null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
                 {

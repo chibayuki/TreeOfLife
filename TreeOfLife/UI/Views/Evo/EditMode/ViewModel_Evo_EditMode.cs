@@ -31,7 +31,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         private string _Name;
         private string _ChsName;
 
-        private TaxonomicCategory _Category;
+        private Category _Category;
 
         private bool _IsExtinct;
         private bool _IsUnsure;
@@ -178,7 +178,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             }
         }
 
-        public TaxonomicCategory Category
+        public Category Category
         {
             get => _Category;
 
@@ -197,7 +197,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                         // 匿名类群的分类阶元始终为未分级
                         if (string.IsNullOrEmpty(currentTaxon.ScientificName) && string.IsNullOrEmpty(currentTaxon.ChineseName))
                         {
-                            currentTaxon.Category = TaxonomicCategory.Unranked;
+                            currentTaxon.Category = Category.Unranked;
                         }
                         // 只对具名类群应用分类阶元
                         else
@@ -361,7 +361,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            TaxonomicCategory category = currentTaxon.Category;
+            Category category = currentTaxon.Category;
 
             TaxonNameTitle.ThemeColor = currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
 
