@@ -20,8 +20,8 @@ This file is part of TreeOfLife
             <ColumnDefinition Width="80"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="border_CategoryName" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
-            <TextBlock x:Name="textBlock_CategoryName" Text="CategoryName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" TextTrimming="CharacterEllipsis"/>
+        <Border x:Name="border_RankName" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
+            <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" TextTrimming="CharacterEllipsis"/>
         </Border>
         <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">
             <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" TextTrimming="CharacterEllipsis"/>

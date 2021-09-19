@@ -28,7 +28,7 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    public sealed class TaxonNameItem
+    public sealed class TaxonItem
     {
         public Taxon Taxon { get; set; } = null;
         public int Sign { get; set; } = 0;
@@ -39,9 +39,9 @@ namespace TreeOfLife.UI.Controls
     }
 
     /// <summary>
-    /// TaxonNameButtonGroup.xaml 的交互逻辑
+    /// TaxonButtonGroup.xaml 的交互逻辑
     /// </summary>
-    public partial class TaxonNameButtonGroup : UserControl
+    public partial class TaxonButtonGroup : UserControl
     {
         private class _Group
         {
@@ -49,16 +49,16 @@ namespace TreeOfLife.UI.Controls
             private Border _NameBorder = null;
             private TextBlock _NameText = null;
             private StackPanel _ButtonsContainer = null;
-            private List<TaxonNameButton> _Buttons = null;
+            private List<TaxonButton> _Buttons = null;
 
-            private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
+            private double _RankNameWidth = 50; // 分类阶元名称宽度。
             private double _ButtonMarginHeight = 3; // 按钮边距高度。
 
-            private void _UpdateCategoryNameWidth()
+            private void _UpdateRankNameWidth()
             {
                 foreach (var button in _Buttons)
                 {
-                    button.CategoryNameWidth = _CategoryNameWidth;
+                    button.RankNameWidth = _RankNameWidth;
                 }
             }
 
@@ -91,7 +91,7 @@ namespace TreeOfLife.UI.Controls
 
             //
 
-            public _Group(IEnumerable<TaxonNameItem> items, string groupName = null)
+            public _Group(IEnumerable<TaxonItem> items, string groupName = null)
             {
                 if (items is null)
                 {
@@ -118,11 +118,11 @@ namespace TreeOfLife.UI.Controls
 
                 _Container.Children.Add(_NameBorder);
 
-                _Buttons = new List<TaxonNameButton>();
+                _Buttons = new List<TaxonButton>();
 
                 foreach (var item in items)
                 {
-                    TaxonNameButton button = new TaxonNameButton()
+                    TaxonButton button = new TaxonButton()
                     {
                         Taxon = item.Taxon,
                         Sign = item.Sign,
@@ -133,16 +133,16 @@ namespace TreeOfLife.UI.Controls
 
                     if (properties is not null)
                     {
-                        foreach (var property in properties)
+                        foreach (var (dp, value) in properties)
                         {
-                            button.SetValue(property.dp, property.value);
+                            button.SetValue(dp, value);
                         }
                     }
 
                     _Buttons.Add(button);
                 }
 
-                _UpdateCategoryNameWidth();
+                _UpdateRankNameWidth();
                 _UpdateButtonMarginHeight();
                 _UpdateTheme();
 
@@ -182,15 +182,15 @@ namespace TreeOfLife.UI.Controls
                 set => _NameBorder.Margin = new Thickness(0, 0, value, 0);
             }
 
-            public double CategoryNameWidth
+            public double RankNameWidth
             {
-                get => _CategoryNameWidth;
+                get => _RankNameWidth;
 
                 set
                 {
-                    _CategoryNameWidth = value;
+                    _RankNameWidth = value;
 
-                    _UpdateCategoryNameWidth();
+                    _UpdateRankNameWidth();
                 }
             }
 
@@ -243,7 +243,7 @@ namespace TreeOfLife.UI.Controls
 
         private double _GroupNameWidth = 30; // 组名称宽度。
         private double _GroupMarginHeight = 6; // 组外边距高度。
-        private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
+        private double _RankNameWidth = 50; // 分类阶元名称宽度。
         private double _ButtonMarginHeight = 3; // 按钮外边距高度。
 
         private void _UpdateGroupNameWidth()
@@ -262,11 +262,11 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        private void _UpdateCategoryNameWidth()
+        private void _UpdateRankNameWidth()
         {
             foreach (var group in _Groups)
             {
-                group.CategoryNameWidth = _CategoryNameWidth;
+                group.RankNameWidth = _RankNameWidth;
             }
         }
 
@@ -290,17 +290,17 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public TaxonNameButtonGroup()
+        public TaxonButtonGroup()
         {
             InitializeComponent();
 
             //
 
-            TaxonNameButton button = null;
+            TaxonButton button = null;
 
             stackPanel_Groups.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is TaxonNameButton source)
+                if (e.Source is TaxonButton source)
                 {
                     button = source;
                 }
@@ -308,7 +308,7 @@ namespace TreeOfLife.UI.Controls
 
             stackPanel_Groups.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is TaxonNameButton source && source == button)
+                if (e.Source is TaxonButton source && source == button)
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
                     button = null;
@@ -318,7 +318,7 @@ namespace TreeOfLife.UI.Controls
             // 不检查是否曾按下右键，因为右键菜单也不检查
             stackPanel_Groups.AddHandler(UIElement.MouseRightButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is TaxonNameButton source)
+                if (e.Source is TaxonButton source)
                 {
                     MouseRightButtonClick?.Invoke(this, source);
                 }
@@ -351,15 +351,15 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public double CategoryNameWidth
+        public double RankNameWidth
         {
-            get => _CategoryNameWidth;
+            get => _RankNameWidth;
 
             set
             {
-                _CategoryNameWidth = value;
+                _RankNameWidth = value;
 
-                _UpdateCategoryNameWidth();
+                _UpdateRankNameWidth();
             }
         }
 
@@ -414,12 +414,12 @@ namespace TreeOfLife.UI.Controls
 
             _UpdateGroupNameWidth();
             _UpdateGroupMarginHeight();
-            _UpdateCategoryNameWidth();
+            _UpdateRankNameWidth();
             _UpdateButtonMarginHeight();
             _UpdateTheme();
         }
 
-        public void UpdateContent(IEnumerable<TaxonNameItem> items)
+        public void UpdateContent(IEnumerable<TaxonItem> items)
         {
             Clear();
 
@@ -431,7 +431,7 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public void UpdateContent(double groupNameWidth, IEnumerable<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)> groups)
+        public void UpdateContent(double groupNameWidth, IEnumerable<(string groupName, ColorX groupColor, IEnumerable<TaxonItem> items)> groups)
         {
             Clear();
 
@@ -439,11 +439,11 @@ namespace TreeOfLife.UI.Controls
             {
                 _GroupNameWidth = groupNameWidth;
 
-                foreach (var group in groups)
+                foreach (var (groupName, groupColor, items) in groups)
                 {
-                    if (group.items is not null && group.items.Any())
+                    if (items is not null && items.Any())
                     {
-                        _Groups.Add(new _Group(group.items, group.groupName) { GroupNameColor = group.groupColor });
+                        _Groups.Add(new _Group(items, groupName) { GroupNameColor = groupColor });
                     }
                 }
 
@@ -453,8 +453,8 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public EventHandler<TaxonNameButton> MouseLeftButtonClick;
+        public EventHandler<TaxonButton> MouseLeftButtonClick;
 
-        public EventHandler<TaxonNameButton> MouseRightButtonClick;
+        public EventHandler<TaxonButton> MouseRightButtonClick;
     }
 }

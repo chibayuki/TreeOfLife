@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace TreeOfLife.Core.Taxonomy
 {
     // 生物分类阶元。
-    public enum Category
+    public enum Rank
     {
         Unranked = 0, // 未分级。
 

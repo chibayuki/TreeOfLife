@@ -126,24 +126,24 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                     if (!string.IsNullOrWhiteSpace(chsPart))
                     {
-                        Category category;
-                        int categoryNameIndex;
+                        Rank rank;
+                        int rankNameIndex;
 
-                        if (CategoryChineseExtension.TryParseCategory(chsPart, out category, out categoryNameIndex))
+                        if (RankChineseExtension.TryParseRank(chsPart, out rank, out rankNameIndex))
                         {
                             // 特殊处理"类"，"类"一般指演化支
-                            taxon.Category = category == Category.Division ? Category.Clade : category;
-                            taxon.ChineseName = categoryNameIndex == 0 ? string.Empty : chsPart;
+                            taxon.Rank = rank == Rank.Division ? Rank.Clade : rank;
+                            taxon.ChineseName = rankNameIndex == 0 ? string.Empty : chsPart;
                         }
                         else
                         {
-                            taxon.Category = Category.Clade;
+                            taxon.Rank = Rank.Clade;
                             taxon.ChineseName = chsPart;
                         }
                     }
                     else
                     {
-                        taxon.Category = Category.Clade;
+                        taxon.Rank = Rank.Clade;
                     }
                 }
             }
@@ -166,7 +166,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 child.ParseCurrent(name);
 
                 // 按照"二名法"和"三名法"特殊处理"种"和"亚种"的匹配
-                if (taxon.Category.IsGenus() || taxon.Category.IsSpecies())
+                if (taxon.Rank.IsGenus() || taxon.Rank.IsSpecies())
                 {
                     int wordNum = child.ScientificName.Count((ch) => ch == '.');
 
@@ -177,11 +177,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                     if (wordNum == 1)
                     {
-                        child.Category = Category.Species;
+                        child.Rank = Rank.Species;
                     }
                     else if (wordNum == 2)
                     {
-                        child.Category = Category.Subspecies;
+                        child.Rank = Rank.Subspecies;
                     }
                 }
             }

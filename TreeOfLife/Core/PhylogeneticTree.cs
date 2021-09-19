@@ -26,7 +26,7 @@ namespace TreeOfLife.Core
 
         public PhylogeneticTree()
         {
-            _Root = new Taxon() { Category = Category.Unranked };
+            _Root = new Taxon() { Rank = Rank.Unranked };
         }
 
         //

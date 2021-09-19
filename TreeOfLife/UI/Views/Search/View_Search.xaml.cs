@@ -72,7 +72,7 @@ namespace TreeOfLife.UI.Views.Search
                 textBox_Search.SelectAll();
             };
 
-            EventHandler<TaxonNameButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
+            EventHandler<TaxonButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
             {
                 if (e.Taxon.IsRoot)
                 {
@@ -119,9 +119,9 @@ namespace TreeOfLife.UI.Views.Search
 
         //
 
-        private List<TaxonNameItem> _SearchResult_Perfect = new List<TaxonNameItem>();
-        private List<TaxonNameItem> _SearchResult_High = new List<TaxonNameItem>();
-        private List<TaxonNameItem> _SearchResult_Low = new List<TaxonNameItem>();
+        private List<TaxonItem> _SearchResult_Perfect = new List<TaxonItem>();
+        private List<TaxonItem> _SearchResult_High = new List<TaxonItem>();
+        private List<TaxonItem> _SearchResult_Low = new List<TaxonItem>();
 
         // 更新可见性。
         private void _UpdateVisibility()
@@ -148,17 +148,17 @@ namespace TreeOfLife.UI.Views.Search
 
                 foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Perfect])
                 {
-                    _SearchResult_Perfect.Add(new TaxonNameItem() { Taxon = taxon });
+                    _SearchResult_Perfect.Add(new TaxonItem() { Taxon = taxon });
                 }
 
                 foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.High])
                 {
-                    _SearchResult_High.Add(new TaxonNameItem() { Taxon = taxon });
+                    _SearchResult_High.Add(new TaxonItem() { Taxon = taxon });
                 }
 
                 foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Low])
                 {
-                    _SearchResult_Low.Add(new TaxonNameItem() { Taxon = taxon });
+                    _SearchResult_Low.Add(new TaxonItem() { Taxon = taxon });
                 }
             });
             AsyncMethod.Finish();

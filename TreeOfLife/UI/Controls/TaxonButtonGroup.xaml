@@ -7,7 +7,7 @@ Version 1.0.1240.1000.M12.210718-2000
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<UserControl x:Class="TreeOfLife.UI.Controls.TaxonNameButtonGroup"
+<UserControl x:Class="TreeOfLife.UI.Controls.TaxonButtonGroup"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

@@ -30,41 +30,41 @@ using ColorX = Com.Chromatics.ColorX;
 namespace TreeOfLife.UI.Controls
 {
     /// <summary>
-    /// TaxonNameTitle.xaml 的交互逻辑
+    /// TaxonTitle.xaml 的交互逻辑
     /// </summary>
     public partial class TaxonNameTitle : UserControl
     {
-        private Category? _Category;
+        private Rank? _Rank;
         private bool _IsParaphyly;
         private bool _IsPolyphyly;
 
-        private void _UpdateCategory()
+        private void _UpdateRank()
         {
-            if (_Category is null)
+            if (_Rank is null)
             {
-                textBlock_CategoryName.Text = string.Empty;
+                textBlock_RankName.Text = string.Empty;
             }
             else
             {
-                Category category = _Category.Value;
+                Rank rank = _Rank.Value;
 
                 if (_IsParaphyly)
                 {
-                    textBlock_CategoryName.Text = category.IsUnranked() || category.IsClade() ? "并系群" : category.GetChineseName() + "\n并系群";
+                    textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "并系群" : rank.GetChineseName() + "\n并系群";
                 }
                 else if (_IsPolyphyly)
                 {
-                    textBlock_CategoryName.Text = category.IsUnranked() || category.IsClade() ? "复系群" : category.GetChineseName() + "\n复系群";
+                    textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "复系群" : rank.GetChineseName() + "\n复系群";
                 }
                 else
                 {
-                    if (category.IsUnranked())
+                    if (rank.IsUnranked())
                     {
-                        textBlock_CategoryName.Text = string.Empty;
+                        textBlock_RankName.Text = string.Empty;
                     }
                     else
                     {
-                        textBlock_CategoryName.Text = category.GetChineseName();
+                        textBlock_RankName.Text = rank.GetChineseName();
                     }
                 }
             }
@@ -75,9 +75,9 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_CategoryName.Foreground = Theme.GetSolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
 
-            border_CategoryName.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
+            border_RankName.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
 
             textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40));
 
@@ -100,15 +100,15 @@ namespace TreeOfLife.UI.Controls
             set => textBlock_TaxonName.Text = value;
         }
 
-        public Category? Category
+        public Rank? Rank
         {
-            get => _Category;
+            get => _Rank;
 
             set
             {
-                _Category = value;
+                _Rank = value;
 
-                _UpdateCategory();
+                _UpdateRank();
             }
         }
 
@@ -120,7 +120,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsParaphyly = value;
 
-                _UpdateCategory();
+                _UpdateRank();
             }
         }
 
@@ -132,7 +132,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsPolyphyly = value;
 
-                _UpdateCategory();
+                _UpdateRank();
             }
         }
 

@@ -31,7 +31,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         private string _Name;
         private string _ChsName;
 
-        private Category _Category;
+        private Rank _Rank;
 
         private bool _IsExtinct;
         private bool _IsUnsure;
@@ -178,13 +178,13 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             }
         }
 
-        public Category Category
+        public Rank Rank
         {
-            get => _Category;
+            get => _Rank;
 
             set
             {
-                _Category = value;
+                _Rank = value;
 
                 //
 
@@ -197,12 +197,12 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                         // 匿名类群的分类阶元始终为未分级
                         if (string.IsNullOrEmpty(currentTaxon.ScientificName) && string.IsNullOrEmpty(currentTaxon.ChineseName))
                         {
-                            currentTaxon.Category = Category.Unranked;
+                            currentTaxon.Rank = Rank.Unranked;
                         }
                         // 只对具名类群应用分类阶元
                         else
                         {
-                            currentTaxon.Category = _Category;
+                            currentTaxon.Rank = _Rank;
                         }
                     }
                 }
@@ -361,21 +361,21 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
         {
             Taxon currentTaxon = Views.Common.CurrentTaxon;
 
-            Category category = currentTaxon.Category;
+            Rank rank = currentTaxon.Rank;
 
-            TaxonNameTitle.ThemeColor = currentTaxon.IsRoot || category.IsPrimaryOrSecondaryCategory() ? category.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
+            TaxonNameTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
 
             string name = currentTaxon.ScientificName;
             string chsName = currentTaxon.ChineseName;
 
             if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
             {
-                TaxonNameTitle.Category = null;
+                TaxonNameTitle.Rank = null;
                 TaxonNameTitle.TaxonName = "(未命名)";
             }
             else
             {
-                TaxonNameTitle.Category = category;
+                TaxonNameTitle.Rank = rank;
 
                 StringBuilder taxonName = new StringBuilder();
 
@@ -438,7 +438,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             Name = currentTaxon.ScientificName;
             ChsName = currentTaxon.ChineseName;
 
-            Category = currentTaxon.Category;
+            Rank = currentTaxon.Rank;
 
             IsExtinct = currentTaxon.IsExtinct;
             IsUnsure = currentTaxon.IsUnsure;

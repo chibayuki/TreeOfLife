@@ -7,10 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="UI\Controls\CategorySelector.xaml.cs">
+    <Compile Update="UI\Controls\RankSelector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UI\Controls\CategoryNameButton.xaml.cs">
+    <Compile Update="UI\Controls\RankButton.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Controls\GeoChronSpan.xaml.cs">
@@ -19,10 +19,10 @@
     <Compile Update="UI\Controls\TagGroup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UI\Controls\TaxonNameButtonGroup.xaml.cs">
+    <Compile Update="UI\Controls\TaxonButtonGroup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UI\Controls\TaxonNameTitle.xaml.cs">
+    <Compile Update="UI\Controls\TaxonTitle.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UI\Controls\Tree.xaml.cs">
@@ -75,10 +75,10 @@
     <Page Update="UI\ControlStyles\LabelStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UI\Controls\CategorySelector.xaml">
+    <Page Update="UI\Controls\RankSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UI\Controls\CategoryNameButton.xaml">
+    <Page Update="UI\Controls\RankButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Controls\GeoChronSpan.xaml">
@@ -87,7 +87,7 @@
     <Page Update="UI\Controls\TagGroup.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UI\Controls\TaxonNameTitle.xaml">
+    <Page Update="UI\Controls\TaxonTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Controls\Tree.xaml">
@@ -99,7 +99,7 @@
     <Page Update="UI\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UI\Controls\TaxonNameButtonGroup.xaml">
+    <Page Update="UI\Controls\TaxonButtonGroup.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Views\About\View_About.xaml">

@@ -229,7 +229,7 @@ namespace TreeOfLife.UI.Controls
 
         private GeoChron _Birth = null;
         private GeoChron _Extinction = null;
-        private Category _Category = Category.Unranked;
+        private Rank _Rank = Rank.Unranked;
 
         private Dictionary<GeoChron, _GeoChronSymbol> _GeoChronSymbolsTable = new Dictionary<GeoChron, _GeoChronSymbol>();
 
@@ -571,8 +571,8 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            Brush background = Theme.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-            Brush borderAndFill = Theme.GetSolidColorBrush(_Category.GetThemeColor().AtLightness_LAB(_IsDarkTheme ? 30 : 70));
+            Brush background = Theme.GetSolidColorBrush(_Rank.GetThemeColor().AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            Brush borderAndFill = Theme.GetSolidColorBrush(_Rank.GetThemeColor().AtLightness_LAB(_IsDarkTheme ? 30 : 70));
 
             border_PreCambrianMainly_FullWidth.Background = background;
             border_PreCambrianMainly_FullWidth.BorderBrush = borderAndFill;
@@ -622,13 +622,13 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public Category Category
+        public Rank Rank
         {
-            get => _Category;
+            get => _Rank;
 
             set
             {
-                _Category = value;
+                _Rank = value;
 
                 _UpdateColor();
             }
@@ -649,11 +649,11 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public void Update(GeoChron birth, GeoChron extinction, Category category)
+        public void Update(GeoChron birth, GeoChron extinction, Rank rank)
         {
             _Birth = birth;
             _Extinction = extinction;
-            _Category = category;
+            _Rank = rank;
 
             _UpdateContent();
             _UpdateGraph();

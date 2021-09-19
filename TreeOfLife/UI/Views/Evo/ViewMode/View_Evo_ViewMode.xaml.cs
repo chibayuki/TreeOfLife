@@ -120,7 +120,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
                 parents.Add(currentTaxon);
 
-                Common.UpdateTaxonListAndGroupByCategory(taxonNameButtonGroup_Parents, parents);
+                Common.UpdateTaxonListAndGroupByRank(taxonNameButtonGroup_Parents, parents);
             }
         }
 
@@ -254,13 +254,13 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
             taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
-            taxonNameTitle.Category = currentTaxon.IsAnonymous ? null : currentTaxon.Category;
+            taxonNameTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
             taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
 
             if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
             {
-                geoChronSpan.Update(currentTaxon.Birth, currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present, currentTaxon.GetInheritedCategory());
+                geoChronSpan.Update(currentTaxon.Birth, currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present, currentTaxon.GetInheritedRank());
 
                 geoChronSpan.Visibility = Visibility.Visible;
             }

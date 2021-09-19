@@ -7,7 +7,7 @@ Version 1.0.1240.1000.M12.210718-2000
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<UserControl x:Class="TreeOfLife.UI.Controls.CategorySelector"
+<UserControl x:Class="TreeOfLife.UI.Controls.RankSelector"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -29,18 +29,18 @@ This file is part of TreeOfLife
                     <RowDefinition Height="6"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <RadioButton x:Name="radioButton_PrimaryCategory" Style="{DynamicResource RadioButtonStyle}" Content="主要级别"/>
-                <RadioButton x:Name="radioButton_SecondaryCategory" Grid.Column="2" Style="{DynamicResource RadioButtonStyle}" Content="次要级别"/>
+                <RadioButton x:Name="radioButton_PrimaryRank" Style="{DynamicResource RadioButtonStyle}" Content="主要级别"/>
+                <RadioButton x:Name="radioButton_SecondaryRank" Grid.Column="2" Style="{DynamicResource RadioButtonStyle}" Content="次要级别"/>
                 <RadioButton x:Name="radioButton_Clade" Grid.Row="2" Style="{DynamicResource RadioButtonStyle}" Content="未分级演化支"/>
                 <RadioButton x:Name="radioButton_Unranked" Grid.Column="2" Grid.Row="2" Style="{DynamicResource RadioButtonStyle}" Content="未指定" IsChecked="True"/>
             </Grid>
             <Grid x:Name="grid_Categories">
-                <StackPanel x:Name="stackPanel_PrimaryCategory" Margin="0,12,0,0"  Visibility="Collapsed">
+                <StackPanel x:Name="stackPanel_PrimaryRank" Margin="0,12,0,0"  Visibility="Collapsed">
                     <StackPanel x:Name="stackPanel_BasicPrimaryCategories" Orientation="Horizontal"/>
                     <Border BorderThickness="1" Height="1" Margin="0,6,0,0" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
                     <Grid x:Name="grid_PrimaryCategories"/>
                 </StackPanel>
-                <StackPanel x:Name="stackPanel_SecondaryCategory" Margin="0,12,0,0" Visibility="Collapsed">
+                <StackPanel x:Name="stackPanel_SecondaryRank" Margin="0,12,0,0" Visibility="Collapsed">
                     <StackPanel x:Name="stackPanel_BasicSecondaryCategories" Orientation="Horizontal"/>
                     <Border BorderThickness="1" Height="1" Margin="0,6,0,0" BorderBrush="#80808080" SnapsToDevicePixels="True"/>
                     <Grid x:Name="grid_SecondaryCategories"/>

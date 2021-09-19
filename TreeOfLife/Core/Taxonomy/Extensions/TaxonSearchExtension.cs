@@ -104,7 +104,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         }
 
         // 获取类群的中文名不含分类阶元的部分。
-        private static string _GetChineseNameWithoutCategory(Taxon taxon)
+        private static string _GetChineseNameWithoutRank(Taxon taxon)
         {
             if (taxon is null)
             {
@@ -114,18 +114,18 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             //
 
             // 特殊处理"类"字，使演化支类群只去除中文名结尾的"类"字
-            if (taxon.Category.IsClade() && taxon.ChineseName.EndsWith("类"))
+            if (taxon.Rank.IsClade() && taxon.ChineseName.EndsWith("类"))
             {
                 return taxon.ChineseName[..^1];
             }
             else
             {
-                return CategoryChineseExtension.SplitChineseName(taxon.ChineseName).headPart;
+                return RankChineseExtension.SplitChineseName(taxon.ChineseName).headPart;
             }
         }
 
         // 分类阶元的相关性。
-        private enum _CategoryRelativity
+        private enum _RankRelativity
         {
             Equals, // 相同
             Relevant, // 相关
@@ -133,29 +133,29 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         }
 
         // 获取两个分类阶元的相关性。
-        private static _CategoryRelativity _GetCategoryRelativity(Category category1, Category category2)
+        private static _RankRelativity _GetRankRelativity(Rank rank1, Rank rank2)
         {
             // 分类阶元相同
-            if (category1 == category2)
+            if (rank1 == rank2)
             {
-                return _CategoryRelativity.Equals;
+                return _RankRelativity.Equals;
             }
             // 仅基本分类阶元相同
-            else if (category1.BasicCategory() == category2.BasicCategory())
+            else if (rank1.BasicRank() == rank2.BasicRank())
             {
-                return _CategoryRelativity.Relevant;
+                return _RankRelativity.Relevant;
             }
             // 分类阶元不相关
             else
             {
-                return _CategoryRelativity.Irrelevant;
+                return _RankRelativity.Irrelevant;
             }
         }
 
         // 匹配的对象。
         private enum _MatchObject
         {
-            ChineseNameWithoutCategory, // 中文名不含分类阶元的部分
+            ChineseNameWithoutRank, // 中文名不含分类阶元的部分
             ChineseName, // 中文名
             ScientificName, // 学名
             Synonyms, // 异名
@@ -243,7 +243,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             // 连续-离散 LCS 几何平均匹配字符数。
             public double MatchLength { get; set; }
 
-            public _CategoryRelativity CategoryRelativity { get; set; }
+            public _RankRelativity RankRelativity { get; set; }
 
             public _MatchObject MatchObject { get; set; }
 
@@ -253,7 +253,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             public override string ToString()
             {
-                return string.Concat("{Taxon=", Taxon, ", MatchValue=", MatchValue, ", MatchLength=", MatchLength, ", CategoryRelativity=", CategoryRelativity, ", MatchObject=", MatchObject, "}");
+                return string.Concat("{Taxon=", Taxon, ", MatchValue=", MatchValue, ", MatchLength=", MatchLength, ", RankRelativity=", RankRelativity, ", MatchObject=", MatchObject, "}");
             }
 
 #endif
@@ -262,9 +262,9 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         private static List<_MatchResult> _MatchResults; // 匹配结果列表。
 
         private static string _KeyWord; // 关键字。
-        private static Category? _KeyWordCategory; // 关键字中包含的分类阶元。
-        private static string _KeyWordWithoutCategory; // 关键字除了表示分类阶元（如果有）之外的部分。
-        private static string _KeyWordWithoutCategoryAsClade; // 当关键字中包含的分类阶元为类并将其视为演化支时，关键字除了表示分类阶元之外的部分。
+        private static Rank? _KeyWordRank; // 关键字中包含的分类阶元。
+        private static string _KeyWordWithoutRank; // 关键字除了表示分类阶元（如果有）之外的部分。
+        private static string _KeyWordWithoutRankAsClade; // 当关键字中包含的分类阶元为类并将其视为演化支时，关键字除了表示分类阶元之外的部分。
 
         // 获取指定类群在当前匹配条件下的匹配结果。
         private static _MatchResult _GetMatchResultOfTaxon(Taxon taxon)
@@ -279,29 +279,29 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             _MatchResult result = new _MatchResult() { Taxon = taxon };
 
             // 关键字包含分类阶元名称的
-            if (_KeyWordCategory is not null)
+            if (_KeyWordRank is not null)
             {
                 // 关键字包含分类阶元名称，还包含除此之外的
-                if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))
+                if (!string.IsNullOrEmpty(_KeyWordWithoutRank))
                 {
                     // 特殊处理"类"字，使其在特定情况下也表示演化支
-                    if (_KeyWordCategory.Value.IsDivision() && taxon.Category.IsClade() && taxon.ChineseName.EndsWith("类"))
+                    if (_KeyWordRank.Value.IsDivision() && taxon.Rank.IsClade() && taxon.ChineseName.EndsWith("类"))
                     {
-                        result.CategoryRelativity = _CategoryRelativity.Equals;
+                        result.RankRelativity = _RankRelativity.Equals;
                     }
                     // 特殊处理"群"字，使其在特定情况下也表示并系群
-                    else if (_KeyWordCategory.Value.IsCohort() && _KeyWord == "并系群" && taxon.IsParaphyly)
+                    else if (_KeyWordRank.Value.IsCohort() && _KeyWord == "并系群" && taxon.IsParaphyly)
                     {
-                        result.CategoryRelativity = _CategoryRelativity.Equals;
+                        result.RankRelativity = _RankRelativity.Equals;
 
                         result.MatchValue = 1;
                         result.MatchLength = _KeyWord.Length;
                         result.MatchObject = _MatchObject.ChineseName;
                     }
                     // 特殊处理"群"字，使其在特定情况下也表示复系群
-                    else if (_KeyWordCategory.Value.IsCohort() && _KeyWord == "复系群" && taxon.IsPolyphyly)
+                    else if (_KeyWordRank.Value.IsCohort() && _KeyWord == "复系群" && taxon.IsPolyphyly)
                     {
-                        result.CategoryRelativity = _CategoryRelativity.Equals;
+                        result.RankRelativity = _RankRelativity.Equals;
 
                         result.MatchValue = 1;
                         result.MatchLength = _KeyWord.Length;
@@ -309,7 +309,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     }
                     else
                     {
-                        result.CategoryRelativity = _GetCategoryRelativity(taxon.Category, _KeyWordCategory.Value);
+                        result.RankRelativity = _GetRankRelativity(taxon.Rank, _KeyWordRank.Value);
                     }
 
                     // 做部分关键字与部分中文名的匹配
@@ -317,11 +317,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         if (!string.IsNullOrEmpty(taxon.ChineseName))
                         {
-                            string chsNameWithoutCategory = _GetChineseNameWithoutCategory(taxon);
-                            string keyWordWithoutCategory = taxon.Category.IsClade() ? _KeyWordWithoutCategoryAsClade : _KeyWordWithoutCategory;
+                            string chsNameWithoutRank = _GetChineseNameWithoutRank(taxon);
+                            string keyWordWithoutRank = taxon.Rank.IsClade() ? _KeyWordWithoutRankAsClade : _KeyWordWithoutRank;
 
-                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutCategory, chsNameWithoutCategory);
-                            result.MatchObject = _MatchObject.ChineseNameWithoutCategory;
+                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutRank, chsNameWithoutRank);
+                            result.MatchObject = _MatchObject.ChineseNameWithoutRank;
                         }
                     }
 
@@ -339,10 +339,10 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 // 关键字仅包含分类阶元名称的
                 else
                 {
-                    result.CategoryRelativity = _GetCategoryRelativity(taxon.Category, _KeyWordCategory.Value);
+                    result.RankRelativity = _GetRankRelativity(taxon.Rank, _KeyWordRank.Value);
 
                     // 分类阶元相同或相关的
-                    if (result.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)
+                    if (result.RankRelativity is _RankRelativity.Equals or _RankRelativity.Relevant)
                     {
                         result.MatchValue = 1;
                         result.MatchLength = _KeyWord.Length;
@@ -359,7 +359,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             // 关键字不含分类阶元名称的
             else
             {
-                result.CategoryRelativity = _CategoryRelativity.Irrelevant;
+                result.RankRelativity = _RankRelativity.Irrelevant;
 
                 // 做关键字的全字符串匹配
                 (result.MatchValue, result.MatchLength, result.MatchObject) = _GetMatchValueAndObject(taxon, _KeyWord);
@@ -424,15 +424,15 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 _MatchResults = new List<_MatchResult>();
 
                 _KeyWord = keyWord;
-                (_KeyWordWithoutCategory, _, _KeyWordCategory) = CategoryChineseExtension.SplitChineseName(_KeyWord);
+                (_KeyWordWithoutRank, _, _KeyWordRank) = RankChineseExtension.SplitChineseName(_KeyWord);
 
-                if (_KeyWordCategory is not null && _KeyWordCategory.Value.IsDivision() && _KeyWord.EndsWith("类"))
+                if (_KeyWordRank is not null && _KeyWordRank.Value.IsDivision() && _KeyWord.EndsWith("类"))
                 {
-                    _KeyWordWithoutCategoryAsClade = _KeyWord[..^1];
+                    _KeyWordWithoutRankAsClade = _KeyWord[..^1];
                 }
                 else
                 {
-                    _KeyWordWithoutCategoryAsClade = _KeyWordWithoutCategory;
+                    _KeyWordWithoutRankAsClade = _KeyWordWithoutRank;
                 }
 
                 taxon._GetMatchedChildren();
@@ -440,25 +440,25 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 var matchResults = from mr in _MatchResults
                                    orderby mr.MatchValue descending,
                                    mr.MatchLength descending,
-                                   mr.CategoryRelativity ascending,
+                                   mr.RankRelativity ascending,
                                    mr.MatchObject ascending
                                    select mr;
 
                 List<(Taxon, MatchLevel)> result = new List<(Taxon, MatchLevel)>();
 
                 // 关键字包含分类阶元名称的
-                if (_KeyWordCategory is not null)
+                if (_KeyWordRank is not null)
                 {
                     // 关键字包含分类阶元名称，还包含除此之外的，按匹配率与分类阶元相关性设定匹配程度
-                    if (!string.IsNullOrEmpty(_KeyWordWithoutCategory))
+                    if (!string.IsNullOrEmpty(_KeyWordWithoutRank))
                     {
                         foreach (var mr in matchResults)
                         {
-                            if (mr.MatchValue >= 1.0 && mr.CategoryRelativity == _CategoryRelativity.Equals)
+                            if (mr.MatchValue >= 1.0 && mr.RankRelativity == _RankRelativity.Equals)
                             {
                                 result.Add((mr.Taxon, MatchLevel.Perfect));
                             }
-                            else if (mr.MatchValue >= 1.0 || (mr.MatchValue >= 2.0 / 3.0 && (mr.CategoryRelativity is _CategoryRelativity.Equals or _CategoryRelativity.Relevant)))
+                            else if (mr.MatchValue >= 1.0 || (mr.MatchValue >= 2.0 / 3.0 && (mr.RankRelativity is _RankRelativity.Equals or _RankRelativity.Relevant)))
                             {
                                 result.Add((mr.Taxon, MatchLevel.High));
                             }
@@ -473,11 +473,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         foreach (var mr in matchResults)
                         {
-                            if (mr.CategoryRelativity == _CategoryRelativity.Equals)
+                            if (mr.RankRelativity == _RankRelativity.Equals)
                             {
                                 result.Add((mr.Taxon, MatchLevel.Perfect));
                             }
-                            else if (mr.CategoryRelativity == _CategoryRelativity.Relevant)
+                            else if (mr.RankRelativity == _RankRelativity.Relevant)
                             {
                                 result.Add((mr.Taxon, MatchLevel.High));
                             }

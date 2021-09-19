@@ -27,12 +27,12 @@ namespace TreeOfLife.UI.Views.Evo
     public static class Common
     {
         // 更新类群列表（并按分类阶元分组）。
-        public static void UpdateTaxonListAndGroupByCategory(TaxonNameButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
+        public static void UpdateTaxonListAndGroupByRank(TaxonButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
         {
-            var groups = new List<(string groupName, ColorX groupColor, IEnumerable<TaxonNameItem> items)>();
+            var groups = new List<(string groupName, ColorX groupColor, IEnumerable<TaxonItem> items)>();
 
             int groupIndex = 0;
-            Category categoryOfGroup = Category.Unranked;
+            Rank rankOfGroup = Rank.Unranked;
 
             for (int i = 0; i < taxons.Count; i++)
             {
@@ -40,25 +40,25 @@ namespace TreeOfLife.UI.Views.Evo
 
                 if (i == 0)
                 {
-                    categoryOfGroup = taxon.Category.BasicCategory();
+                    rankOfGroup = taxon.Rank.BasicRank();
 
-                    groups.Add((categoryOfGroup.IsPrimaryOrSecondaryCategory() ? categoryOfGroup.GetChineseName() : string.Empty, taxon.GetThemeColor(), new List<TaxonNameItem>()));
+                    groups.Add((rankOfGroup.IsPrimaryOrSecondaryRank() ? rankOfGroup.GetChineseName() : string.Empty, taxon.GetThemeColor(), new List<TaxonItem>()));
                 }
                 else
                 {
-                    Category basicCategory = taxon.GetInheritedBasicCategory();
+                    Rank basicRank = taxon.GetInheritedBasicRank();
 
-                    if (categoryOfGroup != basicCategory)
+                    if (rankOfGroup != basicRank)
                     {
-                        categoryOfGroup = basicCategory;
+                        rankOfGroup = basicRank;
 
-                        groups.Add((categoryOfGroup.GetChineseName(), taxon.GetThemeColor(), new List<TaxonNameItem>()));
+                        groups.Add((rankOfGroup.GetChineseName(), taxon.GetThemeColor(), new List<TaxonItem>()));
 
                         groupIndex++;
                     }
                 }
 
-                ((List<TaxonNameItem>)groups[groupIndex].items).Add(new TaxonNameItem()
+                ((List<TaxonItem>)groups[groupIndex].items).Add(new TaxonItem()
                 {
                     Taxon = taxon,
                     IsChecked = taxon == Views.Common.CurrentTaxon,
@@ -70,15 +70,15 @@ namespace TreeOfLife.UI.Views.Evo
         }
 
         // 更新类群列表。
-        public static void UpdateTaxonList(TaxonNameButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
+        public static void UpdateTaxonList(TaxonButtonGroup control, IReadOnlyList<Taxon> taxons, ContextMenu contextMenu = null)
         {
-            List<TaxonNameItem> items = new List<TaxonNameItem>();
+            List<TaxonItem> items = new List<TaxonItem>();
 
             for (int i = 0; i < taxons.Count; i++)
             {
                 Taxon taxon = taxons[i];
 
-                items.Add(new TaxonNameItem()
+                items.Add(new TaxonItem()
                 {
                     Taxon = taxon,
                     Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
@@ -89,16 +89,16 @@ namespace TreeOfLife.UI.Views.Evo
         }
 
         // 更新类群列表（并标记类群的符号）。
-        public static void UpdateTaxonList(TaxonNameButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> taxons, ContextMenu contextMenu = null)
+        public static void UpdateTaxonList(TaxonButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> taxons, ContextMenu contextMenu = null)
         {
-            List<TaxonNameItem> items = new List<TaxonNameItem>();
+            List<TaxonItem> items = new List<TaxonItem>();
 
             for (int i = 0; i < taxons.Count; i++)
             {
                 Taxon taxon = taxons[i].taxon;
                 int sign = taxons[i].sign;
 
-                items.Add(new TaxonNameItem()
+                items.Add(new TaxonItem()
                 {
                     Taxon = taxon,
                     Sign = sign,

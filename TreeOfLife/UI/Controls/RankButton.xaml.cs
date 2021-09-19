@@ -31,15 +31,15 @@ using ColorX = Com.Chromatics.ColorX;
 namespace TreeOfLife.UI.Controls
 {
     /// <summary>
-    /// CategoryNameButton.xaml 的交互逻辑
+    /// RankButton.xaml 的交互逻辑
     /// </summary>
-    public partial class CategoryNameButton : UserControl
+    public partial class RankButton : UserControl
     {
-        private Category _Category = Category.Unranked; // 分类阶元。
+        private Rank _Rank = Rank.Unranked; // 分类阶元。
 
-        private void _UpdateCategory()
+        private void _UpdateRank()
         {
-            textBlock_CategoryName.Text = _Category.GetChineseName();
+            textBlock_RankName.Text = _Rank.GetChineseName();
         }
 
         private bool _IsChecked = false; // 是否处于已选择状态。
@@ -50,14 +50,14 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_CategoryName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
+            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
 
-            border_CategoryName.Background = Theme.GetSolidColorBrush((_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
+            border_RankName.Background = Theme.GetSolidColorBrush((_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90)).ToWpfColor());
         }
 
         //
 
-        public CategoryNameButton()
+        public RankButton()
         {
             InitializeComponent();
 
@@ -66,7 +66,7 @@ namespace TreeOfLife.UI.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateColor();
-                _UpdateCategory();
+                _UpdateRank();
             };
 
             this.MouseEnter += (s, e) =>
@@ -84,16 +84,16 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public Category Category
+        public Rank Rank
         {
-            get => _Category;
+            get => _Rank;
 
             set
             {
-                _Category = value;
-                _ThemeColor = _Category.GetThemeColor();
+                _Rank = value;
+                _ThemeColor = _Rank.GetThemeColor();
 
-                _UpdateCategory();
+                _UpdateRank();
                 _UpdateColor();
             }
         }

@@ -44,16 +44,16 @@ namespace TreeOfLife.UI.Controls
             {
                 textBlock_TaxonName.Text = _Taxon.GetLongName();
 
-                Category category = _Taxon.Category;
+                Rank rank = _Taxon.Rank;
 
-                bool basicPrimary = category.IsBasicPrimaryCategory();
+                bool basicPrimary = rank.IsBasicPrimaryRank();
                 bool bellowGenus = false;
 
-                if (category.IsPrimaryOrSecondaryCategory())
+                if (rank.IsPrimaryOrSecondaryRank())
                 {
-                    Category inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
+                    Rank inheritedPrimaryRank = _Taxon.GetInheritedPrimaryRank();
 
-                    bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= Category.Genus;
+                    bellowGenus = inheritedPrimaryRank.IsPrimaryRank() && inheritedPrimaryRank <= Rank.Genus;
                 }
 
                 textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;

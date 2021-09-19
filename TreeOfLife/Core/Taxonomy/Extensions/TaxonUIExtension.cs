@@ -44,20 +44,20 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         private static ColorX _OthersColor = Color.Black;
 
         // 获取分类阶元的主题颜色。
-        public static ColorX GetThemeColor(this Category category)
+        public static ColorX GetThemeColor(this Rank rank)
         {
-            if (category.IsPrimaryCategory())
+            if (rank.IsPrimaryRank())
             {
-                if (category.IsDomain()) return _DomainColor;
-                else if (category.IsKingdom()) return _KingdomColor;
-                else if (category.IsPhylum()) return _PhylumColor;
-                else if (category.IsClass()) return _ClassColor;
-                else if (category.IsOrder()) return _OrderColor;
-                else if (category.IsFamily()) return _FamilyColor;
-                else if (category.IsGenus()) return _GenusColor;
-                else if (category.IsSpecies()) return _SpeciesColor;
+                if (rank.IsDomain()) return _DomainColor;
+                else if (rank.IsKingdom()) return _KingdomColor;
+                else if (rank.IsPhylum()) return _PhylumColor;
+                else if (rank.IsClass()) return _ClassColor;
+                else if (rank.IsOrder()) return _OrderColor;
+                else if (rank.IsFamily()) return _FamilyColor;
+                else if (rank.IsGenus()) return _GenusColor;
+                else if (rank.IsSpecies()) return _SpeciesColor;
             }
-            else if (category.IsSecondaryCategory())
+            else if (rank.IsSecondaryRank())
             {
                 return _SecondaryColor;
             }
@@ -75,7 +75,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            return taxon.GetInheritedCategory().GetThemeColor();
+            return taxon.GetInheritedRank().GetThemeColor();
         }
 
         //
@@ -186,11 +186,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 }
                 else
                 {
-                    Category category = taxon.Category;
+                    Rank rank = taxon.Rank;
 
-                    if (category.IsPrimaryOrSecondaryCategory())
+                    if (rank.IsPrimaryOrSecondaryRank())
                     {
-                        taxonName.Append(category.GetChineseName());
+                        taxonName.Append(rank.GetChineseName());
 
                         if (!string.IsNullOrEmpty(taxon.ScientificName))
                         {
@@ -241,7 +241,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     // 上溯到任何具名分类阶元类群，保留任何类群
                     result.AddRange(taxon.GetParents(
                         TaxonFilter.Any,
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
                         includeTermination: true,
                         skipParaphyly: false));
 
@@ -259,8 +259,8 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 {
                     // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
                     result.AddRange(taxon.GetParents(
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
                         includeTermination: true,
                         skipParaphyly: false));
 
@@ -269,11 +269,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         Taxon parent = result[^1];
 
-                        if (parent.Category.IsUnranked() || parent.Category.IsClade())
+                        if (parent.Rank.IsUnranked() || parent.Rank.IsClade())
                         {
                             result.AddRange(parent.GetParents(
-                                TaxonFilter.Named | TaxonFilter.AnyCategory,
-                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                                TaxonFilter.Named | TaxonFilter.AnyRank,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
                                 includeTermination: true,
                                 skipParaphyly: true));
                         }
@@ -284,11 +284,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         Taxon parent = result[^1];
 
-                        if (parent.Category.IsSecondaryCategory())
+                        if (parent.Rank.IsSecondaryRank())
                         {
                             result.AddRange(parent.GetParents(
-                                TaxonFilter.Named | TaxonFilter.BasicSecondaryCategory,
-                                TaxonFilter.Named | TaxonFilter.BasicPrimaryCategory,
+                                TaxonFilter.Named | TaxonFilter.BasicSecondaryRank,
+                                TaxonFilter.Named | TaxonFilter.BasicPrimaryRank,
                                 includeTermination: true,
                                 skipParaphyly: true));
                         }
@@ -298,7 +298,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     if (result.Count > 0)
                     {
                         result.AddRange(result[^1].GetParents(
-                            TaxonFilter.Named | TaxonFilter.BasicPrimaryCategory,
+                            TaxonFilter.Named | TaxonFilter.BasicPrimaryRank,
                             TaxonFilter.None,
                             includeTermination: true,
                             skipParaphyly: true));
@@ -317,8 +317,8 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 {
                     // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
                     result.AddRange(taxon.GetParents(
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
                         includeTermination: true,
                         skipParaphyly: false));
 
@@ -327,11 +327,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         Taxon parent = result[^1];
 
-                        if (parent.Category.IsUnranked() || parent.Category.IsClade())
+                        if (parent.Rank.IsUnranked() || parent.Rank.IsClade())
                         {
                             result.AddRange(parent.GetParents(
-                                TaxonFilter.Named | TaxonFilter.AnyCategory,
-                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                                TaxonFilter.Named | TaxonFilter.AnyRank,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
                                 includeTermination: true,
                                 skipParaphyly: true));
                         }
@@ -341,7 +341,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     if (result.Count > 0)
                     {
                         result.AddRange(result[^1].GetParents(
-                            TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryCategory,
+                            TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
                             TaxonFilter.None,
                             includeTermination: true,
                             skipParaphyly: true));
@@ -360,7 +360,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 {
                     // 上溯到顶级类群，保留任何具名类群，不跳过并系群
                     result.AddRange(taxon.GetParents(
-                        TaxonFilter.Named | TaxonFilter.AnyCategory,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
                         TaxonFilter.None,
                         includeTermination: true,
                         skipParaphyly: false));

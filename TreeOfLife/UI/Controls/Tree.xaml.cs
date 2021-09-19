@@ -103,9 +103,9 @@ namespace TreeOfLife.UI.Controls
 
                 if (properties is not null)
                 {
-                    foreach (var property in properties)
+                    foreach (var (dp, value) in properties)
                     {
-                        _Button.SetValue(property.dp, property.value);
+                        _Button.SetValue(dp, value);
                     }
                 }
 

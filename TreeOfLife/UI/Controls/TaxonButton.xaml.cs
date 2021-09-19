@@ -31,65 +31,65 @@ using ColorX = Com.Chromatics.ColorX;
 namespace TreeOfLife.UI.Controls
 {
     /// <summary>
-    /// TaxonNameButton.xaml 的交互逻辑
+    /// TaxonButton.xaml 的交互逻辑
     /// </summary>
-    public partial class TaxonNameButton : UserControl
+    public partial class TaxonButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
         private int _Sign = 0; // "符号"，0：单系群继承关系的类群，-1：并系群排除的类群，+1：复系群包含的类群。
 
         private void _UpdateTaxon()
         {
-            Category category = _Taxon.Category;
+            Rank rank = _Taxon.Rank;
 
             if (_Taxon is null || _Taxon.IsAnonymous)
             {
-                textBlock_CategoryName.Text = string.Empty;
+                textBlock_RankName.Text = string.Empty;
             }
             else
             {
-                if (category.IsUnranked() || category.IsClade())
+                if (rank.IsUnranked() || rank.IsClade())
                 {
                     if (_Taxon.IsParaphyly)
                     {
-                        textBlock_CategoryName.Text = "并系群";
+                        textBlock_RankName.Text = "并系群";
                     }
                     else if (_Taxon.IsPolyphyly)
                     {
-                        textBlock_CategoryName.Text = "复系群";
+                        textBlock_RankName.Text = "复系群";
                     }
                     else
                     {
-                        if (category.IsUnranked())
+                        if (rank.IsUnranked())
                         {
-                            textBlock_CategoryName.Text = string.Empty;
+                            textBlock_RankName.Text = string.Empty;
                         }
                         else
                         {
-                            textBlock_CategoryName.Text = category.GetChineseName();
+                            textBlock_RankName.Text = rank.GetChineseName();
                         }
                     }
                 }
                 else
                 {
-                    textBlock_CategoryName.Text = category.GetChineseName();
+                    textBlock_RankName.Text = rank.GetChineseName();
                 }
             }
 
             textBlock_TaxonName.Text = _Taxon is null ? string.Empty : _Taxon.GetShortName();
 
-            bool basicPrimary = category.IsBasicPrimaryCategory();
+            bool basicPrimary = rank.IsBasicPrimaryRank();
             bool bellowGenus = false;
 
-            if (category.IsPrimaryOrSecondaryCategory())
+            if (rank.IsPrimaryOrSecondaryRank())
             {
-                Category inheritedPrimaryCategory = _Taxon.GetInheritedPrimaryCategory();
+                Rank inheritedPrimaryRank = _Taxon.GetInheritedPrimaryRank();
 
-                bellowGenus = inheritedPrimaryCategory.IsPrimaryCategory() && inheritedPrimaryCategory <= Category.Genus;
+                bellowGenus = inheritedPrimaryRank.IsPrimaryRank() && inheritedPrimaryRank <= Rank.Genus;
             }
 
-            textBlock_CategoryName.FontStyle = textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;
-            textBlock_CategoryName.FontWeight = textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
+            textBlock_RankName.FontStyle = textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;
+            textBlock_RankName.FontWeight = textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
         }
 
         private void _UpdateSign()
@@ -98,11 +98,11 @@ namespace TreeOfLife.UI.Controls
             grid_Negative.Visibility = _Sign < 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private double _CategoryNameWidth = 50; // 分类阶元名称宽度。
+        private double _RankNameWidth = 50; // 分类阶元名称宽度。
 
-        private void _UpdateCategoryNameWidth()
+        private void _UpdateRankNameWidth()
         {
-            border_CategoryName.Width = _CategoryNameWidth;
+            border_RankName.Width = _RankNameWidth;
         }
 
         private bool _IsChecked = false; // 是否处于已选择状态。
@@ -113,9 +113,9 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_CategoryName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
-            border_CategoryName.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            border_RankName.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
 
             textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? 60 : 40) : 50));
 
@@ -125,7 +125,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public TaxonNameButton()
+        public TaxonButton()
         {
             InitializeComponent();
 
@@ -135,7 +135,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _UpdateTaxon();
                 _UpdateSign();
-                _UpdateCategoryNameWidth();
+                _UpdateRankNameWidth();
                 _UpdateColor();
             };
 
@@ -187,15 +187,15 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public double CategoryNameWidth
+        public double RankNameWidth
         {
-            get => _CategoryNameWidth;
+            get => _RankNameWidth;
 
             set
             {
-                _CategoryNameWidth = value;
+                _RankNameWidth = value;
 
-                _UpdateCategoryNameWidth();
+                _UpdateRankNameWidth();
             }
         }
 

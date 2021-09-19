@@ -27,22 +27,22 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
         Unranked = 0x00000004, // 匹配未分级类群
         Clade = 0x00000008, // 匹配演化支类群
-        BasicSecondaryCategory = 0x00000010, // 匹配基本次要级别类群
-        BasicPrimaryCategory = 0x00000020, // 匹配基本主要级别类群
-        BasicCategory = BasicSecondaryCategory | BasicPrimaryCategory, // 匹配基本级别类群
-        SecondaryCategory = 0x00000040, // 匹配次要级别类群
-        PrimaryCategory = 0x00000080, // 匹配主要级别类群
-        PrimaryOrSecondaryCategory = SecondaryCategory | PrimaryCategory, // 匹配主要或次要级别类群
-        AnyCategory = Unranked | Clade | SecondaryCategory | PrimaryCategory, // 匹配任意分级类群
+        BasicSecondaryRank = 0x00000010, // 匹配基本次要级别类群
+        BasicPrimaryRank = 0x00000020, // 匹配基本主要级别类群
+        BasicRank = BasicSecondaryRank | BasicPrimaryRank, // 匹配基本级别类群
+        SecondaryRank = 0x00000040, // 匹配次要级别类群
+        PrimaryRank = 0x00000080, // 匹配主要级别类群
+        PrimaryOrSecondaryRank = SecondaryRank | PrimaryRank, // 匹配主要或次要级别类群
+        AnyRank = Unranked | Clade | SecondaryRank | PrimaryRank, // 匹配任意分级类群
 
-        Any = NamedOrAnonymous | AnyCategory // 匹配任意类群
+        Any = NamedOrAnonymous | AnyRank // 匹配任意类群
     }
 
     // 生物分类单元（类群）的继承相关扩展方法。
     public static class TaxonInheritExtension
     {
         // 获取继承的分类阶元。
-        public static Category GetInheritedCategory(this Taxon taxon)
+        public static Rank GetInheritedRank(this Taxon taxon)
         {
             if (taxon is null)
             {
@@ -51,20 +51,20 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            if (taxon.Category.IsPrimaryOrSecondaryCategory())
+            if (taxon.Rank.IsPrimaryOrSecondaryRank())
             {
-                return taxon.Category;
+                return taxon.Rank;
             }
             else
             {
-                Taxon nearestPrimaryOrSecondaryCategoryParent = null;
+                Taxon nearestPrimaryOrSecondaryRankParent = null;
                 Taxon parent = taxon.Parent;
 
                 while (parent is not null)
                 {
-                    if (parent.Category.IsPrimaryOrSecondaryCategory())
+                    if (parent.Rank.IsPrimaryOrSecondaryRank())
                     {
-                        nearestPrimaryOrSecondaryCategoryParent = parent;
+                        nearestPrimaryOrSecondaryRankParent = parent;
 
                         break;
                     }
@@ -74,25 +74,25 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     }
                 }
 
-                if (nearestPrimaryOrSecondaryCategoryParent is null)
+                if (nearestPrimaryOrSecondaryRankParent is null)
                 {
-                    return taxon.Root.Category;
+                    return taxon.Root.Rank;
                 }
                 else
                 {
-                    return nearestPrimaryOrSecondaryCategoryParent.Category;
+                    return nearestPrimaryOrSecondaryRankParent.Rank;
                 }
             }
         }
 
         // 获取继承的基本分类阶元。
-        public static Category GetInheritedBasicCategory(this Taxon taxon)
+        public static Rank GetInheritedBasicRank(this Taxon taxon)
         {
-            return taxon.GetInheritedCategory().BasicCategory();
+            return taxon.GetInheritedRank().BasicRank();
         }
 
         // 获取继承的主要分类阶元。
-        public static Category GetInheritedPrimaryCategory(this Taxon taxon)
+        public static Rank GetInheritedPrimaryRank(this Taxon taxon)
         {
             if (taxon is null)
             {
@@ -101,20 +101,20 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            if (taxon.Category.IsPrimaryCategory())
+            if (taxon.Rank.IsPrimaryRank())
             {
-                return taxon.Category;
+                return taxon.Rank;
             }
             else
             {
-                Taxon nearestPrimaryCategoryParent = null;
+                Taxon nearestPrimaryRankParent = null;
                 Taxon parent = taxon.Parent;
 
                 while (parent is not null)
                 {
-                    if (parent.Category.IsPrimaryCategory())
+                    if (parent.Rank.IsPrimaryRank())
                     {
-                        nearestPrimaryCategoryParent = parent;
+                        nearestPrimaryRankParent = parent;
 
                         break;
                     }
@@ -124,21 +124,21 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     }
                 }
 
-                if (nearestPrimaryCategoryParent is null)
+                if (nearestPrimaryRankParent is null)
                 {
-                    return taxon.Root.Category;
+                    return taxon.Root.Rank;
                 }
                 else
                 {
-                    return nearestPrimaryCategoryParent.Category;
+                    return nearestPrimaryRankParent.Rank;
                 }
             }
         }
 
         // 获取继承的基本主要分类阶元。
-        public static Category GetInheritedBasicPrimaryCategory(this Taxon taxon)
+        public static Rank GetInheritedBasicPrimaryRank(this Taxon taxon)
         {
-            return taxon.GetInheritedPrimaryCategory().BasicCategory();
+            return taxon.GetInheritedPrimaryRank().BasicRank();
         }
 
         //
@@ -222,7 +222,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             else
             {
                 bool nameIsMatched = false;
-                bool categoryIsMatched = false;
+                bool rankIsMatched = false;
 
                 if (filter.HasFlag(TaxonFilter.NamedOrAnonymous))
                 {
@@ -239,37 +239,37 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                 if (nameIsMatched)
                 {
-                    if (filter.HasFlag(TaxonFilter.AnyCategory))
+                    if (filter.HasFlag(TaxonFilter.AnyRank))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsUnranked() && filter.HasFlag(TaxonFilter.Unranked))
+                    else if (taxon.Rank.IsUnranked() && filter.HasFlag(TaxonFilter.Unranked))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsClade() && filter.HasFlag(TaxonFilter.Clade))
+                    else if (taxon.Rank.IsClade() && filter.HasFlag(TaxonFilter.Clade))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsBasicSecondaryCategory() && filter.HasFlag(TaxonFilter.BasicSecondaryCategory))
+                    else if (taxon.Rank.IsBasicSecondaryRank() && filter.HasFlag(TaxonFilter.BasicSecondaryRank))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsSecondaryCategory() && filter.HasFlag(TaxonFilter.SecondaryCategory))
+                    else if (taxon.Rank.IsSecondaryRank() && filter.HasFlag(TaxonFilter.SecondaryRank))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsBasicPrimaryCategory() && filter.HasFlag(TaxonFilter.BasicPrimaryCategory))
+                    else if (taxon.Rank.IsBasicPrimaryRank() && filter.HasFlag(TaxonFilter.BasicPrimaryRank))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
-                    else if (taxon.Category.IsPrimaryCategory() && filter.HasFlag(TaxonFilter.PrimaryCategory))
+                    else if (taxon.Rank.IsPrimaryRank() && filter.HasFlag(TaxonFilter.PrimaryRank))
                     {
-                        categoryIsMatched = true;
+                        rankIsMatched = true;
                     }
                 }
 
-                return nameIsMatched && categoryIsMatched;
+                return nameIsMatched && rankIsMatched;
             }
         }
 
