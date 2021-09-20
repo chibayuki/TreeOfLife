@@ -40,7 +40,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        private Dictionary<GeoChron, GeoChronNameButton> _GeoChronButtons = new Dictionary<GeoChron, GeoChronNameButton>();
+        private Dictionary<GeoChron, GeoChronButton> _GeoChronButtons = new Dictionary<GeoChron, GeoChronButton>();
         private Dictionary<GeoChron, IEnumerable<UIElement>> _PeriodElements = new Dictionary<GeoChron, IEnumerable<UIElement>>();
 
         //
@@ -195,7 +195,7 @@ namespace TreeOfLife.UI.Controls
 
                 foreach (var eon in eons)
                 {
-                    GeoChronNameButton button_Eon = new GeoChronNameButton()
+                    GeoChronButton button_Eon = new GeoChronButton()
                     {
                         GeoChron = eon,
                         ThemeColor = eon.GetThemeColor(),
@@ -213,7 +213,7 @@ namespace TreeOfLife.UI.Controls
                     {
                         foreach (var era in eon.Subordinates)
                         {
-                            GeoChronNameButton button_Era = new GeoChronNameButton()
+                            GeoChronButton button_Era = new GeoChronButton()
                             {
                                 GeoChron = era,
                                 ThemeColor = era.GetThemeColor(),
@@ -235,7 +235,7 @@ namespace TreeOfLife.UI.Controls
                                     int periodColumnIndex = eonColumnIndex[period.GetHashCode()];
                                     int periodColumnSpan = eonColumnSpan[period.GetHashCode()];
 
-                                    GeoChronNameButton button_Period = new GeoChronNameButton()
+                                    GeoChronButton button_Period = new GeoChronButton()
                                     {
                                         GeoChron = period,
                                         ThemeColor = period.GetThemeColor(),
@@ -429,7 +429,7 @@ namespace TreeOfLife.UI.Controls
 
                                         foreach (var epoch in period.Subordinates)
                                         {
-                                            GeoChronNameButton button_Epoch = new GeoChronNameButton()
+                                            GeoChronButton button_Epoch = new GeoChronButton()
                                             {
                                                 GeoChron = epoch,
                                                 ThemeColor = epoch.GetThemeColor(),
@@ -447,7 +447,7 @@ namespace TreeOfLife.UI.Controls
                                             {
                                                 foreach (var age in epoch.Subordinates)
                                                 {
-                                                    GeoChronNameButton button_Age = new GeoChronNameButton()
+                                                    GeoChronButton button_Age = new GeoChronButton()
                                                     {
                                                         GeoChron = age,
                                                         ThemeColor = age.GetThemeColor(),
@@ -494,11 +494,11 @@ namespace TreeOfLife.UI.Controls
 
             //
 
-            GeoChronNameButton button = null;
+            GeoChronButton button = null;
 
             stackPanel_Timespan.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is GeoChronNameButton source)
+                if (e.Source is GeoChronButton source)
                 {
                     button = source;
                 }
@@ -506,7 +506,7 @@ namespace TreeOfLife.UI.Controls
 
             stackPanel_Timespan.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
-                if (e.Source is GeoChronNameButton source && source == button)
+                if (e.Source is GeoChronButton source && source == button)
                 {
                     GeoChron = source.GeoChron;
                     button = null;
@@ -594,7 +594,7 @@ namespace TreeOfLife.UI.Controls
             {
                 if (oldGeoChron.IsTimespan && newGeoChron.IsTimespan)
                 {
-                    GeoChronNameButton button;
+                    GeoChronButton button;
                     IEnumerable<UIElement> elements;
 
                     //
@@ -767,7 +767,7 @@ namespace TreeOfLife.UI.Controls
 
                     //
 
-                    GeoChronNameButton button;
+                    GeoChronButton button;
                     IEnumerable<UIElement> elements;
 
                     //

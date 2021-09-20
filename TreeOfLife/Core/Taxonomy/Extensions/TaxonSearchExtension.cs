@@ -251,10 +251,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
 #if DEBUG
 
-            public override string ToString()
-            {
-                return string.Concat("{Taxon=", Taxon, ", MatchValue=", MatchValue, ", MatchLength=", MatchLength, ", RankRelativity=", RankRelativity, ", MatchObject=", MatchObject, "}");
-            }
+            public override string ToString() => $"{{Taxon={Taxon}, MatchValue={MatchValue}, MatchLength={MatchLength}, RankRelativity={RankRelativity}, MatchObject={MatchObject}}}";
 
 #endif
         }

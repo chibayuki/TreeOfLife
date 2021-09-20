@@ -683,7 +683,7 @@ namespace TreeOfLife.Core.Geology.Extensions
             }
             else if (geoChron.Type == GeoChronType.CEYear)
             {
-                return geoChron.CEYear < 0 ? $"BC {-geoChron.CEYear}" : $"AD { geoChron.CEYear}";
+                return geoChron.CEYear < 0 ? $"BC {-geoChron.CEYear}" : $"AD {geoChron.CEYear}";
             }
             else
             {

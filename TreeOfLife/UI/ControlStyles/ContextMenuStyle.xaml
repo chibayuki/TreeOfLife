@@ -18,14 +18,14 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="Glyph" Color="#FF444444"/>
 
-    <SolidColorBrush x:Key="ContextMenu.Background"/>
-    <SolidColorBrush x:Key="ContextMenu.BorderBrush"/>
-    
-    <SolidColorBrush x:Key="Separator.BorderBrush"/>
-    
-    <SolidColorBrush x:Key="MenuItem.Static.Background"/>
+    <SolidColorBrush x:Key="ContextMenu.Background" Color="White"/>
+    <SolidColorBrush x:Key="ContextMenu.BorderBrush" Color="Gray"/>
+
+    <SolidColorBrush x:Key="Separator.BorderBrush" Color="Gray"/>
+
+    <SolidColorBrush x:Key="MenuItem.Static.Background" Color="White"/>
     <SolidColorBrush x:Key="MenuItem.Static.BorderBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="MenuItem.Static.Foreground"/>
+    <SolidColorBrush x:Key="MenuItem.Static.Foreground" Color="Black"/>
     
     <SolidColorBrush x:Key="MenuItem.Highlighted.Background"/>
     <SolidColorBrush x:Key="MenuItem.Highlighted.Foreground"/>

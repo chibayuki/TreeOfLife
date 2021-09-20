@@ -12,7 +12,7 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="Label.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="Label.BorderBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="Label.Foreground"/>
+    <SolidColorBrush x:Key="Label.Foreground" Color="Black"/>
 
     <Style x:Key="LabelStyle" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="{StaticResource Label.Background}"/>
@@ -38,9 +38,9 @@ This file is part of TreeOfLife
         </Setter>
     </Style>
 
-    <SolidColorBrush x:Key="TitleLabel.Background"/>
-    <SolidColorBrush x:Key="TitleLabel.BorderBrush"/>
-    <SolidColorBrush x:Key="TitleLabel.Foreground"/>
+    <SolidColorBrush x:Key="TitleLabel.Background" Color="LightGray"/>
+    <SolidColorBrush x:Key="TitleLabel.BorderBrush" Color="DimGray"/>
+    <SolidColorBrush x:Key="TitleLabel.Foreground" Color="Black"/>
 
     <Style x:Key="HorizontalTitleLabelStyle" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="{DynamicResource TitleLabel.Background}"/>

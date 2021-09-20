@@ -33,8 +33,8 @@ namespace TreeOfLife.UI.Controls
     public partial class RankSelector : UserControl
     {
         private Dictionary<Rank, RankButton> _BasicRankButtons = new Dictionary<Rank, RankButton>();
-        private Dictionary<Rank, RankButton> _CategoriesButtons = new Dictionary<Rank, RankButton>();
-        private Dictionary<Rank, Panel> _CategoriesPanels = new Dictionary<Rank, Panel>();
+        private Dictionary<Rank, RankButton> _RanksButtons = new Dictionary<Rank, RankButton>();
+        private Dictionary<Rank, Panel> _RanksPanels = new Dictionary<Rank, Panel>();
 
         //
 
@@ -61,7 +61,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        private void _InitBasicRankControls(Panel basicRankPanel, Rank basicRank, Panel categoriesPanel, IEnumerable<Rank> categories)
+        private void _InitBasicRankControls(Panel basicRankPanel, Rank basicRank, Panel RanksPanel, IEnumerable<Rank> Ranks)
         {
             RankButton button_Basic = new RankButton()
             {
@@ -81,9 +81,9 @@ namespace TreeOfLife.UI.Controls
                 Visibility = Visibility.Collapsed
             };
 
-            _CategoriesPanels.Add(basicRank, wrapPanel);
+            _RanksPanels.Add(basicRank, wrapPanel);
 
-            foreach (var rank in categories)
+            foreach (var rank in Ranks)
             {
                 RankButton button = new RankButton()
                 {
@@ -91,17 +91,17 @@ namespace TreeOfLife.UI.Controls
                     Margin = new Thickness(0, 6, 6, 0)
                 };
 
-                _CategoriesButtons.Add(rank, button);
+                _RanksButtons.Add(rank, button);
 
                 wrapPanel.Children.Add(button);
             }
 
-            categoriesPanel.Children.Add(wrapPanel);
+            RanksPanel.Children.Add(wrapPanel);
         }
 
         private void _InitRankControls()
         {
-            foreach (var (basicRank, categories) in new[] {
+            foreach (var (basicRank, Ranks) in new[] {
                 (Rank.Domain, new Rank[] {
                     Rank.Superdomain,
                     Rank.Domain }),
@@ -160,10 +160,10 @@ namespace TreeOfLife.UI.Controls
                     Rank.Subvariety })
             })
             {
-                _InitBasicRankControls(stackPanel_BasicPrimaryCategories, basicRank, grid_PrimaryCategories, categories);
+                _InitBasicRankControls(stackPanel_BasicPrimaryRanks, basicRank, grid_PrimaryRanks, Ranks);
             }
 
-            foreach (var (basicRank, categories) in new[] {
+            foreach (var (basicRank, Ranks) in new[] {
                 (Rank.Tribe, new Rank[] {
                     Rank.Supertribe,
                     Rank.Tribe,
@@ -195,14 +195,14 @@ namespace TreeOfLife.UI.Controls
                     Rank.Strain })
             })
             {
-                _InitBasicRankControls(stackPanel_BasicSecondaryCategories, basicRank, grid_SecondaryCategories, categories);
+                _InitBasicRankControls(stackPanel_BasicSecondaryRanks, basicRank, grid_SecondaryRanks, Ranks);
             }
 
             //
 
             RankButton button = null;
 
-            grid_Categories.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
+            grid_Ranks.AddHandler(UIElement.MouseLeftButtonDownEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is RankButton source)
                 {
@@ -210,7 +210,7 @@ namespace TreeOfLife.UI.Controls
                 }
             }));
 
-            grid_Categories.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
+            grid_Ranks.AddHandler(UIElement.MouseLeftButtonUpEvent, new RoutedEventHandler((s, e) =>
             {
                 if (e.Source is RankButton source && source == button)
                 {
@@ -269,24 +269,24 @@ namespace TreeOfLife.UI.Controls
 
                     //
 
-                    if (_CategoriesButtons.TryGetValue(oldRank, out button) && button is not null)
+                    if (_RanksButtons.TryGetValue(oldRank, out button) && button is not null)
                     {
                         button.IsChecked = false;
                     }
 
-                    if (_CategoriesButtons.TryGetValue(newRank, out button) && button is not null)
+                    if (_RanksButtons.TryGetValue(newRank, out button) && button is not null)
                     {
                         button.IsChecked = true;
                     }
 
                     //
 
-                    if (_CategoriesPanels.TryGetValue(oldRank.BasicRank(), out panel) && panel is not null)
+                    if (_RanksPanels.TryGetValue(oldRank.BasicRank(), out panel) && panel is not null)
                     {
                         panel.Visibility = Visibility.Collapsed;
                     }
 
-                    if (_CategoriesPanels.TryGetValue(newRank.BasicRank(), out panel) && panel is not null)
+                    if (_RanksPanels.TryGetValue(newRank.BasicRank(), out panel) && panel is not null)
                     {
                         panel.Visibility = Visibility.Visible;
                     }
@@ -310,7 +310,7 @@ namespace TreeOfLife.UI.Controls
                         }
                     }
 
-                    foreach (var item in _CategoriesButtons)
+                    foreach (var item in _RanksButtons)
                     {
                         if (item.Value.IsChecked)
                         {
@@ -318,7 +318,7 @@ namespace TreeOfLife.UI.Controls
                         }
                     }
 
-                    foreach (var item in _CategoriesPanels)
+                    foreach (var item in _RanksPanels)
                     {
                         item.Value.Visibility = Visibility.Collapsed;
                     }
@@ -355,12 +355,12 @@ namespace TreeOfLife.UI.Controls
                         button.IsChecked = true;
                     }
 
-                    if (_CategoriesButtons.TryGetValue(newRank, out button) && button is not null)
+                    if (_RanksButtons.TryGetValue(newRank, out button) && button is not null)
                     {
                         button.IsChecked = true;
                     }
 
-                    if (_CategoriesPanels.TryGetValue(newRank.BasicRank(), out panel) && panel is not null)
+                    if (_RanksPanels.TryGetValue(newRank.BasicRank(), out panel) && panel is not null)
                     {
                         panel.Visibility = Visibility.Visible;
                     }
@@ -390,7 +390,7 @@ namespace TreeOfLife.UI.Controls
                 item.Value.IsDarkTheme = _IsDarkTheme;
             }
 
-            foreach (var item in _CategoriesButtons)
+            foreach (var item in _RanksButtons)
             {
                 item.Value.IsDarkTheme = _IsDarkTheme;
             }
