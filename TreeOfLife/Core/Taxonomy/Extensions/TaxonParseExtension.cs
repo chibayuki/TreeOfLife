@@ -21,7 +21,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         // 识别一个名称，并应用到当前类群。
         public static void ParseCurrent(this Taxon taxon, string name)
         {
-            name = name.Trim();
+            name = name?.Trim();
 
             if (!string.IsNullOrEmpty(name))
             {

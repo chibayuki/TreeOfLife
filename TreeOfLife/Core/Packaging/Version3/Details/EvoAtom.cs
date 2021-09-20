@@ -329,7 +329,7 @@ namespace TreeOfLife.Core.Packaging.Version3.Details
             taxon.Tags.AddRange(_Tags);
 
             // 匿名类群的分类阶元始终为未分级
-            if (string.IsNullOrEmpty(taxon.ScientificName) && string.IsNullOrEmpty(taxon.ChineseName))
+            if (taxon.IsAnonymous)
             {
                 taxon.Rank = Taxonomy.Rank.Unranked;
             }

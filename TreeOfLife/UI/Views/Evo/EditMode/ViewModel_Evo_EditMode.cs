@@ -194,16 +194,8 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                     if (!currentTaxon.IsRoot)
                     {
-                        // 匿名类群的分类阶元始终为未分级
-                        if (string.IsNullOrEmpty(currentTaxon.ScientificName) && string.IsNullOrEmpty(currentTaxon.ChineseName))
-                        {
-                            currentTaxon.Rank = Rank.Unranked;
-                        }
-                        // 只对具名类群应用分类阶元
-                        else
-                        {
-                            currentTaxon.Rank = _Rank;
-                        }
+                        // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
+                        currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
                     }
                 }
 
