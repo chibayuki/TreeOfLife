@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1240.1000.M12.210718-2000
+Version 1.0.1322.1000.M13.210925-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -65,7 +65,7 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="数据大小"/>
-                        <Label Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="{Binding PackageSize}"/>
+                        <Label Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="{Binding DataSize}"/>
                     </Grid>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>

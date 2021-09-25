@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1240.1000.M12.210718-2000
+Version 1.0.1322.1000.M13.210925-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -12,8 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using System.IO;
 
 using TreeOfLife.Core;
 
@@ -32,7 +30,7 @@ namespace TreeOfLife.UI.Views.File
 
         private string _FileName; // 文件名。
         private string _FileSize; // 文件大小。
-        private string _PackageSize; // 包大小。
+        private string _DataSize; // 数据大小。
         private string _CreationTime; // 创建时间。
         private string _ModificationTime; // 修改时间。
 
@@ -60,15 +58,15 @@ namespace TreeOfLife.UI.Views.File
             }
         }
 
-        public string PackageSize
+        public string DataSize
         {
-            get => _PackageSize;
+            get => _DataSize;
 
             set
             {
-                _PackageSize = value;
+                _DataSize = value;
 
-                NotifyPropertyChanged(nameof(PackageSize));
+                NotifyPropertyChanged(nameof(DataSize));
             }
         }
 
@@ -163,7 +161,7 @@ namespace TreeOfLife.UI.Views.File
 
         public void UpdateFileInfo()
         {
-            PackageSize = _GetSizeString(Entrance.PackageSize);
+            DataSize = _GetSizeString(Entrance.DataSize);
             CreationTime = string.Concat(Entrance.CreationTime.ToLocalTime().ToLongDateString(), " ", Entrance.CreationTime.ToLocalTime().ToLongTimeString());
 
             if (string.IsNullOrWhiteSpace(Entrance.FileName))
@@ -174,8 +172,8 @@ namespace TreeOfLife.UI.Views.File
             }
             else
             {
-                FileName = Path.GetFileNameWithoutExtension(Entrance.FileName);
-                FileSize = _GetSizeString(new FileInfo(Entrance.FileName).Length);
+                FileName = Entrance.PureFileName;
+                FileSize = _GetSizeString(Entrance.FileSize);
                 ModificationTime = string.Concat(Entrance.ModificationTime.ToLocalTime().ToLongDateString(), " ", Entrance.ModificationTime.ToLocalTime().ToLongTimeString());
             }
         }

@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1240.1000.M12.210718-2000
+Version 1.0.1322.1000.M13.210925-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,7 +26,7 @@ using Microsoft.Win32;
 using System.IO;
 
 using TreeOfLife.Core;
-using TreeOfLife.Core.Packaging;
+using TreeOfLife.Core.IO;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Views;
@@ -189,7 +189,7 @@ namespace TreeOfLife.UI
             {
                 if (File.Exists(Entrance.FileName))
                 {
-                    if (Entrance.PackageVersion == PackageVersion.Latest.Version)
+                    if (Entrance.IsLatestVersion)
                     {
                         // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
                         result = true;
@@ -240,6 +240,7 @@ namespace TreeOfLife.UI
             return result;
         }
 
+        // true=成功，false=失败，null=取消
         private bool? _Save()
         {
             bool? result = null;
@@ -248,7 +249,7 @@ namespace TreeOfLife.UI
             {
                 if (File.Exists(Entrance.FileName))
                 {
-                    if (Entrance.PackageVersion == PackageVersion.Latest.Version)
+                    if (Entrance.IsLatestVersion)
                     {
                         // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
                         result = true;
@@ -337,6 +338,7 @@ namespace TreeOfLife.UI
             return result;
         }
 
+        // true=成功，false=失败
         private bool _Close()
         {
             Common.RightButtonTaxon = null;
@@ -446,6 +448,7 @@ namespace TreeOfLife.UI
             }
         }
 
+        // true=成功，false=失败或取消
         private bool _TrySaveAndClose()
         {
             // 未保存过且内容为空，无需关闭，认为关闭成功

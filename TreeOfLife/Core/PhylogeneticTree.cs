@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1240.1000.M12.210718-2000
+Version 1.0.1322.1000.M13.210925-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,7 +26,7 @@ namespace TreeOfLife.Core
 
         public PhylogeneticTree()
         {
-            _Root = new Taxon() { Rank = Rank.Unranked };
+            _Root = new Taxon();
         }
 
         //

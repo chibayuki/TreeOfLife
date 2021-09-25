@@ -2,7 +2,7 @@
 Copyright © 2021 chibayuki@foxmail.com
 
 TreeOfLife
-Version 1.0.1240.1000.M12.210718-2000
+Version 1.0.1322.1000.M13.210925-1400
 
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -13,14 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
 using System.Reflection;
 
-using TreeOfLife.Core.Packaging;
+using TreeOfLife.Core.IO;
 using TreeOfLife.Core.Taxonomy;
 
 namespace TreeOfLife.Core
 {
-    // 提供内存数据访问与文件操作的单例。
+    // 为UI提供内存数据访问与文件操作的入口。
     public static class Entrance
     {
         private static PhylogeneticTree _PhylogeneticTree = null;
@@ -31,15 +32,21 @@ namespace TreeOfLife.Core
 
         public static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
 
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         public static Taxon Root => _PhylogeneticTree?.Root;
 
         public static bool IsEmpty => _PhylogeneticTree is null || _PhylogeneticTree.Root.IsFinal;
 
-        public static string FileName => _Package?.FileName;
+        public static string FileName => _Package?.UserFile;
 
-        public static long PackageSize => _Package is null ? 0 : _Package.PackageSize;
+        public static string PureFileName => Path.GetFileNameWithoutExtension(_Package?.UserFile);
 
-        public static int PackageVersion => _Package is null ? 0 : _Package.Version.Version;
+        public static long FileSize => _Package is null || !File.Exists(_Package.UserFile) ? 0 : new FileInfo(_Package.UserFile).Length;
+
+        public static long DataSize => _Package is null ? 0 : _Package.PackageSize;
+
+        public static bool IsLatestVersion => _Package is null ? false : _Package.Version.IsLatest;
 
         public static DateTime CreationTime => _Package is null ? DateTime.MinValue : _Package.Info.CreationTime;
 
