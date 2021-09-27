@@ -51,7 +51,7 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="中文名"/>
-                            <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
+                            <TextBox x:Name="textBox_ChsName" Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
                         </Grid>
                     </StackPanel>
                 </Grid>

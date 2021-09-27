@@ -39,7 +39,7 @@ namespace TreeOfLife.Core.Validation
     {
         public override string ToString() => "Inherit 关系错误";
 
-        public bool IsValid(Taxon taxon) => (taxon.IsRoot || taxon.Parent.Children.Contains(taxon)) && !taxon.Children.Any((t) => t.Parent != taxon);
+        public bool IsValid(Taxon taxon) => !taxon.Children.Any((t) => t.Parent != taxon);
     }
 
     public class ExcludeValidator : IValidator
@@ -144,14 +144,7 @@ namespace TreeOfLife.Core.Validation
                 return true;
             }
 
-            //if (taxon.Rank.IsSpecies())
-            {
-                return !taxon.ScientificName.Any((c) => !char.IsLetter(c) && c != '.' && c != ' ');
-            }
-            /*else
-            {
-                return !taxon.ScientificName.Any((c) => !char.IsLetter(c));
-            }*/
+            return !taxon.ScientificName.Any((c) => !char.IsLetter(c) && c != '.' && c != ' ');
         }
     }
 
@@ -274,12 +267,7 @@ namespace TreeOfLife.Core.Validation
 
             if (taxon.Rank.IsUnranked())
             {
-                if (split.rank is null || split.rank == taxon.Rank)
-                {
-                    return true;
-                }
-
-                return false;
+                return split.rank is null || split.rank == taxon.Rank;
             }
             else if (taxon.Rank.IsClade())
             {
@@ -288,30 +276,15 @@ namespace TreeOfLife.Core.Validation
                     return true;
                 }
 
-                if (split.rank is null || split.rank == taxon.Rank)
-                {
-                    return true;
-                }
-
-                return false;
+                return split.rank is null || split.rank == taxon.Rank;
             }
             else if (taxon.Rank.IsSpecies())
             {
-                if (split.rank is null || split.rank == taxon.Rank)
-                {
-                    return true;
-                }
-
-                return false;
+                return split.rank is null || split.rank == taxon.Rank;
             }
             else
             {
-                if (split.rank == taxon.Rank)
-                {
-                    return true;
-                }
-
-                return false;
+                return split.rank == taxon.Rank;
             }
         }
     }

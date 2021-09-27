@@ -55,8 +55,18 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
-            rankSelector.RankChanged += RankSelector_RankChanged;
-            button_Rename.Click += Button_Rename_Click;
+            textBox_ChsName.TextChanged += (s, e) => _UpdateRenameVisibility();
+
+            rankSelector.RankChanged += (s, e) =>
+            {
+                ViewModel.Rank = e;
+                _UpdateRenameVisibility();
+            };
+            button_Rename.Click += (s, e) =>
+            {
+                textBox_ChsName.Text = _ChsRename;
+                grid_Rename.Visibility = Visibility.Collapsed;
+            };
             grid_Rename.Visibility = Visibility.Collapsed;
 
             geoChronSelector_Birth.GeoChronChanged += (s, e) => ViewModel.Birth = e;
@@ -642,56 +652,6 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
         #region 回调函数
 
-        private string _ChsRename = string.Empty; // 可更新的中文名。
-
-        private void RankSelector_RankChanged(object sender, Rank e)
-        {
-            ViewModel.Rank = e;
-
-            //
-
-            _ChsRename = ViewModel.ChsName;
-
-            if (!string.IsNullOrEmpty(ViewModel.ChsName))
-            {
-                string chsNameWithoutRank = RankChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
-
-                if (!string.IsNullOrEmpty(chsNameWithoutRank))
-                {
-                    if (ViewModel.Rank.IsClade())
-                    {
-                        _ChsRename = chsNameWithoutRank + "类";
-                    }
-                    else if (ViewModel.Rank.IsPrimaryOrSecondaryRank())
-                    {
-                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
-                    }
-                    else
-                    {
-                        _ChsRename = chsNameWithoutRank;
-                    }
-                }
-            }
-
-            if (_ChsRename != ViewModel.ChsName)
-            {
-                label_Rename.Content = "更新中文名为: " + _ChsRename;
-
-                grid_Rename.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                grid_Rename.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void Button_Rename_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ChsName = _ChsRename;
-
-            grid_Rename.Visibility = Visibility.Collapsed;
-        }
-
         private async void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
         {
             Taxon parent = await Views.Common.CurrentTaxon.AddParentUplevelAsync();
@@ -858,6 +818,48 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             grid_IncludeBy.Visibility = Views.Common.CurrentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private string _ChsRename = string.Empty;
+
+        // 更新中文名重命名提示可见性。
+        private void _UpdateRenameVisibility()
+        {
+            string chsName = textBox_ChsName.Text;
+
+            _ChsRename = chsName;
+
+            if (!string.IsNullOrEmpty(chsName))
+            {
+                string chsNameWithoutRank = RankChineseExtension.SplitChineseName(chsName).headPart;
+
+                if (!string.IsNullOrEmpty(chsNameWithoutRank))
+                {
+                    if (ViewModel.Rank.IsClade())
+                    {
+                        _ChsRename = chsNameWithoutRank + "类";
+                    }
+                    else if (ViewModel.Rank.IsPrimaryOrSecondaryRank())
+                    {
+                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
+                    }
+                    else
+                    {
+                        _ChsRename = chsNameWithoutRank;
+                    }
+                }
+            }
+
+            if (_ChsRename != chsName)
+            {
+                label_Rename.Content = "更新中文名为: " + _ChsRename;
+
+                grid_Rename.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid_Rename.Visibility = Visibility.Collapsed;
+            }
+        }
+
         // 更新可见性。
         private void _UpdateVisibility()
         {
@@ -877,6 +879,11 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
             grid_ExcludeBy.Visibility = currentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Includes.Visibility = currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_IncludeBy.Visibility = currentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            if (!currentTaxon.IsRoot)
+            {
+                _UpdateRenameVisibility();
+            }
         }
 
         public void UpdateCurrentTaxonInfo()

@@ -44,10 +44,10 @@ namespace TreeOfLife.Core.Validation.Extensions
             new RankMissingValidator(),
             new ChineseSuffixValidator(),
             new TagUniqueValidator(),
-            new NodeStructureValidator(),
+            new NodeStructureValidator()
         };
 
-        // 检查当前类群。
+        // 检查当前类群的违规项。
         public static IReadOnlyList<IValidator> Validate(this Taxon taxon)
         {
             List<IValidator> result = new List<IValidator>();
@@ -78,7 +78,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             }
         }
 
-        // 检查当前类群的子类群。
+        // 检查当前类群的所有子类群的违规项。
         public static IReadOnlyList<(Taxon taxon, IReadOnlyList<IValidator> violations)> ValidateChildren(this Taxon taxon)
         {
             List<(Taxon, IReadOnlyList<IValidator>)> result = new List<(Taxon, IReadOnlyList<IValidator>)>();
@@ -91,7 +91,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             return result;
         }
 
-        // 检查当前类群的子类群（并按规则排序）。
+        // 检查当前类群的所有子类群的违规项（并按规则排序）。
         public static IReadOnlyDictionary<IValidator, IReadOnlyList<Taxon>> ValidateChildrenAndGroupByValidator(this Taxon taxon)
         {
             Dictionary<IValidator, IReadOnlyList<Taxon>> result = new Dictionary<IValidator, IReadOnlyList<Taxon>>();
