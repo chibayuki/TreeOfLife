@@ -22,9 +22,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Core.Extensions;
+using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 

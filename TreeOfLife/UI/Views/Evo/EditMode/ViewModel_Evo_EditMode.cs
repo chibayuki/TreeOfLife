@@ -19,6 +19,7 @@ using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Controls;
+using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views.Evo.EditMode
 {

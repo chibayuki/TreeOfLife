@@ -17,7 +17,7 @@ using System.Windows.Media;
 
 using ColorX = Com.Chromatics.ColorX;
 
-namespace TreeOfLife.Core.Extensions
+namespace TreeOfLife.UI.Extensions
 {
     // Com.dll 扩展（临时）
     public static class ComExtension

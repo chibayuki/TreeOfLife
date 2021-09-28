@@ -15,9 +15,11 @@ using System.Threading.Tasks;
 
 using System.Drawing;
 
+using TreeOfLife.Core.Geology;
+
 using ColorX = Com.Chromatics.ColorX;
 
-namespace TreeOfLife.Core.Geology.Extensions
+namespace TreeOfLife.UI.Extensions
 {
     // 地质年代的UI相关扩展方法。
     public static class GeoChronUIExtension

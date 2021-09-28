@@ -26,6 +26,7 @@ using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Geology.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 

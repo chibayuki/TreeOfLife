@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-using TreeOfLife.Core.Extensions;
+using TreeOfLife.UI.Extensions;
 
 using ColorX = Com.Chromatics.ColorX;
 

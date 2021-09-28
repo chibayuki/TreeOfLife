@@ -63,7 +63,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             return result;
         }
 
-        private static void _ValidateChildren(List<(Taxon, IReadOnlyList<IValidator>)> result, Taxon taxon)
+        private static void _ValidateChildren(Taxon taxon, List<(Taxon, IReadOnlyList<IValidator>)> result)
         {
             IReadOnlyList<IValidator> violations = taxon.Validate();
 
@@ -74,7 +74,7 @@ namespace TreeOfLife.Core.Validation.Extensions
 
             foreach (var child in taxon.Children)
             {
-                _ValidateChildren(result, child);
+                _ValidateChildren(child, result);
             }
         }
 
@@ -85,7 +85,7 @@ namespace TreeOfLife.Core.Validation.Extensions
 
             foreach (var child in taxon.Children)
             {
-                _ValidateChildren(result, child);
+                _ValidateChildren(child, result);
             }
 
             return result;

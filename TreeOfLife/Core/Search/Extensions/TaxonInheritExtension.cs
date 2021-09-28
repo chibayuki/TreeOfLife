@@ -13,7 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.Core.Taxonomy.Extensions
+using TreeOfLife.Core.Taxonomy;
+using TreeOfLife.Core.Taxonomy.Extensions;
+
+namespace TreeOfLife.Core.Search.Extensions
 {
     // 生物分类单元（类群）的筛选条件。
     [Flags]
@@ -36,6 +39,16 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         AnyRank = Unranked | Clade | SecondaryRank | PrimaryRank, // 匹配任意分级类群
 
         Any = NamedOrAnonymous | AnyRank // 匹配任意类群
+    }
+
+    // 表示UI获取父类群的方式。
+    public enum GetParentsOption
+    {
+        EditMode, // 仅用于编辑模式
+
+        Least, // 最简
+        Summary, // 适中
+        Full // 完整
     }
 
     // 生物分类单元（类群）的继承相关扩展方法。
@@ -330,7 +343,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         }
 
         // 获取所有符合筛选条件的父类群。
-        public static List<Taxon> GetParents(this Taxon taxon, TaxonFilter filter, TaxonFilter terminationCondition = TaxonFilter.None, bool includeTermination = true, bool skipParaphyly = true)
+        public static IReadOnlyList<Taxon> GetParents(this Taxon taxon, TaxonFilter filter, TaxonFilter terminationCondition = TaxonFilter.None, bool includeTermination = true, bool skipParaphyly = true)
         {
             if (taxon is null)
             {
@@ -339,7 +352,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
             //
 
-            List<Taxon> parents = new List<Taxon>();
+            List<Taxon> result = new List<Taxon>();
 
             if (!taxon.IsRoot)
             {
@@ -351,7 +364,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         if (includeTermination)
                         {
-                            parents.Add(parent);
+                            result.Add(parent);
                         }
 
                         break;
@@ -359,14 +372,172 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                     if (parent._IsMatched(filter))
                     {
-                        parents.Add(parent);
+                        result.Add(parent);
                     }
 
                     parent = skipParaphyly ? parent._GetParentSkipParaphyly() : parent.Parent;
                 }
             }
 
-            return parents;
+            return result;
+        }
+
+        // 按照指定方式获取父类群。
+        public static IReadOnlyList<Taxon> GetParents(this Taxon taxon, GetParentsOption option)
+        {
+            if (taxon is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            //
+
+            List<Taxon> result = new List<Taxon>();
+
+            if (!taxon.IsRoot)
+            {
+                if (option == GetParentsOption.EditMode)
+                {
+                    // 上溯到任何具名分类阶元类群，保留任何类群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Any,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果没有上溯到任何主要分类阶元类群，直接上溯到顶级类群，保留任何类群
+                    if (result.Count <= 0)
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+                else if (option == GetParentsOption.Least)
+                {
+                    // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[^1];
+
+                        if (parent.Rank.IsUnranked() || parent.Rank.IsClade())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.AnyRank,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
+                    }
+
+                    // 如果上溯到任何次要分类阶元类群，继续上溯到任何基本主要分类阶元类群，保留基本次要分类阶元类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[^1];
+
+                        if (parent.Rank.IsSecondaryRank())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.BasicSecondaryRank,
+                                TaxonFilter.Named | TaxonFilter.BasicPrimaryRank,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
+                    }
+
+                    // 如果上溯到任何类群，继续上溯到顶级类群，保留基本主要分类阶元具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        result.AddRange(result[^1].GetParents(
+                            TaxonFilter.Named | TaxonFilter.BasicPrimaryRank,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: true));
+                    }
+                    // 如果没有上溯到任何类群，直接上溯到顶级类群，保留任何类群
+                    else
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+                else if (option == GetParentsOption.Summary)
+                {
+                    // 首先上溯到任何具名类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        Taxon parent = result[^1];
+
+                        if (parent.Rank.IsUnranked() || parent.Rank.IsClade())
+                        {
+                            result.AddRange(parent.GetParents(
+                                TaxonFilter.Named | TaxonFilter.AnyRank,
+                                TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
+                                includeTermination: true,
+                                skipParaphyly: true));
+                        }
+                    }
+
+                    // 如果上溯到任何类群，继续上溯到顶级类群，保留主要或次要分类阶元具名类群，跳过并系群
+                    if (result.Count > 0)
+                    {
+                        result.AddRange(result[^1].GetParents(
+                            TaxonFilter.Named | TaxonFilter.PrimaryOrSecondaryRank,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: true));
+                    }
+                    // 如果没有上溯到任何类群，直接上溯到顶级类群，保留任何类群
+                    else
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+                else if (option == GetParentsOption.Full)
+                {
+                    // 上溯到顶级类群，保留任何具名类群，不跳过并系群
+                    result.AddRange(taxon.GetParents(
+                        TaxonFilter.Named | TaxonFilter.AnyRank,
+                        TaxonFilter.None,
+                        includeTermination: true,
+                        skipParaphyly: false));
+
+                    // 如果没有上溯到任何具名类群，直接上溯到顶级类群，保留任何类群
+                    if (result.Count <= 0)
+                    {
+                        result.AddRange(taxon.GetParents(
+                            TaxonFilter.Any,
+                            TaxonFilter.None,
+                            includeTermination: true,
+                            skipParaphyly: false));
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

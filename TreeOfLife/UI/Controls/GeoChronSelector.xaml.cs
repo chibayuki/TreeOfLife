@@ -25,7 +25,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
 using TreeOfLife.Core.Geology;
-using TreeOfLife.Core.Geology.Extensions;
+using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Controls
 {

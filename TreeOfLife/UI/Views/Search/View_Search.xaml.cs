@@ -23,8 +23,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TreeOfLife.Core;
+using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
-using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Controls;
 
 namespace TreeOfLife.UI.Views.Search
@@ -144,19 +144,19 @@ namespace TreeOfLife.UI.Views.Search
                 _SearchResult_High.Clear();
                 _SearchResult_Low.Clear();
 
-                IReadOnlyDictionary<TaxonSearchExtension.MatchLevel, IReadOnlyList<Taxon>> searchResult = Entrance.Root.SearchAndGroupByMatchLevel(keyWord);
+                IReadOnlyDictionary<MatchLevel, IReadOnlyList<Taxon>> searchResult = Entrance.Root.SearchAndGroupByMatchLevel(keyWord);
 
-                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Perfect])
+                foreach (Taxon taxon in searchResult[MatchLevel.Perfect])
                 {
                     _SearchResult_Perfect.Add(new TaxonItem() { Taxon = taxon });
                 }
 
-                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.High])
+                foreach (Taxon taxon in searchResult[MatchLevel.High])
                 {
                     _SearchResult_High.Add(new TaxonItem() { Taxon = taxon });
                 }
 
-                foreach (Taxon taxon in searchResult[TaxonSearchExtension.MatchLevel.Low])
+                foreach (Taxon taxon in searchResult[MatchLevel.Low])
                 {
                     _SearchResult_Low.Add(new TaxonItem() { Taxon = taxon });
                 }

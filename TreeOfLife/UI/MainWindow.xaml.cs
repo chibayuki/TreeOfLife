@@ -26,9 +26,8 @@ using Microsoft.Win32;
 using System.IO;
 
 using TreeOfLife.Core;
-using TreeOfLife.Core.IO;
+using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
-using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Views;
 
 using ColorX = Com.Chromatics.ColorX;

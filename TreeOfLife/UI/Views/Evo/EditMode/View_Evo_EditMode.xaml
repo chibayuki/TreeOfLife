@@ -65,7 +65,7 @@ This file is part of TreeOfLife
                     <StackPanel Grid.Column="2">
                         <Controls:RankSelector x:Name="rankSelector"/>
                         <Grid x:Name="grid_Rename" Margin="0,5,0,0">
-                            <Label x:Name="label_Rename" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="label_Rename" Style="{DynamicResource LabelStyle}" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
                             <Button x:Name="button_Rename" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
                         </Grid>
                     </StackPanel>

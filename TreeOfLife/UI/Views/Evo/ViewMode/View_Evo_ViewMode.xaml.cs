@@ -23,8 +23,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using TreeOfLife.Core.Geology;
+using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
-using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views.Evo.ViewMode
 {

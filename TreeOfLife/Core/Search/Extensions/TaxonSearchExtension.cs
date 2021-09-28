@@ -13,8 +13,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.Core.Taxonomy.Extensions
+using TreeOfLife.Core.Taxonomy;
+using TreeOfLife.Core.Taxonomy.Extensions;
+
+namespace TreeOfLife.Core.Search.Extensions
 {
+    // 搜索结果的匹配程度
+    public enum MatchLevel
+    {
+        Perfect, // 完全匹配
+        High, // 匹配度较高
+        Low // 匹配度较低
+    }
+
     // 生物分类单元（类群）的搜索相关扩展方法。
     public static class TaxonSearchExtension
     {
@@ -256,8 +267,6 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 #endif
         }
 
-        private static List<_MatchResult> _MatchResults; // 匹配结果列表。
-
         private static string _KeyWord; // 关键字。
         private static Rank? _KeyWordRank; // 关键字中包含的分类阶元。
         private static string _KeyWordWithoutRank; // 关键字除了表示分类阶元（如果有）之外的部分。
@@ -366,7 +375,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         }
 
         // 递归获取所有符合匹配条件的子类群。
-        private static void _GetMatchedChildren(this Taxon taxon)
+        private static void _GetMatchedChildren(Taxon taxon, List<_MatchResult> matchResults)
         {
             if (taxon is null)
             {
@@ -384,20 +393,12 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     // 丢弃匹配率过低的结果，至少每 5 个字符中需要有 1 个匹配的字符，(1+1)/(1+5)=1/3
                     if (mr.MatchValue >= 1.0 / 3.0)
                     {
-                        _MatchResults.Add(mr);
+                        matchResults.Add(mr);
                     }
                 }
 
-                child._GetMatchedChildren();
+                _GetMatchedChildren(child, matchResults);
             }
-        }
-
-        // 匹配程度
-        public enum MatchLevel
-        {
-            Perfect, // 完全匹配
-            High, // 匹配度较高
-            Low // 匹配度较低
         }
 
         // 搜索符合指定的关键词的子类群。
@@ -418,7 +419,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             }
             else
             {
-                _MatchResults = new List<_MatchResult>();
+                List<_MatchResult> matchResults = new List<_MatchResult>();
 
                 _KeyWord = keyWord;
                 (_KeyWordWithoutRank, _, _KeyWordRank) = RankChineseExtension.SplitChineseName(_KeyWord);
@@ -432,9 +433,9 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     _KeyWordWithoutRankAsClade = _KeyWordWithoutRank;
                 }
 
-                taxon._GetMatchedChildren();
+                _GetMatchedChildren(taxon, matchResults);
 
-                var matchResults = from mr in _MatchResults
+                var orderedMatchResults = from mr in matchResults
                                    orderby mr.MatchValue descending,
                                    mr.MatchLength descending,
                                    mr.RankRelativity ascending,
@@ -449,7 +450,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     // 关键字包含分类阶元名称，还包含除此之外的，按匹配率与分类阶元相关性设定匹配程度
                     if (!string.IsNullOrEmpty(_KeyWordWithoutRank))
                     {
-                        foreach (var mr in matchResults)
+                        foreach (var mr in orderedMatchResults)
                         {
                             if (mr.MatchValue >= 1.0 && mr.RankRelativity == _RankRelativity.Equals)
                             {
@@ -468,7 +469,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     // 关键字仅包含分类阶元名称的，按分类阶元相关性设定匹配程度
                     else
                     {
-                        foreach (var mr in matchResults)
+                        foreach (var mr in orderedMatchResults)
                         {
                             if (mr.RankRelativity == _RankRelativity.Equals)
                             {
@@ -488,7 +489,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                 // 关键字不含分类阶元名称的，按匹配率设定匹配程度
                 else
                 {
-                    foreach (var mr in matchResults)
+                    foreach (var mr in orderedMatchResults)
                     {
                         if (mr.MatchValue >= 1.0)
                         {
@@ -504,8 +505,6 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                         }
                     }
                 }
-
-                _MatchResults.Clear();
 
                 return result;
             }
