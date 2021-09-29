@@ -47,7 +47,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             new NodeStructureValidator()
         };
 
-        // 检查当前类群的违规项。
+        // 检查指定类群的违规项。
         public static IReadOnlyList<IValidator> Validate(this Taxon taxon)
         {
             List<IValidator> result = new List<IValidator>();
@@ -63,6 +63,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             return result;
         }
 
+        // 递归检查所有子类群的违规项。
         private static void _ValidateChildren(Taxon taxon, List<(Taxon, IReadOnlyList<IValidator>)> result)
         {
             IReadOnlyList<IValidator> violations = taxon.Validate();
@@ -78,7 +79,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             }
         }
 
-        // 检查当前类群的所有子类群的违规项。
+        // 检查所有子类群的违规项。
         public static IReadOnlyList<(Taxon taxon, IReadOnlyList<IValidator> violations)> ValidateChildren(this Taxon taxon)
         {
             List<(Taxon, IReadOnlyList<IValidator>)> result = new List<(Taxon, IReadOnlyList<IValidator>)>();
@@ -91,7 +92,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             return result;
         }
 
-        // 检查当前类群的所有子类群的违规项（并按规则排序）。
+        // 检查所有子类群的违规项（并按规则分组）。
         public static IReadOnlyDictionary<IValidator, IReadOnlyList<Taxon>> ValidateChildrenAndGroupByValidator(this Taxon taxon)
         {
             Dictionary<IValidator, IReadOnlyList<Taxon>> result = new Dictionary<IValidator, IReadOnlyList<Taxon>>();
