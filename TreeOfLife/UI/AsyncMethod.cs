@@ -32,7 +32,6 @@ namespace TreeOfLife.UI
             Start();
             bool result = await Task.Run(() => Entrance.Open(fileName));
             Finish();
-            var v = Core.Statistics.Extensions.TaxonStatisticsExtension.Statistics(Entrance.Root);
 
             return result;
         }
@@ -60,7 +59,6 @@ namespace TreeOfLife.UI
             Start();
             bool result = await Task.Run(Entrance.Close);
             Finish();
-            var v = Core.Statistics.Extensions.TaxonStatisticsExtension.Statistics(Entrance.Root);
 
             return result;
         }
