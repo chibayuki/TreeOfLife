@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using TreeOfLife.Core;
 
-namespace TreeOfLife.UI.Views.File
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_File : ViewModel
     {

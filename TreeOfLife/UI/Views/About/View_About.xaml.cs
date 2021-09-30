@@ -22,7 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TreeOfLife.UI.Views.About
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// View_About.xaml 的交互逻辑

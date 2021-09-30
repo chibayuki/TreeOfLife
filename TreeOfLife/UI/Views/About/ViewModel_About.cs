@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 
 using TreeOfLife.Core;
 
-namespace TreeOfLife.UI.Views.About
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_About : ViewModel
     {

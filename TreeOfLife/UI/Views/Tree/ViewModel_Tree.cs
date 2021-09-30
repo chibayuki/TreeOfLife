@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.UI.Views.Tree
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Tree : ViewModel
     {

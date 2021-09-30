@@ -24,7 +24,7 @@ using System.Windows.Shapes;
 
 using TreeOfLife.Core;
 
-namespace TreeOfLife.UI.Views.File
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// View_File.xaml 的交互逻辑

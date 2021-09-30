@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using System.Windows;
 
-namespace TreeOfLife.UI
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_MainWindow : ViewModel
     {

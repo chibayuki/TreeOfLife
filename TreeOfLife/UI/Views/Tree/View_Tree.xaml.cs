@@ -28,7 +28,7 @@ using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Controls;
 using TreeOfLife.UI.Extensions;
 
-namespace TreeOfLife.UI.Views.Tree
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// View_Tree.xaml 的交互逻辑

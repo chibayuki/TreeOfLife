@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using System.ComponentModel;
 
-namespace TreeOfLife.UI
+namespace TreeOfLife.UI.Views
 {
     // 视图模型的基类。
     public abstract class ViewModel : INotifyPropertyChanged

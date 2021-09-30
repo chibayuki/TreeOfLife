@@ -57,7 +57,7 @@ namespace TreeOfLife.Core.Statistics.Extensions
     public static class TaxonStatisticsExtension
     {
         // 递归统计所有子类群按分类阶元统计的数目。
-        private static void _StatisticsChildren(Taxon taxon, Dictionary<Rank, int> dict, ref int nodeCount)
+        private static void _RecursionStatisticsChildren(Taxon taxon, Dictionary<Rank, int> dict, ref int nodeCount)
         {
             if (taxon.IsNamed)
             {
@@ -75,7 +75,7 @@ namespace TreeOfLife.Core.Statistics.Extensions
 
             foreach (var child in taxon.Children)
             {
-                _StatisticsChildren(child, dict, ref nodeCount);
+                _RecursionStatisticsChildren(child, dict, ref nodeCount);
             }
         }
 
@@ -92,7 +92,7 @@ namespace TreeOfLife.Core.Statistics.Extensions
             Dictionary<Rank, int> dict = new Dictionary<Rank, int>();
             int nodeCount = 0;
 
-            _StatisticsChildren(taxon, dict, ref nodeCount);
+            _RecursionStatisticsChildren(taxon, dict, ref nodeCount);
 
             List<StatisticsResultOfBasicRank> detailsOfBasicRank = new List<StatisticsResultOfBasicRank>();
             StatisticsResult result = new StatisticsResult() { NodeCount = nodeCount, Details = detailsOfBasicRank };
@@ -134,10 +134,10 @@ namespace TreeOfLife.Core.Statistics.Extensions
 
             foreach (var detail in detailsOfBasicRank)
             {
-                (detail.Details as List<StatisticsResultOfRank>).Sort((value1, value2) => value1.Rank.CompareTo(value2.Rank));
+                (detail.Details as List<StatisticsResultOfRank>).Sort((value1, value2) => ((int)value2.Rank).CompareTo((int)value1.Rank));
             }
 
-            detailsOfBasicRank.Sort((value1, value2) => value1.BasicRank.CompareTo(value2.BasicRank));
+            detailsOfBasicRank.Sort((value1, value2) => ((int)value2.BasicRank).CompareTo((int)value1.BasicRank));
 
             return result;
         }

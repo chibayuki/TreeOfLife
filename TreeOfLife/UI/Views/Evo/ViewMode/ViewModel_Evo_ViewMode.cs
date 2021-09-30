@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using TreeOfLife.Core.Taxonomy;
 
-namespace TreeOfLife.UI.Views.Evo.ViewMode
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Evo_ViewMode : ViewModel
     {
@@ -35,7 +35,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
         public void LoadFromTaxon()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             Desc = currentTaxon.Description;
         }

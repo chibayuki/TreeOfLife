@@ -28,12 +28,11 @@ using System.IO;
 using TreeOfLife.Core;
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
-using TreeOfLife.UI.Views;
 
 using ColorX = Com.Chromatics.ColorX;
-using Pages = TreeOfLife.UI.ViewModel_MainWindow.Pages;
+using Pages = TreeOfLife.UI.Views.ViewModel_MainWindow.Pages;
 
-namespace TreeOfLife.UI
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

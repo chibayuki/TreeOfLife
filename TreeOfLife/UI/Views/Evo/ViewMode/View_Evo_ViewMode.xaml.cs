@@ -27,7 +27,7 @@ using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Extensions;
 
-namespace TreeOfLife.UI.Views.Evo.ViewMode
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// View_Evo_ViewMode.xaml 的交互逻辑
@@ -40,7 +40,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             //
 
-            button_Edit.Click += (s, e) => Views.Common.EnterEditMode();
+            button_Edit.Click += (s, e) => Common.EnterEditMode();
 
             Action<GetParentsOption> setGetParentsOption = (getParentsOption) =>
             {
@@ -75,9 +75,9 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
                 _UpdateParents();
             };
 
-            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Views.Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
 
             //
 
@@ -104,7 +104,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
         // 更新父类群。
         private void _UpdateParents()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             if (currentTaxon.IsRoot)
             {
@@ -128,7 +128,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
         // 更新子类群。
         private void _UpdateChildren()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             List<(Taxon, int)> children = new List<(Taxon, int)>();
 
@@ -213,7 +213,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
         // 更新 Excludes。
         private void _UpdateExcludes()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             List<Taxon> excludes = new List<Taxon>();
 
@@ -238,7 +238,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
         // 更新可见性。
         private void _UpdateVisibility()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             grid_Tags.Visibility = currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Synonyms.Visibility = currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -251,7 +251,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
         private void _UpdateTitle()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
             taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
@@ -277,7 +277,7 @@ namespace TreeOfLife.UI.Views.Evo.ViewMode
 
             _UpdateTitle();
 
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             tagGroup_Tags.UpdateContent(currentTaxon.Tags);
             tagGroup_Synonyms.UpdateContent(currentTaxon.Synonyms);

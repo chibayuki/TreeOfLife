@@ -7,12 +7,12 @@ Version 1.0.1322.1000.M13.210925-1400
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<UserControl x:Class="TreeOfLife.UI.Views.File.View_File"
+<UserControl x:Class="TreeOfLife.UI.Views.View_File"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TreeOfLife.UI.Views.File"
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="400">
     <UserControl.DataContext>

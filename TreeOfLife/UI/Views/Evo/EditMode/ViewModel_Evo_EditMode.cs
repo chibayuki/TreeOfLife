@@ -21,7 +21,7 @@ using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Controls;
 using TreeOfLife.UI.Extensions;
 
-namespace TreeOfLife.UI.Views.Evo.EditMode
+namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Evo_EditMode : ViewModel
     {
@@ -62,7 +62,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -92,7 +92,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -122,7 +122,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -165,7 +165,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -191,7 +191,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 if (!_LoadingFromTaxon)
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -218,7 +218,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 if (!_LoadingFromTaxon)
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -240,7 +240,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
                 if (!_LoadingFromTaxon)
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -278,7 +278,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -309,7 +309,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -340,7 +340,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
                 }
                 else
                 {
-                    Taxon currentTaxon = Views.Common.CurrentTaxon;
+                    Taxon currentTaxon = Common.CurrentTaxon;
 
                     if (!currentTaxon.IsRoot)
                     {
@@ -352,7 +352,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
         public void UpdateTitle()
         {
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             Rank rank = currentTaxon.Rank;
 
@@ -426,7 +426,7 @@ namespace TreeOfLife.UI.Views.Evo.EditMode
 
             //
 
-            Taxon currentTaxon = Views.Common.CurrentTaxon;
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             Name = currentTaxon.ScientificName;
             ChsName = currentTaxon.ChineseName;

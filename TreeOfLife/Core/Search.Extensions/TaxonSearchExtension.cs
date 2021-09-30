@@ -375,7 +375,7 @@ namespace TreeOfLife.Core.Search.Extensions
         }
 
         // 递归获取所有符合匹配条件的子类群。
-        private static void _GetMatchedChildren(Taxon taxon, List<_MatchResult> matchResults)
+        private static void _RecursionGetMatchedChildren(Taxon taxon, List<_MatchResult> matchResults)
         {
             if (taxon is null)
             {
@@ -397,7 +397,7 @@ namespace TreeOfLife.Core.Search.Extensions
                     }
                 }
 
-                _GetMatchedChildren(child, matchResults);
+                _RecursionGetMatchedChildren(child, matchResults);
             }
         }
 
@@ -433,7 +433,7 @@ namespace TreeOfLife.Core.Search.Extensions
                     _KeyWordWithoutRankAsClade = _KeyWordWithoutRank;
                 }
 
-                _GetMatchedChildren(taxon, matchResults);
+                _RecursionGetMatchedChildren(taxon, matchResults);
 
                 var orderedMatchResults = from mr in matchResults
                                    orderby mr.MatchValue descending,

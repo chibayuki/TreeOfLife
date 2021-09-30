@@ -7,18 +7,12 @@ Version 1.0.1322.1000.M13.210925-1400
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<Window x:Class="TreeOfLife.UI.MainWindow"
+<Window x:Class="TreeOfLife.UI.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TreeOfLife.UI"
-        xmlns:File="clr-namespace:TreeOfLife.UI.Views.File"
-        xmlns:Evo_EditMode="clr-namespace:TreeOfLife.UI.Views.Evo.EditMode"
-        xmlns:Evo_ViewMode="clr-namespace:TreeOfLife.UI.Views.Evo.ViewMode"
-        xmlns:Search="clr-namespace:TreeOfLife.UI.Views.Search"
-        xmlns:About="clr-namespace:TreeOfLife.UI.Views.About"
-        xmlns:Tree="clr-namespace:TreeOfLife.UI.Views.Tree"
+        xmlns:local="clr-namespace:TreeOfLife.UI.Views"
         mc:Ignorable="d"
         Title="Tree of Life" Height="600" Width="1200">
     <Window.DataContext>
@@ -30,7 +24,7 @@ This file is part of TreeOfLife
                 <ColumnDefinition/>
                 <ColumnDefinition Width="480"/>
             </Grid.ColumnDefinitions>
-            <Tree:View_Tree x:Name="view_Tree"/>
+            <local:View_Tree x:Name="view_Tree"/>
             <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -38,17 +32,17 @@ This file is part of TreeOfLife
                 </Grid.ColumnDefinitions>
                 <Grid Background="{DynamicResource TabPage.Background}">
                     <Grid x:Name="grid_File" Visibility="{Binding PageVisibility_File}">
-                        <File:View_File x:Name="view_File" Margin="25,0,25,0"/>
+                        <local:View_File x:Name="view_File" Margin="25,0,25,0"/>
                     </Grid>
                     <Grid x:Name="grid_Evo" Visibility="{Binding PageVisibility_Evo}">
-                        <Evo_ViewMode:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
-                        <Evo_EditMode:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
+                        <local:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
+                        <local:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
                     </Grid>
                     <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
-                        <Search:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
+                        <local:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
                     </Grid>
                     <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}">
-                        <About:View_About x:Name="view_About" Margin="25,0,25,0"/>
+                        <local:View_About x:Name="view_About" Margin="25,0,25,0"/>
                     </Grid>
                 </Grid>
                 <DockPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">

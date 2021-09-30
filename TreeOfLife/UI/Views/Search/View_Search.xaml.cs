@@ -27,7 +27,7 @@ using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Controls;
 
-namespace TreeOfLife.UI.Views.Search
+namespace TreeOfLife.UI.Views
 {
     /// <summary>
     /// View_Search.xaml 的交互逻辑
