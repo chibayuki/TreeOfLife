@@ -38,39 +38,7 @@ This file is part of TreeOfLife
                 <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无结果"/>
                 </Grid>
-                <Grid x:Name="grid_SearchResult_Perfect" Margin="0,25,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="最相关结果"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_SearchResult_Perfect" Grid.Row="2"/>
-                </Grid>
-                <Grid x:Name="grid_SearchResult_High" Margin="0,25,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="较相关结果"/>
-                        <Button x:Name="button_ExpandHigh" Style="{DynamicResource TransparentButtonStyle}" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3"/>
-                    </Grid>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_SearchResult_High" Grid.Row="2"/>
-                </Grid>
-                <Grid x:Name="grid_SearchResult_Low" Margin="0,25,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="次相关结果"/>
-                        <Button x:Name="button_ExpandLow" Style="{DynamicResource TransparentButtonStyle}" Content="展开" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,2" Padding="6,3,6,3"/>
-                    </Grid>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_SearchResult_Low" Grid.Row="2"/>
-                </Grid>
+                <StackPanel x:Name="stackPanel_SearchResult"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

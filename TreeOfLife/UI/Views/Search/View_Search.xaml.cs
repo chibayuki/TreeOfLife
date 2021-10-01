@@ -72,43 +72,14 @@ namespace TreeOfLife.UI.Views
                 textBox_Search.SelectAll();
             };
 
-            EventHandler<TaxonButton> taxonNameButtonGroup_SearchResult_MouseLeftButtonClick = (s, e) =>
-            {
-                if (e.Taxon.IsRoot)
-                {
-                    MessageBox.Show("该类群已经被删除。");
-                }
-                else
-                {
-                    ViewModel.ClickSearchResult(e.Taxon);
-                }
-            };
-
-            taxonNameButtonGroup_SearchResult_Perfect.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
-            taxonNameButtonGroup_SearchResult_High.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
-            taxonNameButtonGroup_SearchResult_Low.MouseLeftButtonClick += taxonNameButtonGroup_SearchResult_MouseLeftButtonClick;
-
-            button_ExpandHigh.Click += (s, e) =>
-            {
-                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
-
-                button_ExpandHigh.Visibility = Visibility.Collapsed;
-            };
-
-            button_ExpandLow.Click += (s, e) =>
-            {
-                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
-
-                button_ExpandLow.Visibility = Visibility.Collapsed;
-            };
-
             //
 
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                taxonNameButtonGroup_SearchResult_Perfect.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_SearchResult_High.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_SearchResult_Low.IsDarkTheme = Theme.IsDarkTheme;
+                foreach (var result in _SearchResult)
+                {
+                    result.TaxonButtonGroup.IsDarkTheme = Theme.IsDarkTheme;
+                }
             };
         }
 
@@ -118,17 +89,23 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        private List<TaxonItem> _SearchResult_Perfect = new List<TaxonItem>();
-        private List<TaxonItem> _SearchResult_High = new List<TaxonItem>();
-        private List<TaxonItem> _SearchResult_Low = new List<TaxonItem>();
+        private class _SearchResultItem
+        {
+            public string Title { get; set; }
+            public List<TaxonItem> TaxonItems { get; set; }
+            public TaxonButtonGroup TaxonButtonGroup { get; set; }
+            public ContentControl TitleLabel { get; set; }
+            public Button ExpandCollapsedButton { get; set; }
+            public FrameworkElement Container { get; set; }
+        }
+
+        private List<_SearchResultItem> _SearchResult = new List<_SearchResultItem>();
 
         // 更新可见性。
         private void _UpdateVisibility()
         {
-            grid_SearchResult_Empty.Visibility = _SearchResult_Perfect.Count <= 0 && _SearchResult_High.Count <= 0 && _SearchResult_Low.Count <= 0 ? Visibility.Visible : Visibility.Collapsed;
-            grid_SearchResult_Perfect.Visibility = _SearchResult_Perfect.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
-            grid_SearchResult_High.Visibility = _SearchResult_High.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
-            grid_SearchResult_Low.Visibility = _SearchResult_Low.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_SearchResult_Empty.Visibility = _SearchResult.Count <= 0 ? Visibility.Visible : Visibility.Collapsed;
+            stackPanel_SearchResult.Visibility = _SearchResult.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // 搜索并更新结果。
@@ -139,60 +116,156 @@ namespace TreeOfLife.UI.Views
             AsyncMethod.Start();
             await Task.Run(() =>
             {
-                _SearchResult_Perfect.Clear();
-                _SearchResult_High.Clear();
-                _SearchResult_Low.Clear();
+                _SearchResult.Clear();
 
                 IReadOnlyDictionary<MatchLevel, IReadOnlyList<Taxon>> searchResult = Entrance.Root.SearchAndGroupByMatchLevel(keyWord);
+                IReadOnlyList<Taxon> perfect = searchResult[MatchLevel.Perfect];
+                IReadOnlyList<Taxon> high = searchResult[MatchLevel.High];
+                IReadOnlyList<Taxon> low = searchResult[MatchLevel.Low];
 
-                foreach (Taxon taxon in searchResult[MatchLevel.Perfect])
+                if (perfect.Count > 0)
                 {
-                    _SearchResult_Perfect.Add(new TaxonItem() { Taxon = taxon });
+                    List<TaxonItem> items = new List<TaxonItem>();
+
+                    foreach (var taxon in perfect)
+                    {
+                        items.Add(new TaxonItem() { Taxon = taxon });
+                    }
+
+                    _SearchResult.Add(new _SearchResultItem()
+                    {
+                        Title = "最相关结果",
+                        TaxonItems = items
+                    });
                 }
 
-                foreach (Taxon taxon in searchResult[MatchLevel.High])
+                if (high.Count > 0)
                 {
-                    _SearchResult_High.Add(new TaxonItem() { Taxon = taxon });
+                    List<TaxonItem> items = new List<TaxonItem>();
+
+                    foreach (var taxon in high)
+                    {
+                        items.Add(new TaxonItem() { Taxon = taxon });
+                    }
+
+                    _SearchResult.Add(new _SearchResultItem()
+                    {
+                        Title = "较相关结果",
+                        TaxonItems = items
+                    });
                 }
 
-                foreach (Taxon taxon in searchResult[MatchLevel.Low])
+                if (low.Count > 0)
                 {
-                    _SearchResult_Low.Add(new TaxonItem() { Taxon = taxon });
+                    List<TaxonItem> items = new List<TaxonItem>();
+
+                    foreach (var taxon in low)
+                    {
+                        items.Add(new TaxonItem() { Taxon = taxon });
+                    }
+
+                    _SearchResult.Add(new _SearchResultItem()
+                    {
+                        Title = "次相关结果",
+                        TaxonItems = items
+                    });
                 }
             });
             AsyncMethod.Finish();
 
-            taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
+            stackPanel_SearchResult.Children.Clear();
 
-            const int preferShowCount = 10;
-            int perfectCount = _SearchResult_Perfect.Count;
-            int highCount = _SearchResult_High.Count;
-            int lowCount = _SearchResult_Low.Count;
-
-            if (perfectCount <= 0 || perfectCount + highCount <= preferShowCount)
+            if (_SearchResult.Count > 0)
             {
-                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
+                foreach (var result in _SearchResult)
+                {
+                    TaxonButtonGroup taxonButtonGroup = new TaxonButtonGroup()
+                    {
+                        IsDarkTheme = Theme.IsDarkTheme,
+                        Margin = new Thickness(0, 10, 0, 0),
+                        Visibility = Visibility.Collapsed
+                    };
+                    taxonButtonGroup.SetValue(Grid.RowProperty, 1);
+                    taxonButtonGroup.MouseLeftButtonClick += (s, e) =>
+                    {
+                        if (e.Taxon.IsRoot)
+                        {
+                            MessageBox.Show("该类群已经被删除。");
+                        }
+                        else
+                        {
+                            ViewModel.ClickSearchResult(e.Taxon);
+                        }
+                    };
 
-                button_ExpandHigh.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                taxonNameButtonGroup_SearchResult_High.Clear();
+                    Label label = new Label() { Content = $"{result.Title} ({result.TaxonItems.Count})" };
+                    label.SetValue(StyleProperty, Application.Current.Resources["VerticalTitleLabelStyle"]);
 
-                button_ExpandHigh.Visibility = Visibility.Visible;
-            }
+                    Button button = new Button()
+                    {
+                        Content = "展开",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 2),
+                        Padding = new Thickness(6, 3, 6, 3)
+                    };
+                    button.SetValue(StyleProperty, Application.Current.Resources["TransparentButtonStyle"]);
+                    button.Click += (s, e) =>
+                    {
+                        if (button.Content as string == "展开")
+                        {
+                            if (taxonButtonGroup.GetGroupCount() <= 0)
+                            {
+                                taxonButtonGroup.UpdateContent(result.TaxonItems);
+                            }
 
-            if (perfectCount + highCount <= 0 || perfectCount + highCount + lowCount <= preferShowCount)
-            {
-                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+                            taxonButtonGroup.Visibility = Visibility.Visible;
 
-                button_ExpandLow.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                taxonNameButtonGroup_SearchResult_Low.Clear();
+                            button.Content = "折叠";
+                        }
+                        else
+                        {
+                            taxonButtonGroup.Visibility = Visibility.Collapsed;
 
-                button_ExpandLow.Visibility = Visibility.Visible;
+                            button.Content = "展开";
+                        }
+                    };
+
+                    Grid grid = new Grid() { Margin = new Thickness(0, 25, 0, 0) };
+                    grid.RowDefinitions.Add(new RowDefinition());
+                    grid.RowDefinitions.Add(new RowDefinition());
+                    grid.Children.Add(label);
+                    grid.Children.Add(button);
+                    grid.Children.Add(taxonButtonGroup);
+
+                    result.TaxonButtonGroup = taxonButtonGroup;
+                    result.TitleLabel = label;
+                    result.ExpandCollapsedButton = button;
+                    result.Container = grid;
+
+                    stackPanel_SearchResult.Children.Add(grid);
+                }
+
+                const int preferShowCount = 10;
+                int count = 0;
+
+                foreach (var result in _SearchResult)
+                {
+                    count += result.TaxonItems.Count;
+
+                    if (count <= preferShowCount)
+                    {
+                        result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
+
+                        result.TaxonButtonGroup.Visibility = Visibility.Visible;
+
+                        result.ExpandCollapsedButton.Content = "折叠";
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
 
             _UpdateVisibility();
@@ -201,19 +274,27 @@ namespace TreeOfLife.UI.Views
         // 裁剪搜索结果，去除已被删除的类群。
         private void _TrimSearchResult()
         {
-            if (_SearchResult_Perfect.Count > 0 && _SearchResult_Perfect.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+            if (_SearchResult.Count > 0)
             {
-                taxonNameButtonGroup_SearchResult_Perfect.UpdateContent(_SearchResult_Perfect);
-            }
+                foreach (var result in _SearchResult)
+                {
+                    if (result.TaxonItems.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+                    {
+                        if (result.TaxonItems.Count > 0)
+                        {
+                            result.TitleLabel.Content = $"{result.Title} ({result.TaxonItems.Count})";
 
-            if (_SearchResult_High.Count > 0 && _SearchResult_High.RemoveAll((item) => item.Taxon.IsRoot) > 0)
-            {
-                taxonNameButtonGroup_SearchResult_High.UpdateContent(_SearchResult_High);
-            }
-
-            if (_SearchResult_Low.Count > 0 && _SearchResult_Low.RemoveAll((item) => item.Taxon.IsRoot) > 0)
-            {
-                taxonNameButtonGroup_SearchResult_Low.UpdateContent(_SearchResult_Low);
+                            if (result.TaxonButtonGroup.GetGroupCount() > 0)
+                            {
+                                result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
+                            }
+                        }
+                        else
+                        {
+                            stackPanel_SearchResult.Children.Remove(result.Container);
+                        }
+                    }
+                }
             }
 
             _UpdateVisibility();
@@ -224,25 +305,11 @@ namespace TreeOfLife.UI.Views
         {
             ViewModel.KeyWord = string.Empty;
 
-            if (_SearchResult_Perfect.Count > 0)
+            if (_SearchResult.Count > 0)
             {
-                _SearchResult_Perfect.Clear();
+                _SearchResult.Clear();
 
-                taxonNameButtonGroup_SearchResult_Perfect.Clear();
-            }
-
-            if (_SearchResult_High.Count > 0)
-            {
-                _SearchResult_High.Clear();
-
-                taxonNameButtonGroup_SearchResult_High.Clear();
-            }
-
-            if (_SearchResult_Low.Count > 0)
-            {
-                _SearchResult_Low.Clear();
-
-                taxonNameButtonGroup_SearchResult_Low.Clear();
+                stackPanel_SearchResult.Children.Clear();
             }
 
             _UpdateVisibility();

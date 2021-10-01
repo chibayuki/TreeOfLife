@@ -57,7 +57,7 @@ namespace TreeOfLife.UI.Views
             {
                 foreach (var result in _ValidateResult)
                 {
-                    result.Value.TaxonButtonGroup.IsDarkTheme = Theme.IsDarkTheme;
+                    result.TaxonButtonGroup.IsDarkTheme = Theme.IsDarkTheme;
                 }
             };
         }
@@ -70,13 +70,22 @@ namespace TreeOfLife.UI.Views
 
         private class _ValidateResultItem
         {
+            public string Title { get; set; }
             public List<TaxonItem> TaxonItems { get; set; }
             public TaxonButtonGroup TaxonButtonGroup { get; set; }
+            public ContentControl TitleLabel { get; set; }
+            public Button ExpandCollapsedButton { get; set; }
             public FrameworkElement Container { get; set; }
-            public ContentControl Title { get; set; }
         }
 
-        private Dictionary<IValidator, _ValidateResultItem> _ValidateResult = new Dictionary<IValidator, _ValidateResultItem>();
+        private List<_ValidateResultItem> _ValidateResult = new List<_ValidateResultItem>();
+
+        // 更新可见性。
+        private void _UpdateVisibility()
+        {
+            grid_ValidateResult_Empty.Visibility = _ValidateResult.Count <= 0 ? Visibility.Visible : Visibility.Collapsed;
+            stackPanel_ValidateResult.Visibility = _ValidateResult.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         // 检查并更新结果。
         private async Task _ValidateAndUpdateResultAsync()
@@ -97,7 +106,11 @@ namespace TreeOfLife.UI.Views
                         items.Add(new TaxonItem() { Taxon = taxon });
                     }
 
-                    _ValidateResult.Add(pair.Key, new _ValidateResultItem() { TaxonItems = items });
+                    _ValidateResult.Add(new _ValidateResultItem()
+                    {
+                        Title = pair.Key.ToString(),
+                        TaxonItems = items
+                    });
                 }
             });
             AsyncMethod.Finish();
@@ -108,8 +121,13 @@ namespace TreeOfLife.UI.Views
             {
                 foreach (var result in _ValidateResult)
                 {
-                    TaxonButtonGroup taxonButtonGroup = new TaxonButtonGroup() { IsDarkTheme = Theme.IsDarkTheme };
-                    taxonButtonGroup.SetValue(Grid.RowProperty, 2);
+                    TaxonButtonGroup taxonButtonGroup = new TaxonButtonGroup()
+                    {
+                        IsDarkTheme = Theme.IsDarkTheme,
+                        Margin = new Thickness(0, 10, 0, 0),
+                        Visibility = Visibility.Collapsed
+                    };
+                    taxonButtonGroup.SetValue(Grid.RowProperty, 1);
                     taxonButtonGroup.MouseLeftButtonClick += (s, e) =>
                     {
                         if (e.Taxon.IsRoot)
@@ -122,7 +140,7 @@ namespace TreeOfLife.UI.Views
                         }
                     };
 
-                    Label label = new Label() { Content = $"{result.Key} ({result.Value.TaxonItems.Count})" };
+                    Label label = new Label() { Content = $"{result.Title} ({result.TaxonItems.Count})" };
                     label.SetValue(StyleProperty, Application.Current.Resources["VerticalTitleLabelStyle"]);
 
                     Button button = new Button()
@@ -136,40 +154,42 @@ namespace TreeOfLife.UI.Views
                     button.SetValue(StyleProperty, Application.Current.Resources["TransparentButtonStyle"]);
                     button.Click += (s, e) =>
                     {
-                        if (taxonButtonGroup.GetGroupCount() > 0)
+                        if (button.Content as string == "展开")
                         {
-                            taxonButtonGroup.Clear();
-                            button.Content = "展开";
+                            if (taxonButtonGroup.GetGroupCount() <= 0)
+                            {
+                                taxonButtonGroup.UpdateContent(result.TaxonItems);
+                            }
+
+                            taxonButtonGroup.Visibility = Visibility.Visible;
+
+                            button.Content = "折叠";
                         }
                         else
                         {
-                            taxonButtonGroup.UpdateContent(result.Value.TaxonItems);
-                            button.Content = "折叠";
+                            taxonButtonGroup.Visibility = Visibility.Collapsed;
+
+                            button.Content = "展开";
                         }
                     };
 
-                    Grid title = new Grid();
-                    title.Children.Add(label);
-                    title.Children.Add(button);
-
                     Grid grid = new Grid() { Margin = new Thickness(0, 25, 0, 0) };
                     grid.RowDefinitions.Add(new RowDefinition());
-                    grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(10) });
                     grid.RowDefinitions.Add(new RowDefinition());
-                    grid.Children.Add(title);
+                    grid.Children.Add(label);
+                    grid.Children.Add(button);
                     grid.Children.Add(taxonButtonGroup);
 
-                    result.Value.TaxonButtonGroup = taxonButtonGroup;
-                    result.Value.Container = grid;
-                    result.Value.Title = label;
+                    result.TaxonButtonGroup = taxonButtonGroup;
+                    result.TitleLabel = label;
+                    result.ExpandCollapsedButton = button;
+                    result.Container = grid;
 
                     stackPanel_ValidateResult.Children.Add(grid);
                 }
             }
-            else
-            {
-                stackPanel_ValidateResult.Children.Add(grid_SearchResult_Empty);
-            }
+
+            _UpdateVisibility();
         }
 
         // 裁剪检查结果，去除已被删除的类群。
@@ -179,24 +199,26 @@ namespace TreeOfLife.UI.Views
             {
                 foreach (var result in _ValidateResult)
                 {
-                    if (result.Value.TaxonItems.RemoveAll((item) => item.Taxon.IsRoot) > 0)
+                    if (result.TaxonItems.RemoveAll((item) => item.Taxon.IsRoot) > 0)
                     {
-                        if (result.Value.TaxonItems.Count > 0)
+                        if (result.TaxonItems.Count > 0)
                         {
-                            result.Value.Title.Content = $"{result.Key} ({result.Value.TaxonItems.Count})";
+                            result.TitleLabel.Content = $"{result.Title} ({result.TaxonItems.Count})";
 
-                            if (result.Value.TaxonButtonGroup.GetGroupCount() > 0)
+                            if (result.TaxonButtonGroup.GetGroupCount() > 0)
                             {
-                                result.Value.TaxonButtonGroup.UpdateContent(result.Value.TaxonItems);
+                                result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
                             }
                         }
                         else
                         {
-                            stackPanel_ValidateResult.Children.Remove(result.Value.Container);
+                            stackPanel_ValidateResult.Children.Remove(result.Container);
                         }
                     }
                 }
             }
+
+            _UpdateVisibility();
         }
 
         // 清空搜索结果。
@@ -208,6 +230,8 @@ namespace TreeOfLife.UI.Views
 
                 stackPanel_ValidateResult.Children.Clear();
             }
+
+            _UpdateVisibility();
         }
     }
 }

@@ -34,10 +34,11 @@ This file is part of TreeOfLife
             <Button x:Name="button_Validate" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始校对"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="stackPanel_ValidateResult" Margin="25,15,25,25">
-                <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_ValidateResult_Empty" Margin="0,25,0,0">
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无不合规项"/>
                 </Grid>
+                <StackPanel x:Name="stackPanel_ValidateResult"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

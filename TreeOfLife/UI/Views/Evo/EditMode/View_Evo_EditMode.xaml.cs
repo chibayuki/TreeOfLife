@@ -80,43 +80,43 @@ namespace TreeOfLife.UI.Views
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
             button_AddChildren.Click += Button_AddChildren_Click;
 
-            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Parents.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Parents.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Parent.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Children.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Children.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Children.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Excludes.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Excludes.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Excludes.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_ExcludeBy.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_ExcludeBy.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_ExcludeBy.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_ExcludeBy.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_ExcludeBy.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_Includes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Includes.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_Includes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Includes.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_Includes.DataContext as Action)?.Invoke();
             };
 
-            taxonNameButtonGroup_IncludeBy.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_IncludeBy.MouseRightButtonClick += (s, e) =>
+            taxonButtonGroup_IncludeBy.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_IncludeBy.MouseRightButtonClick += (s, e) =>
             {
                 Common.RightButtonTaxon = e.Taxon;
                 (_ContextMenu_IncludeBy.DataContext as Action)?.Invoke();
@@ -130,12 +130,12 @@ namespace TreeOfLife.UI.Views
                 rankSelector.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSelector_Birth.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSelector_Extinction.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_ExcludeBy.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Includes.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_IncludeBy.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_ExcludeBy.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Includes.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_IncludeBy.IsDarkTheme = Theme.IsDarkTheme;
             };
         }
 
@@ -727,7 +727,7 @@ namespace TreeOfLife.UI.Views
 
             if (currentTaxon.IsRoot)
             {
-                taxonNameButtonGroup_Parents.Clear();
+                taxonButtonGroup_Parents.Clear();
             }
             else
             {
@@ -738,7 +738,7 @@ namespace TreeOfLife.UI.Views
                     parents.Reverse();
                 }
 
-                Common.UpdateTaxonList(taxonNameButtonGroup_Parents, parents, _ContextMenu_Parent);
+                Common.UpdateTaxonList(taxonButtonGroup_Parents, parents, _ContextMenu_Parent);
             }
         }
 
@@ -747,7 +747,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_Children, currentTaxon.Children, _ContextMenu_Children);
+            Common.UpdateTaxonList(taxonButtonGroup_Children, currentTaxon.Children, _ContextMenu_Children);
         }
 
         // 更新子类群及其可见性。
@@ -763,7 +763,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_Excludes, currentTaxon.Excludes, _ContextMenu_Excludes);
+            Common.UpdateTaxonList(taxonButtonGroup_Excludes, currentTaxon.Excludes, _ContextMenu_Excludes);
         }
 
         // 更新 Excludes 及其可见性。
@@ -779,7 +779,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_ExcludeBy, currentTaxon.ExcludeBy, _ContextMenu_ExcludeBy);
+            Common.UpdateTaxonList(taxonButtonGroup_ExcludeBy, currentTaxon.ExcludeBy, _ContextMenu_ExcludeBy);
         }
 
         // 更新 ExcludeBy 及其可见性。
@@ -795,7 +795,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_Includes, currentTaxon.Includes, _ContextMenu_Includes);
+            Common.UpdateTaxonList(taxonButtonGroup_Includes, currentTaxon.Includes, _ContextMenu_Includes);
         }
 
         // 更新 Includes 及其可见性。
@@ -811,7 +811,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_IncludeBy, currentTaxon.IncludeBy, _ContextMenu_IncludeBy);
+            Common.UpdateTaxonList(taxonButtonGroup_IncludeBy, currentTaxon.IncludeBy, _ContextMenu_IncludeBy);
         }
 
         // 更新 IncludeBy 及其可见性。

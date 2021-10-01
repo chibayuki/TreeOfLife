@@ -92,7 +92,7 @@ This file is part of TreeOfLife
                             </Grid>
                         </StackPanel>
                     </Grid>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Parents" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Children" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -101,7 +101,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="下属类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Children" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Excludes" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -110,7 +110,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群不包含，但是其演化支的类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Excludes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
                     <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap"/>

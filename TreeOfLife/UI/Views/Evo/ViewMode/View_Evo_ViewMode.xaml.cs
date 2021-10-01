@@ -75,9 +75,9 @@ namespace TreeOfLife.UI.Views
                 _UpdateParents();
             };
 
-            taxonNameButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonNameButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
 
             //
 
@@ -87,9 +87,9 @@ namespace TreeOfLife.UI.Views
                 geoChronSpan.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Tags.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Synonyms.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
-                taxonNameButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
+                taxonButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
             };
         }
 
@@ -108,7 +108,7 @@ namespace TreeOfLife.UI.Views
 
             if (currentTaxon.IsRoot)
             {
-                taxonNameButtonGroup_Parents.Clear();
+                taxonButtonGroup_Parents.Clear();
             }
             else
             {
@@ -121,7 +121,7 @@ namespace TreeOfLife.UI.Views
 
                 parents.Add(currentTaxon);
 
-                Common.UpdateTaxonListAndGroupByRank(taxonNameButtonGroup_Parents, parents);
+                Common.UpdateTaxonListAndGroupByRank(taxonButtonGroup_Parents, parents);
             }
         }
 
@@ -207,7 +207,7 @@ namespace TreeOfLife.UI.Views
                 }
             }
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_Children, children);
+            Common.UpdateTaxonList(taxonButtonGroup_Children, children);
         }
 
         // 更新 Excludes。
@@ -232,7 +232,7 @@ namespace TreeOfLife.UI.Views
                 }
             }
 
-            Common.UpdateTaxonList(taxonNameButtonGroup_Excludes, excludes);
+            Common.UpdateTaxonList(taxonButtonGroup_Excludes, excludes);
         }
 
         // 更新可见性。
@@ -244,7 +244,7 @@ namespace TreeOfLife.UI.Views
             grid_Synonyms.Visibility = currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             stackPanel_TagsAndSynonyms.Visibility = currentTaxon.Tags.Count > 0 || currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Parents.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Children.Visibility = taxonNameButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
+            grid_Children.Visibility = taxonButtonGroup_Children.GetGroupCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Excludes.Visibility = currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Desc.Visibility = !string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed;
         }

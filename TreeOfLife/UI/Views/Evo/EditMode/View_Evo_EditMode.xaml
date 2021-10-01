@@ -144,7 +144,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="上级类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Parents" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Parents" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_AddParent" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -173,7 +173,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="下级类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Children" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Children" Grid.Row="2"/>
                 </Grid>
                 <Grid Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -201,7 +201,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群排除的类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Excludes" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Excludes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -210,7 +210,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="排除此类群的并系群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_ExcludeBy" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_ExcludeBy" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_Includes" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -219,7 +219,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此复系群包含的类群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_Includes" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Includes" Grid.Row="2"/>
                 </Grid>
                 <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">
                     <Grid.RowDefinitions>
@@ -228,7 +228,7 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="包含此类群的复系群"/>
-                    <Controls:TaxonButtonGroup x:Name="taxonNameButtonGroup_IncludeBy" Grid.Row="2"/>
+                    <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_IncludeBy" Grid.Row="2"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
