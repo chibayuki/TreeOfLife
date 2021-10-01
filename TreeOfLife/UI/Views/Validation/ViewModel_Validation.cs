@@ -17,24 +17,8 @@ using TreeOfLife.Core.Taxonomy;
 
 namespace TreeOfLife.UI.Views
 {
-    public sealed class ViewModel_Search : ViewModel
+    public sealed class ViewModel_Validation : ViewModel
     {
-        public Action<Taxon> ClickSearchResult { get; set; }
-
-        //
-
-        private string _KeyWord;
-
-        public string KeyWord
-        {
-            get => _KeyWord;
-
-            set
-            {
-                _KeyWord = value;
-
-                NotifyPropertyChanged(nameof(KeyWord));
-            }
-        }
+        public Action<Taxon> ClickValidateResult { get; set; }
     }
 }

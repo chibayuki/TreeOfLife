@@ -24,6 +24,7 @@ namespace TreeOfLife.UI.Views
             File,
             Evo,
             Search,
+            Validation,
             About
         }
 
@@ -32,11 +33,13 @@ namespace TreeOfLife.UI.Views
         private bool _PageButtonEnabled_File;
         private bool _PageButtonEnabled_Evo;
         private bool _PageButtonEnabled_Search;
+        private bool _PageButtonEnabled_Validation;
         private bool _PageButtonEnabled_About;
 
         private Visibility _PageVisibility_File;
         private Visibility _PageVisibility_Evo;
         private Visibility _PageVisibility_Search;
+        private Visibility _PageVisibility_Validation;
         private Visibility _PageVisibility_About;
 
         // 更新可见性。
@@ -45,11 +48,13 @@ namespace TreeOfLife.UI.Views
             PageButtonEnabled_File = !(_CurrentPage.Value == Pages.File);
             PageButtonEnabled_Evo = !(_CurrentPage.Value == Pages.Evo);
             PageButtonEnabled_Search = !(_CurrentPage.Value == Pages.Search);
+            PageButtonEnabled_Validation = !(_CurrentPage.Value == Pages.Validation);
             PageButtonEnabled_About = !(_CurrentPage.Value == Pages.About);
 
             PageVisibility_File = !PageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed;
             PageVisibility_Evo = !PageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed;
             PageVisibility_Search = !PageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed;
+            PageVisibility_Validation = !PageButtonEnabled_Validation ? Visibility.Visible : Visibility.Collapsed;
             PageVisibility_About = !PageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -101,6 +106,18 @@ namespace TreeOfLife.UI.Views
             }
         }
 
+        public bool PageButtonEnabled_Validation
+        {
+            get => _PageButtonEnabled_Validation;
+
+            set
+            {
+                _PageButtonEnabled_Validation = value;
+
+                NotifyPropertyChanged(nameof(PageButtonEnabled_Validation));
+            }
+        }
+
         public bool PageButtonEnabled_About
         {
             get => _PageButtonEnabled_About;
@@ -146,6 +163,18 @@ namespace TreeOfLife.UI.Views
                 _PageVisibility_Search = value;
 
                 NotifyPropertyChanged(nameof(PageVisibility_Search));
+            }
+        }
+
+        public Visibility PageVisibility_Validation
+        {
+            get => _PageVisibility_Validation;
+
+            set
+            {
+                _PageVisibility_Validation = value;
+
+                NotifyPropertyChanged(nameof(PageVisibility_Validation));
             }
         }
 

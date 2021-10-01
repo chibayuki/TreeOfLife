@@ -88,7 +88,8 @@ namespace TreeOfLife.UI.Views
 
             view_File.ViewModel.OpenDone = () => _SelectPage(Pages.Evo);
 
-            view_Search.ViewModel.ClickedSearchResult = () => _SelectPage(Pages.Evo);
+            view_Search.ViewModel.ClickSearchResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
+            view_Validation.ViewModel.ClickValidateResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
 
             //
 
@@ -113,6 +114,7 @@ namespace TreeOfLife.UI.Views
             button_File.Click += (s, e) => _SelectPage(Pages.File);
             button_Evo.Click += (s, e) => _SelectPage(Pages.Evo);
             button_Search.Click += (s, e) => _SelectPage(Pages.Search);
+            button_Validation.Click += (s, e) => _SelectPage(Pages.Validation);
             button_About.Click += (s, e) => _SelectPage(Pages.About);
 
             button_IsDarkTheme.Click += (s, e) => Theme.IsDarkTheme = !Theme.IsDarkTheme;
@@ -322,6 +324,7 @@ namespace TreeOfLife.UI.Views
             Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
+            view_Validation.ClearValidationResult();
 
             bool result = await AsyncMethod.CloseAsync();
 
@@ -343,6 +346,7 @@ namespace TreeOfLife.UI.Views
             Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
+            view_Validation.ClearValidationResult();
 
             bool result = Entrance.Close();
 
@@ -368,6 +372,7 @@ namespace TreeOfLife.UI.Views
                 Common.SelectedTaxon = null;
 
                 view_Search.ClearSearchResult();
+                view_Validation.ClearValidationResult();
 
                 return true;
             }
@@ -457,6 +462,7 @@ namespace TreeOfLife.UI.Views
                 Common.SelectedTaxon = null;
 
                 view_Search.ClearSearchResult();
+                view_Validation.ClearValidationResult();
 
                 return true;
             }

@@ -67,6 +67,8 @@ namespace TreeOfLife.UI.Views
             button_Rename.Click += (s, e) =>
             {
                 textBox_ChsName.Text = _ChsRename;
+                textBox_ChsName.Focus();
+                textBox_ChsName.SelectAll();
                 grid_Rename.Visibility = Visibility.Collapsed;
             };
             grid_Rename.Visibility = Visibility.Collapsed;

@@ -12,7 +12,7 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="RadioButton.Static.Background" Color="White"/>
     <SolidColorBrush x:Key="RadioButton.Static.BorderBrush"/>
-    <SolidColorBrush x:Key="RadioButton.Static.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="RadioButton.Static.Foreground" Color="Gray"/>
 
     <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="Black"/>
     <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph"/>

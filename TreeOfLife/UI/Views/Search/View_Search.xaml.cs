@@ -80,8 +80,7 @@ namespace TreeOfLife.UI.Views
                 }
                 else
                 {
-                    Common.SetCurrentTaxon(e.Taxon);
-                    ViewModel.ClickedSearchResult();
+                    ViewModel.ClickSearchResult(e.Taxon);
                 }
             };
 

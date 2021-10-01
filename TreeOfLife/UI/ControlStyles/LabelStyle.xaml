@@ -12,7 +12,7 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="Label.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="Label.BorderBrush" Color="Transparent"/>
-    <SolidColorBrush x:Key="Label.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="Label.Foreground" Color="Gray"/>
 
     <Style x:Key="LabelStyle" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="{StaticResource Label.Background}"/>

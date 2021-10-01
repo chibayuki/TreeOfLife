@@ -12,7 +12,7 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="CheckBox.Static.Background" Color="White"/>
     <SolidColorBrush x:Key="CheckBox.Static.BorderBrush"/>
-    <SolidColorBrush x:Key="CheckBox.Static.Foreground" Color="Black"/>
+    <SolidColorBrush x:Key="CheckBox.Static.Foreground" Color="Gray"/>
     <SolidColorBrush x:Key="CheckBox.Static.Glyph"/>
 
     <SolidColorBrush x:Key="CheckBox.MouseOver.Background"/>

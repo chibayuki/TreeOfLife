@@ -24,6 +24,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>UI\Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="UI\Views\Validation\View_Validation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +40,13 @@
     <None Update="Organism.otd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UI\Views\Validation\View_Validation.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
