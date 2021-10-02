@@ -50,7 +50,7 @@ namespace TreeOfLife.Core.Validation.Extensions
         };
 
         // 检查指定类群的违规项。
-        public static IReadOnlyList<IValidator> Validate(this Taxon taxon)
+        public static IReadOnlyCollection<IValidator> Validate(this Taxon taxon)
         {
             List<IValidator> result = new List<IValidator>();
 
@@ -66,9 +66,9 @@ namespace TreeOfLife.Core.Validation.Extensions
         }
 
         // 递归检查所有子类群的违规项。
-        private static void _ValidateChildren(Taxon taxon, List<(Taxon, IReadOnlyList<IValidator>)> result)
+        private static void _ValidateChildren(Taxon taxon, List<(Taxon, IReadOnlyCollection<IValidator>)> result)
         {
-            IReadOnlyList<IValidator> violations = taxon.Validate();
+            IReadOnlyCollection<IValidator> violations = taxon.Validate();
 
             if (violations.Any())
             {
@@ -82,9 +82,9 @@ namespace TreeOfLife.Core.Validation.Extensions
         }
 
         // 检查所有子类群的违规项。
-        public static IReadOnlyList<(Taxon taxon, IReadOnlyList<IValidator> violations)> ValidateChildren(this Taxon taxon)
+        public static IReadOnlyCollection<(Taxon taxon, IReadOnlyCollection<IValidator> violations)> ValidateChildren(this Taxon taxon)
         {
-            List<(Taxon, IReadOnlyList<IValidator>)> result = new List<(Taxon, IReadOnlyList<IValidator>)>();
+            List<(Taxon, IReadOnlyCollection<IValidator>)> result = new List<(Taxon, IReadOnlyCollection<IValidator>)>();
 
             foreach (var child in taxon.Children)
             {
@@ -95,15 +95,15 @@ namespace TreeOfLife.Core.Validation.Extensions
         }
 
         // 检查所有子类群的违规项（并按规则分组）。
-        public static IReadOnlyDictionary<IValidator, IReadOnlyList<Taxon>> ValidateChildrenAndGroupByValidator(this Taxon taxon)
+        public static IReadOnlyDictionary<IValidator, IReadOnlyCollection<Taxon>> ValidateChildrenAndGroupByValidator(this Taxon taxon)
         {
-            Dictionary<IValidator, IReadOnlyList<Taxon>> result = new Dictionary<IValidator, IReadOnlyList<Taxon>>();
+            Dictionary<IValidator, IReadOnlyCollection<Taxon>> result = new Dictionary<IValidator, IReadOnlyCollection<Taxon>>();
 
-            foreach ((Taxon t, IReadOnlyList<IValidator> violations) in ValidateChildren(taxon))
+            foreach ((Taxon t, IReadOnlyCollection<IValidator> violations) in ValidateChildren(taxon))
             {
                 foreach (var violation in violations)
                 {
-                    if (!result.TryGetValue(violation, out IReadOnlyList<Taxon> list))
+                    if (!result.TryGetValue(violation, out IReadOnlyCollection<Taxon> list))
                     {
                         list = new List<Taxon>();
 

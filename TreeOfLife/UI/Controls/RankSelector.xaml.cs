@@ -220,8 +220,6 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        private Rank _Rank = Rank.Unranked; // 当前选择的分类阶元。
-
         private void _UpdateRank(Rank oldRank, Rank newRank)
         {
             if (oldRank != newRank)
@@ -409,25 +407,6 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public Rank Rank
-        {
-            get => _Rank;
-
-            set
-            {
-                if (_Rank != value)
-                {
-                    _RemoveRadioButtonsEvents();
-                    _UpdateRank(_Rank, value);
-                    _AddRadioButtonsEvents();
-
-                    _Rank = value;
-
-                    RankChanged?.Invoke(this, _Rank);
-                }
-            }
-        }
-
         public bool IsDarkTheme
         {
             get => _IsDarkTheme;
@@ -441,6 +420,29 @@ namespace TreeOfLife.UI.Controls
         }
 
         //
+
+        public static readonly DependencyProperty RankProperty = DependencyProperty.Register("Rank", typeof(Rank), typeof(RankSelector), new FrameworkPropertyMetadata(Rank.Unranked, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnRankChanged));
+
+        private static void OnRankChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is RankSelector rankSelector)
+            {
+                Rank oldValue = e.OldValue as Rank? ?? Rank.Unranked;
+                Rank newValue = e.NewValue as Rank? ?? Rank.Unranked;
+
+                rankSelector._RemoveRadioButtonsEvents();
+                rankSelector._UpdateRank(oldValue, newValue);
+                rankSelector._AddRadioButtonsEvents();
+
+                rankSelector.RankChanged?.Invoke(rankSelector, newValue);
+            }
+        }
+
+        public Rank Rank
+        {
+            get => (Rank)GetValue(RankProperty);
+            set => SetValue(RankProperty, value);
+        }
 
         public EventHandler<Rank> RankChanged;
     }

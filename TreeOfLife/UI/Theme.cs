@@ -174,9 +174,9 @@ namespace TreeOfLife.UI
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 2));
 
-                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 10));
-                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 30));
-                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 70));
+                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 10));
+                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 50));
+                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 70));
             }
             else
             {
@@ -301,9 +301,9 @@ namespace TreeOfLife.UI
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 98));
 
-                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 90));
-                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 70));
-                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 30));
+                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 90));
+                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 50));
+                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 30));
             }
         }
 

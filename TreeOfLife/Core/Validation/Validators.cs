@@ -325,7 +325,7 @@ namespace TreeOfLife.Core.Validation
             }
             else if (taxon.Rank.IsClade())
             {
-                if (taxon.ChineseName.EndsWith("类"))
+                if (split.tailPart == "类")
                 {
                     return true;
                 }

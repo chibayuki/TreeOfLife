@@ -75,7 +75,7 @@ This file is part of TreeOfLife
                     </Grid.ColumnDefinitions>
                     <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="分级"/>
                     <StackPanel Grid.Column="2">
-                        <Controls:RankSelector x:Name="rankSelector"/>
+                        <Controls:RankSelector x:Name="rankSelector" Rank="{Binding Rank}"/>
                         <Grid x:Name="grid_Rename" Margin="0,5,0,0">
                             <Label x:Name="label_Rename" Style="{DynamicResource LabelStyle}" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
                             <Button x:Name="button_Rename" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
@@ -111,12 +111,12 @@ This file is part of TreeOfLife
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="诞生于"/>
                             <StackPanel Grid.Column="2">
-                                <Controls:GeoChronSelector x:Name="geoChronSelector_Birth"/>
+                                <Controls:GeoChronSelector x:Name="geoChronSelector_Birth" GeoChron="{Binding Birth}"/>
                                 <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Birth" Margin="0,5,0,0"/>
                                 <Controls:WarningMessage x:Name="warningMessage_EvolutionOrder" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Grid>
-                        <Grid Margin="0,10,0,0" Visibility="{Binding Grid_Extinction}">
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Visibility_Extinction}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="10"/>
@@ -124,7 +124,7 @@ This file is part of TreeOfLife
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="灭绝于"/>
                             <StackPanel Grid.Column="2">
-                                <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction"/>
+                                <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction" GeoChron="{Binding Extinction}"/>
                                 <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Extinction" Margin="0,5,0,0"/>
                                 <Controls:WarningMessage x:Name="warningMessage_TimelineConsistency" Margin="0,5,0,0"/>
                             </StackPanel>

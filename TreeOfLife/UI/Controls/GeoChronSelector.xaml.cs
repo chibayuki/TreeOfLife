@@ -529,11 +529,9 @@ namespace TreeOfLife.UI.Controls
                     {
                         GeoChron geoChron = GeoChron.CreateGeoChron(maBP);
 
-                        if (_GeoChron != geoChron)
+                        if (GeoChron != geoChron)
                         {
-                            _GeoChron = geoChron;
-
-                            GeoChronChanged?.Invoke(this, _GeoChron);
+                            GeoChron = geoChron;
                         }
                     }
                     catch { }
@@ -556,11 +554,9 @@ namespace TreeOfLife.UI.Controls
                     {
                         GeoChron geoChron = GeoChron.CreateGeoChron(ceYear);
 
-                        if (_GeoChron != geoChron)
+                        if (GeoChron != geoChron)
                         {
-                            _GeoChron = geoChron;
-
-                            GeoChronChanged?.Invoke(this, _GeoChron);
+                            GeoChron = geoChron;
                         }
                     }
                     catch { }
@@ -583,8 +579,6 @@ namespace TreeOfLife.UI.Controls
         }
 
         //
-
-        private GeoChron _GeoChron = GeoChron.Empty;
 
         private void _UpdateGeoChron(GeoChron oldGeoChron, GeoChron newGeoChron)
         {
@@ -897,25 +891,6 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public GeoChron GeoChron
-        {
-            get => _GeoChron;
-
-            set
-            {
-                if (_GeoChron != value)
-                {
-                    _RemoveRadioButtonsEvents();
-                    _UpdateGeoChron(_GeoChron, value);
-                    _AddRadioButtonsEvents();
-
-                    _GeoChron = value;
-
-                    GeoChronChanged?.Invoke(this, _GeoChron);
-                }
-            }
-        }
-
         public bool IsDarkTheme
         {
             get => _IsDarkTheme;
@@ -929,6 +904,29 @@ namespace TreeOfLife.UI.Controls
         }
 
         //
+
+        public static readonly DependencyProperty GeoChronProperty = DependencyProperty.Register("GeoChron", typeof(GeoChron), typeof(GeoChronSelector), new FrameworkPropertyMetadata(GeoChron.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnGeoChronChanged));
+
+        private static void OnGeoChronChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is GeoChronSelector geoChronSelector)
+            {
+                GeoChron oldValue = e.OldValue as GeoChron ?? GeoChron.Empty;
+                GeoChron newValue = e.NewValue as GeoChron ?? GeoChron.Empty;
+
+                geoChronSelector._RemoveRadioButtonsEvents();
+                geoChronSelector._UpdateGeoChron(oldValue, newValue);
+                geoChronSelector._AddRadioButtonsEvents();
+
+                geoChronSelector.GeoChronChanged?.Invoke(geoChronSelector, newValue);
+            }
+        }
+
+        public GeoChron GeoChron
+        {
+            get => GetValue(GeoChronProperty) as GeoChron;
+            set => SetValue(GeoChronProperty, value);
+        }
 
         public EventHandler<GeoChron> GeoChronChanged;
     }

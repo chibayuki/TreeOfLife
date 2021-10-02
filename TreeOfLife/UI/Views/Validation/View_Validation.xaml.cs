@@ -89,7 +89,7 @@ namespace TreeOfLife.UI.Views
             {
                 _ValidateResult.Clear();
 
-                IReadOnlyDictionary<IValidator, IReadOnlyList<Taxon>> validateResult = Entrance.Root.ValidateChildrenAndGroupByValidator();
+                IReadOnlyDictionary<IValidator, IReadOnlyCollection<Taxon>> validateResult = Entrance.Root.ValidateChildrenAndGroupByValidator();
 
                 foreach (var pair in validateResult)
                 {

@@ -40,7 +40,7 @@ namespace TreeOfLife.UI.Views
         private GeoChron _Birth;
         private GeoChron _Extinction;
 
-        private Visibility _Grid_Extinction;
+        private Visibility _Visibility_Extinction;
 
         private string _Synonyms;
         private string _Tags;
@@ -126,23 +126,24 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.IsExtinct = _IsExtinct;
+
+                        if (_IsExtinct)
+                        {
+                            Visibility_Extinction = Visibility.Visible;
+                        }
+                        else
+                        {
+                            Visibility_Extinction = Visibility.Collapsed;
+
+                            _LoadingFromTaxon = true;
+                            Extinction = GeoChron.Empty;
+                            _LoadingFromTaxon = false;
+                            Extinction = GeoChron.Empty;
+                        }
                     }
 
                     View.UpdateTitle();
                     View.UpdateWarningMessage();
-                }
-
-                //
-
-                if (_IsExtinct)
-                {
-                    Grid_Extinction = Visibility.Visible;
-                }
-                else
-                {
-                    Grid_Extinction = Visibility.Collapsed;
-
-                    Extinction = GeoChron.Empty;
                 }
             }
         }
@@ -185,7 +186,11 @@ namespace TreeOfLife.UI.Views
 
                 //
 
-                if (!_LoadingFromTaxon)
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Rank));
+                }
+                else
                 {
                     Taxon currentTaxon = Common.CurrentTaxon;
 
@@ -212,7 +217,11 @@ namespace TreeOfLife.UI.Views
 
                 //
 
-                if (!_LoadingFromTaxon)
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Birth));
+                }
+                else
                 {
                     Taxon currentTaxon = Common.CurrentTaxon;
 
@@ -236,7 +245,11 @@ namespace TreeOfLife.UI.Views
 
                 //
 
-                if (!_LoadingFromTaxon)
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Extinction));
+                }
+                else
                 {
                     Taxon currentTaxon = Common.CurrentTaxon;
 
@@ -250,15 +263,15 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        public Visibility Grid_Extinction
+        public Visibility Visibility_Extinction
         {
-            get => _Grid_Extinction;
+            get => _Visibility_Extinction;
 
             set
             {
-                _Grid_Extinction = value;
+                _Visibility_Extinction = value;
 
-                NotifyPropertyChanged(nameof(Grid_Extinction));
+                NotifyPropertyChanged(nameof(Visibility_Extinction));
             }
         }
 
@@ -374,6 +387,8 @@ namespace TreeOfLife.UI.Views
 
             Birth = currentTaxon.Birth;
             Extinction = currentTaxon.Extinction;
+
+            Visibility_Extinction = IsExtinct ? Visibility.Visible : Visibility.Collapsed;
 
             Synonyms = string.Join(Environment.NewLine, currentTaxon.Synonyms.ToArray());
             Tags = string.Join(Environment.NewLine, currentTaxon.Tags.ToArray());

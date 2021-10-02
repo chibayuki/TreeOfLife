@@ -56,7 +56,6 @@ namespace TreeOfLife.UI.Views
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
-            rankSelector.RankChanged += (s, e) => { ViewModel.Rank = e; };
             button_Rename.Click += (s, e) =>
             {
                 ViewModel.ChsName = _ChsRename;
@@ -65,9 +64,6 @@ namespace TreeOfLife.UI.Views
                 textBox_ChsName.SelectAll();
             };
             grid_Rename.Visibility = Visibility.Collapsed;
-
-            geoChronSelector_Birth.GeoChronChanged += (s, e) => ViewModel.Birth = e;
-            geoChronSelector_Extinction.GeoChronChanged += (s, e) => ViewModel.Extinction = e;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
@@ -939,28 +935,29 @@ namespace TreeOfLife.UI.Views
 
             if (!currentTaxon.IsRoot)
             {
-                string chsName = textBox_ChsName.Text;
+                string chsName = ViewModel.ChsName;
 
                 _ChsRename = chsName;
 
-                if (!string.IsNullOrEmpty(chsName))
+                if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
                 {
                     string chsNameWithoutRank = RankChineseExtension.SplitChineseName(chsName).headPart;
 
-                    if (!string.IsNullOrEmpty(chsNameWithoutRank))
+                    if (ViewModel.Rank.IsUnranked())
                     {
-                        if (ViewModel.Rank.IsClade())
-                        {
-                            _ChsRename = chsNameWithoutRank + "类";
-                        }
-                        else if (ViewModel.Rank.IsPrimaryOrSecondaryRank())
-                        {
-                            _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
-                        }
-                        else
-                        {
-                            _ChsRename = chsNameWithoutRank;
-                        }
+                        _ChsRename = chsNameWithoutRank;
+                    }
+                    else if (ViewModel.Rank.IsClade())
+                    {
+                        _ChsRename = chsNameWithoutRank + "类";
+                    }
+                    else if (ViewModel.Rank.IsSpecies())
+                    {
+                        _ChsRename = chsNameWithoutRank;
+                    }
+                    else
+                    {
+                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
                     }
                 }
 
@@ -1016,12 +1013,6 @@ namespace TreeOfLife.UI.Views
         public void UpdateCurrentTaxonInfo()
         {
             ViewModel.LoadFromTaxon();
-
-            rankSelector.Rank = ViewModel.Rank;
-            grid_Rename.Visibility = Visibility.Collapsed;
-
-            geoChronSelector_Birth.GeoChron = ViewModel.Birth;
-            geoChronSelector_Extinction.GeoChron = ViewModel.Extinction;
 
             textBox_Parent.Clear();
             textBox_Children.Clear();

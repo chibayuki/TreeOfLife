@@ -80,7 +80,7 @@ namespace TreeOfLife.UI.Views
 
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
+                taxonTitle.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSpan.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Tags.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Synonyms.IsDarkTheme = Theme.IsDarkTheme;
@@ -250,11 +250,11 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            taxonNameTitle.ThemeColor = currentTaxon.GetThemeColor();
-            taxonNameTitle.TaxonName = currentTaxon.GetShortName('\n');
-            taxonNameTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
-            taxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
-            taxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+            taxonTitle.ThemeColor = currentTaxon.GetThemeColor();
+            taxonTitle.TaxonName = currentTaxon.GetShortName('\n');
+            taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
+            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
+            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
 
             if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
             {
@@ -272,8 +272,6 @@ namespace TreeOfLife.UI.Views
         {
             ViewModel.LoadFromTaxon();
 
-            _UpdateTitle();
-
             Taxon currentTaxon = Common.CurrentTaxon;
 
             tagGroup_Tags.UpdateContent(currentTaxon.Tags);
@@ -285,6 +283,8 @@ namespace TreeOfLife.UI.Views
             _UpdateExcludes();
 
             _UpdateVisibility();
+
+            _UpdateTitle();
         }
     }
 }
