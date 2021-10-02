@@ -29,9 +29,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// TaxonTitle.xaml 的交互逻辑
-    /// </summary>
     public partial class TaxonNameTitle : UserControl
     {
         private Rank? _Rank;

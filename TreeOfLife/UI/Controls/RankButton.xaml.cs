@@ -30,9 +30,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// RankButton.xaml 的交互逻辑
-    /// </summary>
     public partial class RankButton : UserControl
     {
         private Rank _Rank = Rank.Unranked; // 分类阶元。

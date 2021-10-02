@@ -29,9 +29,6 @@ using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views
 {
-    /// <summary>
-    /// View_Evo_EditMode.xaml 的交互逻辑
-    /// </summary>
     public partial class View_Evo_EditMode : UserControl
     {
         public View_Evo_EditMode()

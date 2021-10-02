@@ -31,9 +31,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// TreeNodeButton.xaml 的交互逻辑
-    /// </summary>
     public partial class TreeNodeButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。

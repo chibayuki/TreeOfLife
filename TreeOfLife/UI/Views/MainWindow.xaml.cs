@@ -73,8 +73,12 @@ namespace TreeOfLife.UI.Views
             {
                 if (grid_WaitingForBackgroundTaskPrompt.IsVisible)
                 {
+#if DEBUG
+                    throw new InvalidOperationException();
+#else
                     MessageBox.Show("非法操作。", Entrance.AppName, MessageBoxButton.OK);
                     Environment.Exit(-1);
+#endif
                 }
 
                 grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Visible;
@@ -134,7 +138,7 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        #region 页面切换
+#region 页面切换
 
         private void _SelectPage(Pages tabPage)
         {
@@ -148,9 +152,9 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        #endregion
+#endregion
 
-        #region "文件"页面
+#region "文件"页面
 
         private OpenFileDialog _OpenFileDialog;
         private SaveFileDialog _SaveFileDialog;
@@ -541,9 +545,9 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        #endregion
+#endregion
 
-        #region "分类学"页面
+#region "分类学"页面
 
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
@@ -621,6 +625,6 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        #endregion
+#endregion
     }
 }

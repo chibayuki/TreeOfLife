@@ -26,9 +26,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// TagGroup.xaml 的交互逻辑
-    /// </summary>
     public partial class TagGroup : UserControl
     {
         private class _Tag

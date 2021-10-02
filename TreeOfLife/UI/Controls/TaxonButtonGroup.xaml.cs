@@ -38,9 +38,6 @@ namespace TreeOfLife.UI.Controls
         public IEnumerable<(DependencyProperty dp, object value)> Properties { get; set; } = null;
     }
 
-    /// <summary>
-    /// TaxonButtonGroup.xaml 的交互逻辑
-    /// </summary>
     public partial class TaxonButtonGroup : UserControl
     {
         private class _Group
@@ -311,8 +308,9 @@ namespace TreeOfLife.UI.Controls
                 if (e.Source is TaxonButton source && source == button)
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
-                    button = null;
                 }
+
+                button = null;
             }));
 
             // 不检查是否曾按下右键，因为右键菜单也不检查

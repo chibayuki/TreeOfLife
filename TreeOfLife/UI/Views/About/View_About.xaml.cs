@@ -24,9 +24,6 @@ using System.Windows.Shapes;
 
 namespace TreeOfLife.UI.Views
 {
-    /// <summary>
-    /// View_About.xaml 的交互逻辑
-    /// </summary>
     public partial class View_About : UserControl
     {
         public View_About()

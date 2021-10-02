@@ -26,9 +26,6 @@ using TreeOfLife.Core;
 
 namespace TreeOfLife.UI.Views
 {
-    /// <summary>
-    /// View_File.xaml 的交互逻辑
-    /// </summary>
     public partial class View_File : UserControl
     {
         public View_File()

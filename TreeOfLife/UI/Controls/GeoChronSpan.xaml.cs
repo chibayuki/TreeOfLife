@@ -32,9 +32,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// GeoChronSpan.xaml 的交互逻辑
-    /// </summary>
     public partial class GeoChronSpan : UserControl
     {
         private class _GeoChronSymbol

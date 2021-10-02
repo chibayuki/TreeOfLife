@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UI\Controls\CollapsibleTaxonButtonGroup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -43,6 +46,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="UI\Controls\CollapsibleTaxonButtonGroup.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Views\Validation\View_Validation.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

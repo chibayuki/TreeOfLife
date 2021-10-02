@@ -29,9 +29,6 @@ using TreeOfLife.UI.Controls;
 
 namespace TreeOfLife.UI.Views
 {
-    /// <summary>
-    /// View_Search.xaml 的交互逻辑
-    /// </summary>
     public partial class View_Search : UserControl
     {
         public View_Search()
@@ -93,10 +90,7 @@ namespace TreeOfLife.UI.Views
         {
             public string Title { get; set; }
             public List<TaxonItem> TaxonItems { get; set; }
-            public TaxonButtonGroup TaxonButtonGroup { get; set; }
-            public ContentControl TitleLabel { get; set; }
-            public Button ExpandCollapsedButton { get; set; }
-            public FrameworkElement Container { get; set; }
+            public CollapsibleTaxonButtonGroup TaxonButtonGroup { get; set; }
         }
 
         private List<_SearchResultItem> _SearchResult = new List<_SearchResultItem>();
@@ -179,13 +173,15 @@ namespace TreeOfLife.UI.Views
             {
                 foreach (var result in _SearchResult)
                 {
-                    TaxonButtonGroup taxonButtonGroup = new TaxonButtonGroup()
+                    CollapsibleTaxonButtonGroup taxonButtonGroup = new CollapsibleTaxonButtonGroup()
                     {
+                        Title = result.Title,
                         IsDarkTheme = Theme.IsDarkTheme,
-                        Margin = new Thickness(0, 10, 0, 0),
-                        Visibility = Visibility.Collapsed
+                        Margin = new Thickness(0, 25, 0, 0),
                     };
-                    taxonButtonGroup.SetValue(Grid.RowProperty, 1);
+
+                    taxonButtonGroup.UpdateContent(result.TaxonItems);
+
                     taxonButtonGroup.MouseLeftButtonClick += (s, e) =>
                     {
                         if (e.Taxon.IsRoot)
@@ -198,52 +194,9 @@ namespace TreeOfLife.UI.Views
                         }
                     };
 
-                    Label label = new Label() { Content = $"{result.Title} ({result.TaxonItems.Count})" };
-                    label.SetValue(StyleProperty, Application.Current.Resources["VerticalTitleLabelStyle"]);
-
-                    Button button = new Button()
-                    {
-                        Content = "展开",
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Margin = new Thickness(0, 0, 0, 2),
-                        Padding = new Thickness(6, 3, 6, 3)
-                    };
-                    button.SetValue(StyleProperty, Application.Current.Resources["TransparentButtonStyle"]);
-                    button.Click += (s, e) =>
-                    {
-                        if (button.Content as string == "展开")
-                        {
-                            if (taxonButtonGroup.GetGroupCount() <= 0)
-                            {
-                                taxonButtonGroup.UpdateContent(result.TaxonItems);
-                            }
-
-                            taxonButtonGroup.Visibility = Visibility.Visible;
-
-                            button.Content = "折叠";
-                        }
-                        else
-                        {
-                            taxonButtonGroup.Visibility = Visibility.Collapsed;
-
-                            button.Content = "展开";
-                        }
-                    };
-
-                    Grid grid = new Grid() { Margin = new Thickness(0, 25, 0, 0) };
-                    grid.RowDefinitions.Add(new RowDefinition());
-                    grid.RowDefinitions.Add(new RowDefinition());
-                    grid.Children.Add(label);
-                    grid.Children.Add(button);
-                    grid.Children.Add(taxonButtonGroup);
-
                     result.TaxonButtonGroup = taxonButtonGroup;
-                    result.TitleLabel = label;
-                    result.ExpandCollapsedButton = button;
-                    result.Container = grid;
 
-                    stackPanel_SearchResult.Children.Add(grid);
+                    stackPanel_SearchResult.Children.Add(taxonButtonGroup);
                 }
 
                 const int preferShowCount = 10;
@@ -255,11 +208,7 @@ namespace TreeOfLife.UI.Views
 
                     if (count <= preferShowCount)
                     {
-                        result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
-
-                        result.TaxonButtonGroup.Visibility = Visibility.Visible;
-
-                        result.ExpandCollapsedButton.Content = "折叠";
+                        result.TaxonButtonGroup.Expanded = true;
                     }
                     else
                     {
@@ -282,19 +231,18 @@ namespace TreeOfLife.UI.Views
                     {
                         if (result.TaxonItems.Count > 0)
                         {
-                            result.TitleLabel.Content = $"{result.Title} ({result.TaxonItems.Count})";
-
-                            if (result.TaxonButtonGroup.GetGroupCount() > 0)
-                            {
-                                result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
-                            }
+                            result.TaxonButtonGroup.UpdateContent(result.TaxonItems);
                         }
                         else
                         {
-                            stackPanel_SearchResult.Children.Remove(result.Container);
+                            stackPanel_SearchResult.Children.Remove(result.TaxonButtonGroup);
+
+                            result.TaxonButtonGroup.Clear();
                         }
                     }
                 }
+
+                _SearchResult.RemoveAll((item) => item.TaxonItems.Count <= 0);
             }
 
             _UpdateVisibility();
@@ -307,9 +255,9 @@ namespace TreeOfLife.UI.Views
 
             if (_SearchResult.Count > 0)
             {
-                _SearchResult.Clear();
-
                 stackPanel_SearchResult.Children.Clear();
+
+                _SearchResult.Clear();
             }
 
             _UpdateVisibility();

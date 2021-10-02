@@ -27,9 +27,6 @@ using TreeOfLife.Core.Taxonomy.Extensions;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// RankSelector.xaml 的交互逻辑
-    /// </summary>
     public partial class RankSelector : UserControl
     {
         private Dictionary<Rank, RankButton> _BasicRankButtons = new Dictionary<Rank, RankButton>();
@@ -215,8 +212,9 @@ namespace TreeOfLife.UI.Controls
                 if (e.Source is RankButton source && source == button)
                 {
                     Rank = source.Rank;
-                    button = null;
                 }
+
+                button = null;
             }));
         }
 

@@ -46,9 +46,6 @@ namespace TreeOfLife.UI.Controls
         public IEnumerable<(DependencyProperty dp, object value)> Properties { get; set; } = null;
     }
 
-    /// <summary>
-    /// Tree.xaml 的交互逻辑
-    /// </summary>
     public partial class Tree : UserControl
     {
         private class _TreeNode
@@ -181,8 +178,9 @@ namespace TreeOfLife.UI.Controls
                 if (e.Source is TreeNodeButton source && source == button && source.VerifyMousePosition())
                 {
                     MouseLeftButtonClick?.Invoke(this, source);
-                    button = null;
                 }
+
+                button = null;
             }));
 
             // 不检查是否曾按下右键，因为右键菜单也不检查

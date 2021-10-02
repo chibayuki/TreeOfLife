@@ -29,9 +29,6 @@ using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// GeoChronSelector.xaml 的交互逻辑
-    /// </summary>
     public partial class GeoChronSelector : UserControl
     {
         private static readonly GeoChron _DefaultTimespan = GeoChron.GetGeoChron(Eon.Phanerozoic);
@@ -509,8 +506,9 @@ namespace TreeOfLife.UI.Controls
                 if (e.Source is GeoChronButton source && source == button)
                 {
                     GeoChron = source.GeoChron;
-                    button = null;
                 }
+
+                button = null;
             }));
         }
 

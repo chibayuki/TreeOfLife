@@ -30,9 +30,6 @@ using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views
 {
-    /// <summary>
-    /// View_Tree.xaml 的交互逻辑
-    /// </summary>
     public partial class View_Tree : UserControl
     {
         public View_Tree()

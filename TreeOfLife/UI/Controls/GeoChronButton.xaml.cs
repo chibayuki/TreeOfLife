@@ -30,9 +30,6 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    /// <summary>
-    /// GeoChronButton.xaml 的交互逻辑
-    /// </summary>
     public partial class GeoChronButton : UserControl
     {
         private GeoChron _GeoChron = null; // 地质年代。
