@@ -29,7 +29,7 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
-    public partial class TaxonNameTitle : UserControl
+    public partial class TaxonTitle : UserControl
     {
         private Rank? _Rank;
         private bool _IsParaphyly;
@@ -84,7 +84,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public TaxonNameTitle()
+        public TaxonTitle()
         {
             InitializeComponent();
         }

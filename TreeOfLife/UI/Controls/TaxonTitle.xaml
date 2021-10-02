@@ -7,7 +7,7 @@ Version 1.0.1322.1000.M13.210925-1400
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<UserControl x:Class="TreeOfLife.UI.Controls.TaxonNameTitle"
+<UserControl x:Class="TreeOfLife.UI.Controls.TaxonTitle"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,10 +21,10 @@ This file is part of TreeOfLife
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Border x:Name="border_RankName" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
-            <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" TextTrimming="CharacterEllipsis"/>
         </Border>
         <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">
-            <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonNameTitle}}}" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" TextTrimming="CharacterEllipsis"/>
         </Border>
     </Grid>
 </UserControl>

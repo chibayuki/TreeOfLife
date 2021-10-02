@@ -29,7 +29,7 @@ This file is part of TreeOfLife
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
-            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
+            <Controls:TaxonTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Edit" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
         </Grid>
         <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="0,15,0,0"/>

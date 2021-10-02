@@ -11,8 +11,12 @@ This file is part of TreeOfLife
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="TabPage.Background"/>
-    <SolidColorBrush x:Key="TabPageSide.Background"/>
-    
+    <SolidColorBrush x:Key="TabPageSide.Background" Color="LightGray"/>
+
     <SolidColorBrush x:Key="Tree.Background"/>
+
+    <SolidColorBrush x:Key="WarningMessage.Background" Color="White"/>
+    <SolidColorBrush x:Key="WarningMessage.BorderBrush" Color="Gray"/>
+    <SolidColorBrush x:Key="WarningMessage.Foreground" Color="Gray"/>
 
 </ResourceDictionary>

@@ -173,6 +173,10 @@ namespace TreeOfLife.UI
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 2));
+
+                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 10));
+                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 30));
+                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 70));
             }
             else
             {
@@ -296,6 +300,10 @@ namespace TreeOfLife.UI
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 98));
+
+                resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 90));
+                resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 70));
+                resourceDictionary["WarningMessage.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 100, 30));
             }
         }
 
@@ -330,6 +338,7 @@ namespace TreeOfLife.UI
         //
 
         public static EventHandler ThemeColorChanged;
+
         public static EventHandler IsDarkThemeChanged;
     }
 }

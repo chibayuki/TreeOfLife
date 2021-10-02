@@ -25,6 +25,8 @@ using System.Windows.Shapes;
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
+using TreeOfLife.Core.Validation;
+using TreeOfLife.Core.Validation.Extensions;
 using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views
@@ -37,7 +39,7 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            ViewModel.TaxonNameTitle = taxonNameTitle;
+            ViewModel.View = this;
 
             //
 
@@ -54,19 +56,13 @@ namespace TreeOfLife.UI.Views
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
-            textBox_ChsName.TextChanged += (s, e) => _UpdateRenameVisibility();
-
-            rankSelector.RankChanged += (s, e) =>
-            {
-                ViewModel.Rank = e;
-                _UpdateRenameVisibility();
-            };
+            rankSelector.RankChanged += (s, e) => { ViewModel.Rank = e; };
             button_Rename.Click += (s, e) =>
             {
+                ViewModel.ChsName = _ChsRename;
                 textBox_ChsName.Text = _ChsRename;
                 textBox_ChsName.Focus();
                 textBox_ChsName.SelectAll();
-                grid_Rename.Visibility = Visibility.Collapsed;
             };
             grid_Rename.Visibility = Visibility.Collapsed;
 
@@ -121,9 +117,34 @@ namespace TreeOfLife.UI.Views
 
             //
 
+            warningMessage_NodeStructure.Message = NodeStructureValidator.Instance.ToString();
+
+            warningMessage_NameMissing.Message = NameMissingValidator.Instance.ToString();
+            warningMessage_NameLength.Message = NameLengthValidator.Instance.ToString();
+            warningMessage_NameUppercase.Message = NameUppercaseValidator.Instance.ToString();
+            warningMessage_NameWordCount.Message = NameWordCountValidator.Instance.ToString();
+            warningMessage_NameCharacter.Message = NameCharacterValidator.Instance.ToString();
+            warningMessage_NameSeparator.Message = NameSeparatorValidator.Instance.ToString();
+
+            warningMessage_ChineseSuffix.Message = ChineseSuffixValidator.Instance.ToString();
+
+            warningMessage_RankMissing.Message = RankMissingValidator.Instance.ToString();
+
+            warningMessage_TimelineCompleteness_Birth.Message = TimelineCompletenessValidator.Instance.ToString();
+            warningMessage_EvolutionOrder.Message = EvolutionOrderValidator.Instance.ToString();
+            warningMessage_TimelineCompleteness_Extinction.Message = TimelineCompletenessValidator.Instance.ToString();
+            warningMessage_TimelineConsistency.Message = TimelineConsistencyValidator.Instance.ToString();
+
+            warningMessage_SynonymsUnique.Message = SynonymsUniqueValidator.Instance.ToString();
+            warningMessage_SynonymsTagUnique_Synonyms.Message = SynonymsTagUniqueValidator.Instance.ToString();
+            warningMessage_TagsUnique.Message = TagsUniqueValidator.Instance.ToString();
+            warningMessage_SynonymsTagUnique_Tags.Message = SynonymsTagUniqueValidator.Instance.ToString();
+
+            //
+
             Theme.IsDarkThemeChanged += (s, e) =>
             {
-                taxonNameTitle.IsDarkTheme = Theme.IsDarkTheme;
+                taxonTitle.IsDarkTheme = Theme.IsDarkTheme;
                 rankSelector.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSelector_Birth.IsDarkTheme = Theme.IsDarkTheme;
                 geoChronSelector_Extinction.IsDarkTheme = Theme.IsDarkTheme;
@@ -287,7 +308,7 @@ namespace TreeOfLife.UI.Views
 
                 await selectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                ViewModel.UpdateTitle();
+                UpdateTitle();
 
                 if (selectedTaxon == Common.CurrentTaxon)
                 {
@@ -305,7 +326,7 @@ namespace TreeOfLife.UI.Views
 
                 await selectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                ViewModel.UpdateTitle();
+                UpdateTitle();
 
                 if (selectedTaxon == Common.CurrentTaxon)
                 {
@@ -506,7 +527,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.CurrentTaxon.RemoveExcludeAsync(Common.RightButtonTaxon);
 
-                ViewModel.UpdateTitle();
+                UpdateTitle();
 
                 _UpdateExcludesWithVisibility();
 
@@ -602,7 +623,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.CurrentTaxon.RemoveIncludeAsync(Common.RightButtonTaxon);
 
-                ViewModel.UpdateTitle();
+                UpdateTitle();
 
                 _UpdateIncludesWithVisibility();
 
@@ -819,48 +840,6 @@ namespace TreeOfLife.UI.Views
             grid_IncludeBy.Visibility = Common.CurrentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private string _ChsRename = string.Empty;
-
-        // 更新中文名重命名提示可见性。
-        private void _UpdateRenameVisibility()
-        {
-            string chsName = textBox_ChsName.Text;
-
-            _ChsRename = chsName;
-
-            if (!string.IsNullOrEmpty(chsName))
-            {
-                string chsNameWithoutRank = RankChineseExtension.SplitChineseName(chsName).headPart;
-
-                if (!string.IsNullOrEmpty(chsNameWithoutRank))
-                {
-                    if (ViewModel.Rank.IsClade())
-                    {
-                        _ChsRename = chsNameWithoutRank + "类";
-                    }
-                    else if (ViewModel.Rank.IsPrimaryOrSecondaryRank())
-                    {
-                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
-                    }
-                    else
-                    {
-                        _ChsRename = chsNameWithoutRank;
-                    }
-                }
-            }
-
-            if (_ChsRename != chsName)
-            {
-                label_Rename.Content = "更新中文名为: " + _ChsRename;
-
-                grid_Rename.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                grid_Rename.Visibility = Visibility.Collapsed;
-            }
-        }
-
         // 更新可见性。
         private void _UpdateVisibility()
         {
@@ -880,11 +859,158 @@ namespace TreeOfLife.UI.Views
             grid_ExcludeBy.Visibility = currentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_Includes.Visibility = currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_IncludeBy.Visibility = currentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // 更新标题。
+        public void UpdateTitle()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            Rank rank = currentTaxon.Rank;
+
+            taxonTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
+
+            string name = currentTaxon.ScientificName;
+            string chsName = currentTaxon.ChineseName;
+
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
+            {
+                taxonTitle.Rank = null;
+                taxonTitle.TaxonName = "(未命名)";
+            }
+            else
+            {
+                taxonTitle.Rank = rank;
+
+                StringBuilder taxonName = new StringBuilder();
+
+                if (currentTaxon.IsUnsure || currentTaxon.IsExtinct)
+                {
+                    if (currentTaxon.IsUnsure)
+                    {
+                        taxonName.Append('?');
+                    }
+
+                    if (currentTaxon.IsExtinct)
+                    {
+                        taxonName.Append('†');
+                    }
+
+                    taxonName.Append(' ');
+                }
+
+                if (!string.IsNullOrEmpty(chsName))
+                {
+                    taxonName.Append(chsName);
+
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        taxonName.Append('\n');
+                        taxonName.Append(name);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(name))
+                {
+                    taxonName.Append(name);
+                }
+
+                if (currentTaxon.IsPolyphyly)
+                {
+                    taxonName.Append(" #");
+                }
+                else if (currentTaxon.IsParaphyly)
+                {
+                    taxonName.Append(" *");
+                }
+
+                taxonTitle.TaxonName = taxonName.ToString();
+            }
+
+            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
+            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+        }
+
+        private string _ChsRename = string.Empty;
+
+        // 更新中文名重命名提示。
+        public void UpdateRename()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
 
             if (!currentTaxon.IsRoot)
             {
-                _UpdateRenameVisibility();
+                string chsName = textBox_ChsName.Text;
+
+                _ChsRename = chsName;
+
+                if (!string.IsNullOrEmpty(chsName))
+                {
+                    string chsNameWithoutRank = RankChineseExtension.SplitChineseName(chsName).headPart;
+
+                    if (!string.IsNullOrEmpty(chsNameWithoutRank))
+                    {
+                        if (ViewModel.Rank.IsClade())
+                        {
+                            _ChsRename = chsNameWithoutRank + "类";
+                        }
+                        else if (ViewModel.Rank.IsPrimaryOrSecondaryRank())
+                        {
+                            _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
+                        }
+                        else
+                        {
+                            _ChsRename = chsNameWithoutRank;
+                        }
+                    }
+                }
+
+                if (_ChsRename != chsName)
+                {
+                    label_Rename.Content = "更新中文名为: " + _ChsRename;
+
+                    grid_Rename.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_Rename.Visibility = Visibility.Collapsed;
+                }
             }
+        }
+
+        // 更新警告信息提示。
+        public void UpdateWarningMessage()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            Dictionary<IValidator, object> validators = new Dictionary<IValidator, object>();
+
+            foreach (var validator in currentTaxon.Validate())
+            {
+                validators.Add(validator, null);
+            }
+
+            warningMessage_NodeStructure.Visibility = validators.ContainsKey(NodeStructureValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_NameMissing.Visibility = validators.ContainsKey(NameMissingValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NameLength.Visibility = validators.ContainsKey(NameLengthValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NameUppercase.Visibility = validators.ContainsKey(NameUppercaseValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NameWordCount.Visibility = validators.ContainsKey(NameWordCountValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NameCharacter.Visibility = validators.ContainsKey(NameCharacterValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NameSeparator.Visibility = validators.ContainsKey(NameSeparatorValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_ChineseSuffix.Visibility = validators.ContainsKey(ChineseSuffixValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_RankMissing.Visibility = validators.ContainsKey(RankMissingValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_TimelineCompleteness_Birth.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_EvolutionOrder.Visibility = validators.ContainsKey(EvolutionOrderValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_TimelineCompleteness_Extinction.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_TimelineConsistency.Visibility = validators.ContainsKey(TimelineConsistencyValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_SynonymsUnique.Visibility = validators.ContainsKey(SynonymsUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_SynonymsTagUnique_Synonyms.Visibility = validators.ContainsKey(SynonymsTagUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_TagsUnique.Visibility = validators.ContainsKey(TagsUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_SynonymsTagUnique_Tags.Visibility = validators.ContainsKey(SynonymsTagUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void UpdateCurrentTaxonInfo()
@@ -908,6 +1034,10 @@ namespace TreeOfLife.UI.Views
             _UpdateIncludeBy();
 
             _UpdateVisibility();
+
+            UpdateTitle();
+            UpdateRename();
+            UpdateWarningMessage();
         }
 
         #endregion

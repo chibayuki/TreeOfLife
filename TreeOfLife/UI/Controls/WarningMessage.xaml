@@ -1,0 +1,27 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1322.1000.M13.210925-1400
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Controls.WarningMessage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <Grid Width="23" Height="20">
+                <Path Data="M 800,350 200,1400 C 100,1575 200,1750 400,1750 L 1600,1750 C 1800,1750 1900,1575 1800,1400 L 1200,350 C 1100,175 900,175 800,350 z" Stretch="Uniform" Fill="{DynamicResource WarningMessage.Background}" Stroke="{DynamicResource WarningMessage.BorderBrush}"/>
+                <TextBlock Text="!" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,1" Foreground="{DynamicResource WarningMessage.BorderBrush}"/>
+            </Grid>
+            <TextBlock x:Name="textBlock_Message" VerticalAlignment="Center" Margin="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WarningMessage}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WarningMessage}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WarningMessage}}}" Text="Message" Foreground="{DynamicResource WarningMessage.Foreground}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

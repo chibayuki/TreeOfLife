@@ -25,7 +25,7 @@ namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Evo_EditMode : ViewModel
     {
-        public TaxonNameTitle TaxonNameTitle { get; set; }
+        public View_Evo_EditMode View { get; set; }
 
         //
 
@@ -56,7 +56,7 @@ namespace TreeOfLife.UI.Views
 
                 //
 
-                if(_LoadingFromTaxon)
+                if (_LoadingFromTaxon)
                 {
                     NotifyPropertyChanged(nameof(Name));
                 }
@@ -68,11 +68,10 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.ScientificName = _Name.Trim();
                     }
+
+                    View.UpdateTitle();
+                    View.UpdateWarningMessage();
                 }
-
-                //
-
-                UpdateTitle();
             }
         }
 
@@ -98,11 +97,11 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.ChineseName = _ChsName.Trim();
                     }
+
+                    View.UpdateTitle();
+                    View.UpdateRename();
+                    View.UpdateWarningMessage();
                 }
-
-                //
-
-                UpdateTitle();
             }
         }
 
@@ -128,11 +127,10 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.IsExtinct = _IsExtinct;
                     }
+
+                    View.UpdateTitle();
+                    View.UpdateWarningMessage();
                 }
-
-                //
-
-                UpdateTitle();
 
                 //
 
@@ -171,11 +169,9 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.IsUnsure = _IsUnsure;
                     }
+
+                    View.UpdateTitle();
                 }
-
-                //
-
-                UpdateTitle();
             }
         }
 
@@ -198,11 +194,11 @@ namespace TreeOfLife.UI.Views
                         // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
                     }
+
+                    View.UpdateTitle();
+                    View.UpdateRename();
+                    View.UpdateWarningMessage();
                 }
-
-                //
-
-                UpdateTitle();
             }
         }
 
@@ -224,6 +220,8 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.Birth = _Birth;
                     }
+
+                    View.UpdateWarningMessage();
                 }
             }
         }
@@ -246,6 +244,8 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.Extinction = _Extinction;
                     }
+
+                    View.UpdateWarningMessage();
                 }
             }
         }
@@ -288,6 +288,8 @@ namespace TreeOfLife.UI.Views
                             let synonym = s?.Trim()
                             where !string.IsNullOrEmpty(synonym)
                             select synonym);
+
+                        View.UpdateWarningMessage();
                     }
                 }
             }
@@ -319,6 +321,8 @@ namespace TreeOfLife.UI.Views
                             let tag = s?.Trim()
                             where !string.IsNullOrEmpty(tag)
                             select tag);
+
+                        View.UpdateWarningMessage();
                     }
                 }
             }
@@ -348,74 +352,6 @@ namespace TreeOfLife.UI.Views
                     }
                 }
             }
-        }
-
-        public void UpdateTitle()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            Rank rank = currentTaxon.Rank;
-
-            TaxonNameTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
-
-            string name = currentTaxon.ScientificName;
-            string chsName = currentTaxon.ChineseName;
-
-            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
-            {
-                TaxonNameTitle.Rank = null;
-                TaxonNameTitle.TaxonName = "(未命名)";
-            }
-            else
-            {
-                TaxonNameTitle.Rank = rank;
-
-                StringBuilder taxonName = new StringBuilder();
-
-                if (currentTaxon.IsUnsure || currentTaxon.IsExtinct)
-                {
-                    if (currentTaxon.IsUnsure)
-                    {
-                        taxonName.Append('?');
-                    }
-
-                    if (currentTaxon.IsExtinct)
-                    {
-                        taxonName.Append('†');
-                    }
-
-                    taxonName.Append(' ');
-                }
-
-                if (!string.IsNullOrEmpty(chsName))
-                {
-                    taxonName.Append(chsName);
-
-                    if (!string.IsNullOrEmpty(name))
-                    {
-                        taxonName.Append('\n');
-                        taxonName.Append(name);
-                    }
-                }
-                else if (!string.IsNullOrEmpty(name))
-                {
-                    taxonName.Append(name);
-                }
-
-                if (currentTaxon.IsPolyphyly)
-                {
-                    taxonName.Append(" #");
-                }
-                else if (currentTaxon.IsParaphyly)
-                {
-                    taxonName.Append(" *");
-                }
-
-                TaxonNameTitle.TaxonName = taxonName.ToString();
-            }
-
-            TaxonNameTitle.IsParaphyly = currentTaxon.IsParaphyly;
-            TaxonNameTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
         }
 
         private bool _LoadingFromTaxon = false;

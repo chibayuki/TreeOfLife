@@ -23,28 +23,30 @@ namespace TreeOfLife.Core.Validation.Extensions
         private static readonly IValidator[] _Validators = new IValidator[]
         {
 #if DEBUG
-            new LevelValidator(),
-            new IndexValidator(),
-            new InheritValidator(),
-            new ExcludeValidator(),
-            new IncludeValidator(),
-            new NodeRankValidator(),
-            new BirthValidator(),
-            new ExtinctionValidator(),
+            LevelValidator.Instance,
+            IndexValidator.Instance,
+            InheritValidator.Instance,
+            ExcludeValidator.Instance,
+            IncludeValidator.Instance,
+            NodeRankValidator.Instance,
+            BirthValidator.Instance,
+            ExtinctionValidator.Instance,
 #endif
-            new NameLengthValidator(),
-            new NameUppercaseValidator(),
-            new NameWordCountValidator(),
-            new NameCharacterValidator(),
-            new NameSeparatorValidator(),
-            new TimelineCompletenessValidator(),
-            new TimelineConsistencyValidator(),
-            new EvolutionOrderValidator(),
-            new NameMissingValidator(),
-            new RankMissingValidator(),
-            new ChineseSuffixValidator(),
-            new TagUniqueValidator(),
-            new NodeStructureValidator()
+            NameLengthValidator.Instance,
+            NameUppercaseValidator.Instance,
+            NameWordCountValidator.Instance,
+            NameCharacterValidator.Instance,
+            NameSeparatorValidator.Instance,
+            TimelineCompletenessValidator.Instance,
+            TimelineConsistencyValidator.Instance,
+            EvolutionOrderValidator.Instance,
+            NameMissingValidator.Instance,
+            RankMissingValidator.Instance,
+            ChineseSuffixValidator.Instance,
+            SynonymsUniqueValidator.Instance,
+            TagsUniqueValidator.Instance,
+            SynonymsTagUniqueValidator.Instance,
+            NodeStructureValidator.Instance
         };
 
         // 检查指定类群的违规项。

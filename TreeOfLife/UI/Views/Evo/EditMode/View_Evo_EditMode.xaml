@@ -28,11 +28,12 @@ This file is part of TreeOfLife
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
-            <Controls:TaxonNameTitle x:Name="taxonNameTitle" FontSize="14" FontWeight="Bold"/>
+            <Controls:TaxonTitle x:Name="taxonTitle" FontSize="14" FontWeight="Bold"/>
             <Button x:Name="button_Back" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="返回" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="25,15,25,25">
+                <Controls:WarningMessage x:Name="warningMessage_NodeStructure" Margin="0,25,0,0"/>
                 <Grid x:Name="grid_Name" Margin="0,25,0,0">
                     <StackPanel>
                         <Grid>
@@ -42,7 +43,15 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="学名"/>
-                            <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding Name}"/>
+                            <StackPanel Grid.Column="2">
+                                <TextBox Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding Name}"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameMissing" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameLength" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameUppercase" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameWordCount" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameCharacter" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_NameSeparator" Margin="0,5,0,0"/>
+                            </StackPanel>
                         </Grid>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -51,7 +60,10 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="中文名"/>
-                            <TextBox x:Name="textBox_ChsName" Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
+                            <StackPanel Grid.Column="2">
+                                <TextBox x:Name="textBox_ChsName" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
+                                <Controls:WarningMessage x:Name="warningMessage_ChineseSuffix" Margin="0,5,0,0"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>
@@ -68,6 +80,7 @@ This file is part of TreeOfLife
                             <Label x:Name="label_Rename" Style="{DynamicResource LabelStyle}" Content="更新中文名为:" HorizontalAlignment="Left" Padding="0" VerticalContentAlignment="Center"/>
                             <Button x:Name="button_Rename" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
                         </Grid>
+                        <Controls:WarningMessage x:Name="warningMessage_RankMissing" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_State" Margin="0,25,0,0">
@@ -97,7 +110,11 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="诞生于"/>
-                            <Controls:GeoChronSelector x:Name="geoChronSelector_Birth" Grid.Column="2"/>
+                            <StackPanel Grid.Column="2">
+                                <Controls:GeoChronSelector x:Name="geoChronSelector_Birth"/>
+                                <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Birth" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_EvolutionOrder" Margin="0,5,0,0"/>
+                            </StackPanel>
                         </Grid>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Grid_Extinction}">
                             <Grid.ColumnDefinitions>
@@ -106,7 +123,11 @@ This file is part of TreeOfLife
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="灭绝于"/>
-                            <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction" Grid.Column="2"/>
+                            <StackPanel Grid.Column="2">
+                                <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction"/>
+                                <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Extinction" Margin="0,5,0,0"/>
+                                <Controls:WarningMessage x:Name="warningMessage_TimelineConsistency" Margin="0,5,0,0"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>
@@ -117,7 +138,11 @@ This file is part of TreeOfLife
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="异名"/>
-                    <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Synonyms}"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Synonyms}"/>
+                        <Controls:WarningMessage x:Name="warningMessage_SynonymsUnique" Margin="0,5,0,0"/>
+                        <Controls:WarningMessage x:Name="warningMessage_SynonymsTagUnique_Synonyms" Margin="0,5,0,0"/>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_Tags" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
@@ -126,7 +151,11 @@ This file is part of TreeOfLife
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="标签"/>
-                    <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Tags}"/>
+                    <StackPanel Grid.Column="2">
+                        <TextBox Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Tags}"/>
+                        <Controls:WarningMessage x:Name="warningMessage_TagsUnique" Margin="0,5,0,0"/>
+                        <Controls:WarningMessage x:Name="warningMessage_SynonymsTagUnique_Tags" Margin="0,5,0,0"/>
+                    </StackPanel>
                 </Grid>
                 <Grid x:Name="grid_Desc" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
