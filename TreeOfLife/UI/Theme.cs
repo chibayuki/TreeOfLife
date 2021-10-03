@@ -148,14 +148,18 @@ namespace TreeOfLife.UI
 
                 // ScrollBarStyle.xaml
 
-                resourceDictionary["ScrollBar.Static.Glyph"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
-                resourceDictionary["ScrollBar.Static.Thumb"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
+                resourceDictionary["ScrollBar.Static.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(15));
+                resourceDictionary["ScrollBar.Static.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["ScrollBar.Static.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
 
                 resourceDictionary["ScrollBar.MouseOver.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
                 resourceDictionary["ScrollBar.MouseOver.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
 
                 resourceDictionary["ScrollBar.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
                 resourceDictionary["ScrollBar.Pressed.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+
+                resourceDictionary["ScrollBar.Disabled.Glyph"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
+                resourceDictionary["ScrollBar.Disabled.Thumb"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
 
                 // TextBoxStyle.xaml
 
@@ -275,14 +279,18 @@ namespace TreeOfLife.UI
 
                 // ScrollBarStyle.xaml
 
-                resourceDictionary["ScrollBar.Static.Glyph"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
-                resourceDictionary["ScrollBar.Static.Thumb"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
+                resourceDictionary["ScrollBar.Static.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(85));
+                resourceDictionary["ScrollBar.Static.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["ScrollBar.Static.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
 
                 resourceDictionary["ScrollBar.MouseOver.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
                 resourceDictionary["ScrollBar.MouseOver.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
 
                 resourceDictionary["ScrollBar.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
                 resourceDictionary["ScrollBar.Pressed.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+
+                resourceDictionary["ScrollBar.Disabled.Glyph"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
+                resourceDictionary["ScrollBar.Disabled.Thumb"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
 
                 // TextBoxStyle.xaml
 

@@ -58,12 +58,11 @@ namespace TreeOfLife.UI.Views
 
             button_Rename.Click += (s, e) =>
             {
-                ViewModel.ChsName = _ChsRename;
                 textBox_ChsName.Text = _ChsRename;
                 textBox_ChsName.Focus();
                 textBox_ChsName.SelectAll();
+                ViewModel.ChsName = _ChsRename;
             };
-            grid_Rename.Visibility = Visibility.Collapsed;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
@@ -935,13 +934,9 @@ namespace TreeOfLife.UI.Views
 
             if (!currentTaxon.IsRoot)
             {
-                string chsName = ViewModel.ChsName;
-
-                _ChsRename = chsName;
-
                 if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
                 {
-                    string chsNameWithoutRank = RankChineseExtension.SplitChineseName(chsName).headPart;
+                    string chsNameWithoutRank = RankChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
 
                     if (ViewModel.Rank.IsUnranked())
                     {
@@ -959,11 +954,8 @@ namespace TreeOfLife.UI.Views
                     {
                         _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
                     }
-                }
 
-                if (_ChsRename != chsName)
-                {
-                    label_Rename.Content = "更新中文名为: " + _ChsRename;
+                    label_Rename.Content = _ChsRename;
 
                     grid_Rename.Visibility = Visibility.Visible;
                 }
@@ -999,9 +991,9 @@ namespace TreeOfLife.UI.Views
 
             warningMessage_RankMissing.Visibility = validators.ContainsKey(RankMissingValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
 
-            warningMessage_TimelineCompleteness_Birth.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_TimelineCompleteness_Birth.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) && currentTaxon.Birth.IsEmpty ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_EvolutionOrder.Visibility = validators.ContainsKey(EvolutionOrderValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
-            warningMessage_TimelineCompleteness_Extinction.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_TimelineCompleteness_Extinction.Visibility = validators.ContainsKey(TimelineCompletenessValidator.Instance) && currentTaxon.Extinction.IsEmpty ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_TimelineConsistency.Visibility = validators.ContainsKey(TimelineConsistencyValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
 
             warningMessage_SynonymsUnique.Visibility = validators.ContainsKey(SynonymsUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
