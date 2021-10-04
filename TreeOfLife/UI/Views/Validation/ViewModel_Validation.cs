@@ -13,12 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TreeOfLife.Core.Taxonomy;
-
 namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Validation : ViewModel
     {
-        public Action<Taxon> ClickValidateResult { get; set; }
     }
 }

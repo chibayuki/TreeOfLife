@@ -21,10 +21,10 @@ This file is part of TreeOfLife
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_Name" Margin="25,25,25,0" Height="25">
+        <Grid Margin="40,25,40,0" Height="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="10"/>
@@ -34,7 +34,7 @@ This file is part of TreeOfLife
             <Button x:Name="button_Search" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="检索"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="25,15,25,25">
+            <StackPanel Margin="40,15,40,25">
                 <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
                     <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无结果"/>
                 </Grid>

@@ -22,47 +22,42 @@ This file is part of TreeOfLife
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="480"/>
+                <ColumnDefinition Width="440"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <local:View_Tree x:Name="view_Tree"/>
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <Grid Background="{DynamicResource TabPage.Background}">
-                    <Grid x:Name="grid_File" Visibility="{Binding PageVisibility_File}">
-                        <local:View_File x:Name="view_File" Margin="25,0,25,0"/>
-                    </Grid>
-                    <Grid x:Name="grid_Evo" Visibility="{Binding PageVisibility_Evo}">
-                        <local:View_Evo_ViewMode x:Name="view_Evo_ViewMode" Margin="25,0,25,0"/>
-                        <local:View_Evo_EditMode x:Name="view_Evo_EditMode" Margin="25,0,25,0"/>
-                    </Grid>
-                    <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
-                        <local:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
-                    </Grid>
-                    <Grid x:Name="grid_Statistics" Visibility="{Binding PageVisibility_Statistics}">
-                        <local:View_Statistics x:Name="view_Statistics" Margin="25,0,25,0"/>
-                    </Grid>
-                    <Grid x:Name="grid_Validation" Visibility="{Binding PageVisibility_Validation}">
-                        <local:View_Validation x:Name="view_Validation" Margin="25,0,25,0"/>
-                    </Grid>
-                    <Grid x:Name="grid_About" Visibility="{Binding PageVisibility_About}">
-                        <local:View_About x:Name="view_About" Margin="25,0,25,0"/>
-                    </Grid>
+            <Grid Grid.Column="1" Background="{DynamicResource TabPage.Background}">
+                <Grid Visibility="{Binding PageVisibility_File}">
+                    <local:View_File x:Name="view_File"/>
                 </Grid>
-                <DockPanel Grid.Column="1" Background="{DynamicResource TabPageSide.Background}">
-                    <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
-                    <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
-                    <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
-                    <Button x:Name="button_Statistics" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="统&#xD;&#xA;计" IsEnabled="{Binding PageButtonEnabled_Statistics}"/>
-                    <Button x:Name="button_Validation" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="校&#xD;&#xA;对" IsEnabled="{Binding PageButtonEnabled_Validation}"/>
-                    <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
-                    <Grid>
-                        <Button x:Name="button_IsDarkTheme" Style="{DynamicResource TabPageButtonStyle}" FontSize="18" VerticalAlignment="Bottom" BorderThickness="0" Height="30" Margin="0,0,-4,0" Padding="0,0,4,0"/>
-                    </Grid>
-                </DockPanel>
+                <Grid Visibility="{Binding PageVisibility_Evo}">
+                    <local:View_Evo_ViewMode x:Name="view_Evo_ViewMode"/>
+                    <local:View_Evo_EditMode x:Name="view_Evo_EditMode"/>
+                </Grid>
+                <Grid Visibility="{Binding PageVisibility_Search}">
+                    <local:View_Search x:Name="view_Search"/>
+                </Grid>
+                <Grid Visibility="{Binding PageVisibility_Statistics}">
+                    <local:View_Statistics x:Name="view_Statistics"/>
+                </Grid>
+                <Grid Visibility="{Binding PageVisibility_Validation}">
+                    <local:View_Validation x:Name="view_Validation"/>
+                </Grid>
+                <Grid Visibility="{Binding PageVisibility_About}">
+                    <local:View_About x:Name="view_About"/>
+                </Grid>
             </Grid>
+            <DockPanel Grid.Column="2" Background="{DynamicResource TabPageSide.Background}">
+                <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
+                <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
+                <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
+                <Button x:Name="button_Statistics" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="统&#xD;&#xA;计" IsEnabled="{Binding PageButtonEnabled_Statistics}"/>
+                <Button x:Name="button_Validation" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="校&#xD;&#xA;对" IsEnabled="{Binding PageButtonEnabled_Validation}"/>
+                <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
+                <Grid>
+                    <Button x:Name="button_IsDarkTheme" Style="{DynamicResource TabPageButtonStyle}" FontSize="18" VerticalAlignment="Bottom" BorderThickness="0" Height="30" Margin="0,0,-4,0" Padding="0,0,4,0"/>
+                </Grid>
+            </DockPanel>
         </Grid>
         <Grid x:Name="grid_WaitingForBackgroundTaskPrompt" Background="#01808080" Visibility="Collapsed">
             <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource TitleLabel.Background}" BorderBrush="{DynamicResource TitleLabel.BorderBrush}" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">

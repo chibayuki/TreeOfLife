@@ -27,6 +27,8 @@ namespace TreeOfLife.UI
 
         //
 
+        #region 文件操作
+
         public static async Task<bool> OpenAsync(string fileName)
         {
             Start();
@@ -63,7 +65,9 @@ namespace TreeOfLife.UI
             return result;
         }
 
-        //
+        #endregion
+
+        #region 类群编辑
 
         public static async Task SetParentAsync(this Taxon taxon, Taxon parent)
         {
@@ -207,5 +211,7 @@ namespace TreeOfLife.UI
             await Task.Run(() => taxon.ParseChildren(names));
             Finish();
         }
+
+        #endregion
     }
 }

@@ -19,15 +19,6 @@ namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_File : ViewModel
     {
-        public Func<Task<bool?>> OpenAsync { get; set; }
-        public Func<Task<bool?>> SaveAsync { get; set; }
-        public Func<Task<bool?>> SaveAsAsync { get; set; }
-        public Func<Task<bool>> TrySaveAndCloseAsync { get; set; }
-
-        public Action OpenDone { get; set; }
-        
-        //
-
         private string _FileName; // 文件名。
         private string _FileSize; // 文件大小。
         private string _DataSize; // 数据大小。

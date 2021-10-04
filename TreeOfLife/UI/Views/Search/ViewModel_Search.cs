@@ -13,16 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TreeOfLife.Core.Taxonomy;
-
 namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Search : ViewModel
     {
-        public Action<Taxon> ClickSearchResult { get; set; }
-
-        //
-
         private string _KeyWord;
 
         public string KeyWord

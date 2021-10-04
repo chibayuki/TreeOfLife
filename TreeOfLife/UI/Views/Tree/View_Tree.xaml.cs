@@ -32,6 +32,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Tree : UserControl
     {
+        public ViewModel_Tree ViewModel => this.DataContext as ViewModel_Tree;
+
+        //
+
         public View_Tree()
         {
             InitializeComponent();
@@ -325,10 +329,6 @@ namespace TreeOfLife.UI.Views
             _ContextMenu.Items.Add(item_DeleteWithinChildren);
             _ContextMenu.DataContext = updateMenuItems;
         }
-
-        //
-
-        public ViewModel_Tree ViewModel => this.DataContext as ViewModel_Tree;
 
         //
 

@@ -33,6 +33,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Evo_EditMode : UserControl
     {
+        public ViewModel_Evo_EditMode ViewModel => this.DataContext as ViewModel_Evo_EditMode;
+
+        //
+
         public View_Evo_EditMode()
         {
             InitializeComponent();
@@ -49,8 +53,8 @@ namespace TreeOfLife.UI.Views
 
             button_Back.Click += (s, e) => Common.ExitEditMode();
 
-            grid_CurrentTaxon.ContextMenu = _ContextMenu_Current;
-            grid_CurrentTaxon.MouseRightButtonUp += (s, e) =>
+            grid_Title.ContextMenu = _ContextMenu_Current;
+            grid_Title.MouseRightButtonUp += (s, e) =>
             {
                 Common.RightButtonTaxon = Common.CurrentTaxon;
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
@@ -660,10 +664,6 @@ namespace TreeOfLife.UI.Views
             _ContextMenu_IncludeBy = new ContextMenu();
             _ContextMenu_IncludeBy.Items.Add(item_IncludeBy_Remove);
         }
-
-        //
-
-        public ViewModel_Evo_EditMode ViewModel => this.DataContext as ViewModel_Evo_EditMode;
 
         //
 

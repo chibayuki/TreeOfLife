@@ -21,10 +21,10 @@ This file is part of TreeOfLife
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_Name" Margin="25,25,25,0" Height="25">
+        <Grid Margin="40,25,40,0" Height="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="10"/>
@@ -33,7 +33,7 @@ This file is part of TreeOfLife
             <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="25,15,25,25">
+            <StackPanel Margin="40,15,40,25">
                 <Grid x:Name="grid_StatisticsResult_Total" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="85"/>
@@ -46,9 +46,9 @@ This file is part of TreeOfLife
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label x:Name="label_Taxon" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有类群"/>
-                    <Label x:Name="label_TaxonCount" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0" HorizontalAlignment="Right" Margin="0,0,6,0"/>
+                    <Label x:Name="label_TaxonCount" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
                     <Label x:Name="label_Node" Grid.Row="2" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有节点"/>
-                    <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0" HorizontalAlignment="Right" Margin="0,0,6,0"/>
+                    <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
                 </Grid>
                 <StackPanel x:Name="stackPanel_StatisticsResult"/>
             </StackPanel>

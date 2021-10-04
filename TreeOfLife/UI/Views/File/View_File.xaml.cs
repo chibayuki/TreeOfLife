@@ -28,6 +28,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_File : UserControl
     {
+        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
+
+        //
+
         public View_File()
         {
             InitializeComponent();
@@ -42,20 +46,34 @@ namespace TreeOfLife.UI.Views
             button_Close.Click += Button_Close_Click;
         }
 
+        //
+
+        public Func<Task<bool?>> OpenAsync { get; set; }
+        public Func<Task<bool?>> SaveAsync { get; set; }
+        public Func<Task<bool?>> SaveAsAsync { get; set; }
+        public Func<Task<bool>> TrySaveAndCloseAsync { get; set; }
+
+        public Action OpenDone { get; set; }
+
+        //
+
+        #region 回调函数
+
         private async void Button_Open_Click(object sender, RoutedEventArgs e)
         {
-            if (await ViewModel.TrySaveAndCloseAsync())
+            if (await TrySaveAndCloseAsync())
             {
                 ViewModel.UpdateFileInfo();
 
-                bool? open = await ViewModel.OpenAsync();
+                bool? open = await OpenAsync();
 
                 if (open is not null)
                 {
                     if (open.Value)
                     {
                         ViewModel.UpdateFileInfo();
-                        ViewModel.OpenDone();
+
+                        OpenDone();
                     }
                     else
                     {
@@ -67,7 +85,7 @@ namespace TreeOfLife.UI.Views
 
         private async void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            bool? save = await ViewModel.SaveAsync();
+            bool? save = await SaveAsync();
 
             if (save is not null)
             {
@@ -84,7 +102,7 @@ namespace TreeOfLife.UI.Views
 
         private async void Button_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            bool? saveAs = await ViewModel.SaveAsAsync();
+            bool? saveAs = await SaveAsAsync();
 
             if (saveAs is not null)
             {
@@ -101,14 +119,12 @@ namespace TreeOfLife.UI.Views
 
         private async void Button_Close_Click(object sender, RoutedEventArgs e)
         {
-            if (await ViewModel.TrySaveAndCloseAsync())
+            if (await TrySaveAndCloseAsync())
             {
                 ViewModel.UpdateFileInfo();
             }
         }
 
-        //
-
-        public ViewModel_File ViewModel => this.DataContext as ViewModel_File;
+        #endregion
     }
 }

@@ -20,17 +20,12 @@ namespace TreeOfLife.Core
     // 系统发生树（演化树）。
     public sealed class PhylogeneticTree
     {
-        private Taxon _Root; // 假设存在的顶级类群。
-
-        //
-
         public PhylogeneticTree()
         {
-            _Root = new Taxon();
         }
 
         //
 
-        public Taxon Root => _Root;
+        public Taxon Root { get; } = new Taxon(); // 假设存在的顶级类群。
     }
 }

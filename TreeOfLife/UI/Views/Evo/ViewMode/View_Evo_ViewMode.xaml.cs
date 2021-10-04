@@ -31,6 +31,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Evo_ViewMode : UserControl
     {
+        public ViewModel_Evo_ViewMode ViewModel => this.DataContext as ViewModel_Evo_ViewMode;
+
+        //
+
         public View_Evo_ViewMode()
         {
             InitializeComponent();
@@ -89,10 +93,6 @@ namespace TreeOfLife.UI.Views
                 taxonButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
             };
         }
-
-        //
-
-        public ViewModel_Evo_ViewMode ViewModel => this.DataContext as ViewModel_Evo_ViewMode;
 
         //
 

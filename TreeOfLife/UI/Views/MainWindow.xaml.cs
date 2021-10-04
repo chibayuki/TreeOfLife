@@ -39,6 +39,10 @@ namespace TreeOfLife.UI.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
+
+        //
+
         public MainWindow()
         {
             InitializeComponent();
@@ -85,15 +89,14 @@ namespace TreeOfLife.UI.Views
             };
             AsyncMethod.Finish = () => grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Collapsed;
 
-            view_File.ViewModel.OpenAsync = _OpenAsync;
-            view_File.ViewModel.SaveAsync = _SaveAsync;
-            view_File.ViewModel.SaveAsAsync = _SaveAsAsync;
-            view_File.ViewModel.TrySaveAndCloseAsync = _TrySaveAndCloseAsync;
+            view_File.OpenAsync = _OpenAsync;
+            view_File.SaveAsync = _SaveAsync;
+            view_File.SaveAsAsync = _SaveAsAsync;
+            view_File.TrySaveAndCloseAsync = _TrySaveAndCloseAsync;
+            view_File.OpenDone = () => _SelectPage(Pages.Evo);
 
-            view_File.ViewModel.OpenDone = () => _SelectPage(Pages.Evo);
-
-            view_Search.ViewModel.ClickSearchResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
-            view_Validation.ViewModel.ClickValidateResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
+            view_Search.ClickSearchResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
+            view_Validation.ClickValidateResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
 
             //
 
@@ -135,10 +138,6 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public ViewModel_MainWindow ViewModel => this.DataContext as ViewModel_MainWindow;
-
-        //
-
         #region 页面切换
 
         private void _SelectPage(Pages tabPage)
@@ -155,7 +154,7 @@ namespace TreeOfLife.UI.Views
 
         #endregion
 
-        #region "文件"页面
+        #region 文件操作
 
         private OpenFileDialog _OpenFileDialog;
         private SaveFileDialog _SaveFileDialog;
@@ -552,7 +551,7 @@ namespace TreeOfLife.UI.Views
 
         #endregion
 
-        #region "分类学"页面
+        #region 模式切换
 
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
@@ -601,6 +600,10 @@ namespace TreeOfLife.UI.Views
                 }
             }
         }
+
+        #endregion
+
+        #region 类群选择
 
         // 设置当前选择的类群。
         private void _SetCurrentTaxon(Taxon taxon)

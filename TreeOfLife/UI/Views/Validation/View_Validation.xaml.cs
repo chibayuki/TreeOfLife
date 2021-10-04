@@ -32,6 +32,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Validation : UserControl
     {
+        public ViewModel_Validation ViewModel => this.DataContext as ViewModel_Validation;
+
+        //
+
         public View_Validation()
         {
             InitializeComponent();
@@ -61,7 +65,7 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public ViewModel_Validation ViewModel => this.DataContext as ViewModel_Validation;
+        public Action<Taxon> ClickValidateResult { get; set; }
 
         //
 
@@ -132,7 +136,7 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            ViewModel.ClickValidateResult(e.Taxon);
+                            ClickValidateResult(e.Taxon);
                         }
                     };
 

@@ -26,13 +26,13 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_About : UserControl
     {
+        public ViewModel_About ViewModel => this.DataContext as ViewModel_About;
+
+        //
+
         public View_About()
         {
             InitializeComponent();
         }
-
-        //
-
-        public ViewModel_About ViewModel => this.DataContext as ViewModel_About;
     }
 }

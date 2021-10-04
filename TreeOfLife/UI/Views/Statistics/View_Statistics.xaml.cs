@@ -34,6 +34,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Statistics : UserControl
     {
+        public ViewModel_Validation ViewModel => this.DataContext as ViewModel_Validation;
+
+        //
+
         public View_Statistics()
         {
             InitializeComponent();
@@ -52,10 +56,6 @@ namespace TreeOfLife.UI.Views
                 }
             };
         }
-
-        //
-
-        public ViewModel_Validation ViewModel => this.DataContext as ViewModel_Validation;
 
         //
 
@@ -95,16 +95,18 @@ namespace TreeOfLife.UI.Views
 
                 _Container = new StackPanel();
 
+                Thickness textMargin = new Thickness(10, 4, 10, 4);
+
                 _TitleText = new TextBlock()
                 {
                     Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
-                    Margin = new Thickness(12, 4, 12, 4)
+                    Margin = textMargin
                 };
 
                 _TotalCountText = new TextBlock()
                 {
                     Text = statisticsResult.TaxonCount.ToString(),
-                    Margin = new Thickness(12, 4, 12, 4),
+                    Margin = textMargin,
                     HorizontalAlignment = HorizontalAlignment.Right
                 };
 
@@ -129,13 +131,13 @@ namespace TreeOfLife.UI.Views
                         TextBlock rankText = new TextBlock()
                         {
                             Text = detail.Rank.GetChineseName(),
-                            Margin = new Thickness(12, 4, 12, 4)
+                            Margin = textMargin
                         };
 
                         TextBlock countText = new TextBlock()
                         {
                             Text = detail.TaxonCount.ToString(),
-                            Margin = new Thickness(12, 4, 12, 4),
+                            Margin = textMargin,
                             HorizontalAlignment = HorizontalAlignment.Right
                         };
 
@@ -143,16 +145,16 @@ namespace TreeOfLife.UI.Views
                         detailGrid.Children.Add(rankText);
                         detailGrid.Children.Add(countText);
 
-                        Border border = new Border()
+                        Border detailBorder = new Border()
                         {
                             Child = detailGrid,
                             CornerRadius = new CornerRadius(3),
                             Margin = new Thickness(0, 3, 0, 0)
                         };
 
-                        _DetailText.Add((border, rankText, countText));
+                        _DetailText.Add((detailBorder, rankText, countText));
 
-                        _Container.Children.Add(border);
+                        _Container.Children.Add(detailBorder);
                     }
                 }
 

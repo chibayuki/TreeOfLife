@@ -31,6 +31,10 @@ namespace TreeOfLife.UI.Views
 {
     public partial class View_Search : UserControl
     {
+        public ViewModel_Search ViewModel => this.DataContext as ViewModel_Search;
+
+        //
+
         public View_Search()
         {
             InitializeComponent();
@@ -82,7 +86,7 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public ViewModel_Search ViewModel => this.DataContext as ViewModel_Search;
+        public Action<Taxon> ClickSearchResult { get; set; }
 
         //
 
@@ -190,7 +194,7 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            ViewModel.ClickSearchResult(e.Taxon);
+                            ClickSearchResult(e.Taxon);
                         }
                     };
 
