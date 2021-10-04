@@ -33,7 +33,7 @@ namespace TreeOfLife.UI.Controls
         public List<TreeNodeItem> Children { get; } = new List<TreeNodeItem>();
 
         public Taxon Taxon { get; set; } = null;
-        public int Sign { get; set; } = 0;
+        public bool IsRef { get; set; } = false;
 
         public bool IsRoot { get; set; } = false;
         public bool IsFinal { get; set; } = false;
@@ -85,7 +85,7 @@ namespace TreeOfLife.UI.Controls
                     VerticalAlignment = VerticalAlignment.Stretch,
 
                     Taxon = item.Taxon,
-                    Sign = item.Sign,
+                    IsRef = item.IsRef,
 
                     IsRoot = item.IsRoot,
                     IsFinal = item.IsFinal,

@@ -63,21 +63,21 @@ namespace TreeOfLife.UI.Views
             {
                 Taxon taxon = taxons[i];
 
+                Rank basicRank = taxon.GetInheritedBasicRank();
+
                 if (i == 0)
                 {
-                    rankOfGroup = taxon.Rank.BasicRank();
+                    rankOfGroup = basicRank;
 
-                    groups.Add((rankOfGroup.IsPrimaryOrSecondaryRank() ? rankOfGroup.GetChineseName() : string.Empty, taxon.GetThemeColor(), new List<TaxonItem>()));
+                    groups.Add((rankOfGroup.IsPrimaryOrSecondaryRank() ? rankOfGroup.GetChineseName() : string.Empty, rankOfGroup.GetThemeColor(), new List<TaxonItem>()));
                 }
                 else
                 {
-                    Rank basicRank = taxon.GetInheritedBasicRank();
-
                     if (rankOfGroup != basicRank)
                     {
                         rankOfGroup = basicRank;
 
-                        groups.Add((rankOfGroup.GetChineseName(), taxon.GetThemeColor(), new List<TaxonItem>()));
+                        groups.Add((rankOfGroup.GetChineseName(), rankOfGroup.GetThemeColor(), new List<TaxonItem>()));
 
                         groupIndex++;
                     }
@@ -86,7 +86,7 @@ namespace TreeOfLife.UI.Views
                 ((List<TaxonItem>)groups[groupIndex].items).Add(new TaxonItem()
                 {
                     Taxon = taxon,
-                    IsChecked = taxon == Views.Common.CurrentTaxon,
+                    IsChecked = taxon == CurrentTaxon,
                     Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }
@@ -113,20 +113,19 @@ namespace TreeOfLife.UI.Views
             control.UpdateContent(items);
         }
 
-        // 更新类群列表（并标记类群的符号）。
-        public static void UpdateTaxonList(TaxonButtonGroup control, IReadOnlyList<(Taxon taxon, int sign)> taxons, ContextMenu contextMenu = null)
+        // 更新类群列表（并标记是否为引用）。
+        public static void UpdateTaxonList(TaxonButtonGroup control, IReadOnlyList<(Taxon taxon, bool isRef)> taxons, ContextMenu contextMenu = null)
         {
             List<TaxonItem> items = new List<TaxonItem>();
 
             for (int i = 0; i < taxons.Count; i++)
             {
-                Taxon taxon = taxons[i].taxon;
-                int sign = taxons[i].sign;
+                (Taxon taxon, bool isRef) = taxons[i];
 
                 items.Add(new TaxonItem()
                 {
                     Taxon = taxon,
-                    Sign = sign,
+                    IsRef = isRef,
                     Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, contextMenu) }
                 });
             }

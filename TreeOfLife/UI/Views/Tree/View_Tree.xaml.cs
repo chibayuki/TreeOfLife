@@ -353,7 +353,7 @@ namespace TreeOfLife.UI.Views
                 if (exclude.IsNamed)
                 {
                     TreeNodeItem excludeNode = new TreeNodeItem() { Taxon = exclude };
-                    excludeNode.Sign = -1;
+                    excludeNode.IsRef = true;
 
                     node.Children.Add(excludeNode);
                     excludeNode.Parent = node;
@@ -363,7 +363,7 @@ namespace TreeOfLife.UI.Views
                     foreach (var item in exclude.GetNamedChildren(true))
                     {
                         TreeNodeItem excludeNode = new TreeNodeItem() { Taxon = item };
-                        excludeNode.Sign = -1;
+                        excludeNode.IsRef = true;
 
                         node.Children.Add(excludeNode);
                         excludeNode.Parent = node;
@@ -387,7 +387,7 @@ namespace TreeOfLife.UI.Views
                 if (include.IsNamed)
                 {
                     TreeNodeItem includeNode = new TreeNodeItem() { Taxon = include };
-                    includeNode.Sign = +1;
+                    includeNode.IsRef = true;
 
                     node.Children.Add(includeNode);
                     includeNode.Parent = node;
@@ -397,7 +397,7 @@ namespace TreeOfLife.UI.Views
                     foreach (var item in include.GetNamedChildren(true))
                     {
                         TreeNodeItem includeNode = new TreeNodeItem() { Taxon = item };
-                        includeNode.Sign = +1;
+                        includeNode.IsRef = true;
 
                         node.Children.Add(includeNode);
                         includeNode.Parent = node;
@@ -555,7 +555,7 @@ namespace TreeOfLife.UI.Views
         {
             if (node is not null)
             {
-                node.Sign = node.Sign;
+                node.IsRef = node.IsRef;
 
                 node.IsRoot = node.Parent is null;
                 node.IsFinal = node.Children.Count <= 0;

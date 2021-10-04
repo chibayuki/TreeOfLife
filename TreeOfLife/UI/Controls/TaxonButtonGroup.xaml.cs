@@ -31,7 +31,7 @@ namespace TreeOfLife.UI.Controls
     public sealed class TaxonItem
     {
         public Taxon Taxon { get; set; } = null;
-        public int Sign { get; set; } = 0;
+        public bool IsRef { get; set; } = false;
 
         public bool IsChecked { get; set; } = false;
 
@@ -122,7 +122,7 @@ namespace TreeOfLife.UI.Controls
                     TaxonButton button = new TaxonButton()
                     {
                         Taxon = item.Taxon,
-                        Sign = item.Sign,
+                        IsRef = item.IsRef,
                         IsChecked = item.IsChecked
                     };
 

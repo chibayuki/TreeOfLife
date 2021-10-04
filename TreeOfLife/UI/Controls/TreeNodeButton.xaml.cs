@@ -34,7 +34,7 @@ namespace TreeOfLife.UI.Controls
     public partial class TreeNodeButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
-        private int _Sign = 0; // "符号"，0：单系群继承关系的类群，-1：并系群排除的类群，+1：复系群包含的类群。
+        private bool _IsRef = false; // 是否为引用，false：单系群继承关系的类群，true：并系群排除的类群或复系群包含的类群。
 
         private void _UpdateTaxon()
         {
@@ -59,11 +59,7 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        private void _UpdateSign()
-        {
-            grid_Positive.Visibility = _Sign > 0 ? Visibility.Visible : Visibility.Collapsed;
-            grid_Negative.Visibility = _Sign < 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
+        private void _UpdateSign() => grid_ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
 
         private bool _IsRoot = false;
         private bool _IsFinal = false;
@@ -233,13 +229,13 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public int Sign
+        public bool IsRef
         {
-            get => _Sign;
+            get => _IsRef;
 
             set
             {
-                _Sign = value;
+                _IsRef = value;
 
                 _UpdateSign();
             }

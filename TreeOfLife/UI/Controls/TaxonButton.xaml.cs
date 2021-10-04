@@ -34,7 +34,7 @@ namespace TreeOfLife.UI.Controls
     public partial class TaxonButton : UserControl
     {
         private Taxon _Taxon = null; // 类群。
-        private int _Sign = 0; // "符号"，0：单系群继承关系的类群，-1：并系群排除的类群，+1：复系群包含的类群。
+        private bool _IsRef = false; // 是否为引用，false：单系群继承关系的类群，true：并系群排除的类群或复系群包含的类群。
 
         private void _UpdateTaxon()
         {
@@ -90,18 +90,11 @@ namespace TreeOfLife.UI.Controls
             textBlock_RankName.FontWeight = textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
         }
 
-        private void _UpdateSign()
-        {
-            grid_Positive.Visibility = _Sign > 0 ? Visibility.Visible : Visibility.Collapsed;
-            grid_Negative.Visibility = _Sign < 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
+        private void _UpdateIsRef() => grid_ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
 
         private double _RankNameWidth = 50; // 分类阶元名称宽度。
 
-        private void _UpdateRankNameWidth()
-        {
-            border_RankName.Width = _RankNameWidth;
-        }
+        private void _UpdateRankNameWidth() => border_RankName.Width = _RankNameWidth;
 
         private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IsMouseOver = false;
@@ -132,7 +125,7 @@ namespace TreeOfLife.UI.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateTaxon();
-                _UpdateSign();
+                _UpdateIsRef();
                 _UpdateRankNameWidth();
                 _UpdateColor();
             };
@@ -173,15 +166,15 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public int Sign
+        public bool IsRef
         {
-            get => _Sign;
+            get => _IsRef;
 
             set
             {
-                _Sign = value;
+                _IsRef = value;
 
-                _UpdateSign();
+                _UpdateIsRef();
             }
         }
 

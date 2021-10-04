@@ -127,7 +127,7 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            List<(Taxon, int)> children = new List<(Taxon, int)>();
+            List<(Taxon, bool)> children = new List<(Taxon, bool)>();
 
             foreach (var child in currentTaxon.GetNamedChildren(true))
             {
@@ -163,12 +163,12 @@ namespace TreeOfLife.UI.Views
 
                     if (!childIsExcludedByCurrent)
                     {
-                        children.Add((child, 0));
+                        children.Add((child, false));
                     }
                 }
                 else
                 {
-                    children.Add((child, 0));
+                    children.Add((child, false));
                 }
 
                 // 若具名子类群是并系群，添加并系群排除的类群
@@ -176,13 +176,13 @@ namespace TreeOfLife.UI.Views
                 {
                     if (exclude.IsNamed)
                     {
-                        children.Add((exclude, -1));
+                        children.Add((exclude, true));
                     }
                     else
                     {
                         foreach (var item in exclude.GetNamedChildren(true))
                         {
-                            children.Add((item, -1));
+                            children.Add((item, true));
                         }
                     }
                 }
@@ -193,13 +193,13 @@ namespace TreeOfLife.UI.Views
             {
                 if (include.IsNamed)
                 {
-                    children.Add((include, +1));
+                    children.Add((include, true));
                 }
                 else
                 {
                     foreach (var item in include.GetNamedChildren(true))
                     {
-                        children.Add((item, +1));
+                        children.Add((item, true));
                     }
                 }
             }

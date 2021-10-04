@@ -22,7 +22,6 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="ScrollBar.Pressed.Thumb"/>
 
     <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="Transparent"/>
-    <SolidColorBrush x:Key="ScrollBar.Disabled.Glyph"/>
     <SolidColorBrush x:Key="ScrollBar.Disabled.Thumb"/>
 
     <Style x:Key="ScrollBar.FocusVisual">
@@ -271,8 +270,6 @@ This file is part of TreeOfLife
                         </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter Property="Background" Value="{StaticResource ScrollBar.Disabled.Background}"/>
-                            <Setter TargetName="ArrowTop" Property="Fill" Value="{DynamicResource ScrollBar.Disabled.Glyph}"/>
-                            <Setter TargetName="ArrowBottom" Property="Fill" Value="{DynamicResource ScrollBar.Disabled.Glyph}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -344,8 +341,6 @@ This file is part of TreeOfLife
                                 </MultiDataTrigger>
                                 <Trigger Property="IsMouseOver" Value="False">
                                     <Setter Property="Background" Value="{StaticResource ScrollBar.Disabled.Background}"/>
-                                    <Setter TargetName="ArrowLeft" Property="Fill" Value="{DynamicResource ScrollBar.Disabled.Glyph}"/>
-                                    <Setter TargetName="ArrowRight" Property="Fill" Value="{DynamicResource ScrollBar.Disabled.Glyph}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

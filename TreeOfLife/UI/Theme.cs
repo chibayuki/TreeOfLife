@@ -158,7 +158,6 @@ namespace TreeOfLife.UI
                 resourceDictionary["ScrollBar.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
                 resourceDictionary["ScrollBar.Pressed.Thumb"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
-                resourceDictionary["ScrollBar.Disabled.Glyph"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
                 resourceDictionary["ScrollBar.Disabled.Thumb"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
 
                 // TextBoxStyle.xaml
