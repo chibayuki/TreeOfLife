@@ -41,6 +41,9 @@ This file is part of TreeOfLife
                     <Grid x:Name="grid_Search" Visibility="{Binding PageVisibility_Search}">
                         <local:View_Search x:Name="view_Search" Margin="25,0,25,0"/>
                     </Grid>
+                    <Grid x:Name="grid_Statistics" Visibility="{Binding PageVisibility_Statistics}">
+                        <local:View_Statistics x:Name="view_Statistics" Margin="25,0,25,0"/>
+                    </Grid>
                     <Grid x:Name="grid_Validation" Visibility="{Binding PageVisibility_Validation}">
                         <local:View_Validation x:Name="view_Validation" Margin="25,0,25,0"/>
                     </Grid>
@@ -52,6 +55,7 @@ This file is part of TreeOfLife
                     <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
                     <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
                     <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
+                    <Button x:Name="button_Statistics" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="统&#xD;&#xA;计" IsEnabled="{Binding PageButtonEnabled_Statistics}"/>
                     <Button x:Name="button_Validation" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="校&#xD;&#xA;对" IsEnabled="{Binding PageButtonEnabled_Validation}"/>
                     <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
                     <Grid>

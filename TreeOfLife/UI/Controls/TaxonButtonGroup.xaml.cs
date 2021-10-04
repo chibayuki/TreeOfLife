@@ -45,7 +45,6 @@ namespace TreeOfLife.UI.Controls
             private DockPanel _Container = null;
             private Border _NameBorder = null;
             private TextBlock _NameText = null;
-            private StackPanel _ButtonsContainer = null;
             private List<TaxonButton> _Buttons = null;
 
             private double _RankNameWidth = 50; // 分类阶元名称宽度。
@@ -143,14 +142,14 @@ namespace TreeOfLife.UI.Controls
                 _UpdateButtonMarginHeight();
                 _UpdateTheme();
 
-                _ButtonsContainer = new StackPanel() { Orientation = Orientation.Vertical };
+                StackPanel buttonsContainer = new StackPanel() { Orientation = Orientation.Vertical };
 
                 foreach (var button in _Buttons)
                 {
-                    _ButtonsContainer.Children.Add(button);
+                    buttonsContainer.Children.Add(button);
                 }
 
-                _Container.Children.Add(_ButtonsContainer);
+                _Container.Children.Add(buttonsContainer);
             }
 
             //

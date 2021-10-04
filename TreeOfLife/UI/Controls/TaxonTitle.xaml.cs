@@ -72,7 +72,7 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsDarkTheme ? Colors.Black : Colors.White);
+            textBlock_RankName.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
 
             border_RankName.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
 

@@ -52,7 +52,6 @@ namespace TreeOfLife.UI.Controls
         {
             private StackPanel _Container = null;
             private TreeNodeButton _Button = null;
-            private StackPanel _ChildrenContainer = null;
             private List<_TreeNode> _Children = null;
 
             private bool _IsDarkTheme = false; // 是否为暗色主题。
@@ -108,7 +107,7 @@ namespace TreeOfLife.UI.Controls
 
                 _Container.Children.Add(_Button);
 
-                _ChildrenContainer = new StackPanel() { Orientation = Orientation.Vertical };
+                StackPanel childrenContainer = new StackPanel() { Orientation = Orientation.Vertical };
 
                 _Children = new List<_TreeNode>();
 
@@ -118,10 +117,10 @@ namespace TreeOfLife.UI.Controls
 
                     _Children.Add(treeNode);
 
-                    _ChildrenContainer.Children.Add(treeNode.Container);
+                    childrenContainer.Children.Add(treeNode.Container);
                 }
 
-                _Container.Children.Add(_ChildrenContainer);
+                _Container.Children.Add(childrenContainer);
             }
 
             //

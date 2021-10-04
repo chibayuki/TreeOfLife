@@ -118,6 +118,7 @@ namespace TreeOfLife.UI.Views
             button_File.Click += (s, e) => _SelectPage(Pages.File);
             button_Evo.Click += (s, e) => _SelectPage(Pages.Evo);
             button_Search.Click += (s, e) => _SelectPage(Pages.Search);
+            button_Statistics.Click += (s, e) => _SelectPage(Pages.Statistics);
             button_Validation.Click += (s, e) => _SelectPage(Pages.Validation);
             button_About.Click += (s, e) => _SelectPage(Pages.About);
 
@@ -138,7 +139,7 @@ namespace TreeOfLife.UI.Views
 
         //
 
-#region 页面切换
+        #region 页面切换
 
         private void _SelectPage(Pages tabPage)
         {
@@ -152,9 +153,9 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-#endregion
+        #endregion
 
-#region "文件"页面
+        #region "文件"页面
 
         private OpenFileDialog _OpenFileDialog;
         private SaveFileDialog _SaveFileDialog;
@@ -328,7 +329,8 @@ namespace TreeOfLife.UI.Views
             Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
-            view_Validation.ClearValidationResult();
+            view_Statistics.ClearStatisticsResult();
+            view_Validation.ClearValidateResult();
 
             bool result = await AsyncMethod.CloseAsync();
 
@@ -350,7 +352,8 @@ namespace TreeOfLife.UI.Views
             Common.SelectedTaxon = null;
 
             view_Search.ClearSearchResult();
-            view_Validation.ClearValidationResult();
+            view_Statistics.ClearStatisticsResult();
+            view_Validation.ClearValidateResult();
 
             bool result = Entrance.Close();
 
@@ -376,7 +379,8 @@ namespace TreeOfLife.UI.Views
                 Common.SelectedTaxon = null;
 
                 view_Search.ClearSearchResult();
-                view_Validation.ClearValidationResult();
+                view_Statistics.ClearStatisticsResult();
+                view_Validation.ClearValidateResult();
 
                 return true;
             }
@@ -466,7 +470,8 @@ namespace TreeOfLife.UI.Views
                 Common.SelectedTaxon = null;
 
                 view_Search.ClearSearchResult();
-                view_Validation.ClearValidationResult();
+                view_Statistics.ClearStatisticsResult();
+                view_Validation.ClearValidateResult();
 
                 return true;
             }
@@ -545,9 +550,9 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-#endregion
+        #endregion
 
-#region "分类学"页面
+        #region "分类学"页面
 
         // 进入/退出编辑模式。
         private void _SetEditMode(bool editMode)
@@ -625,6 +630,6 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-#endregion
+        #endregion
     }
 }

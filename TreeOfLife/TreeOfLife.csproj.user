@@ -128,6 +128,9 @@
     <Page Update="UI\Views\Tree\View_Tree.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="UI\Views\Statistics\View_Statistics.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UI\Views\Validation\View_Validation.xaml">
       <SubType>Designer</SubType>
     </Page>

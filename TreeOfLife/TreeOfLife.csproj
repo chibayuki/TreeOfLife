@@ -30,6 +30,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>UI\Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="UI\Views\Statistics\View_Statistics.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UI\Views\Validation\View_Validation.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +57,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\Controls\WarningMessage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Statistics\View_Statistics.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

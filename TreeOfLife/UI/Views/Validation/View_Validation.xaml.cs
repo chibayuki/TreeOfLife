@@ -174,7 +174,7 @@ namespace TreeOfLife.UI.Views
         }
 
         // 清空搜索结果。
-        public void ClearValidationResult()
+        public void ClearValidateResult()
         {
             if (_ValidateResult.Count > 0)
             {

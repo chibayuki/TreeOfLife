@@ -1,0 +1,57 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2021 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1322.1000.M13.210925-1400
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Views.View_Statistics"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Views"
+             xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"  
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <local:ViewModel_Statistics/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grid_Name" Margin="25,25,25,0" Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,15,25,25">
+                <Grid x:Name="grid_StatisticsResult_Total" Margin="0,25,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="label_Taxon" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有类群"/>
+                    <Label x:Name="label_TaxonCount" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0" HorizontalAlignment="Right" Margin="0,0,6,0"/>
+                    <Label x:Name="label_Node" Grid.Row="2" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有节点"/>
+                    <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0" HorizontalAlignment="Right" Margin="0,0,6,0"/>
+                </Grid>
+                <StackPanel x:Name="stackPanel_StatisticsResult"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

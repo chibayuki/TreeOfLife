@@ -92,7 +92,10 @@ namespace TreeOfLife.Core.Statistics.Extensions
             Dictionary<Rank, int> dict = new Dictionary<Rank, int>();
             int nodeCount = 0;
 
-            _RecursionStatisticsChildren(taxon, dict, ref nodeCount);
+            foreach (var child in taxon.Children)
+            {
+                _RecursionStatisticsChildren(child, dict, ref nodeCount);
+            }
 
             List<StatisticsResultOfBasicRank> detailsOfBasicRank = new List<StatisticsResultOfBasicRank>();
             StatisticsResult result = new StatisticsResult() { NodeCount = nodeCount, Details = detailsOfBasicRank };
