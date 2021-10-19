@@ -73,6 +73,8 @@ namespace TreeOfLife.UI.Views
                 textBox_Search.SelectAll();
             };
 
+            button_Search.GotFocus += (s, e) => textBox_Search.Focus();
+
             //
 
             Theme.IsDarkThemeChanged += (s, e) =>

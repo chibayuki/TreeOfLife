@@ -20,7 +20,7 @@ This file is part of TreeOfLife
             <Grid Width="24" Height="21">
                 <Path Data="M 800,350 200,1400 C 100,1575 200,1750 400,1750 L 1600,1750 C 1800,1750 1900,1575 1800,1400 L 1200,350 C 1100,175 900,175 800,350 z" Stretch="Uniform" Margin="1" Fill="{DynamicResource WarningMessage.Background}" Stroke="{DynamicResource WarningMessage.BorderBrush}"/>
                 <Border Width="1.5" Background="{DynamicResource WarningMessage.BorderBrush}" Margin="0,5,0,7"/>
-                <Path x:Name="path_Least" Fill="{DynamicResource WarningMessage.BorderBrush}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,3.5">
+                <Path Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,3.5" Fill="{DynamicResource WarningMessage.BorderBrush}">
                     <Path.Data>
                         <EllipseGeometry Center="1,1" RadiusX="1" RadiusY="1" />
                     </Path.Data>

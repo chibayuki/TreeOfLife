@@ -60,17 +60,17 @@ This file is part of TreeOfLife
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Button.MouseOver.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button.MouseOver.BorderBrush}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource Button.MouseOver.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Button.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Button.Pressed.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button.Pressed.BorderBrush}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource Button.Pressed.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Button.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Button.Disabled.Background}"/>
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Button.Disabled.BorderBrush}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource Button.Disabled.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Button.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -122,15 +122,15 @@ This file is part of TreeOfLife
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TabPageButton.MouseOver.Background}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TabPageButton.MouseOver.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TabPageButton.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TabPageButton.Pressed.Background}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TabPageButton.Pressed.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TabPageButton.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TabPageButton.Disabled.Background}"/>
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TabPageButton.Disabled.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TabPageButton.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -176,13 +176,13 @@ This file is part of TreeOfLife
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TransparentButton.MouseOver.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TransparentButton.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TransparentButton.Pressed.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TransparentButton.Pressed.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource TransparentButton.Disabled.Foreground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TransparentButton.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -59,7 +59,7 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        private void _UpdateSign() => grid_ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
+        private void _UpdateIsRef() => grid_ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
 
         private bool _IsRoot = false;
         private bool _IsFinal = false;
@@ -179,7 +179,7 @@ namespace TreeOfLife.UI.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateTaxon();
-                _UpdateSign();
+                _UpdateIsRef();
                 _UpdateAttributes();
                 _UpdateColor();
             };
@@ -237,7 +237,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsRef = value;
 
-                _UpdateSign();
+                _UpdateIsRef();
             }
         }
 

@@ -25,13 +25,19 @@ This file is part of TreeOfLife
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="40,25,40,0" Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="60"/>
-            </Grid.ColumnDefinitions>
             <TextBox x:Name="textBox_Search" Style="{DynamicResource TextBoxStyle}" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="button_Search" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="检索"/>
+            <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,2" Padding="4,0,4,0">
+                <Button.Content>
+                    <Grid Width="16" Height="16">
+                        <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2">
+                            <Path.Data>
+                                <EllipseGeometry Center="5,5" RadiusX="5" RadiusY="5" />
+                            </Path.Data>
+                        </Path>
+                        <Path Data="M 0,7 7,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="40,15,40,25">

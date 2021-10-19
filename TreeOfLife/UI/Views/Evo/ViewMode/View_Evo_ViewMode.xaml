@@ -30,7 +30,14 @@ This file is part of TreeOfLife
                 <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
             <Controls:TaxonTitle x:Name="taxonTitle" FontSize="14" FontWeight="Bold"/>
-            <Button x:Name="button_Edit" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Content="编辑" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="6,3,6,3"/>
+            <Button x:Name="button_Edit" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="3">
+                <Button.Content>
+                    <Grid Width="16" Height="16">
+                        <Path Data="M 8,1 4,1 C 2,1 2,2 2,4 L 2,12 C 2,14 2,15 4,15 L 12,15 C 14,15 14,14 14,12 L 14,8" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
+                        <Path Data="M 0,6 6,0" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2" Margin="0,1,1,0"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
         </Grid>
         <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="40,15,40,0"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
@@ -66,7 +73,7 @@ This file is part of TreeOfLife
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,2">
                             <Grid>
                                 <Button x:Name="button_Least" Style="{DynamicResource TransparentButtonStyle}" Content="最简" Padding="3"/>
-                                <Path x:Name="path_Least" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                <Path x:Name="path_Least" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Fill="#FF808080">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
                                     </Path.Data>
@@ -75,7 +82,7 @@ This file is part of TreeOfLife
                             <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
                             <Grid>
                                 <Button x:Name="button_Summary" Style="{DynamicResource TransparentButtonStyle}" Content="适中" Padding="3"/>
-                                <Path x:Name="path_Summary" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                <Path x:Name="path_Summary" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Fill="#FF808080">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
                                     </Path.Data>
@@ -84,7 +91,7 @@ This file is part of TreeOfLife
                             <Border BorderThickness="1" Width="1" BorderBrush="#80808080" Margin="0,3,0,3"/>
                             <Grid>
                                 <Button x:Name="button_Full" Style="{DynamicResource TransparentButtonStyle}" Content="完整" Padding="3"/>
-                                <Path x:Name="path_Full" Fill="#FF808080" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                <Path x:Name="path_Full" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Bottom" Fill="#FF808080">
                                     <Path.Data>
                                         <EllipseGeometry Center="1.5,1.5" RadiusX="1.5" RadiusY="1.5" />
                                     </Path.Data>
