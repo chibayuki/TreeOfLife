@@ -29,7 +29,7 @@ This file is part of TreeOfLife
                 <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.3" Direction="270"/>
             </Grid.Effect>
             <Controls:TaxonTitle x:Name="taxonTitle" FontSize="14" FontWeight="Bold"/>
-            <Button x:Name="button_Back" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="3">
+            <Button x:Name="button_Back" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="3">
                 <Button.Content>
                     <Grid Width="16" Height="16">
                         <Path Data="M 0,5.5 4.5,10 12.5,0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>

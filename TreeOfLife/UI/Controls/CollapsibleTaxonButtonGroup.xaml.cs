@@ -40,7 +40,8 @@ namespace TreeOfLife.UI.Controls
         {
             if (_Expanded)
             {
-                button_Expand.Content = "折叠";
+                button_Expand.Visibility = Visibility.Collapsed;
+                button_Collapse.Visibility = Visibility.Visible;
 
                 if (taxonNameButtonGroup.GetGroupCount() <= 0 && _TaxonItems.Count > 0)
                 {
@@ -51,7 +52,8 @@ namespace TreeOfLife.UI.Controls
             }
             else
             {
-                button_Expand.Content = "展开";
+                button_Expand.Visibility = Visibility.Visible;
+                button_Collapse.Visibility = Visibility.Collapsed;
 
                 taxonNameButtonGroup.Visibility = Visibility.Collapsed;
             }
@@ -67,9 +69,22 @@ namespace TreeOfLife.UI.Controls
 
             button_Expand.Click += (s, e) =>
             {
-                _Expanded = !_Expanded;
+                if (!_Expanded)
+                {
+                    _Expanded = true;
 
-                _UpdateExpandState();
+                    _UpdateExpandState();
+                }
+            };
+
+            button_Collapse.Click += (s, e) =>
+            {
+                if (_Expanded)
+                {
+                    _Expanded = false;
+
+                    _UpdateExpandState();
+                }
             };
         }
 
