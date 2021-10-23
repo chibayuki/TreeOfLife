@@ -19,22 +19,24 @@ This file is part of TreeOfLife
         <StackPanel>
             <Grid>
                 <Label x:Name="label_Title"  Style="{DynamicResource VerticalTitleLabelStyle}" Content="Title"/>
-                <Button x:Name="button_Expand" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,2" Padding="4">
-                    <Button.Content>
-                        <Grid Width="14" Height="9.5" Margin="0,2.5,0,2">
-                            <Path Data="M -1,0.5 7,8 15,0.5" Stretch="None" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
-                        </Grid>
-                    </Button.Content>
-                </Button>
-                <Button x:Name="button_Collapse" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,2" Padding="4" Visibility="Collapsed">
-                    <Button.Content>
-                        <Grid Width="14" Height="9.5" Margin="0,2.5,0,2">
-                            <Path Data="M -1,8 7,0.5 15,8" Stretch="None" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
-                        </Grid>
-                    </Button.Content>
-                </Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,2,2">
+                    <Button x:Name="button_Expand" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Padding="4">
+                        <Button.Content>
+                            <Grid Width="14" Height="9.5" Margin="0,2.5,0,2">
+                                <Path Data="M -1,0.5 7,8 15,0.5" Stretch="None" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="button_Collapse" Grid.Column="1" Style="{DynamicResource TransparentButtonStyle}" Padding="4">
+                        <Button.Content>
+                            <Grid Width="14" Height="9.5" Margin="0,2.5,0,2">
+                                <Path Data="M -1,8 7,0.5 15,8" Stretch="None" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </Grid>
-            <local:TaxonButtonGroup x:Name="taxonNameButtonGroup" Margin="0,10,0,0" Visibility="Collapsed"/>
+            <local:TaxonButtonGroup x:Name="taxonNameButtonGroup" Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -14,6 +14,7 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="TabPageSide.Background" Color="LightGray"/>
 
     <SolidColorBrush x:Key="Tree.Background"/>
+    <SolidColorBrush x:Key="TreeNode.BorderBrush" Color="Gray"/>
 
     <SolidColorBrush x:Key="WarningMessage.Background" Color="White"/>
     <SolidColorBrush x:Key="WarningMessage.BorderBrush" Color="Gray"/>

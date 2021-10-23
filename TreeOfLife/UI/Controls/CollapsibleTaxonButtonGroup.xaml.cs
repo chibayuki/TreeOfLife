@@ -67,25 +67,20 @@ namespace TreeOfLife.UI.Controls
 
             //
 
-            button_Expand.Click += (s, e) =>
+            this.Loaded += (s, e) =>
             {
-                if (!_Expanded)
-                {
-                    _Expanded = true;
-
-                    _UpdateExpandState();
-                }
+                _UpdateTitle();
+                _UpdateExpandState();
             };
 
-            button_Collapse.Click += (s, e) =>
+            RoutedEventHandler switchExpandState = (s, e) =>
             {
-                if (_Expanded)
-                {
-                    _Expanded = false;
-
-                    _UpdateExpandState();
-                }
+                _Expanded = !_Expanded;
+                _UpdateExpandState();
             };
+
+            button_Expand.Click += switchExpandState;
+            button_Collapse.Click += switchExpandState;
         }
 
         //

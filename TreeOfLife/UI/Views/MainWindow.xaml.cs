@@ -125,11 +125,17 @@ namespace TreeOfLife.UI.Views
             button_Validation.Click += (s, e) => _SelectPage(Pages.Validation);
             button_About.Click += (s, e) => _SelectPage(Pages.About);
 
-            button_IsDarkTheme.Click += (s, e) => Theme.IsDarkTheme = !Theme.IsDarkTheme;
+            RoutedEventHandler switchThemeMode = (s, e) => Theme.IsDarkTheme = !Theme.IsDarkTheme;
+            button_LightTheme.Click += switchThemeMode;
+            button_DarkTheme.Click += switchThemeMode;
+
+            Theme.IsDarkThemeChanged += (s, e) =>
+            {
+                button_LightTheme.Visibility = Theme.IsDarkTheme ? Visibility.Visible : Visibility.Collapsed;
+                button_DarkTheme.Visibility = !Theme.IsDarkTheme ? Visibility.Visible : Visibility.Collapsed;
+            };
 
             //
-
-            Theme.IsDarkThemeChanged += (s, e) => button_IsDarkTheme.Content = Theme.IsDarkTheme ? "☼" : "☽";
 
             Random random = new Random(Environment.TickCount);
             Theme.ThemeColor = ColorX.FromHSL(random.Next(360), random.Next(20, 60), 50);

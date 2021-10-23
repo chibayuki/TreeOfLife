@@ -176,6 +176,7 @@ namespace TreeOfLife.UI
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 2));
+                resourceDictionary["TreeNode.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
 
                 resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 10));
                 resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 50));
@@ -307,6 +308,7 @@ namespace TreeOfLife.UI
                 resourceDictionary["TabPageSide.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
 
                 resourceDictionary["Tree.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 98));
+                resourceDictionary["TreeNode.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
 
                 resourceDictionary["WarningMessage.Background"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 90));
                 resourceDictionary["WarningMessage.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(5, 80, 50));

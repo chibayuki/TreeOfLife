@@ -29,12 +29,12 @@ This file is part of TreeOfLife
             <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,2" Padding="4,0,4,0">
                 <Button.Content>
                     <Grid Width="16" Height="16">
-                        <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2">
+                        <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5">
                             <Path.Data>
                                 <EllipseGeometry Center="5,5" RadiusX="5" RadiusY="5" />
                             </Path.Data>
                         </Path>
-                        <Path Data="M 0,7 7,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
+                        <Path Data="M 0,7 7,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5"/>
                     </Grid>
                 </Button.Content>
             </Button>

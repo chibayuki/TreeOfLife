@@ -569,16 +569,26 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            Brush background = Theme.GetSolidColorBrush(_Rank.GetThemeColor().AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-            Brush borderAndFill = Theme.GetSolidColorBrush(_Rank.GetThemeColor().AtLightness_LAB(_IsDarkTheme ? 30 : 70));
+            ColorX themeColor = _Rank.GetThemeColor();
+
+            Brush background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            Brush borderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
+            Brush foreground = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60));
 
             border_PreCambrianMainly_FullWidth.Background = background;
-            border_PreCambrianMainly_FullWidth.BorderBrush = borderAndFill;
-            border_PreCambrianMainly.Background = borderAndFill;
+            border_PreCambrianMainly_FullWidth.BorderBrush = borderBrush;
+            border_PreCambrianMainly.Background = borderBrush;
 
             border_PhanerozoicMainly_FullWidth.Background = background;
-            border_PhanerozoicMainly_FullWidth.BorderBrush = borderAndFill;
-            border_PhanerozoicMainly.Background = borderAndFill;
+            border_PhanerozoicMainly_FullWidth.BorderBrush = borderBrush;
+            border_PhanerozoicMainly.Background = borderBrush;
+
+            label_Birth.Foreground = foreground;
+            label_BirthPrefix.Foreground = foreground;
+            label_Extinction.Foreground = foreground;
+            label_ExtinctionPrefix.Foreground = foreground;
+
+            border_Span.BorderBrush = borderBrush;
         }
 
         //
