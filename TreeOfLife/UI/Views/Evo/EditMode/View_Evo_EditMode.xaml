@@ -22,6 +22,7 @@ This file is part of TreeOfLife
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid x:Name="grid_Title" Margin="40,25,40,0" Height="50">
@@ -32,13 +33,14 @@ This file is part of TreeOfLife
             <Button x:Name="button_Back" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="3">
                 <Button.Content>
                     <Grid Width="14" Height="12" Margin="1,2,1,2">
-                        <Path Data="M 0,5.5 4.5,10 12.5,0" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5"/>
+                        <Path Data="M 1,5.5 5.5,10 13,1" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
                     </Grid>
                 </Button.Content>
             </Button>
         </Grid>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,15,40,25">
+        <Border Grid.Row="1" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40,0,40,25">
                 <Controls:WarningMessage x:Name="warningMessage_NodeStructure" Margin="0,25,0,0"/>
                 <Grid x:Name="grid_Name" Margin="0,25,0,0">
                     <StackPanel>

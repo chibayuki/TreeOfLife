@@ -23,6 +23,7 @@ This file is part of TreeOfLife
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="40,25,40,0" Height="50">
@@ -40,10 +41,11 @@ This file is part of TreeOfLife
             </Button>
         </Grid>
         <Controls:GeoChronSpan x:Name="geoChronSpan" Grid.Row="1" Margin="40,15,40,0"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,15,40,25">
-                <StackPanel x:Name="stackPanel_TagsAndSynonyms" Margin="0,15,0,0">
-                    <Grid x:Name="grid_Tags" Margin="0,10,0,0">
+        <Border Grid.Row="2" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40,0,40,25">
+                <StackPanel x:Name="stackPanel_TagsAndSynonyms" Margin="0,25,0,0">
+                    <Grid x:Name="grid_Tags">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60"/>
                             <ColumnDefinition Width="10"/>

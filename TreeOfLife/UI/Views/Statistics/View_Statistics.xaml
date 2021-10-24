@@ -22,6 +22,7 @@ This file is part of TreeOfLife
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Margin="40,25,40,0" Height="25">
@@ -32,8 +33,9 @@ This file is part of TreeOfLife
             </Grid.ColumnDefinitions>
             <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
         </Grid>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,15,40,25">
+        <Border Grid.Row="1" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="40,0,40,25">
                 <Grid x:Name="grid_StatisticsResult_Total" Margin="0,25,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="85"/>
