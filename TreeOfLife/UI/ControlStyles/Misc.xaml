@@ -10,8 +10,9 @@ This file is part of TreeOfLife
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="TabPage.Background"/>
-    <SolidColorBrush x:Key="TabPageSide.Background" Color="LightGray"/>
+    <SolidColorBrush x:Key="TabPage.Header.Background"/>
+    <SolidColorBrush x:Key="TabPage.Body.Background"/>
+    <SolidColorBrush x:Key="TabPage.Side.Background" Color="LightGray"/>
 
     <SolidColorBrush x:Key="Tree.Background"/>
     <SolidColorBrush x:Key="TreeNode.BorderBrush" Color="Gray"/>

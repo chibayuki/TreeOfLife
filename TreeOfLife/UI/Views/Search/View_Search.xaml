@@ -20,34 +20,33 @@ This file is part of TreeOfLife
         <local:ViewModel_Search/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Margin="40,25,40,0" Height="25">
-            <TextBox x:Name="textBox_Search" Style="{DynamicResource TextBoxStyle}" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,2" Padding="4,0,4,0">
-                <Button.Content>
-                    <Grid Width="15" Height="15" Margin="0.5">
-                        <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5">
-                            <Path.Data>
-                                <EllipseGeometry Center="5,5" RadiusX="5" RadiusY="5" />
-                            </Path.Data>
-                        </Path>
-                        <Path Data="M 0,6 6,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
-                    </Grid>
-                </Button.Content>
-            </Button>
-        </Grid>
-        <Border Grid.Row="1" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,0,40,25">
-                <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
-                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无结果"/>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
+                <Grid Margin="40,25,40,0" Height="25">
+                    <TextBox x:Name="textBox_Search" Style="{DynamicResource TextBoxStyle}" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,2" Padding="4,0,4,0">
+                        <Button.Content>
+                            <Grid Width="15" Height="15" Margin="0.5">
+                                <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="5,5" RadiusX="5" RadiusY="5" />
+                                    </Path.Data>
+                                </Path>
+                                <Path Data="M 0,6 6,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
                 </Grid>
-                <StackPanel x:Name="stackPanel_SearchResult"/>
+                <Border Height="1" BorderThickness="1" BorderBrush="#40808080" Margin="0,25,0,0" SnapsToDevicePixels="True"/>
             </StackPanel>
-        </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="40,0,40,25">
+                    <Grid x:Name="grid_SearchResult_Empty" Margin="0,25,0,0">
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无结果"/>
+                    </Grid>
+                    <StackPanel x:Name="stackPanel_SearchResult"/>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </UserControl>

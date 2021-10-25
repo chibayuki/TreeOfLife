@@ -20,40 +20,39 @@ This file is part of TreeOfLife
         <local:ViewModel_Statistics/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Margin="40,25,40,0" Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
-        </Grid>
-        <Border Grid.Row="1" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,0,40,25">
-                <Grid x:Name="grid_StatisticsResult_Total" Margin="0,25,0,0">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
+                <Grid Margin="40,25,40,0" Height="25">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="85"/>
-                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label x:Name="label_Taxon" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有类群"/>
-                    <Label x:Name="label_TaxonCount" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
-                    <Label x:Name="label_Node" Grid.Row="2" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有节点"/>
-                    <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
+                    <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
                 </Grid>
-                <StackPanel x:Name="stackPanel_StatisticsResult"/>
+                <Border Height="1" BorderThickness="1" BorderBrush="#40808080" Margin="0,25,0,0" SnapsToDevicePixels="True"/>
             </StackPanel>
-        </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="40,0,40,25">
+                    <Grid x:Name="grid_StatisticsResult_Total" Margin="0,25,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="label_Taxon" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有类群"/>
+                        <Label x:Name="label_TaxonCount" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
+                        <Label x:Name="label_Node" Grid.Row="2" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有节点"/>
+                        <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
+                    </Grid>
+                    <StackPanel x:Name="stackPanel_StatisticsResult"/>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </UserControl>

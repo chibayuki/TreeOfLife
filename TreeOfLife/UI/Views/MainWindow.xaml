@@ -26,7 +26,7 @@ This file is part of TreeOfLife
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <local:View_Tree x:Name="view_Tree"/>
-            <Grid Grid.Column="1" Background="{DynamicResource TabPage.Background}">
+            <Grid Grid.Column="1" Background="{DynamicResource TabPage.Body.Background}">
                 <Grid Visibility="{Binding PageVisibility_File}">
                     <local:View_File x:Name="view_File"/>
                 </Grid>
@@ -46,8 +46,9 @@ This file is part of TreeOfLife
                 <Grid Visibility="{Binding PageVisibility_About}">
                     <local:View_About x:Name="view_About"/>
                 </Grid>
+                <Border Width="1" BorderThickness="1" BorderBrush="#40808080" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
             </Grid>
-            <DockPanel Grid.Column="2" Background="{DynamicResource TabPageSide.Background}">
+            <DockPanel Grid.Column="2" Background="{DynamicResource TabPage.Side.Background}">
                 <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
                 <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
                 <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>

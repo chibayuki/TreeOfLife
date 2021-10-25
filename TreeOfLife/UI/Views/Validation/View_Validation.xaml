@@ -20,28 +20,27 @@ This file is part of TreeOfLife
         <local:ViewModel_Validation/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Margin="40,25,40,0" Height="25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
-            <Label Style="{DynamicResource LabelStyle}" Content="不合规项:"/>
-            <Button x:Name="button_Validate" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始校对"/>
-        </Grid>
-        <Border Grid.Row="1" Height="1" BorderThickness="1" BorderBrush="#80808080" Margin="20,25,20,0"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40,0,40,25">
-                <Grid x:Name="grid_ValidateResult_Empty" Margin="0,25,0,0">
-                    <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无不合规项"/>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
+                <Grid Margin="40,25,40,0" Height="25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{DynamicResource LabelStyle}" Content="不合规项:"/>
+                    <Button x:Name="button_Validate" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始校对"/>
                 </Grid>
-                <StackPanel x:Name="stackPanel_ValidateResult"/>
+                <Border Height="1" BorderThickness="1" BorderBrush="#40808080" Margin="0,25,0,0" SnapsToDevicePixels="True"/>
             </StackPanel>
-        </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="40,0,40,25">
+                    <Grid x:Name="grid_ValidateResult_Empty" Margin="0,25,0,0">
+                        <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="无不合规项"/>
+                    </Grid>
+                    <StackPanel x:Name="stackPanel_ValidateResult"/>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </UserControl>
