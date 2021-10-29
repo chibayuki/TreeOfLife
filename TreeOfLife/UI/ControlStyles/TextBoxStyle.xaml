@@ -13,19 +13,23 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="TextBox.Static.Background" Color="White"/>
     <SolidColorBrush x:Key="TextBox.Static.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="TextBox.Static.Foreground" Color="Black"/>
-    
+
+    <SolidColorBrush x:Key="TextBox.MouseOver.Background"/>
     <SolidColorBrush x:Key="TextBox.MouseOver.BorderBrush"/>
-    
+    <SolidColorBrush x:Key="TextBox.MouseOver.Foreground"/>
+
+    <SolidColorBrush x:Key="TextBox.Focused.Background"/>
     <SolidColorBrush x:Key="TextBox.Focused.BorderBrush"/>
+    <SolidColorBrush x:Key="TextBox.Focused.Foreground"/>
 
-    <DropShadowEffect x:Key="TextBox.Static.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
-    <DropShadowEffect x:Key="TextBox.Focused.Effect" ShadowDepth="0" Direction="270" Opacity="0.5" BlurRadius="5"/>
-
+    <DropShadowEffect x:Key="TextBox.MouseOver.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
+    <DropShadowEffect x:Key="TextBox.Focused.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
+    
     <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Static.BorderBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBox.Static.Foreground}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -37,19 +41,40 @@ This file is part of TreeOfLife
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" CornerRadius="1" Effect="{StaticResource TextBox.Static.Effect}">
-                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                    </Border>
+                    <Grid>
+                        <Border x:Name="border" BorderThickness="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <Border x:Name="border_Top" BorderThickness="0,1,0,0" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" CornerRadius="3" Visibility="Collapsed"/>
+                        <Border x:Name="border_Bottom" CornerRadius="3" BorderThickness="0,0,0,1" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.MouseOver.Background}"/>
+                            <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.MouseOver.Effect}"/>
+                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
+                            <Setter TargetName="border_Bottom" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBox.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.Focused.Background}"/>
                             <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.Focused.Effect}"/>
+                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
+                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
+                            <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
+                            <Setter TargetName="border_Bottom" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBox.Focused.Foreground}"/>
+                        </Trigger>
+                        <Trigger Property="AcceptsReturn" Value="True">
+                            <Setter TargetName="border_Top" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="TextWrapping" Value="Wrap">
+                            <Setter TargetName="border_Top" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -64,12 +89,10 @@ This file is part of TreeOfLife
                 <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
             </MultiTrigger>
             <Trigger Property="AcceptsReturn" Value="True">
-                <Setter Property="BorderThickness" Value="0,2,0,2"/>
                 <Setter Property="VerticalContentAlignment" Value="Top"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
             </Trigger>
             <Trigger Property="TextWrapping" Value="Wrap">
-                <Setter Property="BorderThickness" Value="0,2,0,2"/>
                 <Setter Property="VerticalContentAlignment" Value="Top"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
             </Trigger>

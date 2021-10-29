@@ -162,13 +162,17 @@ namespace TreeOfLife.UI
 
                 // TextBoxStyle.xaml
 
-                resourceDictionary["TextBox.Static.Background"] = Brushes.Black;
-                resourceDictionary["TextBox.Static.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 15));
-                resourceDictionary["TextBox.Static.Foreground"] = Brushes.White;
+                resourceDictionary["TextBox.Static.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 0, 50));
+                resourceDictionary["TextBox.Static.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 20));
+                resourceDictionary["TextBox.Static.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 70));
 
-                resourceDictionary["TextBox.MouseOver.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(30));
+                resourceDictionary["TextBox.MouseOver.Background"] = Brushes.Black;
+                resourceDictionary["TextBox.MouseOver.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(20));
+                resourceDictionary["TextBox.MouseOver.Foreground"] = Brushes.White;
 
+                resourceDictionary["TextBox.Focused.Background"] = Brushes.Black;
                 resourceDictionary["TextBox.Focused.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+                resourceDictionary["TextBox.Focused.Foreground"] = Brushes.White;
 
                 // Misc.xaml
 
@@ -295,13 +299,17 @@ namespace TreeOfLife.UI
 
                 // TextBoxStyle.xaml
 
-                resourceDictionary["TextBox.Static.Background"] = Brushes.White;
-                resourceDictionary["TextBox.Static.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 85));
-                resourceDictionary["TextBox.Static.Foreground"] = Brushes.Black;
+                resourceDictionary["TextBox.Static.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 100, 50));
+                resourceDictionary["TextBox.Static.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
+                resourceDictionary["TextBox.Static.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
 
-                resourceDictionary["TextBox.MouseOver.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(70));
+                resourceDictionary["TextBox.MouseOver.Background"] = Brushes.White;
+                resourceDictionary["TextBox.MouseOver.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(80));
+                resourceDictionary["TextBox.MouseOver.Foreground"] = Brushes.Black;
 
+                resourceDictionary["TextBox.Focused.Background"] = Brushes.White;
                 resourceDictionary["TextBox.Focused.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
+                resourceDictionary["TextBox.Focused.Foreground"] = Brushes.Black;
 
                 // Misc.xaml
 
