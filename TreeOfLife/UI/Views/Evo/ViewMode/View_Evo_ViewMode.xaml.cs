@@ -51,9 +51,9 @@ namespace TreeOfLife.UI.Views
                 button_Summary.IsEnabled = _GetParentsOption != GetParentsOption.Summary;
                 button_Full.IsEnabled = _GetParentsOption != GetParentsOption.Full;
 
-                path_Least.Visibility = _GetParentsOption == GetParentsOption.Least ? Visibility.Visible : Visibility.Hidden;
-                path_Summary.Visibility = _GetParentsOption == GetParentsOption.Summary ? Visibility.Visible : Visibility.Hidden;
-                path_Full.Visibility = _GetParentsOption == GetParentsOption.Full ? Visibility.Visible : Visibility.Hidden;
+                border_Least.Visibility = _GetParentsOption == GetParentsOption.Least ? Visibility.Visible : Visibility.Hidden;
+                border_Summary.Visibility = _GetParentsOption == GetParentsOption.Summary ? Visibility.Visible : Visibility.Hidden;
+                border_Full.Visibility = _GetParentsOption == GetParentsOption.Full ? Visibility.Visible : Visibility.Hidden;
             };
 
             setGetParentsOption(GetParentsOption.Summary);

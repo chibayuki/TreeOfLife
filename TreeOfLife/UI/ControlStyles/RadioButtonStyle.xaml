@@ -11,15 +11,28 @@ This file is part of TreeOfLife
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="RadioButton.Static.Background" Color="White"/>
-    <SolidColorBrush x:Key="RadioButton.Static.BorderBrush"/>
+    <SolidColorBrush x:Key="RadioButton.Static.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="RadioButton.Static.Foreground" Color="Gray"/>
+    <SolidColorBrush x:Key="RadioButton.Static.Glyph"/>
 
-    <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="Black"/>
+    <SolidColorBrush x:Key="RadioButton.MouseOver.Background"/>
+    <SolidColorBrush x:Key="RadioButton.MouseOver.BorderBrush"/>
     <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph"/>
+
+    <SolidColorBrush x:Key="RadioButton.Pressed.Background"/>
+    <SolidColorBrush x:Key="RadioButton.Pressed.BorderBrush"/>
     <SolidColorBrush x:Key="RadioButton.Pressed.Glyph"/>
+
+    <SolidColorBrush x:Key="RadioButton.Checked.Background" Color="Black"/>
+    <SolidColorBrush x:Key="RadioButton.Checked.BorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="RadioButton.Checked.Glyph" Color="White"/>
+
+    <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="LightGray"/>
+    <SolidColorBrush x:Key="RadioButton.Disabled.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="DimGray"/>
 
-    <DropShadowEffect x:Key="RadioButton.Static.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
+    <DropShadowEffect x:Key="RadioButton.MouseOver.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
+    <DropShadowEffect x:Key="RadioButton.Pressed.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
 
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
@@ -56,9 +69,9 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{StaticResource RadioButton.Static.Effect}">
+                        <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid x:Name="markGrid" Width="18" Height="18">
-                                <Ellipse x:Name="optionMark" Fill="{DynamicResource RadioButton.Static.Glyph}" Margin="3" Opacity="0"/>
+                                <Ellipse x:Name="optionMark" Fill="{DynamicResource RadioButton.Static.Glyph}" Margin="4" Opacity="0"/>
                             </Grid>
                         </Border>
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -69,22 +82,50 @@ This file is part of TreeOfLife
                             <Setter Property="Padding" Value="6,0,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Fill" TargetName="optionMark" Value="{DynamicResource RadioButton.MouseOver.Glyph}"/>
-                            <Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.MouseOver.Background}"/>
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="radioButtonBorder" Property="Effect" Value="{StaticResource RadioButton.MouseOver.Effect}"/>
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.MouseOver.Glyph}"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Fill" TargetName="optionMark" Value="{DynamicResource RadioButton.Disabled.Glyph}"/>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Pressed.Background}"/>
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Pressed.BorderBrush}"/>
+                            <Setter TargetName="radioButtonBorder" Property="Effect" Value="{StaticResource RadioButton.Pressed.Effect}"/>
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Pressed.Glyph}"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Fill" TargetName="optionMark" Value="{DynamicResource RadioButton.Pressed.Glyph}"/>
-                            <Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Disabled.Background}"/>
+                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Disabled.BorderBrush}"/>
+                            <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Disabled.Glyph}"/>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="optionMark" Property="Opacity" Value="1"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Opacity" TargetName="optionMark" Value="0.56"/>
+                            <Setter TargetName="optionMark" Property="Opacity" Value="0"/>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
+                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
+                                <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Checked.Glyph}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsChecked" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
+                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
+                                <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Checked.Glyph}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

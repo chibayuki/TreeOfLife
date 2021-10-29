@@ -24,14 +24,10 @@ This file is part of TreeOfLife
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
                 <Grid Margin="40,25,40,0" Height="25">
                     <TextBox x:Name="textBox_Search" Style="{DynamicResource TextBoxStyle}" Text="{Binding KeyWord, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,0,2" Padding="4,0,4,0">
+                    <Button x:Name="button_Search" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" Margin="0,1,1,1" Padding="4,0,4,0">
                         <Button.Content>
                             <Grid Width="15" Height="15" Margin="0.5">
-                                <Path Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="1.5">
-                                    <Path.Data>
-                                        <EllipseGeometry Center="5,5" RadiusX="5" RadiusY="5" />
-                                    </Path.Data>
-                                </Path>
+                                <Border Width="11" Height="11" CornerRadius="100" BorderBrush="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" BorderThickness="1.5" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                                 <Path Data="M 0,6 6,0" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" StrokeThickness="2"/>
                             </Grid>
                         </Button.Content>

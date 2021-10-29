@@ -21,6 +21,8 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="ContextMenu.Background" Color="White"/>
     <SolidColorBrush x:Key="ContextMenu.BorderBrush" Color="Gray"/>
 
+    <DropShadowEffect x:Key="ContextMenu.DropShadow.Effect" ShadowDepth="2" Direction="315" Opacity="0.25" BlurRadius="5"/>
+
     <SolidColorBrush x:Key="Separator.BorderBrush" Color="Gray"/>
 
     <SolidColorBrush x:Key="MenuItem.Static.Background" Color="White"/>
@@ -32,10 +34,8 @@ This file is part of TreeOfLife
     
     <SolidColorBrush x:Key="MenuItem.Disabled.Background"/>
     <SolidColorBrush x:Key="MenuItem.Disabled.Foreground"/>
-
-    <DropShadowEffect x:Key="ContextMenu.DropShadow.Effect" ShadowDepth="2" Direction="315" Opacity="0.5" BlurRadius="5"/>
     
-    <DropShadowEffect x:Key="MenuItem.Highlighted.Effect" ShadowDepth="1" Direction="270" Opacity="0.25" BlurRadius="5"/>
+    <DropShadowEffect x:Key="MenuItem.Highlighted.Effect" ShadowDepth="0" Direction="270" Opacity="0.25" BlurRadius="5"/>
 
     <!-- ContextMenu Style -->
     <Style TargetType="{x:Type ContextMenu}">
@@ -93,8 +93,8 @@ This file is part of TreeOfLife
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
                 <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
@@ -117,8 +117,8 @@ This file is part of TreeOfLife
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
                 <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource MenuItem.Disabled.Foreground}"/>
@@ -155,8 +155,8 @@ This file is part of TreeOfLife
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
                 <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
@@ -200,8 +200,8 @@ This file is part of TreeOfLife
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
                 <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Disabled.Background}"/>

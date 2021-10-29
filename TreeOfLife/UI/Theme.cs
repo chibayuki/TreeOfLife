@@ -276,10 +276,22 @@ namespace TreeOfLife.UI
                 resourceDictionary["RadioButton.Static.Background"] = Brushes.White;
                 resourceDictionary["RadioButton.Static.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
                 resourceDictionary["RadioButton.Static.Foreground"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 30));
+                resourceDictionary["RadioButton.Static.Glyph"] = Brushes.White;
 
-                resourceDictionary["RadioButton.Static.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
-                resourceDictionary["RadioButton.MouseOver.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
-                resourceDictionary["RadioButton.Pressed.Glyph"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+                resourceDictionary["RadioButton.MouseOver.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
+                resourceDictionary["RadioButton.MouseOver.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(60));
+                resourceDictionary["RadioButton.MouseOver.Glyph"] = Brushes.White;
+
+                resourceDictionary["RadioButton.Pressed.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+                resourceDictionary["RadioButton.Pressed.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(40));
+                resourceDictionary["RadioButton.Pressed.Glyph"] = Brushes.White;
+
+                resourceDictionary["RadioButton.Checked.Background"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["RadioButton.Checked.BorderBrush"] = GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+                resourceDictionary["RadioButton.Checked.Glyph"] = Brushes.White;
+
+                resourceDictionary["RadioButton.Disabled.Background"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
+                resourceDictionary["RadioButton.Disabled.BorderBrush"] = GetSolidColorBrush(ColorX.FromHSL(0, 0, 80));
                 resourceDictionary["RadioButton.Disabled.Glyph"] = Brushes.Gray;
 
                 // ScrollBarStyle.xaml
