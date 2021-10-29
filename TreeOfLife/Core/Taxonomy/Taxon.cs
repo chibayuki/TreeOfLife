@@ -957,7 +957,7 @@ namespace TreeOfLife.Core.Taxonomy
                         }
 
                         _Parent = null;
-                        _Children.Clear();
+                        _Children = new List<Taxon>();
                     }
                 }
 
