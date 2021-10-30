@@ -38,8 +38,8 @@ namespace TreeOfLife.UI.Controls
 
             private void _UpdateColor()
             {
-                _TagText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60));
                 _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+                _TagText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
             }
 
             //

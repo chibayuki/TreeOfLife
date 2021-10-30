@@ -36,9 +36,11 @@ namespace TreeOfLife.UI.Controls
         private string _GeoChronName = string.Empty; // 名称。
 
         private bool _IsChecked = false; // 是否处于已选择状态。
-        private bool _IndirectlyChecked = false;
+        private bool _IsIndirectlyChecked = false;
         private bool _MouseOver = false;
         private bool _Vertical = false;
+
+        private void _UpdateIsIndirectlyChecked() => path_IndirectlyChecked.Visibility = _IsIndirectlyChecked ? Visibility.Visible : Visibility.Collapsed;
 
         private void _UpdateGeoChron()
         {
@@ -50,10 +52,9 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_GeoChronName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor());
-
             border_GeoChronName.Background = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-            border_GeoChronName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _MouseOver || _IndirectlyChecked ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            border_GeoChronName.BorderBrush = path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+            textBlock_GeoChronName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
         }
 
         //
@@ -126,14 +127,15 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public bool IndirectlyChecked
+        public bool IsIndirectlyChecked
         {
-            get => _IndirectlyChecked;
+            get => _IsIndirectlyChecked;
 
             set
             {
-                _IndirectlyChecked = value;
+                _IsIndirectlyChecked = value;
 
+                _UpdateIsIndirectlyChecked();
                 _UpdateColor();
             }
         }

@@ -650,7 +650,7 @@ namespace TreeOfLife.UI.Controls
                     {
                         if (oldGeoChrons[i] is not null && oldGeoChrons[i] != oldGeoChron && _GeoChronButtons.TryGetValue(oldGeoChrons[i], out button) && button is not null)
                         {
-                            button.IndirectlyChecked = false;
+                            button.IsIndirectlyChecked = false;
                         }
                     }
 
@@ -658,7 +658,7 @@ namespace TreeOfLife.UI.Controls
                     {
                         if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
                         {
-                            button.IndirectlyChecked = true;
+                            button.IsIndirectlyChecked = true;
                         }
                     }
 
@@ -699,9 +699,9 @@ namespace TreeOfLife.UI.Controls
                             item.Value.IsChecked = false;
                         }
 
-                        if (item.Value.IndirectlyChecked)
+                        if (item.Value.IsIndirectlyChecked)
                         {
-                            item.Value.IndirectlyChecked = false;
+                            item.Value.IsIndirectlyChecked = false;
                         }
                     }
 
@@ -797,7 +797,7 @@ namespace TreeOfLife.UI.Controls
                     {
                         if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
                         {
-                            button.IndirectlyChecked = true;
+                            button.IsIndirectlyChecked = true;
                         }
                     }
 

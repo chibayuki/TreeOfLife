@@ -71,8 +71,8 @@ namespace TreeOfLife.UI.Controls
 
             private void _UpdateGroupNameColor()
             {
-                _NameText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
                 _NameBorder.Background = Theme.GetSolidColorBrush(_GroupNameColor.AtLightness_LAB(50));
+                _NameText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
             }
 
             private void _UpdateTheme()

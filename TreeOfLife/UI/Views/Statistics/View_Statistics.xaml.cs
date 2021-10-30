@@ -72,16 +72,18 @@ namespace TreeOfLife.UI.Views
 
             private void _UpdateTheme()
             {
-                _TitleText.Foreground = _TotalCountText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
                 _TitleBorder.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                _TitleText.Foreground = _TotalCountText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
 
-                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
-                Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+                Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
+                Brush borderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40));
 
                 foreach ((Border border, TextBlock rank, TextBlock count) in _DetailText)
                 {
-                    rank.Foreground = count.Foreground = foreground;
                     border.Background = background;
+                    border.BorderBrush = borderBrush;
+                    rank.Foreground = count.Foreground = foreground;
                 }
             }
 
@@ -95,18 +97,18 @@ namespace TreeOfLife.UI.Views
 
                 _Container = new StackPanel();
 
-                Thickness textMargin = new Thickness(10, 4, 10, 4);
+                Thickness titleTextMargin = new Thickness(10, 4, 10, 4);
 
                 _TitleText = new TextBlock()
                 {
                     Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
-                    Margin = textMargin
+                    Margin = titleTextMargin
                 };
 
                 _TotalCountText = new TextBlock()
                 {
                     Text = statisticsResult.TaxonCount.ToString(),
-                    Margin = textMargin,
+                    Margin = titleTextMargin,
                     HorizontalAlignment = HorizontalAlignment.Right
                 };
 
@@ -126,18 +128,20 @@ namespace TreeOfLife.UI.Views
 
                 if (basicRank.IsPrimaryOrSecondaryRank())
                 {
+                    Thickness detailTextMargin = new Thickness(9, 3, 9, 3);
+
                     foreach (var detail in statisticsResult.Details)
                     {
                         TextBlock rankText = new TextBlock()
                         {
                             Text = detail.Rank.GetChineseName(),
-                            Margin = textMargin
+                            Margin = detailTextMargin
                         };
 
                         TextBlock countText = new TextBlock()
                         {
                             Text = detail.TaxonCount.ToString(),
-                            Margin = textMargin,
+                            Margin = detailTextMargin,
                             HorizontalAlignment = HorizontalAlignment.Right
                         };
 
@@ -149,7 +153,9 @@ namespace TreeOfLife.UI.Views
                         {
                             Child = detailGrid,
                             CornerRadius = new CornerRadius(3),
-                            Margin = new Thickness(0, 3, 0, 0)
+                            BorderThickness = new Thickness(1),
+                            Margin = new Thickness(0, 3, 0, 0),
+                            SnapsToDevicePixels = true
                         };
 
                         _DetailText.Add((detailBorder, rankText, countText));

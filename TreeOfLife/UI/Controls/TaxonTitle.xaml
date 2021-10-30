@@ -20,7 +20,7 @@ This file is part of TreeOfLife
             <ColumnDefinition Width="80"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="border_RankName" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
+        <Border x:Name="border_RankName" BorderThickness="1,1,0,1" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
             <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" TextTrimming="CharacterEllipsis"/>
         </Border>
         <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">

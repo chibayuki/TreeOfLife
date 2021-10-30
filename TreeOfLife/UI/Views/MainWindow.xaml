@@ -97,7 +97,7 @@ This file is part of TreeOfLife
         <Grid x:Name="grid_WaitingForBackgroundTaskPrompt" Background="#01808080" Visibility="Collapsed">
             <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource TitleLabel.Background}" BorderBrush="{DynamicResource TitleLabel.BorderBrush}" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
                 <Border.Effect>
-                    <DropShadowEffect ShadowDepth="3" BlurRadius="15" Opacity="0.3" Direction="270"/>
+                    <DropShadowEffect ShadowDepth="3" Direction="270" Opacity="0.35" BlurRadius="15"/>
                 </Border.Effect>
                 <TextBlock Text="正在等待后台操作完成…" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,20,40,20" Foreground="{DynamicResource TitleLabel.Foreground}"/>
             </Border>

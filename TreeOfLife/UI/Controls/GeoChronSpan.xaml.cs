@@ -573,7 +573,7 @@ namespace TreeOfLife.UI.Controls
 
             Brush background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
             Brush borderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
-            Brush foreground = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60));
+            Brush foreground = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(50));
 
             border_PreCambrianMainly_FullWidth.Background = background;
             border_PreCambrianMainly_FullWidth.BorderBrush = borderBrush;
