@@ -29,6 +29,8 @@ using TreeOfLife.Core.Validation;
 using TreeOfLife.Core.Validation.Extensions;
 using TreeOfLife.UI.Extensions;
 
+using ColorX = Com.Chromatics.ColorX;
+
 namespace TreeOfLife.UI.Views
 {
     public partial class View_Evo_EditMode : UserControl
@@ -153,6 +155,8 @@ namespace TreeOfLife.UI.Views
                 taxonButtonGroup_ExcludeBy.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Includes.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_IncludeBy.IsDarkTheme = Theme.IsDarkTheme;
+
+                _UpdateTitleUnderline();
             };
         }
 
@@ -900,7 +904,7 @@ namespace TreeOfLife.UI.Views
 
                     if (!string.IsNullOrEmpty(name))
                     {
-                        taxonName.Append('\n');
+                        taxonName.Append(' ');
                         taxonName.Append(name);
                     }
                 }
@@ -923,6 +927,21 @@ namespace TreeOfLife.UI.Views
 
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+        }
+
+        private void _UpdateTitleUnderline()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            if (currentTaxon is not null)
+            {
+                ColorX themeColor = currentTaxon.GetInheritedRank().GetThemeColor();
+
+                border_Underline.Background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 15 : 85));
+                border_Underline.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 30 : 70));
+
+                border_Underline.Visibility = Visibility.Visible;
+            }
         }
 
         private string _ChsRename = string.Empty;
@@ -1019,6 +1038,7 @@ namespace TreeOfLife.UI.Views
             _UpdateVisibility();
 
             UpdateTitle();
+            _UpdateTitleUnderline();
             UpdateRename();
             UpdateWarningMessage();
         }

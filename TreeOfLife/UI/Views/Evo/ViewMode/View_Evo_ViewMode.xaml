@@ -22,11 +22,8 @@ This file is part of TreeOfLife
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
-                <Grid Margin="40,25,40,0" Height="50">
-                    <Grid.Effect>
-                        <DropShadowEffect ShadowDepth="1" Direction="270" Opacity="0.3" BlurRadius="7"/>
-                    </Grid.Effect>
-                    <Controls:TaxonTitle x:Name="taxonTitle" FontSize="14" FontWeight="Bold"/>
+                <Grid Margin="40,25,40,0">
+                    <Controls:TaxonTitle x:Name="taxonTitle"/>
                     <Button x:Name="button_Edit" Style="{DynamicResource TransparentButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,1" Padding="3">
                         <Button.Content>
                             <Grid Width="14" Height="16" Margin="1,0,1,0">
@@ -37,7 +34,8 @@ This file is part of TreeOfLife
                         </Button.Content>
                     </Button>
                 </Grid>
-                <Controls:GeoChronSpan x:Name="geoChronSpan" Margin="40,15,40,0"/>
+                <Border x:Name="border_Underline" BorderThickness="0,1,0,1" Height="6" Margin="40,10,40,0" SnapsToDevicePixels="True"/>
+                <Controls:GeoChronSpan x:Name="geoChronSpan" Margin="40,10,40,0"/>
                 <Border Height="1" BorderThickness="1" BorderBrush="#40808080" Margin="0,25,0,0" SnapsToDevicePixels="True"/>
             </StackPanel>
             <ScrollViewer VerticalScrollBarVisibility="Auto">

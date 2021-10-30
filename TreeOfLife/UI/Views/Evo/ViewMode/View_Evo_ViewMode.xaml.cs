@@ -27,6 +27,8 @@ using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Extensions;
 
+using ColorX = Com.Chromatics.ColorX;
+
 namespace TreeOfLife.UI.Views
 {
     public partial class View_Evo_ViewMode : UserControl
@@ -91,6 +93,8 @@ namespace TreeOfLife.UI.Views
                 taxonButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
+
+                _UpdateTitleUnderline();
             };
         }
 
@@ -251,7 +255,7 @@ namespace TreeOfLife.UI.Views
             Taxon currentTaxon = Common.CurrentTaxon;
 
             taxonTitle.ThemeColor = currentTaxon.GetThemeColor();
-            taxonTitle.TaxonName = currentTaxon.GetShortName('\n');
+            taxonTitle.TaxonName = currentTaxon.GetShortName(' ');
             taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
@@ -265,6 +269,28 @@ namespace TreeOfLife.UI.Views
             else
             {
                 geoChronSpan.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void _UpdateTitleUnderline()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            if (currentTaxon is not null)
+            {
+                if ((!currentTaxon.Birth.IsEmpty && !currentTaxon.Birth.IsPresent) && (!currentTaxon.IsExtinct || !currentTaxon.Extinction.IsEmpty))
+                {
+                    border_Underline.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    ColorX themeColor = currentTaxon.GetInheritedRank().GetThemeColor();
+
+                    border_Underline.Background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 15 : 85));
+                    border_Underline.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 30 : 70));
+
+                    border_Underline.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -285,6 +311,7 @@ namespace TreeOfLife.UI.Views
             _UpdateVisibility();
 
             _UpdateTitle();
+            _UpdateTitleUnderline();
         }
     }
 }

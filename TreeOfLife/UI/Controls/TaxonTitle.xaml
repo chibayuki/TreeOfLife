@@ -14,17 +14,15 @@ This file is part of TreeOfLife
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TreeOfLife.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="300">
+             d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="border_RankName" BorderThickness="1,1,0,1" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
-            <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" TextTrimming="CharacterEllipsis"/>
-        </Border>
-        <Border x:Name="border_TaxonName" Grid.Column="1" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">
-            <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonTitle}}}" TextTrimming="CharacterEllipsis"/>
-        </Border>
+        <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" FontSize="14"/>
+        <Border x:Name="border_Split" Grid.Column="1" BorderThickness="1" Width="2" Margin="5,0,5,0" SnapsToDevicePixels="True"/>
+        <TextBlock x:Name="textBlock_TaxonName" Grid.Column="2" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
     </Grid>
 </UserControl>

@@ -17,11 +17,11 @@ This file is part of TreeOfLife
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
         <StackPanel>
-            <Grid x:Name="grid_Graph">
+            <Grid x:Name="grid_Graph" Margin="0,0,0,5">
                 <Grid x:Name="grid_PreCambrianMainly"/>
                 <Grid x:Name="grid_PhanerozoicMainly"/>
             </Grid>
-            <Grid HorizontalAlignment="Center" Margin="0,5,0,0">
+            <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>

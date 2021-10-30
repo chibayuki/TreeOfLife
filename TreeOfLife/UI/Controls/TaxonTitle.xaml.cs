@@ -31,9 +31,9 @@ namespace TreeOfLife.UI.Controls
 {
     public partial class TaxonTitle : UserControl
     {
-        private Rank? _Rank;
-        private bool _IsParaphyly;
-        private bool _IsPolyphyly;
+        private Rank? _Rank = null;
+        private bool _IsParaphyly = false;
+        private bool _IsPolyphyly = false;
 
         private void _UpdateRank()
         {
@@ -65,20 +65,19 @@ namespace TreeOfLife.UI.Controls
                     }
                 }
             }
+
+            border_Split.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        private bool _ShowUnderline = true;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private void _UpdateColor()
         {
-            border_TaxonName.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-            border_TaxonName.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
-            textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40));
-
-            border_RankName.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-            border_RankName.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
-            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 70 : 30));
+            textBlock_TaxonName.Foreground = textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+            border_Split.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
         }
 
         //

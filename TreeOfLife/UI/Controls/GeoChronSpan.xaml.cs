@@ -237,11 +237,13 @@ namespace TreeOfLife.UI.Controls
 
         private void _InitGraph()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-            }
+            grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(4) });
+            grid_PreCambrianMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(4) });
+            grid_PhanerozoicMainly.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             // 网格与地质年代标签：
 
@@ -269,6 +271,7 @@ namespace TreeOfLife.UI.Controls
 
                 symbol_Eon.Container.SetValue(Grid.ColumnProperty, _GetColumnIndex(eon));
                 symbol_Eon.Container.SetValue(Grid.ColumnSpanProperty, eonIndex < eons.Length - 1 ? _GetColumnIndex(eons[eonIndex + 1]) - _GetColumnIndex(eon) : _GetColumnIndex(GeoChron.Present) - _GetColumnIndex(eon) + 1);
+                symbol_Eon.Container.SetValue(Grid.RowProperty, 2);
 
                 grid_PreCambrianMainly.Children.Add(symbol_Eon.Container);
 
@@ -286,6 +289,7 @@ namespace TreeOfLife.UI.Controls
 
                     symbol_Period.Container.SetValue(Grid.ColumnProperty, 0);
                     symbol_Period.Container.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.GetGeoChron(Eon.Phanerozoic)));
+                    symbol_Period.Container.SetValue(Grid.RowProperty, 2);
 
                     grid_PhanerozoicMainly.Children.Add(symbol_Period.Container);
                 }
@@ -351,6 +355,7 @@ namespace TreeOfLife.UI.Controls
 
                                     symbol_Period.Container.SetValue(Grid.ColumnProperty, _GetColumnIndex(period));
                                     symbol_Period.Container.SetValue(Grid.ColumnSpanProperty, periodColumnSpan);
+                                    symbol_Period.Container.SetValue(Grid.RowProperty, 2);
 
                                     grid_PhanerozoicMainly.Children.Add(symbol_Period.Container);
                                 }
@@ -372,49 +377,49 @@ namespace TreeOfLife.UI.Controls
 
             // 地质年代跨度条带：
 
+            const double bandHeight_FullWidth = 6;
             const double bandHeight = 6;
-            CornerRadius bandCornerRadius = new CornerRadius(2);
+            Thickness bandBorderThickness_FullWidth = new Thickness(0, 1, 0, 1);
+            Thickness bandBorderThickness = new Thickness(1, 3, 1, 0);
+            Thickness bandMargin_FullWidth = new Thickness(0, 0, 2, 0);
             Thickness bandMargin = new Thickness(0, 4, 2, 0);
-            Thickness bandBorderThickness = new Thickness(1);
 
             border_PreCambrianMainly_FullWidth = new Border()
             {
-                Height = bandHeight,
-                BorderThickness = bandBorderThickness,
-                CornerRadius = bandCornerRadius,
-                Margin = bandMargin
+                Height = bandHeight_FullWidth,
+                BorderThickness = bandBorderThickness_FullWidth,
+                Margin = bandMargin_FullWidth,
+                VerticalAlignment = VerticalAlignment.Top
             };
             border_PreCambrianMainly_FullWidth.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.Present) + 1);
-            border_PreCambrianMainly_FullWidth.SetValue(Grid.RowProperty, 1);
             grid_PreCambrianMainly.Children.Add(border_PreCambrianMainly_FullWidth);
 
             border_PreCambrianMainly = new Border()
             {
                 Height = bandHeight,
-                CornerRadius = bandCornerRadius,
-                Margin = bandMargin
+                BorderThickness = bandBorderThickness,
+                Margin = bandMargin,
+                VerticalAlignment = VerticalAlignment.Top
             };
-            border_PreCambrianMainly.SetValue(Grid.RowProperty, 1);
             grid_PreCambrianMainly.Children.Add(border_PreCambrianMainly);
 
             border_PhanerozoicMainly_FullWidth = new Border()
             {
-                Height = bandHeight,
-                BorderThickness = bandBorderThickness,
-                CornerRadius = bandCornerRadius,
-                Margin = bandMargin
+                Height = bandHeight_FullWidth,
+                BorderThickness = bandBorderThickness_FullWidth,
+                Margin = bandMargin_FullWidth,
+                VerticalAlignment = VerticalAlignment.Top
             };
             border_PhanerozoicMainly_FullWidth.SetValue(Grid.ColumnSpanProperty, _GetColumnIndex(GeoChron.Present) + 1);
-            border_PhanerozoicMainly_FullWidth.SetValue(Grid.RowProperty, 1);
             grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly_FullWidth);
 
             border_PhanerozoicMainly = new Border()
             {
                 Height = bandHeight,
-                CornerRadius = bandCornerRadius,
-                Margin = bandMargin
+                BorderThickness = bandBorderThickness,
+                Margin = bandMargin,
+                VerticalAlignment = VerticalAlignment.Top
             };
-            border_PhanerozoicMainly.SetValue(Grid.RowProperty, 1);
             grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly);
         }
 
@@ -570,24 +575,13 @@ namespace TreeOfLife.UI.Controls
         {
             ColorX themeColor = _Rank.GetThemeColor();
 
-            Brush background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-            Brush borderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70));
-            Brush foreground = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(50));
+            border_PreCambrianMainly_FullWidth.Background = border_PhanerozoicMainly_FullWidth.Background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 15 : 85));
+            border_PreCambrianMainly_FullWidth.BorderBrush = border_PhanerozoicMainly_FullWidth.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
+            border_PreCambrianMainly.BorderBrush = border_PhanerozoicMainly.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(50));
 
-            border_PreCambrianMainly_FullWidth.Background = background;
-            border_PreCambrianMainly_FullWidth.BorderBrush = borderBrush;
-            border_PreCambrianMainly.Background = borderBrush;
+            label_Birth.Foreground = label_BirthPrefix.Foreground = label_Extinction.Foreground = label_ExtinctionPrefix.Foreground = Theme.GetSolidColorBrush(themeColor.AtLightness_LAB(50));
 
-            border_PhanerozoicMainly_FullWidth.Background = background;
-            border_PhanerozoicMainly_FullWidth.BorderBrush = borderBrush;
-            border_PhanerozoicMainly.Background = borderBrush;
-
-            label_Birth.Foreground = foreground;
-            label_BirthPrefix.Foreground = foreground;
-            label_Extinction.Foreground = foreground;
-            label_ExtinctionPrefix.Foreground = foreground;
-
-            border_Span.BorderBrush = borderBrush;
+            border_Span.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
         }
 
         //
