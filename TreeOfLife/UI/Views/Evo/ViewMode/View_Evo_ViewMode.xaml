@@ -114,7 +114,7 @@ This file is part of TreeOfLife
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="描述"/>
-                        <TextBlock Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Padding="0" Text="{Binding Desc}" TextWrapping="Wrap" Foreground="{DynamicResource Label.Foreground}"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
