@@ -83,7 +83,7 @@ namespace TreeOfLife.UI.Controls
 
         private void _InitTimespanControls()
         {
-            Thickness geoChronNameButtonMargin = new Thickness(0, 0, 1, 1);
+            Thickness geoChronButtonMargin = new Thickness(0, 2, 2, 0);
 
             // 布局所有"宙"、"代"、"纪"，前三个"宙"共用一行布局，显生宙另起一行布局。
             foreach (var eons in new GeoChron[][] {
@@ -196,7 +196,7 @@ namespace TreeOfLife.UI.Controls
                     {
                         GeoChron = eon,
                         ThemeColor = eon.GetThemeColor(),
-                        Margin = geoChronNameButtonMargin
+                        Margin = geoChronButtonMargin
                     };
 
                     button_Eon.SetValue(Grid.ColumnProperty, eonColumnIndex[eon.GetHashCode()]);
@@ -214,7 +214,7 @@ namespace TreeOfLife.UI.Controls
                             {
                                 GeoChron = era,
                                 ThemeColor = era.GetThemeColor(),
-                                Margin = geoChronNameButtonMargin
+                                Margin = geoChronButtonMargin
                             };
 
                             button_Era.SetValue(Grid.ColumnProperty, eonColumnIndex[era.GetHashCode()]);
@@ -236,7 +236,7 @@ namespace TreeOfLife.UI.Controls
                                     {
                                         GeoChron = period,
                                         ThemeColor = period.GetThemeColor(),
-                                        Margin = geoChronNameButtonMargin,
+                                        Margin = geoChronButtonMargin,
                                         Vertical = true
                                     };
 
@@ -430,7 +430,7 @@ namespace TreeOfLife.UI.Controls
                                             {
                                                 GeoChron = epoch,
                                                 ThemeColor = epoch.GetThemeColor(),
-                                                Margin = geoChronNameButtonMargin
+                                                Margin = geoChronButtonMargin
                                             };
 
                                             button_Epoch.SetValue(Grid.ColumnProperty, epochColumnIndex[epoch.GetHashCode()]);
@@ -448,7 +448,7 @@ namespace TreeOfLife.UI.Controls
                                                     {
                                                         GeoChron = age,
                                                         ThemeColor = age.GetThemeColor(),
-                                                        Margin = geoChronNameButtonMargin,
+                                                        Margin = geoChronButtonMargin,
                                                         Vertical = true
                                                     };
 

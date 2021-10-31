@@ -44,7 +44,7 @@ namespace TreeOfLife.UI.Controls
 
             private void _UpdateColor()
             {
-                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
+                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
                 _SymbolText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
             }
 
@@ -64,7 +64,8 @@ namespace TreeOfLife.UI.Controls
                 {
                     Child = _SymbolText,
                     CornerRadius = new CornerRadius(2),
-                    Margin = new Thickness(0, 0, 2, 0)
+                    Margin = new Thickness(0, 0, 2, 0),
+                    SnapsToDevicePixels = true
                 };
             }
 

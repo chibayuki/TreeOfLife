@@ -77,7 +77,7 @@ namespace TreeOfLife.UI.Views
 
                 Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
                 Brush borderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(_IsDarkTheme ? 60 : 40));
+                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
 
                 foreach ((Border border, TextBlock rank, TextBlock count) in _DetailText)
                 {
