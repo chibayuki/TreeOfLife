@@ -230,6 +230,7 @@ namespace TreeOfLife.UI.Views
                         currentTaxon.Birth = _Birth;
                     }
 
+                    View.UpdateTitle();
                     View.UpdateWarningMessage();
                 }
             }
@@ -258,6 +259,7 @@ namespace TreeOfLife.UI.Views
                         currentTaxon.Extinction = _Extinction;
                     }
 
+                    View.UpdateTitle();
                     View.UpdateWarningMessage();
                 }
             }

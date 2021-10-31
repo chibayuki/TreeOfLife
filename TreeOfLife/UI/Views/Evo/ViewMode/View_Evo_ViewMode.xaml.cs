@@ -27,8 +27,6 @@ using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Extensions;
 
-using ColorX = Com.Chromatics.ColorX;
-
 namespace TreeOfLife.UI.Views
 {
     public partial class View_Evo_ViewMode : UserControl
@@ -87,14 +85,11 @@ namespace TreeOfLife.UI.Views
             Theme.IsDarkThemeChanged += (s, e) =>
             {
                 taxonTitle.IsDarkTheme = Theme.IsDarkTheme;
-                geoChronSpan.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Tags.IsDarkTheme = Theme.IsDarkTheme;
                 tagGroup_Synonyms.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Parents.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Children.IsDarkTheme = Theme.IsDarkTheme;
                 taxonButtonGroup_Excludes.IsDarkTheme = Theme.IsDarkTheme;
-
-                _UpdateTitleUnderline();
             };
         }
 
@@ -259,39 +254,8 @@ namespace TreeOfLife.UI.Views
             taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
-
-            if ((currentTaxon.IsExtinct && (!currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty)) || (!currentTaxon.IsExtinct && !currentTaxon.Birth.IsEmpty))
-            {
-                geoChronSpan.Update(currentTaxon.Birth, currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present, currentTaxon.GetInheritedRank());
-
-                geoChronSpan.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                geoChronSpan.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void _UpdateTitleUnderline()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            if (currentTaxon is not null)
-            {
-                if ((!currentTaxon.Birth.IsEmpty && !currentTaxon.Birth.IsPresent) && (!currentTaxon.IsExtinct || !currentTaxon.Extinction.IsEmpty))
-                {
-                    border_Underline.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    ColorX themeColor = currentTaxon.GetInheritedRank().GetThemeColor();
-
-                    border_Underline.Background = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 15 : 85));
-                    border_Underline.BorderBrush = Theme.GetSolidColorBrush(themeColor.AtLightness_HSL(Theme.IsDarkTheme ? 30 : 70));
-
-                    border_Underline.Visibility = Visibility.Visible;
-                }
-            }
+            taxonTitle.Birth = currentTaxon.Birth;
+            taxonTitle.Extinction = currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present;
         }
 
         public void UpdateCurrentTaxonInfo()
@@ -311,7 +275,6 @@ namespace TreeOfLife.UI.Views
             _UpdateVisibility();
 
             _UpdateTitle();
-            _UpdateTitleUnderline();
         }
     }
 }
