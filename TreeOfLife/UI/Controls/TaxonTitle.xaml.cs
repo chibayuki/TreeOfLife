@@ -586,7 +586,7 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateGeoChronGraph()
         {
-            if ((_Birth is null || _Birth.IsEmpty || _Birth.IsPresent) || (_Extinction is null || _Extinction.IsEmpty))
+            if ((_Birth is null || _Birth.IsEmpty || _Birth.IsPresent) || (_Extinction is null || _Extinction.IsEmpty) || !(_Birth <= _Extinction))
             {
                 border_Underline.Visibility = Visibility.Visible;
 

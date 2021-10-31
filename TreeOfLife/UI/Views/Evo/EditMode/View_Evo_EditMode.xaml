@@ -49,7 +49,7 @@ This file is part of TreeOfLife
                                 </Grid.ColumnDefinitions>
                                 <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="学名"/>
                                 <StackPanel Grid.Column="2">
-                                    <TextBox Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding Name}"/>
+                                    <TextBox Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}"/>
                                     <Controls:WarningMessage x:Name="warningMessage_NameMissing" Margin="0,5,0,0"/>
                                     <Controls:WarningMessage x:Name="warningMessage_NameLength" Margin="0,5,0,0"/>
                                     <Controls:WarningMessage x:Name="warningMessage_NameUppercase" Margin="0,5,0,0"/>
@@ -66,14 +66,14 @@ This file is part of TreeOfLife
                                 </Grid.ColumnDefinitions>
                                 <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="中文名"/>
                                 <StackPanel Grid.Column="2">
-                                    <TextBox x:Name="textBox_ChsName" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName}"/>
+                                    <TextBox x:Name="textBox_ChsName" Style="{DynamicResource TextBoxStyle}" Height="25" Text="{Binding ChsName,UpdateSourceTrigger=PropertyChanged}"/>
                                     <Grid x:Name="grid_Rename" Margin="0,10,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Style="{DynamicResource LabelStyle}" Content="建议更名为:" Padding="0"/>
+                                        <Label Style="{DynamicResource LabelStyle}" Content="建议更新为:" Padding="0"/>
                                         <Label x:Name="label_Rename" Grid.Column="1" Style="{DynamicResource LabelStyle}" Content="Rename" Padding="5,0,5,0"/>
                                         <Button x:Name="button_Rename" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
                                     </Grid>
@@ -91,6 +91,16 @@ This file is part of TreeOfLife
                         <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="分级"/>
                         <StackPanel Grid.Column="2">
                             <Controls:RankSelector x:Name="rankSelector" Rank="{Binding Rank}"/>
+                            <Grid x:Name="grid_Rerank" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Style="{DynamicResource LabelStyle}" Content="建议更新为:" Padding="0"/>
+                                <Label x:Name="label_Rerank" Grid.Column="1" Style="{DynamicResource LabelStyle}" Content="Rerank" Padding="5,0,5,0"/>
+                                <Button x:Name="button_Rerank" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
+                            </Grid>
                             <Controls:WarningMessage x:Name="warningMessage_RankMissing" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>

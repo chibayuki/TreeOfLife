@@ -24,7 +24,7 @@ This file is part of TreeOfLife
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="stackPanel_RankName" Orientation="Horizontal">
                     <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" Margin="5,0,5,0" FontSize="14"/>
-                    <Border x:Name="border_RankName" BorderThickness="1" Width="2" SnapsToDevicePixels="True"/>
+                    <Border x:Name="border_RankName" BorderThickness="1" Width="2" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
                 </StackPanel>
                 <TextBlock x:Name="textBlock_TaxonName" Grid.Column="1" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
             </Grid>

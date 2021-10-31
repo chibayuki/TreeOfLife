@@ -17,9 +17,6 @@ using System.Windows;
 
 using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Taxonomy;
-using TreeOfLife.Core.Taxonomy.Extensions;
-using TreeOfLife.UI.Controls;
-using TreeOfLife.UI.Extensions;
 
 namespace TreeOfLife.UI.Views
 {
@@ -67,6 +64,9 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.ScientificName = _Name.Trim();
+
+                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
+                        currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
                     }
 
                     View.UpdateTitle();
@@ -96,6 +96,9 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.ChineseName = _ChsName.Trim();
+
+                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
+                        currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
                     }
 
                     View.UpdateTitle();

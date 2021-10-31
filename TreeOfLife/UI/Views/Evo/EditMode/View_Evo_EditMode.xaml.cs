@@ -61,13 +61,8 @@ namespace TreeOfLife.UI.Views
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
-            button_Rename.Click += (s, e) =>
-            {
-                textBox_ChsName.Text = _ChsRename;
-                textBox_ChsName.Focus();
-                textBox_ChsName.SelectAll();
-                ViewModel.ChsName = _ChsRename;
-            };
+            button_Rename.Click += (s, e) => textBox_ChsName.Text = _ChsRename;
+            button_Rerank.Click += (s, e) => rankSelector.Rank = _Rerank;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
             button_AddParentDownlevel.Click += Button_AddParentDownlevel_Click;
@@ -929,6 +924,7 @@ namespace TreeOfLife.UI.Views
         }
 
         private string _ChsRename = string.Empty;
+        private Rank _Rerank = Rank.Unranked;
 
         // 更新中文名重命名提示。
         public void UpdateRename()
@@ -939,7 +935,9 @@ namespace TreeOfLife.UI.Views
             {
                 if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
                 {
-                    string chsNameWithoutRank = RankChineseExtension.SplitChineseName(ViewModel.ChsName).headPart;
+                    (string chsNameWithoutRank, _, Rank? rank) = RankChineseExtension.SplitChineseName(ViewModel.ChsName);
+
+                    _Rerank = rank ?? Rank.Unranked;
 
                     if (ViewModel.Rank.IsUnranked())
                     {
@@ -959,12 +957,15 @@ namespace TreeOfLife.UI.Views
                     }
 
                     label_Rename.Content = _ChsRename;
+                    label_Rerank.Content = _Rerank.GetChineseName();
 
                     grid_Rename.Visibility = Visibility.Visible;
+                    grid_Rerank.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     grid_Rename.Visibility = Visibility.Collapsed;
+                    grid_Rerank.Visibility = Visibility.Collapsed;
                 }
             }
         }
