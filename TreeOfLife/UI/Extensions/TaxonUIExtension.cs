@@ -75,7 +75,7 @@ namespace TreeOfLife.UI.Extensions
         //
 
         // 获取类群的短名称。
-        public static string GetShortName(this Taxon taxon, char separator = ' ')
+        public static string GetShortName(this Taxon taxon)
         {
             if (taxon is null)
             {
@@ -92,28 +92,13 @@ namespace TreeOfLife.UI.Extensions
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.IsUnsure || taxon.IsExtinct)
-                {
-                    if (taxon.IsUnsure)
-                    {
-                        taxonName.Append('?');
-                    }
-
-                    if (taxon.IsExtinct)
-                    {
-                        taxonName.Append('†');
-                    }
-
-                    taxonName.Append(' ');
-                }
-
                 if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
                     taxonName.Append(taxon.ChineseName);
 
                     if (!string.IsNullOrEmpty(taxon.ScientificName))
                     {
-                        taxonName.Append(separator);
+                        taxonName.Append(' ');
                         taxonName.Append(taxon.ScientificName);
                     }
                 }
@@ -122,21 +107,12 @@ namespace TreeOfLife.UI.Extensions
                     taxonName.Append(taxon.ScientificName);
                 }
 
-                if (taxon.IsPolyphyly)
-                {
-                    taxonName.Append(" #");
-                }
-                else if (taxon.IsParaphyly)
-                {
-                    taxonName.Append(" *");
-                }
-
                 return taxonName.ToString();
             }
         }
 
         // 获取类群的长名称。
-        public static string GetLongName(this Taxon taxon, char separator = ' ')
+        public static string GetLongName(this Taxon taxon)
         {
             if (taxon is null)
             {
@@ -153,28 +129,13 @@ namespace TreeOfLife.UI.Extensions
             {
                 StringBuilder taxonName = new StringBuilder();
 
-                if (taxon.IsUnsure || taxon.IsExtinct)
-                {
-                    if (taxon.IsUnsure)
-                    {
-                        taxonName.Append('?');
-                    }
-
-                    if (taxon.IsExtinct)
-                    {
-                        taxonName.Append('†');
-                    }
-
-                    taxonName.Append(' ');
-                }
-
                 if (!string.IsNullOrEmpty(taxon.ChineseName))
                 {
                     taxonName.Append(taxon.ChineseName);
 
                     if (!string.IsNullOrEmpty(taxon.ScientificName))
                     {
-                        taxonName.Append(separator);
+                        taxonName.Append(' ');
                         taxonName.Append(taxon.ScientificName);
                     }
                 }
@@ -188,7 +149,7 @@ namespace TreeOfLife.UI.Extensions
 
                         if (!string.IsNullOrEmpty(taxon.ScientificName))
                         {
-                            taxonName.Append(separator);
+                            taxonName.Append(' ');
                             taxonName.Append(taxon.ScientificName);
                         }
                     }
@@ -199,15 +160,6 @@ namespace TreeOfLife.UI.Extensions
                             taxonName.Append(taxon.ScientificName);
                         }
                     }
-                }
-
-                if (taxon.IsPolyphyly)
-                {
-                    taxonName.Append(" #");
-                }
-                else if (taxon.IsParaphyly)
-                {
-                    taxonName.Append(" *");
                 }
 
                 return taxonName.ToString();

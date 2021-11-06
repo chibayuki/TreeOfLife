@@ -226,8 +226,6 @@ namespace TreeOfLife.UI.Controls
         //
 
         private Rank? _Rank = null;
-        private bool _IsParaphyly = false;
-        private bool _IsPolyphyly = false;
 
         private void _UpdateRank()
         {
@@ -262,6 +260,19 @@ namespace TreeOfLife.UI.Controls
 
             stackPanel_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        private bool _IsExtinct = false;
+        private bool _IsUnsure = false;
+        private bool _IsParaphyly = false;
+        private bool _IsPolyphyly = false;
+
+        private void _UpdateIsExtinct() => grid_Ex.Visibility = _IsExtinct ? Visibility.Visible : Visibility.Collapsed;
+
+        private void _UpdateIsUnsure() => grid_Undet.Visibility = _IsUnsure ? Visibility.Visible : Visibility.Collapsed;
+
+        private void _UpdateIsParaphyly() => grid_Paraphyly.Visibility = _IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
+
+        private void _UpdateIsPolyphyly() => grid_Polyphyly.Visibility = _IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
 
         private GeoChron _Birth = null;
         private GeoChron _Extinction = null;
@@ -636,6 +647,11 @@ namespace TreeOfLife.UI.Controls
             textBlock_TaxonName.Foreground = textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
             border_RankName.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
 
+            textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            border_Ex_Part1.BorderBrush = border_Ex_Part2.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            path_Paraphyly_Part1.Stroke = path_Paraphyly_Part2.Stroke = path_Paraphyly_Part3.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            path_Polyphyly.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+
             border_Underline.Background = border_PreCambrianMainly_FullWidth.Background = border_PhanerozoicMainly_FullWidth.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 15 : 85));
             border_Underline.BorderBrush = border_PreCambrianMainly_FullWidth.BorderBrush = border_PhanerozoicMainly_FullWidth.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
             border_PreCambrianMainly.BorderBrush = border_PhanerozoicMainly.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
@@ -675,6 +691,30 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
+        public bool IsExtinct
+        {
+            get => _IsExtinct;
+
+            set
+            {
+                _IsExtinct = value;
+
+                _UpdateIsExtinct();
+            }
+        }
+
+        public bool IsUnsure
+        {
+            get => _IsUnsure;
+
+            set
+            {
+                _IsUnsure = value;
+
+                _UpdateIsUnsure();
+            }
+        }
+
         public bool IsParaphyly
         {
             get => _IsParaphyly;
@@ -683,6 +723,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsParaphyly = value;
 
+                _UpdateIsParaphyly();
                 _UpdateRank();
             }
         }
@@ -695,6 +736,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsPolyphyly = value;
 
+                _UpdateIsPolyphyly();
                 _UpdateRank();
             }
         }

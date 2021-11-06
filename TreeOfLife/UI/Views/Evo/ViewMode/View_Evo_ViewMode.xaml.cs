@@ -250,8 +250,10 @@ namespace TreeOfLife.UI.Views
             Taxon currentTaxon = Common.CurrentTaxon;
 
             taxonTitle.ThemeColor = currentTaxon.GetThemeColor();
-            taxonTitle.TaxonName = currentTaxon.GetShortName(' ');
+            taxonTitle.TaxonName = currentTaxon.GetShortName();
             taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
+            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
+            taxonTitle.IsUnsure = currentTaxon.IsUnsure;
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
             taxonTitle.Birth = currentTaxon.Birth;

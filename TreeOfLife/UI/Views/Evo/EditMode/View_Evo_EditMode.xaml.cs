@@ -875,21 +875,6 @@ namespace TreeOfLife.UI.Views
 
                 StringBuilder taxonName = new StringBuilder();
 
-                if (currentTaxon.IsUnsure || currentTaxon.IsExtinct)
-                {
-                    if (currentTaxon.IsUnsure)
-                    {
-                        taxonName.Append('?');
-                    }
-
-                    if (currentTaxon.IsExtinct)
-                    {
-                        taxonName.Append('†');
-                    }
-
-                    taxonName.Append(' ');
-                }
-
                 if (!string.IsNullOrEmpty(chsName))
                 {
                     taxonName.Append(chsName);
@@ -905,18 +890,11 @@ namespace TreeOfLife.UI.Views
                     taxonName.Append(name);
                 }
 
-                if (currentTaxon.IsPolyphyly)
-                {
-                    taxonName.Append(" #");
-                }
-                else if (currentTaxon.IsParaphyly)
-                {
-                    taxonName.Append(" *");
-                }
-
                 taxonTitle.TaxonName = taxonName.ToString();
             }
 
+            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
+            taxonTitle.IsUnsure = currentTaxon.IsUnsure;
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
             taxonTitle.Birth = currentTaxon.Birth;

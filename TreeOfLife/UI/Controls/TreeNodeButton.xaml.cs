@@ -56,6 +56,13 @@ namespace TreeOfLife.UI.Controls
 
                 textBlock_TaxonName.FontStyle = bellowGenus ? FontStyles.Italic : FontStyles.Normal;
                 textBlock_TaxonName.FontWeight = basicPrimary ? FontWeights.Bold : FontWeights.Normal;
+
+                //
+
+                grid_Undet.Visibility = _Taxon.IsUnsure ? Visibility.Visible : Visibility.Collapsed;
+                grid_Ex.Visibility = _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
+                grid_Paraphyly.Visibility = _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
+                grid_Polyphyly.Visibility = _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -166,7 +173,11 @@ namespace TreeOfLife.UI.Controls
             border_TaxonName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
             textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
-            path_Ref_Part1.Stroke = path_Ref_Part2.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70).ToWpfColor());
+            textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            border_Ex_Part1.BorderBrush = border_Ex_Part2.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            path_Paraphyly_Part1.Stroke = path_Paraphyly_Part2.Stroke = path_Paraphyly_Part3.Stroke = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            path_Polyphyly.Stroke = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            path_Ref_Part1.Stroke = path_Ref_Part2.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
         }
 
         //

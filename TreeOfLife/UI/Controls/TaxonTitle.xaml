@@ -23,10 +23,27 @@ This file is part of TreeOfLife
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="stackPanel_RankName" Orientation="Horizontal">
-                    <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" Margin="5,0,5,0" FontSize="14"/>
+                    <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" Margin="6,0,6,0" FontSize="14"/>
                     <Border x:Name="border_RankName" BorderThickness="1" Width="2" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
                 </StackPanel>
-                <TextBlock x:Name="textBlock_TaxonName" Grid.Column="1" Text="TaxonName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
+                <DockPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0,6,0">
+                    <Grid x:Name="grid_Undet" DockPanel.Dock="Left" Margin="0,0,6,0">
+                        <TextBlock x:Name="textBlock_Undet" Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,-6,0,-6"/>
+                    </Grid>
+                    <Grid x:Name="grid_Ex" DockPanel.Dock="Left" Width="10" Height="14" Margin="0,0,6,0">
+                        <Border x:Name="border_Ex_Part1" Height="2" BorderThickness="1" BorderBrush="#FF808080" VerticalAlignment="Top" Margin="0,4,0,0" SnapsToDevicePixels="True"/>
+                        <Border x:Name="border_Ex_Part2" Width="2" BorderThickness="1" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
+                    </Grid>
+                    <Grid x:Name="grid_Polyphyly" DockPanel.Dock="Right" Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Top">
+                        <Path x:Name="path_Polyphyly" Data="M 1,0 0,1.732 2,1.732 z" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" Margin="0.5"/>
+                    </Grid>
+                    <Grid x:Name="grid_Paraphyly" DockPanel.Dock="Right" Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Top">
+                        <Path x:Name="path_Paraphyly_Part1" Data="M 0,0 0,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        <Path x:Name="path_Paraphyly_Part2" Data="M 0,0 1.732,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+                        <Path x:Name="path_Paraphyly_Part3" Data="M 1.732,0 0,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+                    </Grid>
+                    <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
+                </DockPanel>
             </Grid>
             <Grid x:Name="grid_Graph" Margin="0,10,0,0">
                 <Border x:Name="border_Underline" SnapsToDevicePixels="True"/>
