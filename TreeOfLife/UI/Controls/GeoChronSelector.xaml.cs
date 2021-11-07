@@ -237,7 +237,7 @@ namespace TreeOfLife.UI.Controls
                                         GeoChron = period,
                                         ThemeColor = period.GetThemeColor(),
                                         Margin = geoChronButtonMargin,
-                                        Vertical = true
+                                        IsVertical = true
                                     };
 
                                     button_Period.SetValue(Grid.ColumnProperty, periodColumnIndex);
@@ -449,7 +449,7 @@ namespace TreeOfLife.UI.Controls
                                                         GeoChron = age,
                                                         ThemeColor = age.GetThemeColor(),
                                                         Margin = geoChronButtonMargin,
-                                                        Vertical = true
+                                                        IsVertical = true
                                                     };
 
                                                     button_Age.SetValue(Grid.ColumnProperty, epochColumnIndex[age.GetHashCode()]);
@@ -463,7 +463,7 @@ namespace TreeOfLife.UI.Controls
                                             }
                                             else
                                             {
-                                                button_Epoch.Vertical = true;
+                                                button_Epoch.IsVertical = true;
                                                 button_Epoch.SetValue(Grid.RowSpanProperty, 2);
                                             }
                                         }
@@ -474,14 +474,14 @@ namespace TreeOfLife.UI.Controls
                             }
                             else
                             {
-                                button_Era.Vertical = true;
+                                button_Era.IsVertical = true;
                                 button_Era.SetValue(Grid.RowSpanProperty, 2);
                             }
                         }
                     }
                     else
                     {
-                        button_Eon.Vertical = true;
+                        button_Eon.IsVertical = true;
                         button_Eon.SetValue(Grid.RowSpanProperty, 3);
                     }
                 }

@@ -22,6 +22,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Media.Effects;
+
 using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Geology.Extensions;
 using TreeOfLife.UI.Extensions;
@@ -32,19 +34,30 @@ namespace TreeOfLife.UI.Controls
 {
     public partial class GeoChronButton : UserControl
     {
+        private static readonly DropShadowEffect _DropShadowEffect = new DropShadowEffect()
+        {
+            BlurRadius = 5,
+            Opacity = 0.25,
+            ShadowDepth = 0
+        };
+
+        //
+
         private GeoChron _GeoChron = null; // 地质年代。
         private string _GeoChronName = string.Empty; // 名称。
 
         private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IsIndirectlyChecked = false;
-        private bool _MouseOver = false;
-        private bool _Vertical = false;
+        private bool _IsMouseOver = false;
+        private bool _IsVertical = false;
 
         private void _UpdateIsIndirectlyChecked() => path_IndirectlyChecked.Visibility = _IsIndirectlyChecked ? Visibility.Visible : Visibility.Collapsed;
 
+        private void _UpdateEffect() => this.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
+
         private void _UpdateGeoChron()
         {
-            textBlock_GeoChronName.Text = _Vertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName;
+            textBlock_GeoChronName.Text = _IsVertical ? string.Join(Environment.NewLine, _GeoChronName.ToCharArray()) : _GeoChronName;
         }
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
@@ -52,10 +65,10 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            border_GeoChronName.Background = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
-            border_GeoChronName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-            path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _MouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor() : Colors.Transparent);
-            textBlock_GeoChronName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _MouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            border_GeoChronName.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
+            border_GeoChronName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+            path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor() : Colors.Transparent);
+            textBlock_GeoChronName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
         }
 
         //
@@ -74,13 +87,15 @@ namespace TreeOfLife.UI.Controls
 
             this.MouseEnter += (s, e) =>
             {
-                _MouseOver = true;
+                _IsMouseOver = true;
+                _UpdateEffect();
                 _UpdateColor();
             };
 
             this.MouseLeave += (s, e) =>
             {
-                _MouseOver = false;
+                _IsMouseOver = false;
+                _UpdateEffect();
                 _UpdateColor();
             };
         }
@@ -124,6 +139,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsChecked = value;
 
+                _UpdateEffect();
                 _UpdateColor();
             }
         }
@@ -137,17 +153,18 @@ namespace TreeOfLife.UI.Controls
                 _IsIndirectlyChecked = value;
 
                 _UpdateIsIndirectlyChecked();
+                _UpdateEffect();
                 _UpdateColor();
             }
         }
 
-        public bool Vertical
+        public bool IsVertical
         {
-            get => _Vertical;
+            get => _IsVertical;
 
             set
             {
-                _Vertical = value;
+                _IsVertical = value;
 
                 _UpdateGeoChron();
             }

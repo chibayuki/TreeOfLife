@@ -22,6 +22,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Media.Effects;
+
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
@@ -33,6 +35,15 @@ namespace TreeOfLife.UI.Controls
 {
     public partial class TaxonButton : UserControl
     {
+        private static readonly DropShadowEffect _DropShadowEffect = new DropShadowEffect()
+        {
+            BlurRadius = 5,
+            Opacity = 0.25,
+            ShadowDepth = 0
+        };
+
+        //
+
         private Taxon _Taxon = null; // 类群。
         private bool _IsRef = false; // 是否为引用，false：单系群继承关系的类群，true：并系群排除的类群或复系群包含的类群。
 
@@ -109,6 +120,8 @@ namespace TreeOfLife.UI.Controls
         private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IsMouseOver = false;
 
+        private void _UpdateEffect() => this.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
+
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
@@ -148,12 +161,14 @@ namespace TreeOfLife.UI.Controls
             this.MouseEnter += (s, e) =>
             {
                 _IsMouseOver = true;
+                _UpdateEffect();
                 _UpdateColor();
             };
 
             this.MouseLeave += (s, e) =>
             {
                 _IsMouseOver = false;
+                _UpdateEffect();
                 _UpdateColor();
             };
         }
@@ -213,6 +228,7 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsChecked = value;
 
+                _UpdateEffect();
                 _UpdateColor();
             }
         }

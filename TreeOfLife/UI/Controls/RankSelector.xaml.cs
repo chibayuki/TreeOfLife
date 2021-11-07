@@ -255,12 +255,12 @@ namespace TreeOfLife.UI.Controls
 
                     if (_BasicRankButtons.TryGetValue(oldRank.BasicRank(), out button) && button is not null)
                     {
-                        button.IsChecked = false;
+                        button.IsIndirectlyChecked = false;
                     }
 
                     if (_BasicRankButtons.TryGetValue(newRank.BasicRank(), out button) && button is not null)
                     {
-                        button.IsChecked = true;
+                        button.IsIndirectlyChecked = true;
                     }
 
                     //
@@ -300,9 +300,9 @@ namespace TreeOfLife.UI.Controls
 
                     foreach (var item in _BasicRankButtons)
                     {
-                        if (item.Value.IsChecked)
+                        if (item.Value.IsIndirectlyChecked)
                         {
-                            item.Value.IsChecked = false;
+                            item.Value.IsIndirectlyChecked = false;
                         }
                     }
 
@@ -348,7 +348,7 @@ namespace TreeOfLife.UI.Controls
 
                     if (_BasicRankButtons.TryGetValue(newRank.BasicRank(), out button) && button is not null)
                     {
-                        button.IsChecked = true;
+                        button.IsIndirectlyChecked = true;
                     }
 
                     if (_RanksButtons.TryGetValue(newRank, out button) && button is not null)

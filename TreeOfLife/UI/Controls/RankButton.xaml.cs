@@ -22,6 +22,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Media.Effects;
+
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Extensions;
@@ -32,6 +34,15 @@ namespace TreeOfLife.UI.Controls
 {
     public partial class RankButton : UserControl
     {
+        private static readonly DropShadowEffect _DropShadowEffect = new DropShadowEffect()
+        {
+            BlurRadius = 5,
+            Opacity = 0.25,
+            ShadowDepth = 0
+        };
+
+        //
+
         private Rank _Rank = Rank.Unranked; // 分类阶元。
 
         private void _UpdateRank()
@@ -40,7 +51,12 @@ namespace TreeOfLife.UI.Controls
         }
 
         private bool _IsChecked = false; // 是否处于已选择状态。
+        private bool _IsIndirectlyChecked = false;
         private bool _IsMouseOver = false;
+
+        private void _UpdateIsIndirectlyChecked() => path_IndirectlyChecked.Visibility = _IsIndirectlyChecked ? Visibility.Visible : Visibility.Collapsed;
+
+        private void _UpdateEffect() => this.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
@@ -48,7 +64,8 @@ namespace TreeOfLife.UI.Controls
         private void _UpdateColor()
         {
             border_RankName.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
-            border_RankName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+            border_RankName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+            path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor() : Colors.Transparent);
             textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
         }
 
@@ -69,12 +86,14 @@ namespace TreeOfLife.UI.Controls
             this.MouseEnter += (s, e) =>
             {
                 _IsMouseOver = true;
+                _UpdateEffect();
                 _UpdateColor();
             };
 
             this.MouseLeave += (s, e) =>
             {
                 _IsMouseOver = false;
+                _UpdateEffect();
                 _UpdateColor();
             };
         }
@@ -103,6 +122,21 @@ namespace TreeOfLife.UI.Controls
             {
                 _IsChecked = value;
 
+                _UpdateEffect();
+                _UpdateColor();
+            }
+        }
+
+        public bool IsIndirectlyChecked
+        {
+            get => _IsIndirectlyChecked;
+
+            set
+            {
+                _IsIndirectlyChecked = value;
+
+                _UpdateIsIndirectlyChecked();
+                _UpdateEffect();
                 _UpdateColor();
             }
         }
