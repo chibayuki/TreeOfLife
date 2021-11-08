@@ -31,8 +31,8 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="RadioButton.Disabled.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="DimGray"/>
 
-    <DropShadowEffect x:Key="RadioButton.MouseOver.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
-    <DropShadowEffect x:Key="RadioButton.Pressed.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="RadioButton.MouseOver.Effect" BlurRadius="3" Direction="315" Opacity="0.3" ShadowDepth="1"/>
+    <DropShadowEffect x:Key="RadioButton.Pressed.Effect" BlurRadius="3" Direction="315" Opacity="0.3" ShadowDepth="1"/>
 
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">

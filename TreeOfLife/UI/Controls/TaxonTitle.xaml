@@ -22,10 +22,9 @@ This file is part of TreeOfLife
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <StackPanel x:Name="stackPanel_RankName" Orientation="Horizontal">
+                <Border x:Name="border_RankName" BorderThickness="0,0,2,0" BorderBrush="#FF808080" SnapsToDevicePixels="True">
                     <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" Margin="6,0,6,0" FontSize="14"/>
-                    <Border x:Name="border_RankName" BorderThickness="1" Width="2" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
-                </StackPanel>
+                </Border>
                 <DockPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0,6,0">
                     <Grid x:Name="grid_Undet" DockPanel.Dock="Left" Margin="0,0,6,0">
                         <TextBlock x:Name="textBlock_Undet" Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,-6,0,-6"/>

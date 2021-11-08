@@ -21,7 +21,7 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="ContextMenu.Background" Color="White"/>
     <SolidColorBrush x:Key="ContextMenu.BorderBrush" Color="Gray"/>
 
-    <DropShadowEffect x:Key="ContextMenu.DropShadow.Effect" ShadowDepth="2" Direction="315" Opacity="0.25" BlurRadius="5"/>
+    <DropShadowEffect x:Key="ContextMenu.DropShadow.Effect" BlurRadius="5" Direction="315" Opacity="0.3" ShadowDepth="2"/>
 
     <SolidColorBrush x:Key="Separator.BorderBrush" Color="Gray"/>
 
@@ -35,7 +35,7 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="MenuItem.Disabled.Background"/>
     <SolidColorBrush x:Key="MenuItem.Disabled.Foreground"/>
 
-    <DropShadowEffect x:Key="MenuItem.Highlighted.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="MenuItem.Highlighted.Effect" BlurRadius="3" Direction="270" Opacity="0.3" ShadowDepth="1"/>
 
     <!-- ContextMenu Style -->
     <Style TargetType="{x:Type ContextMenu}">

@@ -36,9 +36,10 @@ namespace TreeOfLife.UI.Controls
     {
         private static readonly DropShadowEffect _DropShadowEffect = new DropShadowEffect()
         {
-            BlurRadius = 5,
+            BlurRadius = 3,
+            Direction = 315,
             Opacity = 0.3,
-            ShadowDepth = 0
+            ShadowDepth = 1
         };
 
         //

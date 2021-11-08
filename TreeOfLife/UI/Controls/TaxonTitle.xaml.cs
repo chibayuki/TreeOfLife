@@ -258,7 +258,7 @@ namespace TreeOfLife.UI.Controls
                 }
             }
 
-            stackPanel_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
+            border_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool _IsExtinct = false;

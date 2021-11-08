@@ -16,10 +16,12 @@ This file is part of TreeOfLife
 
     <SolidColorBrush x:Key="TextBox.MouseOver.Background"/>
     <SolidColorBrush x:Key="TextBox.MouseOver.BorderBrush"/>
+    <SolidColorBrush x:Key="TextBox.MouseOver.BorderBrush.Underline"/>
     <SolidColorBrush x:Key="TextBox.MouseOver.Foreground"/>
 
     <SolidColorBrush x:Key="TextBox.Focused.Background"/>
     <SolidColorBrush x:Key="TextBox.Focused.BorderBrush"/>
+    <SolidColorBrush x:Key="TextBox.Focused.BorderBrush.Underline"/>
     <SolidColorBrush x:Key="TextBox.Focused.Foreground"/>
 
     <DropShadowEffect x:Key="TextBox.MouseOver.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
@@ -54,18 +56,20 @@ This file is part of TreeOfLife
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.MouseOver.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
                             <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.MouseOver.Effect}"/>
-                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
-                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush.Underline}"/>
+                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
                             <Setter TargetName="border_Bottom" Property="BorderThickness" Value="0,0,0,2"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBox.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.Focused.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
                             <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.Focused.Effect}"/>
-                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
-                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
+                            <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush.Underline}"/>
+                            <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
                             <Setter TargetName="border_Bottom" Property="BorderThickness" Value="0,0,0,2"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBox.Focused.Foreground}"/>
