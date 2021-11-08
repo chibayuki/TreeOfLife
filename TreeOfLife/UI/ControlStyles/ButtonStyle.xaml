@@ -26,8 +26,8 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="Button.Disabled.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="DimGray"/>
 
-    <DropShadowEffect x:Key="Button.MouseOver.Effect" BlurRadius="5" Opacity="0.25" ShadowDepth="0"/>
-    <DropShadowEffect x:Key="Button.Pressed.Effect" BlurRadius="5" Opacity="0.25" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="Button.MouseOver.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="Button.Pressed.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
 
     <Style x:Key="Button.FocusVisual">
         <Setter Property="Control.Template">

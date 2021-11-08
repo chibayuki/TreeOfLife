@@ -69,5 +69,15 @@ namespace TreeOfLife.UI {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] AppLogo_256_Dark {
+            get {
+                object obj = ResourceManager.GetObject("AppLogo_256_Dark", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

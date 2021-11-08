@@ -28,7 +28,7 @@
     <Compile Update="UI\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UI\Resource.resx</DependentUpon>
+      <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Update="UI\Views\Statistics\View_Statistics.xaml.cs">
       <SubType>Code</SubType>
@@ -41,7 +41,7 @@
   <ItemGroup>
     <EmbeddedResource Update="UI\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UI\Resource.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

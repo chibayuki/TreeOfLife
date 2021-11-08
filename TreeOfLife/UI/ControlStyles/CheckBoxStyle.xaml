@@ -31,8 +31,8 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="CheckBox.Disabled.BorderBrush" Color="Gray"/>
     <SolidColorBrush x:Key="CheckBox.Disabled.Glyph" Color="DimGray"/>
 
-    <DropShadowEffect x:Key="CheckBox.MouseOver.Effect" BlurRadius="5" Opacity="0.25" ShadowDepth="0"/>
-    <DropShadowEffect x:Key="CheckBox.Pressed.Effect" BlurRadius="5" Opacity="0.25" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="CheckBox.MouseOver.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
+    <DropShadowEffect x:Key="CheckBox.Pressed.Effect" BlurRadius="5" Opacity="0.3" ShadowDepth="0"/>
 
     <Style x:Key="CheckBox.FocusVisual">
         <Setter Property="Control.Template">

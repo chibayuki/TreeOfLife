@@ -13,9 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using TreeOfLife.Core;
 
@@ -23,25 +21,17 @@ namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_About : ViewModel
     {
+        private ImageSource _AppLogo = null;
+
         public ImageSource AppLogo
         {
-            get
+            get => _AppLogo;
+
+            set
             {
-                BitmapImage bmp;
+                _AppLogo = value;
 
-                try
-                {
-                    bmp = new BitmapImage();
-                    bmp.BeginInit();
-                    bmp.StreamSource = new MemoryStream(Resource.AppLogo_256);
-                    bmp.EndInit();
-                }
-                catch
-                {
-                    bmp = null;
-                }
-
-                return bmp;
+                NotifyPropertyChanged(nameof(AppLogo));
             }
         }
 
