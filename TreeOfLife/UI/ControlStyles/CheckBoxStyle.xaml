@@ -69,12 +69,15 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" CornerRadius="3" SnapsToDevicePixels="True">
-                            <Grid x:Name="markGrid" Width="18" Height="18">
-                                <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{DynamicResource CheckBox.Static.Glyph}" Margin="2" Opacity="0" Stretch="Uniform"/>
-                                <Rectangle x:Name="indeterminateMark" Fill="{DynamicResource CheckBox.Static.Glyph}" Margin="4" Opacity="0"/>
-                            </Grid>
-                        </Border>
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="1">
+                            <Border x:Name="border_Background" CornerRadius="3" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"/>
+                            <Border x:Name="checkBoxBorder" CornerRadius="3" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                                <Grid x:Name="markGrid" Width="18" Height="18">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{DynamicResource CheckBox.Static.Glyph}" Margin="2" Opacity="0" Stretch="Uniform"/>
+                                    <Rectangle x:Name="indeterminateMark" Fill="{DynamicResource CheckBox.Static.Glyph}" Margin="4" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -83,22 +86,22 @@ This file is part of TreeOfLife
                             <Setter Property="Padding" Value="6,0,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CheckBox.MouseOver.Background}"/>
-                            <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CheckBox.MouseOver.BorderBrush}"/>
-                            <Setter TargetName="checkBoxBorder" Property="Effect" Value="{StaticResource CheckBox.MouseOver.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource CheckBox.MouseOver.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource CheckBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource CheckBox.MouseOver.Effect}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CheckBox.MouseOver.Glyph}"/>
                             <Setter TargetName="indeterminateMark" Property="Fill" Value="{DynamicResource CheckBox.MouseOver.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CheckBox.Pressed.Background}"/>
-                            <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CheckBox.Pressed.BorderBrush}"/>
-                            <Setter TargetName="checkBoxBorder" Property="Effect" Value="{StaticResource CheckBox.Pressed.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource CheckBox.Pressed.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource CheckBox.Pressed.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource CheckBox.Pressed.Effect}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CheckBox.Pressed.Glyph}"/>
                             <Setter TargetName="indeterminateMark" Property="Fill" Value="{DynamicResource CheckBox.Pressed.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CheckBox.Disabled.Background}"/>
-                            <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CheckBox.Disabled.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource CheckBox.Disabled.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource CheckBox.Disabled.BorderBrush}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CheckBox.Disabled.Glyph}"/>
                             <Setter TargetName="indeterminateMark" Property="Fill" Value="{DynamicResource CheckBox.Disabled.Glyph}"/>
                         </Trigger>
@@ -116,8 +119,8 @@ This file is part of TreeOfLife
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CheckBox.Checked.Background}"/>
-                                <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CheckBox.Checked.BorderBrush}"/>
+                                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource CheckBox.Checked.Background}"/>
+                                <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource CheckBox.Checked.BorderBrush}"/>
                                 <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CheckBox.Checked.Glyph}"/>
                                 <Setter TargetName="indeterminateMark" Property="Fill" Value="{DynamicResource CheckBox.Checked.Glyph}"/>
                             </MultiTrigger.Setters>
@@ -128,8 +131,8 @@ This file is part of TreeOfLife
                                 <Condition Property="IsChecked" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource CheckBox.Checked.Background}"/>
-                                <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{DynamicResource CheckBox.Checked.BorderBrush}"/>
+                                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource CheckBox.Checked.Background}"/>
+                                <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource CheckBox.Checked.BorderBrush}"/>
                                 <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource CheckBox.Checked.Glyph}"/>
                                 <Setter TargetName="indeterminateMark" Property="Fill" Value="{DynamicResource CheckBox.Checked.Glyph}"/>
                             </MultiTrigger.Setters>

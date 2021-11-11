@@ -42,8 +42,9 @@ This file is part of TreeOfLife
                     <Border BorderThickness="1" Width="1" BorderBrush="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
                 </Grid>
             </Grid>
-            <Grid x:Name="grid_MiddlePart">
-                <Border x:Name="border_TaxonName" Margin="0,3,0,3" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
+            <Grid x:Name="grid_MiddlePart" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,3,0,3">
+                <Border x:Name="border_Background" CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True"/>
+                <Border CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3">
                         <Grid x:Name="grid_Undet" Width="6.5" Height="11" Margin="0,0,3,0">
                             <TextBlock x:Name="textBlock_Undet" Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Margin="0,-4,0,-4"/>

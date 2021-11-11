@@ -69,11 +69,14 @@ This file is part of TreeOfLife
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <Grid x:Name="markGrid" Width="18" Height="18">
-                                <Ellipse x:Name="optionMark" Fill="{DynamicResource RadioButton.Static.Glyph}" Margin="4" Opacity="0"/>
-                            </Grid>
-                        </Border>
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="1">
+                            <Border x:Name="border_Background" CornerRadius="100" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"/>
+                            <Border x:Name="radioButtonBorder" CornerRadius="100" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                                <Grid x:Name="markGrid" Width="18" Height="18">
+                                    <Ellipse x:Name="optionMark" Fill="{DynamicResource RadioButton.Static.Glyph}" Margin="4" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
                         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -82,20 +85,20 @@ This file is part of TreeOfLife
                             <Setter Property="Padding" Value="6,0,0,0"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.MouseOver.Background}"/>
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.MouseOver.BorderBrush}"/>
-                            <Setter TargetName="radioButtonBorder" Property="Effect" Value="{StaticResource RadioButton.MouseOver.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource RadioButton.MouseOver.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource RadioButton.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource RadioButton.MouseOver.Effect}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.MouseOver.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Pressed.Background}"/>
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Pressed.BorderBrush}"/>
-                            <Setter TargetName="radioButtonBorder" Property="Effect" Value="{StaticResource RadioButton.Pressed.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource RadioButton.Pressed.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource RadioButton.Pressed.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource RadioButton.Pressed.Effect}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Pressed.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Disabled.Background}"/>
-                            <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Disabled.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource RadioButton.Disabled.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource RadioButton.Disabled.BorderBrush}"/>
                             <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Disabled.Glyph}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
@@ -110,8 +113,8 @@ This file is part of TreeOfLife
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
-                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
+                                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
+                                <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
                                 <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Checked.Glyph}"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
@@ -121,8 +124,8 @@ This file is part of TreeOfLife
                                 <Condition Property="IsChecked" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
-                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
+                                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource RadioButton.Checked.Background}"/>
+                                <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource RadioButton.Checked.BorderBrush}"/>
                                 <Setter TargetName="optionMark" Property="Fill" Value="{DynamicResource RadioButton.Checked.Glyph}"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>

@@ -176,15 +176,15 @@ namespace TreeOfLife.UI.Controls
         private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IsMouseOver = false;
 
-        private void _UpdateEffect() => border_TaxonName.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
+        private void _UpdateEffect() => border_Background.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
 
         private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private void _UpdateColor()
         {
-            border_TaxonName.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 5 : 95));
-            border_TaxonName.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+            border_Background.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 5 : 95));
+            border_Background.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 30 : 70) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
             textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
             textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
@@ -210,14 +210,14 @@ namespace TreeOfLife.UI.Controls
                 _UpdateColor();
             };
 
-            border_TaxonName.MouseEnter += (s, e) =>
+            grid_MiddlePart.MouseEnter += (s, e) =>
             {
                 _IsMouseOver = true;
                 _UpdateEffect();
                 _UpdateColor();
             };
 
-            border_TaxonName.MouseLeave += (s, e) =>
+            grid_MiddlePart.MouseLeave += (s, e) =>
             {
                 _IsMouseOver = false;
                 _UpdateEffect();
@@ -229,9 +229,9 @@ namespace TreeOfLife.UI.Controls
 
         internal bool VerifyMousePosition()
         {
-            Point p = Mouse.GetPosition(border_TaxonName);
+            Point p = Mouse.GetPosition(grid_MiddlePart);
 
-            return p.X >= 0 && p.X < border_TaxonName.ActualWidth && p.Y >= 0 && p.Y < border_TaxonName.ActualHeight;
+            return p.X >= 0 && p.X < grid_MiddlePart.ActualWidth && p.Y >= 0 && p.Y < grid_MiddlePart.ActualHeight;
         }
 
         //

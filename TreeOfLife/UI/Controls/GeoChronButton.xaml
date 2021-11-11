@@ -16,7 +16,8 @@ This file is part of TreeOfLife
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="150">
     <Grid>
-        <Border x:Name="border_GeoChronName" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
+        <Border x:Name="border_Background" CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True"/>
+        <Border CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True">
             <Grid>
                 <Path x:Name="path_IndirectlyChecked" Data="M 0,0 7,0 0,7 z" Stretch="None" Fill="#FF808080" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBlock x:Name="textBlock_GeoChronName" Text="GeoChronName" Margin="0,2,0,2" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GeoChronButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GeoChronButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GeoChronButton}}}" FontStyle="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GeoChronButton}}}" FontWeight="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GeoChronButton}}}"/>

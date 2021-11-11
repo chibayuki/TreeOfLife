@@ -16,11 +16,17 @@ This file is part of TreeOfLife
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
+        <Border x:Name="border_Background" CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True">
+            <DockPanel>
+                <Border x:Name="border_RankNameBackground" CornerRadius="3,0,0,3" BorderThickness="1,1,0,1" SnapsToDevicePixels="True"/>
+                <Border x:Name="border_TaxonNameBackground" CornerRadius="0,3,3,0" BorderThickness="0,1,1,1" SnapsToDevicePixels="True"/>
+            </DockPanel>
+        </Border>
         <DockPanel>
             <Border x:Name="border_RankName" BorderThickness="1,1,0,1" CornerRadius="3,0,0,3" SnapsToDevicePixels="True">
                 <TextBlock x:Name="textBlock_RankName" Text="RankName" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,3,6,3" FontFamily="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonButton}}}" FontSize="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonButton}}}" FontStretch="{Binding FontStretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TaxonButton}}}" TextTrimming="CharacterEllipsis"/>
             </Border>
-            <Border x:Name="border_TaxonName" BorderThickness="0,1,1,1" CornerRadius="0,3,3,0" SnapsToDevicePixels="True">
+            <Border CornerRadius="0,3,3,0" BorderThickness="0,1,1,1" SnapsToDevicePixels="True">
                 <DockPanel Margin="6,3,6,3">
                     <Grid x:Name="grid_Ref" DockPanel.Dock="Right" Width="6" Height="10" Margin="6,0,0,0">
                         <Path x:Name="path_Ref_Part1" Data="M 2,0 C 0,2 0,2 1,3" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="1.5" HorizontalAlignment="Right" VerticalAlignment="Top"/>

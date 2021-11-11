@@ -26,7 +26,6 @@ This file is part of TreeOfLife
     <SolidColorBrush x:Key="Separator.BorderBrush" Color="Gray"/>
 
     <SolidColorBrush x:Key="MenuItem.Static.Background" Color="White"/>
-    <SolidColorBrush x:Key="MenuItem.Static.BorderBrush" Color="Transparent"/>
     <SolidColorBrush x:Key="MenuItem.Static.Foreground" Color="Black"/>
     
     <SolidColorBrush x:Key="MenuItem.Highlighted.Background"/>
@@ -75,25 +74,28 @@ This file is part of TreeOfLife
 
     <!-- TopLevelHeader MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
-            <Grid>
-                <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
-                <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}">
-                        <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
-                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                        </ScrollViewer>
-                    </Border>
-                </Popup>
-            </Grid>
-        </Border>
+        <Grid>
+            <Border x:Name="border_Background" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" SnapsToDevicePixels="True"/>
+            <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" SnapsToDevicePixels="True">
+                <Grid>
+                    <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
+                    <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                        <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}">
+                            <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
@@ -109,15 +111,18 @@ This file is part of TreeOfLife
 
     <!-- TopLevelItem MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
-            <Grid>
-                <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
-            </Grid>
-        </Border>
+        <Grid>
+            <Border x:Name="border_Background" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" SnapsToDevicePixels="True"/>
+            <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" SnapsToDevicePixels="True">
+                <Grid>
+                    <ContentPresenter VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
+                </Grid>
+            </Border>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -128,34 +133,37 @@ This file is part of TreeOfLife
 
     <!-- SubmenuHeader MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
-                    <ColumnDefinition Width="13"/>
-                </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="12,0,0,0" DockPanel.Dock="Right"/>
-                <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource Glyph}"/>
-                <Popup x:Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}">
-                        <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
-                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                        </ScrollViewer>
-                    </Border>
-                </Popup>
-            </Grid>
-        </Border>
+        <Grid>
+            <Border x:Name="border_Background" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" SnapsToDevicePixels="True"/>
+            <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                    <ContentPresenter x:Name="HeaderHost" Grid.Column="1" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
+                    <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="12,0,0,0" DockPanel.Dock="Right"/>
+                    <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource Glyph}"/>
+                    <Popup x:Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                        <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}">
+                            <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
@@ -171,22 +179,25 @@ This file is part of TreeOfLife
 
     <!-- SubmenuItem MenuItem Template -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" BorderBrush="{StaticResource MenuItem.Static.BorderBrush}" SnapsToDevicePixels="True">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
-                    <ColumnDefinition Width="13"/>
-                </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                <Border x:Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}" SnapsToDevicePixels="True">
-                    <Path x:Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0" Stroke ="{StaticResource Glyph}"/>
-                </Border>
-                <ContentPresenter x:Name="HeaderHost" Grid.Column="1" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="12,0,0,0" DockPanel.Dock="Right"/>
-            </Grid>
-        </Border>
+        <Grid>
+            <Border x:Name="border_Background" CornerRadius="3" Background="{DynamicResource MenuItem.Static.Background}" SnapsToDevicePixels="True"/>
+            <Border x:Name="Border" Padding="3,6,3,6" CornerRadius="3" SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter x:Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                    <Border x:Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" BorderThickness="1" Background="{DynamicResource ContextMenu.Background}" BorderBrush="{DynamicResource ContextMenu.BorderBrush}" SnapsToDevicePixels="True">
+                        <Path x:Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0" Stroke ="{StaticResource Glyph}"/>
+                    </Border>
+                    <ContentPresenter x:Name="HeaderHost" Grid.Column="1" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Margin="6,0,6,0"/>
+                    <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="12,0,0,0" DockPanel.Dock="Right"/>
+                </Grid>
+            </Border>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
@@ -199,8 +210,8 @@ This file is part of TreeOfLife
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
-                <Setter TargetName="Border" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
+                <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource MenuItem.Highlighted.Background}"/>
+                <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource MenuItem.Highlighted.Effect}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuItem.Highlighted.Foreground}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">

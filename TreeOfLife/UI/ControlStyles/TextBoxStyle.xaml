@@ -44,7 +44,8 @@ This file is part of TreeOfLife
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Grid>
-                        <Border x:Name="border" CornerRadius="3" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
+                        <Border x:Name="border_Background" CornerRadius="3" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"/>
+                        <Border x:Name="border" CornerRadius="3" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <Border x:Name="border_Top" CornerRadius="3" BorderThickness="0,1,0,0" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" Visibility="Collapsed"/>
@@ -55,9 +56,9 @@ This file is part of TreeOfLife
                             <Setter TargetName="border" Property="Opacity" Value="0.56"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.MouseOver.Background}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
-                            <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.MouseOver.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource TextBox.MouseOver.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource TextBox.MouseOver.Effect}"/>
                             <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.MouseOver.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
@@ -65,9 +66,9 @@ This file is part of TreeOfLife
                             <Setter Property="Foreground" Value="{DynamicResource TextBox.MouseOver.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource TextBox.Focused.Background}"/>
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
-                            <Setter TargetName="border" Property="Effect" Value="{StaticResource TextBox.Focused.Effect}"/>
+                            <Setter TargetName="border_Background" Property="Background" Value="{DynamicResource TextBox.Focused.Background}"/>
+                            <Setter TargetName="border_Background" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush}"/>
+                            <Setter TargetName="border_Background" Property="Effect" Value="{StaticResource TextBox.Focused.Effect}"/>
                             <Setter TargetName="border_Top" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Bottom" Property="BorderBrush" Value="{DynamicResource TextBox.Focused.BorderBrush.Underline}"/>
                             <Setter TargetName="border_Top" Property="BorderThickness" Value="0,2,0,0"/>
