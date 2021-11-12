@@ -95,12 +95,12 @@ This file is part of TreeOfLife
             </DockPanel>
         </Grid>
         <Grid x:Name="grid_WaitingForBackgroundTaskPrompt" Background="#01808080" Visibility="Collapsed">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource TitleLabel.Background}" BorderBrush="{DynamicResource TitleLabel.BorderBrush}" BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
+            <Border Background="{DynamicResource TitleLabel.Background}" BorderBrush="{DynamicResource TitleLabel.BorderBrush}" CornerRadius="3" BorderThickness="1" Width="240" Height="80" SnapsToDevicePixels="True">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="15" Direction="315" Opacity="0.5" ShadowDepth="3"/>
                 </Border.Effect>
-                <TextBlock Text="正在等待后台操作完成…" Foreground="{DynamicResource TitleLabel.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40,20,40,20"/>
             </Border>
+            <TextBlock Text="正在等待后台操作完成…" Foreground="{DynamicResource TitleLabel.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
 </Window>

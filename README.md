@@ -7,7 +7,6 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/chibayuki/TreeOfLife.svg)](https://github.com/chibayuki/TreeOfLife/commits)
 [![GitHub release](https://img.shields.io/github/release/chibayuki/TreeOfLife.svg)](https://github.com/chibayuki/TreeOfLife/releases)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/chibayuki/TreeOfLife.svg)](https://github.com/chibayuki/TreeOfLife)
-[![HitCount](http://hits.dwyl.io/chibayuki/TreeOfLife.svg)](http://hits.dwyl.io/chibayuki/TreeOfLife)
 [![Language](https://img.shields.io/badge/language-C%23-green.svg)](https://github.com/chibayuki/TreeOfLife)
 
 # Tree of Life
@@ -21,6 +20,8 @@
 * 语义分析与检索
 
 ## 版本跟踪
+* 里程碑 14
+> 新增"统计"与"校对"页面，编辑状态下"分类学"页面新增不合规提示；"检索"页面的每个分组新增显示结果数目，支持折叠与展开；改进控件外观与UI布局
 * 里程碑 13 (版本 1.0.1322.1000.M13.210925-1400)
 > 改进UI元素的主题控制，实现全局主题颜色与浅色/深色主题热更新；UI进一步与后端分离，耗时操作将在后台运行；位于顶级类群时已支持插入下级类群
 * 里程碑 12 (版本 1.0.1240.1000.M12.210718-2000)
