@@ -16,7 +16,7 @@ This file is part of TreeOfLife
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <Grid>
-        <Border x:Name="border_Background" CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True">
+        <Border x:Name="border_Background" CornerRadius="3" SnapsToDevicePixels="True">
             <DockPanel>
                 <Border x:Name="border_RankNameBackground" CornerRadius="3,0,0,3" BorderThickness="1,1,0,1" SnapsToDevicePixels="True"/>
                 <Border x:Name="border_TaxonNameBackground" CornerRadius="0,3,3,0" BorderThickness="0,1,1,1" SnapsToDevicePixels="True"/>
