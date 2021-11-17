@@ -113,11 +113,11 @@ namespace TreeOfLife.UI.Views
 
             item_SetParent.Click += async (s, e) =>
             {
+                Taxon oldParent = Common.RightButtonTaxon.Parent;
+
                 await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ParentChanged, new object[] { Common.RightButtonTaxon, oldParent, Common.SelectedTaxon });
             };
 
             MenuItem item_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
@@ -126,9 +126,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             MenuItem item_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
@@ -137,9 +135,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.IncludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             MenuItem item_MoveTop = new MenuItem() { Header = "移至最上" };
@@ -150,9 +146,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_MoveUp = new MenuItem() { Header = "上移" };
@@ -163,9 +157,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_MoveDown = new MenuItem() { Header = "下移" };
@@ -176,9 +168,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -189,9 +179,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
-                Common.UpdateCurrentTaxonInfo();
-
-                UpdateSubTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
@@ -218,6 +206,8 @@ namespace TreeOfLife.UI.Views
                 }
                 else
                 {
+                    Taxon parent = rightButtonTaxon.Parent;
+
                     await rightButtonTaxon.RemoveCurrentAsync(false);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
@@ -227,9 +217,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.UpdateCurrentTaxonInfo();
-
-                    UpdateSubTree();
+                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
                 }
             };
 
@@ -257,6 +245,8 @@ namespace TreeOfLife.UI.Views
                 }
                 else
                 {
+                    Taxon parent = rightButtonTaxon.Parent;
+
                     await rightButtonTaxon.RemoveCurrentAsync(true);
 
                     if (Common.SelectedTaxon == rightButtonTaxon)
@@ -266,9 +256,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.UpdateCurrentTaxonInfo();
-
-                    UpdateSubTree();
+                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
                 }
             };
 
@@ -642,6 +630,54 @@ namespace TreeOfLife.UI.Views
             _UpdateTreeNodeAttr(_SubTreeRoot);
 
             tree.UpdateContent(_SubTreeRoot);
+        }
+
+        public void ProcessEditOperationNotification(Common.EditOperation editOperation, params object[] args)
+        {
+            switch (editOperation)
+            {
+                case Common.EditOperation.ScientificNameUpdated:
+                case Common.EditOperation.ChineseNameUpdated:
+                case Common.EditOperation.RankUpdated:
+                case Common.EditOperation.IsExtinctUpdated:
+                case Common.EditOperation.IsUndetUpdated:
+                case Common.EditOperation.BirthUpdated:
+                case Common.EditOperation.ExtinctionUpdated:
+                case Common.EditOperation.SynonymsUpdated:
+                case Common.EditOperation.TagsUpdated:
+                    break;
+
+                case Common.EditOperation.ParentChanged:
+                    UpdateSubTree();
+                    break;
+
+                case Common.EditOperation.ChildrenReordered:
+                case Common.EditOperation.ChildrenAdded:
+                case Common.EditOperation.ChildrenRemoved:
+                    UpdateSubTree();
+                    break;
+
+                case Common.EditOperation.ExcludeByAdded:
+                case Common.EditOperation.ExcludeByRemoved:
+                case Common.EditOperation.IncludeByAdded:
+                case Common.EditOperation.IncludeByRemoved:
+                    UpdateSubTree();
+                    break;
+
+                case Common.EditOperation.ExcludesReordered:
+                    break;
+
+                case Common.EditOperation.ExcludesRemoved:
+                    UpdateSubTree();
+                    break;
+
+                case Common.EditOperation.IncludesReordered:
+                    break;
+
+                case Common.EditOperation.IncludesRemoved:
+                    UpdateSubTree();
+                    break;
+            }
         }
     }
 }

@@ -194,7 +194,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
         private Rank _Rank; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _IsUnsure = false; // 存疑。
+        private bool _IsUndet = false; // 存疑。
 
         private GeoChron _Birth = GeoChron.Empty; // 诞生年代。
         private GeoChron _Extinction = GeoChron.Empty; // 灭绝年代。
@@ -262,10 +262,10 @@ namespace TreeOfLife.Core.IO.Version3.Details
         }
 
         [JsonPropertyName("Unsure")]
-        public int IsUnsure
+        public int IsUndet
         {
-            get => Convert.ToInt32(_IsUnsure);
-            set => _IsUnsure = Convert.ToBoolean(value);
+            get => Convert.ToInt32(_IsUndet);
+            set => _IsUndet = Convert.ToBoolean(value);
         }
 
         [JsonPropertyName("From")]
@@ -319,7 +319,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
                 Rank = _ConvertRank(_Rank),
 
                 IsExtinct = _IsExtinct,
-                IsUnsure = _IsUnsure,
+                IsUndet = _IsUndet,
 
                 Birth = _Birth,
                 Extinction = _Extinction
@@ -369,7 +369,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
                 _Rank = _ConvertRank(taxon.Rank),
 
                 _IsExtinct = taxon.IsExtinct,
-                _IsUnsure = taxon.IsUnsure,
+                _IsUndet = taxon.IsUndet,
 
                 _Birth = taxon.Birth,
                 _Extinction = taxon.Extinction,

@@ -193,7 +193,7 @@ namespace TreeOfLife.Core.IO.Version1.Details
         private Rank _Rank; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _IsUnsure = false; // 存疑。
+        private bool _IsUndet = false; // 存疑。
 
         private int _Level = 0; // 当前类群与顶级类群的距离。
         private int _Index = -1; // 当前类群在姊妹类群中的次序。
@@ -258,10 +258,10 @@ namespace TreeOfLife.Core.IO.Version1.Details
         }
 
         [JsonPropertyName("Unsure")]
-        public int IsUnsure
+        public int IsUndet
         {
-            get => Convert.ToInt32(_IsUnsure);
-            set => _IsUnsure = Convert.ToBoolean(value);
+            get => Convert.ToInt32(_IsUndet);
+            set => _IsUndet = Convert.ToBoolean(value);
         }
 
         [JsonIgnore]
@@ -338,7 +338,7 @@ namespace TreeOfLife.Core.IO.Version1.Details
                 Rank = _ConvertRank(_Rank),
 
                 IsExtinct = _IsExtinct,
-                IsUnsure = _IsUnsure
+                IsUndet = _IsUndet
             };
 
             taxon.Synonyms.AddRange(_Synonyms);
@@ -373,7 +373,7 @@ namespace TreeOfLife.Core.IO.Version1.Details
                 _Rank = _ConvertRank(taxon.Rank),
 
                 _IsExtinct = taxon.IsExtinct,
-                _IsUnsure = taxon.IsUnsure,
+                _IsUndet = taxon.IsUndet,
 
                 _Level = taxon.Level,
                 _Index = taxon.Index,

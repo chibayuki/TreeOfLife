@@ -28,12 +28,6 @@ namespace TreeOfLife.UI.Views
 {
     public static class Common
     {
-        public static Taxon CurrentTaxon { get; set; } = null; // 当前选择的类群。
-
-        public static Action<Taxon> SetCurrentTaxon { get; set; }
-
-        //
-
         public static bool? EditMode { get; set; } = null; // 是否为编辑模式。
 
         public static Action EnterEditMode { get; set; }
@@ -41,13 +35,46 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public static Action UpdateCurrentTaxonInfo { get; set; }
-        public static Action UpdateTree { get; set; }
+        public static Taxon CurrentTaxon { get; set; } = null; // 当前聚焦的类群。
+
+        public static Action<Taxon> SetCurrentTaxon { get; set; }
 
         //
 
-        public static Taxon RightButtonTaxon { get; set; } = null;
-        public static Taxon SelectedTaxon { get; set; } = null;
+        public static Taxon RightButtonTaxon { get; set; } = null; // 当前右键单击的类群。
+        public static Taxon SelectedTaxon { get; set; } = null; // 当前选择的类群。
+
+        //
+
+        public enum EditOperation
+        {
+            ScientificNameUpdated,
+            ChineseNameUpdated,
+            RankUpdated,
+            IsExtinctUpdated,
+            IsUndetUpdated,
+            BirthUpdated,
+            ExtinctionUpdated,
+            SynonymsUpdated,
+            TagsUpdated,
+
+            ParentChanged,
+
+            ChildrenReordered,
+            ChildrenAdded,
+            ChildrenRemoved,
+
+            ExcludeByAdded,
+            ExcludeByRemoved,
+            IncludeByAdded,
+            IncludeByRemoved,
+            ExcludesReordered,
+            ExcludesRemoved,
+            IncludesReordered,
+            IncludesRemoved,
+        }
+
+        public static Action<EditOperation, object[]> NotifyEditOperation { get; set; }
 
         //
 

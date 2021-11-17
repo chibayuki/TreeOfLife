@@ -210,11 +210,11 @@ namespace TreeOfLife.UI.Views
 
             item_Current_SetParent.Click += async (s, e) =>
             {
+                Taxon oldParent = Common.RightButtonTaxon.Parent;
+
                 await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
-                _UpdateParents();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ParentChanged, new object[] { Common.RightButtonTaxon, oldParent, Common.SelectedTaxon });
             };
 
             MenuItem item_Current_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
@@ -223,9 +223,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                _UpdateExcludeByWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             MenuItem item_Current_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
@@ -234,9 +232,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                _UpdateIncludeByWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.IncludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             Action updateMenuItems_Current = () =>
@@ -287,48 +283,29 @@ namespace TreeOfLife.UI.Views
 
             item_Children_SetParent.Click += async (s, e) =>
             {
+                Taxon oldParent = Common.RightButtonTaxon.Parent;
+
                 await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
-                _UpdateParents();
-                _UpdateChildrenWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ParentChanged, new object[] { Common.RightButtonTaxon, oldParent, Common.SelectedTaxon });
             };
 
             MenuItem item_Children_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
 
             item_Children_ExcludeBy.Click += async (s, e) =>
             {
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                await selectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
-
-                UpdateTitle();
-
-                if (selectedTaxon == Common.CurrentTaxon)
-                {
-                    _UpdateExcludesWithVisibility();
-                }
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             MenuItem item_Children_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
 
             item_Children_IncludeBy.Click += async (s, e) =>
             {
-                Taxon selectedTaxon = Common.SelectedTaxon;
+                await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                await selectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
-
-                UpdateTitle();
-
-                if (selectedTaxon == Common.CurrentTaxon)
-                {
-                    _UpdateIncludesWithVisibility();
-                }
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.IncludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
             };
 
             MenuItem item_Children_MoveTop = new MenuItem() { Header = "移至最上" };
@@ -339,9 +316,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
-                _UpdateChildren();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_Children_MoveUp = new MenuItem() { Header = "上移" };
@@ -352,9 +327,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
-                _UpdateChildren();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_Children_MoveDown = new MenuItem() { Header = "下移" };
@@ -365,9 +338,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
-                _UpdateChildren();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_Children_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -378,9 +349,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
-                _UpdateChildren();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
             };
 
             MenuItem item_Children_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
@@ -388,6 +357,7 @@ namespace TreeOfLife.UI.Views
             item_Children_DeleteWithoutChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon parent = rightButtonTaxon.Parent;
 
                 await rightButtonTaxon.RemoveCurrentAsync(false);
 
@@ -398,9 +368,7 @@ namespace TreeOfLife.UI.Views
 
                 Common.RightButtonTaxon = null;
 
-                _UpdateChildrenWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
             };
 
             MenuItem item_Children_DeleteWithinChildren = new MenuItem() { Header = "删除 (并且删除下级类群)" };
@@ -408,6 +376,7 @@ namespace TreeOfLife.UI.Views
             item_Children_DeleteWithinChildren.Click += async (s, e) =>
             {
                 Taxon rightButtonTaxon = Common.RightButtonTaxon;
+                Taxon parent = rightButtonTaxon.Parent;
 
                 await rightButtonTaxon.RemoveCurrentAsync(true);
 
@@ -418,9 +387,7 @@ namespace TreeOfLife.UI.Views
 
                 Common.RightButtonTaxon = null;
 
-                _UpdateChildrenWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
             };
 
             Action updateMenuItems_Children = () =>
@@ -478,7 +445,7 @@ namespace TreeOfLife.UI.Views
 
                 await currentTaxon.MoveExcludeAsync(await currentTaxon.GetIndexOfExcludeAsync(Common.RightButtonTaxon), 0);
 
-                _UpdateExcludes();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Excludes_MoveUp = new MenuItem() { Header = "上移" };
@@ -490,7 +457,7 @@ namespace TreeOfLife.UI.Views
                 int index = await currentTaxon.GetIndexOfExcludeAsync(Common.RightButtonTaxon);
                 await currentTaxon.SwapExcludeAsync(index, index - 1);
 
-                _UpdateExcludes();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Excludes_MoveDown = new MenuItem() { Header = "下移" };
@@ -502,7 +469,7 @@ namespace TreeOfLife.UI.Views
                 int index = await currentTaxon.GetIndexOfExcludeAsync(Common.RightButtonTaxon);
                 await currentTaxon.SwapExcludeAsync(index, index + 1);
 
-                _UpdateExcludes();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Excludes_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -513,7 +480,7 @@ namespace TreeOfLife.UI.Views
 
                 await currentTaxon.MoveExcludeAsync(await currentTaxon.GetIndexOfExcludeAsync(Common.RightButtonTaxon), currentTaxon.Excludes.Count - 1);
 
-                _UpdateExcludes();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Excludes_Remove = new MenuItem() { Header = "解除排除关系" };
@@ -522,11 +489,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.CurrentTaxon.RemoveExcludeAsync(Common.RightButtonTaxon);
 
-                UpdateTitle();
-
-                _UpdateExcludesWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludesRemoved, new object[] { Common.CurrentTaxon, Common.RightButtonTaxon });
             };
 
             Action updateMenuItems_Excludes = () =>
@@ -556,9 +519,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.RightButtonTaxon.RemoveExcludeAsync(Common.CurrentTaxon);
 
-                _UpdateExcludeByWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.ExcludeByRemoved, new object[] { Common.CurrentTaxon, Common.RightButtonTaxon });
             };
 
             _ContextMenu_ExcludeBy = new ContextMenu();
@@ -574,7 +535,7 @@ namespace TreeOfLife.UI.Views
 
                 await currentTaxon.MoveIncludeAsync(await currentTaxon.GetIndexOfIncludeAsync(Common.RightButtonTaxon), 0);
 
-                _UpdateIncludes();
+                Common.NotifyEditOperation(Common.EditOperation.IncludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Includes_MoveUp = new MenuItem() { Header = "上移" };
@@ -586,7 +547,7 @@ namespace TreeOfLife.UI.Views
                 int index = await currentTaxon.GetIndexOfIncludeAsync(Common.RightButtonTaxon);
                 await currentTaxon.SwapIncludeAsync(index, index - 1);
 
-                _UpdateIncludes();
+                Common.NotifyEditOperation(Common.EditOperation.IncludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Includes_MoveDown = new MenuItem() { Header = "下移" };
@@ -598,7 +559,7 @@ namespace TreeOfLife.UI.Views
                 int index = await currentTaxon.GetIndexOfIncludeAsync(Common.RightButtonTaxon);
                 await currentTaxon.SwapIncludeAsync(index, index + 1);
 
-                _UpdateIncludes();
+                Common.NotifyEditOperation(Common.EditOperation.IncludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Includes_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -609,7 +570,7 @@ namespace TreeOfLife.UI.Views
 
                 await currentTaxon.MoveIncludeAsync(await currentTaxon.GetIndexOfIncludeAsync(Common.RightButtonTaxon), currentTaxon.Includes.Count - 1);
 
-                _UpdateIncludes();
+                Common.NotifyEditOperation(Common.EditOperation.IncludesReordered, new object[] { currentTaxon });
             };
 
             MenuItem item_Includes_Remove = new MenuItem() { Header = "解除包含关系" };
@@ -618,11 +579,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.CurrentTaxon.RemoveIncludeAsync(Common.RightButtonTaxon);
 
-                UpdateTitle();
-
-                _UpdateIncludesWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.IncludesRemoved, new object[] { Common.CurrentTaxon, Common.RightButtonTaxon });
             };
 
             Action updateMenuItems_Includes = () =>
@@ -652,9 +609,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.RightButtonTaxon.RemoveIncludeAsync(Common.CurrentTaxon);
 
-                _UpdateIncludeByWithVisibility();
-
-                Common.UpdateTree();
+                Common.NotifyEditOperation(Common.EditOperation.IncludeByRemoved, new object[] { Common.CurrentTaxon, Common.RightButtonTaxon });
             };
 
             _ContextMenu_IncludeBy = new ContextMenu();
@@ -667,6 +622,7 @@ namespace TreeOfLife.UI.Views
 
         private async void Button_AddParentUplevel_Click(object sender, RoutedEventArgs e)
         {
+            Taxon oldParent = Common.CurrentTaxon.Parent;
             Taxon parent = await Common.CurrentTaxon.AddParentUplevelAsync();
 
             if (!string.IsNullOrEmpty(textBox_Parent.Text))
@@ -678,9 +634,7 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            _UpdateParents();
-
-            Common.UpdateTree();
+            Common.NotifyEditOperation(Common.EditOperation.ParentChanged, new object[] { Common.CurrentTaxon, oldParent, parent });
         }
 
         private async void Button_AddParentDownlevel_Click(object sender, RoutedEventArgs e)
@@ -696,9 +650,7 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            _UpdateChildrenWithVisibility();
-
-            Common.UpdateTree();
+            Common.NotifyEditOperation(Common.EditOperation.ChildrenAdded, new object[] { Common.CurrentTaxon });
         }
 
         private async void Button_AddChildren_Click(object sender, RoutedEventArgs e)
@@ -720,14 +672,108 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            _UpdateChildrenWithVisibility();
-
-            Common.UpdateTree();
+            Common.NotifyEditOperation(Common.EditOperation.ChildrenAdded, new object[] { Common.CurrentTaxon });
         }
 
         #endregion
 
         #region 类群
+
+        // 更新标题。
+        private void _UpdateTitle()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            Rank rank = currentTaxon.Rank;
+
+            taxonTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
+
+            string name = currentTaxon.ScientificName;
+            string chsName = currentTaxon.ChineseName;
+
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
+            {
+                taxonTitle.Rank = null;
+                taxonTitle.TaxonName = "(未命名)";
+            }
+            else
+            {
+                taxonTitle.Rank = rank;
+
+                StringBuilder taxonName = new StringBuilder();
+
+                if (!string.IsNullOrEmpty(chsName))
+                {
+                    taxonName.Append(chsName);
+
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        taxonName.Append(' ');
+                        taxonName.Append(name);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(name))
+                {
+                    taxonName.Append(name);
+                }
+
+                taxonTitle.TaxonName = taxonName.ToString();
+            }
+
+            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
+            taxonTitle.IsUndet = currentTaxon.IsUndet;
+            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
+            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
+            taxonTitle.Birth = currentTaxon.Birth;
+            taxonTitle.Extinction = currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present;
+        }
+
+        private string _ChsRename = string.Empty;
+        private Rank _Rerank = Rank.Unranked;
+
+        // 更新中文名重命名与分级更新提示。
+        private void _UpdateRenameAndRerank()
+        {
+            Taxon currentTaxon = Common.CurrentTaxon;
+
+            if (!currentTaxon.IsRoot)
+            {
+                if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
+                {
+                    (string chsNameWithoutRank, _, Rank? rank) = RankChineseExtension.SplitChineseName(ViewModel.ChsName);
+
+                    _Rerank = rank ?? Rank.Unranked;
+
+                    if (ViewModel.Rank.IsUnranked())
+                    {
+                        _ChsRename = chsNameWithoutRank;
+                    }
+                    else if (ViewModel.Rank.IsClade())
+                    {
+                        _ChsRename = chsNameWithoutRank + "类";
+                    }
+                    else if (ViewModel.Rank.IsSpecies())
+                    {
+                        _ChsRename = chsNameWithoutRank;
+                    }
+                    else
+                    {
+                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
+                    }
+
+                    label_Rename.Content = _ChsRename;
+                    label_Rerank.Content = _Rerank.GetChineseName();
+
+                    grid_Rename.Visibility = Visibility.Visible;
+                    grid_Rerank.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_Rename.Visibility = Visibility.Collapsed;
+                    grid_Rerank.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
 
         // 更新父类群。
         private void _UpdateParents()
@@ -852,104 +898,8 @@ namespace TreeOfLife.UI.Views
             grid_IncludeBy.Visibility = currentTaxon.IncludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        // 更新标题。
-        public void UpdateTitle()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            Rank rank = currentTaxon.Rank;
-
-            taxonTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
-
-            string name = currentTaxon.ScientificName;
-            string chsName = currentTaxon.ChineseName;
-
-            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
-            {
-                taxonTitle.Rank = null;
-                taxonTitle.TaxonName = "(未命名)";
-            }
-            else
-            {
-                taxonTitle.Rank = rank;
-
-                StringBuilder taxonName = new StringBuilder();
-
-                if (!string.IsNullOrEmpty(chsName))
-                {
-                    taxonName.Append(chsName);
-
-                    if (!string.IsNullOrEmpty(name))
-                    {
-                        taxonName.Append(' ');
-                        taxonName.Append(name);
-                    }
-                }
-                else if (!string.IsNullOrEmpty(name))
-                {
-                    taxonName.Append(name);
-                }
-
-                taxonTitle.TaxonName = taxonName.ToString();
-            }
-
-            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
-            taxonTitle.IsUnsure = currentTaxon.IsUnsure;
-            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
-            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
-            taxonTitle.Birth = currentTaxon.Birth;
-            taxonTitle.Extinction = currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present;
-        }
-
-        private string _ChsRename = string.Empty;
-        private Rank _Rerank = Rank.Unranked;
-
-        // 更新中文名重命名提示。
-        public void UpdateRename()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            if (!currentTaxon.IsRoot)
-            {
-                if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
-                {
-                    (string chsNameWithoutRank, _, Rank? rank) = RankChineseExtension.SplitChineseName(ViewModel.ChsName);
-
-                    _Rerank = rank ?? Rank.Unranked;
-
-                    if (ViewModel.Rank.IsUnranked())
-                    {
-                        _ChsRename = chsNameWithoutRank;
-                    }
-                    else if (ViewModel.Rank.IsClade())
-                    {
-                        _ChsRename = chsNameWithoutRank + "类";
-                    }
-                    else if (ViewModel.Rank.IsSpecies())
-                    {
-                        _ChsRename = chsNameWithoutRank;
-                    }
-                    else
-                    {
-                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
-                    }
-
-                    label_Rename.Content = _ChsRename;
-                    label_Rerank.Content = _Rerank.GetChineseName();
-
-                    grid_Rename.Visibility = Visibility.Visible;
-                    grid_Rerank.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    grid_Rename.Visibility = Visibility.Collapsed;
-                    grid_Rerank.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-
         // 更新警告信息提示。
-        public void UpdateWarningMessage()
+        private void _UpdateWarningMessage()
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
@@ -986,7 +936,7 @@ namespace TreeOfLife.UI.Views
 
         public void UpdateCurrentTaxonInfo()
         {
-            ViewModel.LoadFromTaxon();
+            ViewModel.LoadFromCurrentTaxon();
 
             textBox_Parent.Clear();
             textBox_Children.Clear();
@@ -1000,9 +950,168 @@ namespace TreeOfLife.UI.Views
 
             _UpdateVisibility();
 
-            UpdateTitle();
-            UpdateRename();
-            UpdateWarningMessage();
+            _UpdateTitle();
+            _UpdateRenameAndRerank();
+            _UpdateWarningMessage();
+        }
+
+        public void ProcessEditOperationNotification(Common.EditOperation editOperation, params object[] args)
+        {
+            switch (editOperation)
+            {
+                case Common.EditOperation.ScientificNameUpdated:
+                    _UpdateTitle();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.ChineseNameUpdated:
+                    _UpdateTitle();
+                    _UpdateRenameAndRerank();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.RankUpdated:
+                    _UpdateTitle();
+                    _UpdateRenameAndRerank();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.IsExtinctUpdated:
+                    _UpdateTitle();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.IsUndetUpdated:
+                    _UpdateTitle();
+                    break;
+
+                case Common.EditOperation.BirthUpdated:
+                case Common.EditOperation.ExtinctionUpdated:
+                    _UpdateTitle();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.SynonymsUpdated:
+                case Common.EditOperation.TagsUpdated:
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.ParentChanged:
+                    {
+                        Taxon taxon = args[0] as Taxon;
+                        Taxon oldParent = args[1] as Taxon;
+                        Taxon newParent = args[1] as Taxon;
+
+                        if (Common.CurrentTaxon.InheritFrom(taxon))
+                        {
+                            _UpdateTitle();
+                        }
+
+                        if (taxon == Common.CurrentTaxon)
+                        {
+                            _UpdateParents();
+                        }
+
+                        if (oldParent == Common.CurrentTaxon || newParent == Common.CurrentTaxon)
+                        {
+                            _UpdateChildrenWithVisibility();
+                        }
+
+                        _UpdateWarningMessage();
+                    }
+                    break;
+
+                case Common.EditOperation.ChildrenReordered:
+                    {
+                        Taxon parent = args[0] as Taxon;
+
+                        if (parent == Common.CurrentTaxon)
+                        {
+                            _UpdateChildren();
+                        }
+                    }
+                    break;
+
+                case Common.EditOperation.ChildrenAdded:
+                    _UpdateChildrenWithVisibility();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.ChildrenRemoved:
+                    {
+                        Taxon parent = args[0] as Taxon;
+
+                        if (parent == Common.CurrentTaxon)
+                        {
+                            _UpdateChildrenWithVisibility();
+                        }
+
+                        _UpdateWarningMessage();
+                    }
+                    break;
+
+                case Common.EditOperation.ExcludeByAdded:
+                    {
+                        Taxon taxon = args[0] as Taxon;
+                        Taxon excludeBy = args[1] as Taxon;
+
+                        if (taxon == Common.CurrentTaxon)
+                        {
+                            _UpdateExcludeByWithVisibility();
+                        }
+
+                        if (excludeBy == Common.CurrentTaxon)
+                        {
+                            _UpdateTitle();
+                            _UpdateExcludesWithVisibility();
+                        }
+                    }
+                    break;
+
+                case Common.EditOperation.ExcludeByRemoved:
+                    _UpdateExcludeByWithVisibility();
+                    break;
+
+                case Common.EditOperation.IncludeByAdded:
+                    {
+                        Taxon taxon = args[0] as Taxon;
+                        Taxon includeBy = args[1] as Taxon;
+
+                        if (taxon == Common.CurrentTaxon)
+                        {
+                            _UpdateIncludeByWithVisibility();
+                        }
+
+                        if (includeBy == Common.CurrentTaxon)
+                        {
+                            _UpdateTitle();
+                            _UpdateIncludesWithVisibility();
+                        }
+                    }
+                    break;
+
+                case Common.EditOperation.IncludeByRemoved:
+                    _UpdateIncludeByWithVisibility();
+                    break;
+
+                case Common.EditOperation.ExcludesReordered:
+                    _UpdateExcludes();
+                    break;
+
+                case Common.EditOperation.ExcludesRemoved:
+                    _UpdateTitle();
+                    _UpdateExcludesWithVisibility();
+                    break;
+
+                case Common.EditOperation.IncludesReordered:
+                    _UpdateIncludes();
+                    break;
+
+                case Common.EditOperation.IncludesRemoved:
+                    _UpdateTitle();
+                    _UpdateIncludesWithVisibility();
+                    break;
+            }
         }
 
         #endregion

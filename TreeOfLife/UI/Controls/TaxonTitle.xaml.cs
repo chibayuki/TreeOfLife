@@ -262,13 +262,13 @@ namespace TreeOfLife.UI.Controls
         }
 
         private bool _IsExtinct = false;
-        private bool _IsUnsure = false;
+        private bool _IsUndet = false;
         private bool _IsParaphyly = false;
         private bool _IsPolyphyly = false;
 
         private void _UpdateIsExtinct() => grid_Ex.Visibility = _IsExtinct ? Visibility.Visible : Visibility.Collapsed;
 
-        private void _UpdateIsUnsure() => grid_Undet.Visibility = _IsUnsure ? Visibility.Visible : Visibility.Collapsed;
+        private void _UpdateIsUndet() => grid_Undet.Visibility = _IsUndet ? Visibility.Visible : Visibility.Collapsed;
 
         private void _UpdateIsParaphyly() => grid_Paraphyly.Visibility = _IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
 
@@ -703,15 +703,15 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public bool IsUnsure
+        public bool IsUndet
         {
-            get => _IsUnsure;
+            get => _IsUndet;
 
             set
             {
-                _IsUnsure = value;
+                _IsUndet = value;
 
-                _UpdateIsUnsure();
+                _UpdateIsUndet();
             }
         }
 

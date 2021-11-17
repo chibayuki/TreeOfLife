@@ -32,7 +32,7 @@ namespace TreeOfLife.UI.Views
         private Rank _Rank;
 
         private bool _IsExtinct;
-        private bool _IsUnsure;
+        private bool _IsUndet;
 
         private GeoChron _Birth;
         private GeoChron _Extinction;
@@ -67,10 +67,9 @@ namespace TreeOfLife.UI.Views
 
                         // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
-                    }
 
-                    View.UpdateTitle();
-                    View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.ScientificNameUpdated, new object[] { currentTaxon });
+                    }
                 }
             }
         }
@@ -99,11 +98,38 @@ namespace TreeOfLife.UI.Views
 
                         // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
-                    }
 
-                    View.UpdateTitle();
-                    View.UpdateRename();
-                    View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.ChineseNameUpdated, new object[] { currentTaxon });
+                    }
+                }
+            }
+        }
+
+        public Rank Rank
+        {
+            get => _Rank;
+
+            set
+            {
+                _Rank = value;
+
+                //
+
+                if (_LoadingFromTaxon)
+                {
+                    NotifyPropertyChanged(nameof(Rank));
+                }
+                else
+                {
+                    Taxon currentTaxon = Common.CurrentTaxon;
+
+                    if (!currentTaxon.IsRoot)
+                    {
+                        // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
+                        currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
+
+                        Common.NotifyEditOperation(Common.EditOperation.RankUpdated, new object[] { currentTaxon });
+                    }
                 }
             }
         }
@@ -143,27 +169,26 @@ namespace TreeOfLife.UI.Views
                             _LoadingFromTaxon = false;
                             Extinction = GeoChron.Empty;
                         }
-                    }
 
-                    View.UpdateTitle();
-                    View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.IsExtinctUpdated, new object[] { currentTaxon });
+                    }
                 }
             }
         }
 
-        public bool IsUnsure
+        public bool IsUndet
         {
-            get => _IsUnsure;
+            get => _IsUndet;
 
             set
             {
-                _IsUnsure = value;
+                _IsUndet = value;
 
                 //
 
                 if (_LoadingFromTaxon)
                 {
-                    NotifyPropertyChanged(nameof(IsUnsure));
+                    NotifyPropertyChanged(nameof(IsUndet));
                 }
                 else
                 {
@@ -171,41 +196,10 @@ namespace TreeOfLife.UI.Views
 
                     if (!currentTaxon.IsRoot)
                     {
-                        currentTaxon.IsUnsure = _IsUnsure;
+                        currentTaxon.IsUndet = _IsUndet;
+
+                        Common.NotifyEditOperation(Common.EditOperation.IsUndetUpdated, new object[] { currentTaxon });
                     }
-
-                    View.UpdateTitle();
-                }
-            }
-        }
-
-        public Rank Rank
-        {
-            get => _Rank;
-
-            set
-            {
-                _Rank = value;
-
-                //
-
-                if (_LoadingFromTaxon)
-                {
-                    NotifyPropertyChanged(nameof(Rank));
-                }
-                else
-                {
-                    Taxon currentTaxon = Common.CurrentTaxon;
-
-                    if (!currentTaxon.IsRoot)
-                    {
-                        // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
-                        currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
-                    }
-
-                    View.UpdateTitle();
-                    View.UpdateRename();
-                    View.UpdateWarningMessage();
                 }
             }
         }
@@ -231,10 +225,9 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.Birth = _Birth;
-                    }
 
-                    View.UpdateTitle();
-                    View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.BirthUpdated, new object[] { currentTaxon });
+                    }
                 }
             }
         }
@@ -260,10 +253,9 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.Extinction = _Extinction;
-                    }
 
-                    View.UpdateTitle();
-                    View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.ExtinctionUpdated, new object[] { currentTaxon });
+                    }
                 }
             }
         }
@@ -307,7 +299,7 @@ namespace TreeOfLife.UI.Views
                             where !string.IsNullOrEmpty(synonym)
                             select synonym);
 
-                        View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.SynonymsUpdated, new object[] { currentTaxon });
                     }
                 }
             }
@@ -340,7 +332,7 @@ namespace TreeOfLife.UI.Views
                             where !string.IsNullOrEmpty(tag)
                             select tag);
 
-                        View.UpdateWarningMessage();
+                        Common.NotifyEditOperation(Common.EditOperation.TagsUpdated, new object[] { currentTaxon });
                     }
                 }
             }
@@ -374,7 +366,7 @@ namespace TreeOfLife.UI.Views
 
         private bool _LoadingFromTaxon = false;
 
-        public void LoadFromTaxon()
+        public void LoadFromCurrentTaxon()
         {
             _LoadingFromTaxon = true;
 
@@ -388,7 +380,7 @@ namespace TreeOfLife.UI.Views
             Rank = currentTaxon.Rank;
 
             IsExtinct = currentTaxon.IsExtinct;
-            IsUnsure = currentTaxon.IsUnsure;
+            IsUndet = currentTaxon.IsUndet;
 
             Birth = currentTaxon.Birth;
             Extinction = currentTaxon.Extinction;

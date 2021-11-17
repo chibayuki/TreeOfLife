@@ -60,34 +60,32 @@ namespace TreeOfLife.UI.Views
             Common.SetCurrentTaxon = _SetCurrentTaxon;
             Common.EnterEditMode = () => _SetEditMode(true);
             Common.ExitEditMode = () => _SetEditMode(false);
-            Common.UpdateCurrentTaxonInfo = () =>
+            Common.NotifyEditOperation = (editOperation, args) =>
             {
-                if (Common.EditMode ?? false)
-                {
-                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
-                }
-                else
-                {
-                    view_Evo_ViewMode.UpdateCurrentTaxonInfo();
-                }
+                view_Evo_EditMode.ProcessEditOperationNotification(editOperation, args);
+                view_Tree.ProcessEditOperationNotification(editOperation, args);
             };
-            Common.UpdateTree = view_Tree.UpdateSubTree;
 
+            bool backgroundTaskIsRunning = false;
             AsyncMethod.Start = () =>
             {
-                if (grid_WaitingForBackgroundTaskPrompt.IsVisible)
+                if (backgroundTaskIsRunning)
                 {
 #if DEBUG
                     throw new InvalidOperationException();
 #else
                     MessageBox.Show("非法操作。", Entrance.AppName, MessageBoxButton.OK);
-                    Environment.Exit(-1);
 #endif
                 }
 
                 grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Visible;
+                backgroundTaskIsRunning = true;
             };
-            AsyncMethod.Finish = () => grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Collapsed;
+            AsyncMethod.Finish = () =>
+            {
+                grid_WaitingForBackgroundTaskPrompt.Visibility = Visibility.Collapsed;
+                backgroundTaskIsRunning = false;
+            };
 
             view_File.OpenAsync = _OpenAsync;
             view_File.SaveAsync = _SaveAsync;
@@ -112,7 +110,7 @@ namespace TreeOfLife.UI.Views
 
             this.Closing += (s, e) =>
             {
-                if (grid_WaitingForBackgroundTaskPrompt.IsVisible || !_TrySaveAndClose())
+                if (backgroundTaskIsRunning || !_TrySaveAndClose())
                 {
                     e.Cancel = true;
                 }

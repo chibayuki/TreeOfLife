@@ -40,7 +40,7 @@ namespace TreeOfLife.Core.Taxonomy
         private Rank _Rank = Rank.Unranked; // 分类阶元。
 
         private bool _IsExtinct = false; // 已灭绝。
-        private bool _IsUnsure = false; // 存疑。
+        private bool _IsUndet = false; // 存疑。
 
         private GeoChron _Birth = GeoChron.Empty; // 诞生年代。
         private GeoChron _Extinction = GeoChron.Empty; // 灭绝年代。
@@ -109,10 +109,10 @@ namespace TreeOfLife.Core.Taxonomy
             set => _IsExtinct = value;
         }
 
-        public bool IsUnsure
+        public bool IsUndet
         {
-            get => _IsUnsure;
-            set => _IsUnsure = value;
+            get => _IsUndet;
+            set => _IsUndet = value;
         }
 
         public GeoChron Birth
@@ -232,9 +232,9 @@ namespace TreeOfLife.Core.Taxonomy
         {
             StringBuilder taxonName = new StringBuilder();
 
-            if (_IsUnsure || _IsExtinct)
+            if (_IsUndet || _IsExtinct)
             {
-                if (_IsUnsure)
+                if (_IsUndet)
                 {
                     taxonName.Append('?');
                 }

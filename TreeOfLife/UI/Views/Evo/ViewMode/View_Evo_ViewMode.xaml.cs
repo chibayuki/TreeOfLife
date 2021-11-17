@@ -253,7 +253,7 @@ namespace TreeOfLife.UI.Views
             taxonTitle.TaxonName = currentTaxon.GetShortName();
             taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
             taxonTitle.IsExtinct = currentTaxon.IsExtinct;
-            taxonTitle.IsUnsure = currentTaxon.IsUnsure;
+            taxonTitle.IsUndet = currentTaxon.IsUndet;
             taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
             taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
             taxonTitle.Birth = currentTaxon.Birth;
@@ -262,7 +262,7 @@ namespace TreeOfLife.UI.Views
 
         public void UpdateCurrentTaxonInfo()
         {
-            ViewModel.LoadFromTaxon();
+            ViewModel.LoadFromCurrentTaxon();
 
             Taxon currentTaxon = Common.CurrentTaxon;
 

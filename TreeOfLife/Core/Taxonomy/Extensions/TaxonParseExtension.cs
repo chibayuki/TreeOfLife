@@ -29,7 +29,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
                 if (chars.Contains('?') || chars.Contains('？'))
                 {
-                    taxon.IsUnsure = true;
+                    taxon.IsUndet = true;
 
                     chars.RemoveAll((ch) => ch == '?' || ch == '？');
                 }

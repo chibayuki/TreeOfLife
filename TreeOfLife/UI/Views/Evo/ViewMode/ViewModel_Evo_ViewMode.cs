@@ -33,7 +33,7 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        public void LoadFromTaxon()
+        public void LoadFromCurrentTaxon()
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
