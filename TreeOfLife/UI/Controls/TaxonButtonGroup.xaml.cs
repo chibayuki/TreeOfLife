@@ -230,7 +230,17 @@ namespace TreeOfLife.UI.Controls
 
             public int ButtonsCount => _Buttons.Count;
 
+            //
+
             public Taxon GetTaxon(int buttonIndex) => _Buttons[buttonIndex].Taxon;
+
+            public void UpdateContent()
+            {
+                foreach (var button in _Buttons)
+                {
+                    button.UpdateContent();
+                }
+            }
         }
 
         //
@@ -445,6 +455,14 @@ namespace TreeOfLife.UI.Controls
                 }
 
                 _UIAddGroups();
+            }
+        }
+
+        public void UpdateContent()
+        {
+            foreach (var group in _Groups)
+            {
+                group.UpdateContent();
             }
         }
 

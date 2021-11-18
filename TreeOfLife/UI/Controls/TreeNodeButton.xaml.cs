@@ -353,5 +353,15 @@ namespace TreeOfLife.UI.Controls
                 _UpdateColor();
             }
         }
+
+        //
+
+        public void UpdateContent()
+        {
+            _ThemeColor = _Taxon.GetThemeColor();
+
+            _UpdateTaxon();
+            _UpdateColor();
+        }
     }
 }

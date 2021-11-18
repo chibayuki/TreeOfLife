@@ -518,7 +518,7 @@ namespace TreeOfLife.UI.Controls
             {
                 TextBox textBox = s as TextBox;
 
-                e.Handled = !new Regex("^([0-9]+)?.?([0-9]+)?$").IsMatch($"{textBox.Text[0..textBox.SelectionStart]}{e.Text}{textBox.Text[(textBox.SelectionStart + textBox.SelectionLength)..]}");
+                e.Handled = !new Regex("^([0-9]+)?.?([0-9]+)?$").IsMatch($"{textBox.Text[..textBox.SelectionStart]}{e.Text}{textBox.Text[(textBox.SelectionStart + textBox.SelectionLength)..]}");
             };
 
             textBox_MaBP.TextChanged += (s, e) =>

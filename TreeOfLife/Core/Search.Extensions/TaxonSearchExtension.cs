@@ -85,8 +85,8 @@ namespace TreeOfLife.Core.Search.Extensions
             if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2))
             {
                 // 出于性能和实际情况考虑，最多只比较前32个字符，并且先转换为大写再比较
-                string s1 = (str1.Length > 32 ? str1[0..32] : str1).ToUpperInvariant();
-                string s2 = (str2.Length > 32 ? str2[0..32] : str2).ToUpperInvariant();
+                string s1 = (str1.Length > 32 ? str1[..32] : str1).ToUpperInvariant();
+                string s2 = (str2.Length > 32 ? str2[..32] : str2).ToUpperInvariant();
 
                 // int commonPartLength = _GetCommonSubsequenceLength(s1, s2);
                 // return ((double)commonPartLength * commonPartLength / str1.Length / str2.Length, commonPartLength);

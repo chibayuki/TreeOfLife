@@ -332,7 +332,9 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         // 精确匹配分类阶元名称。
         public static Rank? ParseRank(string name)
         {
-            if (!string.IsNullOrEmpty(name) && name.Length <= _MaxLength && _NameToRankTable.TryGetValue(name, out Rank rank))
+            string trimmedName = name?.Trim();
+
+            if (!string.IsNullOrEmpty(trimmedName) && trimmedName.Length <= _MaxLength && _NameToRankTable.TryGetValue(trimmedName, out Rank rank))
             {
                 return rank;
             }
@@ -345,18 +347,20 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         // 尝试匹配可能包含分类阶元名称的字符串，并输出从字符串中匹配到的表示分类阶元名称的部分的起始索引。
         public static bool TryParseRank(string name, out Rank rank, out int rankNameIndex)
         {
+            string trimmedName = name?.Trim();
+
             rank = Rank.Unranked;
             rankNameIndex = -1;
 
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(trimmedName))
             {
-                int len = name.Length;
+                int len = trimmedName.Length;
 
                 for (int i = _MaxLength; i >= 1; i--)
                 {
                     if (len >= i)
                     {
-                        string suffix = name[(^i)..];
+                        string suffix = trimmedName[(^i)..];
 
                         if (_NameToRankTable.TryGetValue(suffix, out rank))
                         {
@@ -374,31 +378,32 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
         // 将类群的中文名分割为三部分，第一部分为中文名不含分类阶元的部分，第二部分为中文名表示分类阶元的部分，第三部分为分类阶元。
         public static (string headPart, string tailPart, Rank? rank) SplitChineseName(string name)
         {
-            Rank? rankN = ParseRank(name);
+            string trimmedName = name?.Trim();
+            Rank? rankN = ParseRank(trimmedName);
 
             if (rankN is not null)
             {
-                return (string.Empty, name, rankN);
+                return (string.Empty, trimmedName, rankN);
             }
             else
             {
                 Rank rank;
                 int rankNameIndex;
 
-                if (TryParseRank(name, out rank, out rankNameIndex))
+                if (TryParseRank(trimmedName, out rank, out rankNameIndex))
                 {
                     if (rankNameIndex > 0)
                     {
-                        return (name[0..rankNameIndex], name[rankNameIndex..], rank);
+                        return (trimmedName[..rankNameIndex].Trim(), trimmedName[rankNameIndex..], rank);
                     }
                     else
                     {
-                        return (string.Empty, name, rank);
+                        return (string.Empty, trimmedName, rank);
                     }
                 }
                 else
                 {
-                    return (name, string.Empty, null);
+                    return (trimmedName, string.Empty, null);
                 }
             }
         }

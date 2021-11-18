@@ -22,10 +22,6 @@ namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_Evo_EditMode : ViewModel
     {
-        public View_Evo_EditMode View { get; set; }
-
-        //
-
         private string _Name;
         private string _ChsName;
 

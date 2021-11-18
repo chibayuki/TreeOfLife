@@ -90,7 +90,7 @@ namespace TreeOfLife.UI.Views
 
                         if (taxonName.Length > 32)
                         {
-                            selected.Header = string.Concat("已选择：\"", taxonName[0..32], "...\"");
+                            selected.Header = string.Concat("已选择：\"", taxonName[..32], "...\"");
                         }
                         else
                         {
@@ -645,6 +645,7 @@ namespace TreeOfLife.UI.Views
                 case Common.EditOperation.ExtinctionUpdated:
                 case Common.EditOperation.SynonymsUpdated:
                 case Common.EditOperation.TagsUpdated:
+                    tree.UpdateContent();
                     break;
 
                 case Common.EditOperation.ParentChanged:
@@ -661,21 +662,21 @@ namespace TreeOfLife.UI.Views
                 case Common.EditOperation.ExcludeByRemoved:
                 case Common.EditOperation.IncludeByAdded:
                 case Common.EditOperation.IncludeByRemoved:
-                    UpdateSubTree();
+                    tree.UpdateContent();
                     break;
 
                 case Common.EditOperation.ExcludesReordered:
                     break;
 
                 case Common.EditOperation.ExcludesRemoved:
-                    UpdateSubTree();
+                    tree.UpdateContent();
                     break;
 
                 case Common.EditOperation.IncludesReordered:
                     break;
 
                 case Common.EditOperation.IncludesRemoved:
-                    UpdateSubTree();
+                    tree.UpdateContent();
                     break;
             }
         }

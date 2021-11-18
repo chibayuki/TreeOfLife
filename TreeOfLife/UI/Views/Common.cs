@@ -48,30 +48,30 @@ namespace TreeOfLife.UI.Views
 
         public enum EditOperation
         {
-            ScientificNameUpdated,
-            ChineseNameUpdated,
-            RankUpdated,
-            IsExtinctUpdated,
-            IsUndetUpdated,
-            BirthUpdated,
-            ExtinctionUpdated,
-            SynonymsUpdated,
-            TagsUpdated,
+            ScientificNameUpdated, // { currentTaxon }
+            ChineseNameUpdated, // { currentTaxon }
+            RankUpdated, // { currentTaxon }
+            IsExtinctUpdated, // { currentTaxon }
+            IsUndetUpdated, // { currentTaxon }
+            BirthUpdated, // { currentTaxon }
+            ExtinctionUpdated, // { currentTaxon }
+            SynonymsUpdated, // { currentTaxon }
+            TagsUpdated, // { currentTaxon }
 
-            ParentChanged,
+            ParentChanged, // { anyTaxon, oldParent, newParent }
 
-            ChildrenReordered,
-            ChildrenAdded,
-            ChildrenRemoved,
+            ChildrenReordered, // { parent }
+            ChildrenAdded, // { currentTaxon }
+            ChildrenRemoved, // { parent }
 
-            ExcludeByAdded,
-            ExcludeByRemoved,
-            IncludeByAdded,
-            IncludeByRemoved,
-            ExcludesReordered,
-            ExcludesRemoved,
-            IncludesReordered,
-            IncludesRemoved,
+            ExcludeByAdded, // { anyTaxon, excludeBy }
+            ExcludeByRemoved, // { currentTaxon, excludeBy }
+            IncludeByAdded, // { anyTaxon, includeBy }
+            IncludeByRemoved, // { currentTaxon, includeBy }
+            ExcludesReordered, // { currentTaxon }
+            ExcludesRemoved, // { currentTaxon, exclude }
+            IncludesReordered, // { currentTaxon }
+            IncludesRemoved, // { currentTaxon, include }
         }
 
         public static Action<EditOperation, object[]> NotifyEditOperation { get; set; }

@@ -138,6 +138,18 @@ namespace TreeOfLife.UI.Controls
             }
 
             public FrameworkElement Container => _Container;
+
+            //
+
+            public void UpdateContent()
+            {
+                _Button.UpdateContent();
+
+                foreach (var child in _Children)
+                {
+                    child.UpdateContent();
+                }
+            }
         }
 
         //
@@ -226,6 +238,14 @@ namespace TreeOfLife.UI.Controls
                 stackPanel_Tree.Children.Add(_RootNode.Container);
 
                 _UpdateTheme();
+            }
+        }
+
+        public void UpdateContent()
+        {
+            if (_RootNode is not null)
+            {
+                _RootNode.UpdateContent();
             }
         }
 

@@ -116,7 +116,7 @@ namespace TreeOfLife.UI.Controls
 
         private double _RankNameWidth = 50; // 分类阶元名称宽度。
 
-        private void _UpdateRankNameWidth() => border_RankNameBackground.Width =border_RankName.Width = _RankNameWidth;
+        private void _UpdateRankNameWidth() => border_RankNameBackground.Width = border_RankName.Width = _RankNameWidth;
 
         private bool _IsChecked = false; // 是否处于已选择状态。
         private bool _IsMouseOver = false;
@@ -244,6 +244,16 @@ namespace TreeOfLife.UI.Controls
 
                 _UpdateColor();
             }
+        }
+
+        //
+
+        public void UpdateContent()
+        {
+            _ThemeColor = _Taxon.GetThemeColor();
+
+            _UpdateTaxon();
+            _UpdateColor();
         }
     }
 }

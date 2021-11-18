@@ -44,10 +44,6 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            ViewModel.View = this;
-
-            //
-
             _InitContextMenus();
 
             //
@@ -187,7 +183,7 @@ namespace TreeOfLife.UI.Views
 
                         if (taxonName.Length > 32)
                         {
-                            selected.Header = string.Concat("已选择：\"", taxonName[0..32], "...\"");
+                            selected.Header = string.Concat("已选择：\"", taxonName[..32], "...\"");
                         }
                         else
                         {
@@ -1005,6 +1001,7 @@ namespace TreeOfLife.UI.Views
                         if (Common.CurrentTaxon.InheritFrom(taxon))
                         {
                             _UpdateTitle();
+                            taxonButtonGroup_Children.UpdateContent();
                         }
 
                         if (taxon == Common.CurrentTaxon)

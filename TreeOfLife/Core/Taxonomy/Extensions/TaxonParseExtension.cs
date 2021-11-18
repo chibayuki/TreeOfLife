@@ -145,6 +145,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
                     {
                         taxon.Rank = Rank.Clade;
                     }
+
+                    if (taxon.IsAnonymous)
+                    {
+                        taxon.Rank = Rank.Unranked;
+                    }
                 }
             }
         }
