@@ -223,60 +223,6 @@ namespace TreeOfLife.UI.Controls
             { GeoChron.GetGeoChron(Period.Quaternary), "Q" }
         };
 
-        //
-
-        private Rank? _Rank = null;
-
-        private void _UpdateRank()
-        {
-            if (_Rank is null)
-            {
-                textBlock_RankName.Text = string.Empty;
-            }
-            else
-            {
-                Rank rank = _Rank.Value;
-
-                if (_IsParaphyly)
-                {
-                    textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "并系群" : rank.GetChineseName() + "\n并系群";
-                }
-                else if (_IsPolyphyly)
-                {
-                    textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "复系群" : rank.GetChineseName() + "\n复系群";
-                }
-                else
-                {
-                    if (rank.IsUnranked())
-                    {
-                        textBlock_RankName.Text = string.Empty;
-                    }
-                    else
-                    {
-                        textBlock_RankName.Text = rank.GetChineseName();
-                    }
-                }
-            }
-
-            border_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private bool _IsExtinct = false;
-        private bool _IsUndet = false;
-        private bool _IsParaphyly = false;
-        private bool _IsPolyphyly = false;
-
-        private void _UpdateIsExtinct() => grid_Ex.Visibility = _IsExtinct ? Visibility.Visible : Visibility.Collapsed;
-
-        private void _UpdateIsUndet() => grid_Undet.Visibility = _IsUndet ? Visibility.Visible : Visibility.Collapsed;
-
-        private void _UpdateIsParaphyly() => grid_Paraphyly.Visibility = _IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
-
-        private void _UpdateIsPolyphyly() => grid_Polyphyly.Visibility = _IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
-
-        private GeoChron _Birth = null;
-        private GeoChron _Extinction = null;
-
         private Dictionary<GeoChron, _GeoChronSymbol> _GeoChronSymbolsTable = new Dictionary<GeoChron, _GeoChronSymbol>();
 
         private Border border_PreCambrianMainly_FullWidth = null;
@@ -480,9 +426,62 @@ namespace TreeOfLife.UI.Controls
             grid_PhanerozoicMainly.Children.Add(border_PhanerozoicMainly);
         }
 
+        //
+
+        private Taxon _Taxon = null; // 类群。
+
+        private void _UpdateTaxon()
+        {
+            if (_Taxon is not null)
+            {
+                Rank rank = _Taxon.Rank;
+
+                if (_Taxon.IsAnonymous)
+                {
+                    textBlock_RankName.Text = string.Empty;
+                }
+                else
+                {
+                    if (_Taxon.IsParaphyly)
+                    {
+                        textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "并系群" : rank.GetChineseName() + "\n并系群";
+                    }
+                    else if (_Taxon.IsPolyphyly)
+                    {
+                        textBlock_RankName.Text = rank.IsUnranked() || rank.IsClade() ? "复系群" : rank.GetChineseName() + "\n复系群";
+                    }
+                    else
+                    {
+                        if (rank.IsUnranked())
+                        {
+                            textBlock_RankName.Text = string.Empty;
+                        }
+                        else
+                        {
+                            textBlock_RankName.Text = rank.GetChineseName();
+                        }
+                    }
+                }
+
+                textBlock_TaxonName.Text = _Taxon.GetShortName();
+
+                //
+
+                border_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
+
+                grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+                grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
+                grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
+                grid_Polyphyly.Visibility = _Taxon.IsNamed && _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         private void _UpdateGeoChronText()
         {
-            if ((_Birth is null || _Birth.IsEmpty) && (_Extinction is null || _Extinction.IsEmpty || _Extinction.IsPresent))
+            GeoChron birth = _Taxon.Birth;
+            GeoChron extinction = _Taxon.Extinction;
+
+            if (_Taxon.IsAnonymous || (birth.IsEmpty && (extinction.IsEmpty || extinction.IsPresent)))
             {
                 grid_Text.Visibility = Visibility.Collapsed;
             }
@@ -490,40 +489,40 @@ namespace TreeOfLife.UI.Controls
             {
                 grid_Text.Visibility = Visibility.Visible;
 
-                if (_Birth is null || _Birth.IsEmpty)
+                if (birth.IsEmpty)
                 {
                     label_BirthPrefix.Content = string.Empty;
                     label_Birth.Content = "?";
                 }
                 else
                 {
-                    GeoChron birth = _Birth;
+                    GeoChron birthTimespan = birth;
 
-                    if (birth.IsTimepoint)
+                    if (birthTimespan.IsTimepoint)
                     {
-                        if (birth.Superior is null)
+                        if (birthTimespan.Superior is null)
                         {
-                            label_Birth.Content = birth.GetChineseName();
+                            label_Birth.Content = birthTimespan.GetChineseName();
                         }
                         else
                         {
-                            label_Birth.Content = $"{birth.GetChineseName()} ({birth.Superior.GetChineseName()})";
+                            label_Birth.Content = $"{birthTimespan.GetChineseName()} ({birthTimespan.Superior.GetChineseName()})";
 
-                            birth = birth.Superior;
+                            birthTimespan = birthTimespan.Superior;
                         }
                     }
                     else
                     {
-                        label_Birth.Content = birth.GetChineseName();
+                        label_Birth.Content = birthTimespan.GetChineseName();
                     }
 
-                    if (birth.Superior is null)
+                    if (birthTimespan.Superior is null)
                     {
                         label_BirthPrefix.Content = string.Empty;
                     }
                     else
                     {
-                        GeoChron geoChron = birth.Superior;
+                        GeoChron geoChron = birthTimespan.Superior;
 
                         string str = geoChron.GetChineseName();
 
@@ -538,45 +537,45 @@ namespace TreeOfLife.UI.Controls
                     }
                 }
 
-                if (_Extinction is null || _Extinction.IsEmpty)
+                if (extinction.IsEmpty)
                 {
                     label_ExtinctionPrefix.Content = string.Empty;
                     label_Extinction.Content = "?";
                 }
-                else if (_Extinction.IsPresent)
+                else if (extinction.IsPresent)
                 {
                     label_ExtinctionPrefix.Content = string.Empty;
                     label_Extinction.Content = "至今";
                 }
                 else
                 {
-                    GeoChron extinction = _Extinction;
+                    GeoChron extinctionTimespan = extinction;
 
-                    if (extinction.IsTimepoint)
+                    if (extinctionTimespan.IsTimepoint)
                     {
-                        if (extinction.Superior is null)
+                        if (extinctionTimespan.Superior is null)
                         {
-                            label_Extinction.Content = extinction.GetChineseName();
+                            label_Extinction.Content = extinctionTimespan.GetChineseName();
                         }
                         else
                         {
-                            label_Extinction.Content = $"{extinction.GetChineseName()} ({extinction.Superior.GetChineseName()})";
+                            label_Extinction.Content = $"{extinctionTimespan.GetChineseName()} ({extinctionTimespan.Superior.GetChineseName()})";
 
-                            extinction = extinction.Superior;
+                            extinctionTimespan = extinctionTimespan.Superior;
                         }
                     }
                     else
                     {
-                        label_Extinction.Content = extinction.GetChineseName();
+                        label_Extinction.Content = extinctionTimespan.GetChineseName();
                     }
 
-                    if (extinction.Superior is null)
+                    if (extinctionTimespan.Superior is null)
                     {
                         label_ExtinctionPrefix.Content = string.Empty;
                     }
                     else
                     {
-                        GeoChron geoChron = extinction.Superior;
+                        GeoChron geoChron = extinctionTimespan.Superior;
 
                         string str = geoChron.GetChineseName();
 
@@ -598,7 +597,10 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateGeoChronGraph()
         {
-            if ((_Birth is null || _Birth.IsEmpty || _Birth.IsPresent) || (_Extinction is null || _Extinction.IsEmpty) || !(_Birth <= _Extinction))
+            GeoChron birth = _Taxon.Birth;
+            GeoChron extinction = _Taxon.Extinction;
+
+            if (_Taxon.IsAnonymous || ((birth.IsEmpty || birth.IsPresent) || extinction.IsEmpty || !(birth <= extinction)))
             {
                 border_Underline.Visibility = Visibility.Visible;
 
@@ -609,10 +611,10 @@ namespace TreeOfLife.UI.Controls
             {
                 border_Underline.Visibility = Visibility.Collapsed;
 
-                int columnIndex = _GetColumnIndex(_Birth);
-                int columnSpan = Math.Max(1, _GetColumnIndex(_Extinction) - _GetColumnIndex(_Birth) + 1);
+                int columnIndex = _GetColumnIndex(birth);
+                int columnSpan = Math.Max(1, _GetColumnIndex(extinction) - _GetColumnIndex(birth) + 1);
 
-                if (_Birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
+                if (birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
                 {
                     border_PreCambrianMainly.SetValue(Grid.ColumnProperty, columnIndex);
                     border_PreCambrianMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
@@ -669,112 +671,35 @@ namespace TreeOfLife.UI.Controls
             //
 
             _InitGeoChronGraph();
+
+            this.Loaded += (s, e) =>
+            {
+                _UpdateTaxon();
+                _UpdateColor();
+            };
         }
 
         //
 
-        public string TaxonName
+        public Taxon Taxon
         {
-            get => textBlock_TaxonName.Text;
-            set => textBlock_TaxonName.Text = value;
-        }
-
-        public Rank? Rank
-        {
-            get => _Rank;
+            get => _Taxon;
 
             set
             {
-                _Rank = value;
+                if (value is null)
+                {
+                    throw new ArgumentNullException();
+                }
 
-                _UpdateRank();
-            }
-        }
+                //
 
-        public bool IsExtinct
-        {
-            get => _IsExtinct;
+                _Taxon = value;
+                _ThemeColor = _Taxon.GetThemeColor();
 
-            set
-            {
-                _IsExtinct = value;
-
-                _UpdateIsExtinct();
-            }
-        }
-
-        public bool IsUndet
-        {
-            get => _IsUndet;
-
-            set
-            {
-                _IsUndet = value;
-
-                _UpdateIsUndet();
-            }
-        }
-
-        public bool IsParaphyly
-        {
-            get => _IsParaphyly;
-
-            set
-            {
-                _IsParaphyly = value;
-
-                _UpdateIsParaphyly();
-                _UpdateRank();
-            }
-        }
-
-        public bool IsPolyphyly
-        {
-            get => _IsPolyphyly;
-
-            set
-            {
-                _IsPolyphyly = value;
-
-                _UpdateIsPolyphyly();
-                _UpdateRank();
-            }
-        }
-
-        public GeoChron Birth
-        {
-            get => _Birth;
-
-            set
-            {
-                _Birth = value;
-
+                _UpdateTaxon();
                 _UpdateGeoChronText();
                 _UpdateGeoChronGraph();
-            }
-        }
-
-        public GeoChron Extinction
-        {
-            get => _Extinction;
-
-            set
-            {
-                _Extinction = value;
-
-                _UpdateGeoChronText();
-                _UpdateGeoChronGraph();
-            }
-        }
-
-        public ColorX ThemeColor
-        {
-            get => _ThemeColor;
-
-            set
-            {
-                _ThemeColor = value;
-
                 _UpdateColor();
             }
         }
@@ -790,6 +715,18 @@ namespace TreeOfLife.UI.Controls
                 _UpdateTheme();
                 _UpdateColor();
             }
+        }
+
+        //
+
+        public void SyncTaxonUpdation()
+        {
+            _ThemeColor = _Taxon.GetThemeColor();
+
+            _UpdateTaxon();
+            _UpdateGeoChronText();
+            _UpdateGeoChronGraph();
+            _UpdateColor();
         }
     }
 }

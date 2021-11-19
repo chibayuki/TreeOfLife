@@ -121,9 +121,9 @@ namespace TreeOfLife.UI.Views
 
             warningMessage_RankMissing.Message = RankMissingValidator.Instance.ToString();
 
-            warningMessage_TimelineCompleteness_Birth.Message = TimelineCompletenessValidator.Instance.ToString();
+            warningMessage_TimelineCompleteness_Birth.Message = TimelineCompletenessValidator.Instance.ToString("灭绝年代");
             warningMessage_EvolutionOrder.Message = EvolutionOrderValidator.Instance.ToString();
-            warningMessage_TimelineCompleteness_Extinction.Message = TimelineCompletenessValidator.Instance.ToString();
+            warningMessage_TimelineCompleteness_Extinction.Message = TimelineCompletenessValidator.Instance.ToString("诞生年代");
             warningMessage_TimelineConsistency.Message = TimelineConsistencyValidator.Instance.ToString();
 
             warningMessage_SynonymsUnique.Message = SynonymsUniqueValidator.Instance.ToString();
@@ -131,16 +131,15 @@ namespace TreeOfLife.UI.Views
             warningMessage_TagsUnique.Message = TagsUniqueValidator.Instance.ToString();
             warningMessage_SynonymsTagUnique_Tags.Message = SynonymsTagUniqueValidator.Instance.ToString();
 
-            warningMessage_NodeInfo_State.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Birth.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Extinction.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Extinction.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Synonyms.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Tags.Message = NodeInformationValidator.Instance.ToString();
-            warningMessage_NodeInfo_Desc.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_State.Message = NodeInformationValidator.Instance.ToString("状态");
+            warningMessage_NodeInfo_Birth.Message = NodeInformationValidator.Instance.ToString("诞生年代");
+            warningMessage_NodeInfo_Extinction.Message = NodeInformationValidator.Instance.ToString("灭绝年代");
+            warningMessage_NodeInfo_Synonyms.Message = NodeInformationValidator.Instance.ToString("异名");
+            warningMessage_NodeInfo_Tags.Message = NodeInformationValidator.Instance.ToString("标签");
+            warningMessage_NodeInfo_Desc.Message = NodeInformationValidator.Instance.ToString("描述");
 
-            warningMessage_NodeRef_Excludes.Message = NodeReferenceValidator.Instance.ToString();
-            warningMessage_NodeRef_Includes.Message = NodeReferenceValidator.Instance.ToString();
+            warningMessage_NodeRef_Excludes.Message = NodeReferenceValidator.Instance.ToString("并系群");
+            warningMessage_NodeRef_Includes.Message = NodeReferenceValidator.Instance.ToString("复系群");
 
             //
 
@@ -686,55 +685,6 @@ namespace TreeOfLife.UI.Views
 
         #region 类群
 
-        // 更新标题。
-        private void _UpdateTitle()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            Rank rank = currentTaxon.Rank;
-
-            taxonTitle.ThemeColor = currentTaxon.IsRoot || rank.IsPrimaryOrSecondaryRank() ? rank.GetThemeColor() : currentTaxon.Parent.GetThemeColor();
-
-            string name = currentTaxon.ScientificName;
-            string chsName = currentTaxon.ChineseName;
-
-            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
-            {
-                taxonTitle.Rank = null;
-                taxonTitle.TaxonName = "<节点>";
-            }
-            else
-            {
-                taxonTitle.Rank = rank;
-
-                StringBuilder taxonName = new StringBuilder();
-
-                if (!string.IsNullOrEmpty(chsName))
-                {
-                    taxonName.Append(chsName);
-
-                    if (!string.IsNullOrEmpty(name))
-                    {
-                        taxonName.Append(' ');
-                        taxonName.Append(name);
-                    }
-                }
-                else if (!string.IsNullOrEmpty(name))
-                {
-                    taxonName.Append(name);
-                }
-
-                taxonTitle.TaxonName = taxonName.ToString();
-            }
-
-            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
-            taxonTitle.IsUndet = currentTaxon.IsUndet;
-            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
-            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
-            taxonTitle.Birth = currentTaxon.Birth;
-            taxonTitle.Extinction = currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present;
-        }
-
         private string _ChsRename = string.Empty;
         private Rank _Rerank = Rank.Unranked;
 
@@ -962,17 +912,16 @@ namespace TreeOfLife.UI.Views
             textBox_Parent.Clear();
             textBox_Children.Clear();
 
+            taxonTitle.Taxon = Common.CurrentTaxon;
+
+            _UpdateRenameAndRerank();
             _UpdateParents();
             _UpdateChildren();
             _UpdateExcludes();
             _UpdateExcludeBy();
             _UpdateIncludes();
             _UpdateIncludeBy();
-
             _UpdateVisibility();
-
-            _UpdateTitle();
-            _UpdateRenameAndRerank();
             _UpdateWarningMessage();
         }
 
@@ -981,39 +930,45 @@ namespace TreeOfLife.UI.Views
             switch (editOperation)
             {
                 case Common.EditOperation.ScientificNameUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
+                    taxonButtonGroup_Children.SyncTaxonUpdation();
+                    taxonButtonGroup_Excludes.SyncTaxonUpdation();
                     _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.ChineseNameUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateRenameAndRerank();
+                    taxonButtonGroup_Children.SyncTaxonUpdation();
+                    taxonButtonGroup_Excludes.SyncTaxonUpdation();
                     _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.RankUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateRenameAndRerank();
+                    taxonButtonGroup_Children.SyncTaxonUpdation();
+                    taxonButtonGroup_Excludes.SyncTaxonUpdation();
                     _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.IsExtinctUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.IsUndetUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateVisibility();
                     break;
 
                 case Common.EditOperation.BirthUpdated:
                 case Common.EditOperation.ExtinctionUpdated:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
@@ -1037,8 +992,9 @@ namespace TreeOfLife.UI.Views
 
                         if (Common.CurrentTaxon.InheritFrom(taxon))
                         {
-                            _UpdateTitle();
+                            taxonTitle.SyncTaxonUpdation();
                             taxonButtonGroup_Children.SyncTaxonUpdation();
+                            taxonButtonGroup_Excludes.SyncTaxonUpdation();
                         }
 
                         if (taxon == Common.CurrentTaxon)
@@ -1096,7 +1052,7 @@ namespace TreeOfLife.UI.Views
 
                         if (excludeBy == Common.CurrentTaxon)
                         {
-                            _UpdateTitle();
+                            taxonTitle.SyncTaxonUpdation();
                             _UpdateExcludesWithVisibility();
                         }
                     }
@@ -1118,7 +1074,7 @@ namespace TreeOfLife.UI.Views
 
                         if (includeBy == Common.CurrentTaxon)
                         {
-                            _UpdateTitle();
+                            taxonTitle.SyncTaxonUpdation();
                             _UpdateIncludesWithVisibility();
                         }
                     }
@@ -1133,7 +1089,7 @@ namespace TreeOfLife.UI.Views
                     break;
 
                 case Common.EditOperation.ExcludesRemoved:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateExcludesWithVisibility();
                     break;
 
@@ -1142,7 +1098,7 @@ namespace TreeOfLife.UI.Views
                     break;
 
                 case Common.EditOperation.IncludesRemoved:
-                    _UpdateTitle();
+                    taxonTitle.SyncTaxonUpdation();
                     _UpdateIncludesWithVisibility();
                     break;
             }

@@ -105,10 +105,10 @@ namespace TreeOfLife.UI.Controls
 
                 //
 
-                grid_Undet.Visibility = _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
-                grid_Ex.Visibility = _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
-                grid_Paraphyly.Visibility = _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
-                grid_Polyphyly.Visibility = _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
+                grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+                grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
+                grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
+                grid_Polyphyly.Visibility = _Taxon.IsNamed && _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

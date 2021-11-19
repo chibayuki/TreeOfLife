@@ -29,7 +29,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "Level 错误";
 
-        public bool IsValid(Taxon taxon) => taxon.Level == (taxon.IsRoot ? 0 : taxon.Parent.Level + 1);
+        public bool IsValid(Taxon taxon) => taxon.Level == (taxon.IsRoot ? 0 : taxon.Parent.Level + 1) ? true : throw new ApplicationException();
     }
 
     public class IndexValidator : IValidator
@@ -40,7 +40,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "Index 错误";
 
-        public bool IsValid(Taxon taxon) => taxon.Index == (taxon.IsRoot ? -1 : (taxon.Parent.Children as List<Taxon>).IndexOf(taxon));
+        public bool IsValid(Taxon taxon) => taxon.Index == (taxon.IsRoot ? -1 : (taxon.Parent.Children as List<Taxon>).IndexOf(taxon)) ? true : throw new ApplicationException();
     }
 
     public class InheritValidator : IValidator
@@ -51,7 +51,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "Inherit 关系错误";
 
-        public bool IsValid(Taxon taxon) => !taxon.Children.Any((t) => t.Parent != taxon);
+        public bool IsValid(Taxon taxon) => !taxon.Children.Any((t) => t.Parent != taxon) ? true : throw new ApplicationException();
     }
 
     public class ExcludeValidator : IValidator
@@ -62,7 +62,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "Exclude 关系错误";
 
-        public bool IsValid(Taxon taxon) => !taxon.ExcludeBy.Any((t) => !t.Excludes.Contains(taxon)) && !taxon.Excludes.Any((t) => !t.ExcludeBy.Contains(taxon));
+        public bool IsValid(Taxon taxon) => !taxon.ExcludeBy.Any((t) => !t.Excludes.Contains(taxon)) && !taxon.Excludes.Any((t) => !t.ExcludeBy.Contains(taxon)) ? true : throw new ApplicationException();
     }
 
     public class IncludeValidator : IValidator
@@ -73,7 +73,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "Include 关系错误";
 
-        public bool IsValid(Taxon taxon) => !taxon.IncludeBy.Any((t) => !t.Includes.Contains(taxon)) && !taxon.Includes.Any((t) => !t.IncludeBy.Contains(taxon));
+        public bool IsValid(Taxon taxon) => !taxon.IncludeBy.Any((t) => !t.Includes.Contains(taxon)) && !taxon.Includes.Any((t) => !t.IncludeBy.Contains(taxon)) ? true : throw new ApplicationException();
     }
 
     public class NodeRankValidator : IValidator
@@ -84,7 +84,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "匿名节点不应具有分级";
 
-        public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.Rank == Rank.Unranked;
+        public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.Rank == Rank.Unranked ? true : throw new ApplicationException();
     }
 
     public class BirthValidator : IValidator
@@ -95,7 +95,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "诞生年代不应是现代";
 
-        public bool IsValid(Taxon taxon) => !taxon.Birth.IsPresent;
+        public bool IsValid(Taxon taxon) => !taxon.Birth.IsPresent ? true : throw new ApplicationException();
     }
 
     public class ExtinctionValidator : IValidator
@@ -106,7 +106,7 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "未灭绝类群不应具有灭绝年代，\n已灭绝类群的灭绝年代不应是现代";
 
-        public bool IsValid(Taxon taxon) => taxon.IsExtinct ? !taxon.Extinction.IsPresent : taxon.Extinction == GeoChron.Empty;
+        public bool IsValid(Taxon taxon) => taxon.IsExtinct ? !taxon.Extinction.IsPresent : taxon.Extinction.IsEmpty ? true : throw new ApplicationException();
     }
 
 #endif
@@ -228,6 +228,8 @@ namespace TreeOfLife.Core.Validation
         public static readonly TimelineCompletenessValidator Instance = new TimelineCompletenessValidator();
 
         public override string ToString() => "仅设置了诞生年代或灭绝年代之一";
+
+        public string ToString(string message) => $"仅设置了{message}";
 
         public bool IsValid(Taxon taxon) => !taxon.IsExtinct || taxon.Birth.IsEmpty == taxon.Extinction.IsEmpty;
     }
@@ -438,6 +440,8 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "节点缺少姊妹群或下级类群";
 
+        public string ToString(string message) => $"节点缺少{message}";
+
         public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.IsRoot || (taxon.Parent.Children.Count > 1 && taxon.Children.Count > 1);
     }
 
@@ -450,18 +454,22 @@ namespace TreeOfLife.Core.Validation
 
         public override string ToString() => "节点不应该是并系群或复系群";
 
+        public string ToString(string message) => $"节点不应该是{message}";
+
         public bool IsValid(Taxon taxon) => taxon.IsNamed || (taxon.Excludes.Count <= 0 && taxon.Includes.Count <= 0);
     }
 
-    // 节点信息冗余：匿名类群不需要设置分级、状态、年代、异名、标签、描述等信息。
+    // 节点信息冗余：匿名类群不需要设置状态、年代、异名、标签、描述等信息。
     public class NodeInformationValidator : IValidator
     {
         private NodeInformationValidator() { }
 
         public static readonly NodeInformationValidator Instance = new NodeInformationValidator();
 
-        public override string ToString() => "节点不需要设置此信息";
+        public override string ToString() => "节点包含不需要设置的信息";
 
-        public bool IsValid(Taxon taxon) => taxon.IsNamed || (taxon.Rank == Rank.Unranked && !taxon.IsExtinct && !taxon.IsUndet && taxon.Birth.IsEmpty && taxon.Extinction.IsEmpty && taxon.Synonyms.Count <= 0 && taxon.Tags.Count <= 0 && string.IsNullOrWhiteSpace(taxon.Description));
+        public string ToString(string message) => $"节点不需要设置{message}";
+
+        public bool IsValid(Taxon taxon) => taxon.IsNamed || (!taxon.IsExtinct && !taxon.IsUndet && taxon.Birth.IsEmpty && taxon.Extinction.IsEmpty && taxon.Synonyms.Count <= 0 && taxon.Tags.Count <= 0 && string.IsNullOrWhiteSpace(taxon.Description));
     }
 }

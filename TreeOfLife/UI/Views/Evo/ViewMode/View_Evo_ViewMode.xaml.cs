@@ -245,21 +245,6 @@ namespace TreeOfLife.UI.Views
             grid_Desc.Visibility = !string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void _UpdateTitle()
-        {
-            Taxon currentTaxon = Common.CurrentTaxon;
-
-            taxonTitle.ThemeColor = currentTaxon.GetThemeColor();
-            taxonTitle.TaxonName = currentTaxon.GetShortName();
-            taxonTitle.Rank = currentTaxon.IsAnonymous ? null : currentTaxon.Rank;
-            taxonTitle.IsExtinct = currentTaxon.IsExtinct;
-            taxonTitle.IsUndet = currentTaxon.IsUndet;
-            taxonTitle.IsParaphyly = currentTaxon.IsParaphyly;
-            taxonTitle.IsPolyphyly = currentTaxon.IsPolyphyly;
-            taxonTitle.Birth = currentTaxon.Birth;
-            taxonTitle.Extinction = currentTaxon.IsExtinct ? currentTaxon.Extinction : GeoChron.Present;
-        }
-
         public void UpdateCurrentTaxonInfo()
         {
             ViewModel.LoadFromCurrentTaxon();
@@ -270,13 +255,12 @@ namespace TreeOfLife.UI.Views
             tagGroup_Synonyms.UpdateContent(currentTaxon.Synonyms);
             tagGroup_Synonyms.ThemeColor = currentTaxon.GetThemeColor();
 
+            taxonTitle.Taxon = Common.CurrentTaxon;
+
             _UpdateParents();
             _UpdateChildren();
             _UpdateExcludes();
-
             _UpdateVisibility();
-
-            _UpdateTitle();
         }
     }
 }
