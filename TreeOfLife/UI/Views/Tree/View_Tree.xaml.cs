@@ -82,7 +82,7 @@ namespace TreeOfLife.UI.Views
 
                     if (selectedTaxon.IsAnonymous)
                     {
-                        selected.Header = "已选择: \"(未命名)\"";
+                        selected.Header = "已选择: <节点>";
                     }
                     else
                     {
@@ -641,11 +641,14 @@ namespace TreeOfLife.UI.Views
                 case Common.EditOperation.RankUpdated:
                 case Common.EditOperation.IsExtinctUpdated:
                 case Common.EditOperation.IsUndetUpdated:
+                    tree.SyncTaxonUpdation();
+                    break;
+
                 case Common.EditOperation.BirthUpdated:
                 case Common.EditOperation.ExtinctionUpdated:
                 case Common.EditOperation.SynonymsUpdated:
                 case Common.EditOperation.TagsUpdated:
-                    tree.UpdateContent();
+                case Common.EditOperation.DescriptionUpdated:
                     break;
 
                 case Common.EditOperation.ParentChanged:
@@ -662,21 +665,21 @@ namespace TreeOfLife.UI.Views
                 case Common.EditOperation.ExcludeByRemoved:
                 case Common.EditOperation.IncludeByAdded:
                 case Common.EditOperation.IncludeByRemoved:
-                    tree.UpdateContent();
+                    tree.SyncTaxonUpdation();
                     break;
 
                 case Common.EditOperation.ExcludesReordered:
                     break;
 
                 case Common.EditOperation.ExcludesRemoved:
-                    tree.UpdateContent();
+                    tree.SyncTaxonUpdation();
                     break;
 
                 case Common.EditOperation.IncludesReordered:
                     break;
 
                 case Common.EditOperation.IncludesRemoved:
-                    tree.UpdateContent();
+                    tree.SyncTaxonUpdation();
                     break;
             }
         }

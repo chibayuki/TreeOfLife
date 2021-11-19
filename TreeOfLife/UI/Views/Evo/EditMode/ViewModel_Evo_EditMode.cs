@@ -355,6 +355,8 @@ namespace TreeOfLife.UI.Views
                     if (!currentTaxon.IsRoot)
                     {
                         currentTaxon.Description = _Description;
+
+                        Common.NotifyEditOperation(Common.EditOperation.DescriptionUpdated, new object[] { currentTaxon });
                     }
                 }
             }

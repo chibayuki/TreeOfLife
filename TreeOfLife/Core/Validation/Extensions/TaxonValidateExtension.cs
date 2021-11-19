@@ -46,7 +46,9 @@ namespace TreeOfLife.Core.Validation.Extensions
             SynonymsUniqueValidator.Instance,
             TagsUniqueValidator.Instance,
             SynonymsTagUniqueValidator.Instance,
-            NodeStructureValidator.Instance
+            NodeStructureValidator.Instance,
+            NodeReferenceValidator.Instance,
+            NodeInformationValidator.Instance
         };
 
         // 检查指定类群的违规项。

@@ -234,11 +234,11 @@ namespace TreeOfLife.UI.Controls
 
             public Taxon GetTaxon(int buttonIndex) => _Buttons[buttonIndex].Taxon;
 
-            public void UpdateContent()
+            public void SyncTaxonUpdation()
             {
                 foreach (var button in _Buttons)
                 {
-                    button.UpdateContent();
+                    button.SyncTaxonUpdation();
                 }
             }
         }
@@ -458,11 +458,11 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public void UpdateContent()
+        public void SyncTaxonUpdation()
         {
             foreach (var group in _Groups)
             {
-                group.UpdateContent();
+                group.SyncTaxonUpdation();
             }
         }
 

@@ -175,7 +175,7 @@ namespace TreeOfLife.Core.Validation
 
         public static readonly NameCharacterValidator Instance = new NameCharacterValidator();
 
-        public override string ToString() => "学名含有意外的字符";
+        public override string ToString() => "学名包含意外的字符";
 
         public bool IsValid(Taxon taxon)
         {
@@ -350,7 +350,7 @@ namespace TreeOfLife.Core.Validation
 
         public static readonly SynonymsUniqueValidator Instance = new SynonymsUniqueValidator();
 
-        public override string ToString() => "异名含有重复项";
+        public override string ToString() => "异名包含重复项";
 
         public bool IsValid(Taxon taxon)
         {
@@ -375,7 +375,7 @@ namespace TreeOfLife.Core.Validation
 
         public static readonly TagsUniqueValidator Instance = new TagsUniqueValidator();
 
-        public override string ToString() => "标签含有重复项";
+        public override string ToString() => "标签包含重复项";
 
         public bool IsValid(Taxon taxon)
         {
@@ -400,7 +400,7 @@ namespace TreeOfLife.Core.Validation
 
         public static readonly SynonymsTagUniqueValidator Instance = new SynonymsTagUniqueValidator();
 
-        public override string ToString() => "异名与标签之间含有重复项";
+        public override string ToString() => "异名与标签之间包含重复项";
 
         public bool IsValid(Taxon taxon)
         {
@@ -436,8 +436,32 @@ namespace TreeOfLife.Core.Validation
 
         public static readonly NodeStructureValidator Instance = new NodeStructureValidator();
 
-        public override string ToString() => "节点结构不正确";
+        public override string ToString() => "节点缺少姊妹群或下级类群";
 
         public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.IsRoot || (taxon.Parent.Children.Count > 1 && taxon.Children.Count > 1);
+    }
+
+    // 节点引用关系：匿名类群不应该是并系群或复系群。
+    public class NodeReferenceValidator : IValidator
+    {
+        private NodeReferenceValidator() { }
+
+        public static readonly NodeReferenceValidator Instance = new NodeReferenceValidator();
+
+        public override string ToString() => "节点不应该是并系群或复系群";
+
+        public bool IsValid(Taxon taxon) => taxon.IsNamed || (taxon.Excludes.Count <= 0 && taxon.Includes.Count <= 0);
+    }
+
+    // 节点信息冗余：匿名类群不需要设置分级、状态、年代、异名、标签、描述等信息。
+    public class NodeInformationValidator : IValidator
+    {
+        private NodeInformationValidator() { }
+
+        public static readonly NodeInformationValidator Instance = new NodeInformationValidator();
+
+        public override string ToString() => "节点不需要设置此信息";
+
+        public bool IsValid(Taxon taxon) => taxon.IsNamed || (taxon.Rank == Rank.Unranked && !taxon.IsExtinct && !taxon.IsUndet && taxon.Birth.IsEmpty && taxon.Extinction.IsEmpty && taxon.Synonyms.Count <= 0 && taxon.Tags.Count <= 0 && string.IsNullOrWhiteSpace(taxon.Description));
     }
 }

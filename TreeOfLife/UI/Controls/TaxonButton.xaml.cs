@@ -248,7 +248,7 @@ namespace TreeOfLife.UI.Controls
 
         //
 
-        public void UpdateContent()
+        public void SyncTaxonUpdation()
         {
             _ThemeColor = _Taxon.GetThemeColor();
 

@@ -15,7 +15,7 @@ This file is part of TreeOfLife
              xmlns:local="clr-namespace:TreeOfLife.UI.Views"
              xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="2000" d:DesignWidth="400">
+             d:DesignHeight="2400" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_EditMode/>
     </UserControl.DataContext>
@@ -111,16 +111,19 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="状态"/>
-                        <Grid Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox Style="{DynamicResource CheckBoxStyle}" Content="已灭绝 (†)" IsChecked="{Binding IsExtinct}"/>
-                            <CheckBox Grid.Column="2" Style="{DynamicResource CheckBoxStyle}" Content="分类地位存疑 (?)" IsChecked="{Binding IsUndet}"/>
-                        </Grid>
+                        <StackPanel Grid.Column="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Style="{DynamicResource CheckBoxStyle}" Content="已灭绝 (†)" IsChecked="{Binding IsExtinct}"/>
+                                <CheckBox Grid.Column="2" Style="{DynamicResource CheckBoxStyle}" Content="分类地位存疑 (?)" IsChecked="{Binding IsUndet}"/>
+                            </Grid>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeInfo_State" Margin="0,5,0,0"/>
+                        </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_Chron" Margin="0,25,0,0">
                         <StackPanel>
@@ -135,6 +138,7 @@ This file is part of TreeOfLife
                                     <Controls:GeoChronSelector x:Name="geoChronSelector_Birth" GeoChron="{Binding Birth}"/>
                                     <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Birth" Margin="0,5,0,0"/>
                                     <Controls:WarningMessage x:Name="warningMessage_EvolutionOrder" Margin="0,5,0,0"/>
+                                    <Controls:WarningMessage x:Name="warningMessage_NodeInfo_Birth" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Grid>
                             <Grid Margin="0,10,0,0" Visibility="{Binding Visibility_Extinction}">
@@ -148,6 +152,7 @@ This file is part of TreeOfLife
                                     <Controls:GeoChronSelector x:Name="geoChronSelector_Extinction" GeoChron="{Binding Extinction}"/>
                                     <Controls:WarningMessage x:Name="warningMessage_TimelineCompleteness_Extinction" Margin="0,5,0,0"/>
                                     <Controls:WarningMessage x:Name="warningMessage_TimelineConsistency" Margin="0,5,0,0"/>
+                                    <Controls:WarningMessage x:Name="warningMessage_NodeInfo_Extinction" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
@@ -163,6 +168,7 @@ This file is part of TreeOfLife
                             <TextBox Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Synonyms}"/>
                             <Controls:WarningMessage x:Name="warningMessage_SynonymsUnique" Margin="0,5,0,0"/>
                             <Controls:WarningMessage x:Name="warningMessage_SynonymsTagUnique_Synonyms" Margin="0,5,0,0"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeInfo_Synonyms" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_Tags" Margin="0,25,0,0">
@@ -176,6 +182,7 @@ This file is part of TreeOfLife
                             <TextBox Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" Text="{Binding Tags}"/>
                             <Controls:WarningMessage x:Name="warningMessage_TagsUnique" Margin="0,5,0,0"/>
                             <Controls:WarningMessage x:Name="warningMessage_SynonymsTagUnique_Tags" Margin="0,5,0,0"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeInfo_Tags" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_Desc" Margin="0,25,0,0">
@@ -185,7 +192,10 @@ This file is part of TreeOfLife
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Style="{DynamicResource HorizontalTitleLabelStyle}" Content="描述"/>
-                        <TextBox Grid.Column="2" Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Description}"/>
+                        <StackPanel Grid.Column="2">
+                            <TextBox Style="{DynamicResource TextBoxStyle}" Height="87" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Description}"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeInfo_Desc" Margin="0,5,0,0"/>
+                        </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_Parents" Margin="0,25,0,0">
                         <Grid.RowDefinitions>
@@ -251,7 +261,10 @@ This file is part of TreeOfLife
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群排除的类群"/>
-                        <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Excludes" Grid.Row="2"/>
+                        <StackPanel Grid.Row="2">
+                            <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Excludes"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeRef_Excludes" Margin="0,5,0,0"/>
+                        </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
                         <Grid.RowDefinitions>
@@ -269,7 +282,10 @@ This file is part of TreeOfLife
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此复系群包含的类群"/>
-                        <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Includes" Grid.Row="2"/>
+                        <StackPanel Grid.Row="2">
+                            <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Includes"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeRef_Includes" Margin="0,5,0,0"/>
+                        </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">
                         <Grid.RowDefinitions>

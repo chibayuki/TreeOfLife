@@ -86,7 +86,7 @@ namespace TreeOfLife.UI.Extensions
 
             if (taxon.IsAnonymous)
             {
-                return "(未命名)";
+                return "<节点>";
             }
             else
             {
@@ -123,7 +123,7 @@ namespace TreeOfLife.UI.Extensions
 
             if (taxon.IsAnonymous)
             {
-                return "(未命名)";
+                return "<节点>";
             }
             else
             {

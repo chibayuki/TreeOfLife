@@ -74,7 +74,8 @@ namespace TreeOfLife.UI.Views
 #if DEBUG
                     throw new InvalidOperationException();
 #else
-                    MessageBox.Show("非法操作。", Entrance.AppName, MessageBoxButton.OK);
+                    MessageBox.Show("无效的操作。", Entrance.AppName, MessageBoxButton.OK);
+                    Environment.Exit(-1);
 #endif
                 }
 

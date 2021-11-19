@@ -131,6 +131,17 @@ namespace TreeOfLife.UI.Views
             warningMessage_TagsUnique.Message = TagsUniqueValidator.Instance.ToString();
             warningMessage_SynonymsTagUnique_Tags.Message = SynonymsTagUniqueValidator.Instance.ToString();
 
+            warningMessage_NodeInfo_State.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Birth.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Extinction.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Extinction.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Synonyms.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Tags.Message = NodeInformationValidator.Instance.ToString();
+            warningMessage_NodeInfo_Desc.Message = NodeInformationValidator.Instance.ToString();
+
+            warningMessage_NodeRef_Excludes.Message = NodeReferenceValidator.Instance.ToString();
+            warningMessage_NodeRef_Includes.Message = NodeReferenceValidator.Instance.ToString();
+
             //
 
             Theme.IsDarkThemeChanged += (s, e) =>
@@ -175,7 +186,7 @@ namespace TreeOfLife.UI.Views
 
                     if (selectedTaxon.IsAnonymous)
                     {
-                        selected.Header = "已选择: \"(未命名)\"";
+                        selected.Header = "已选择: <节点>";
                     }
                     else
                     {
@@ -690,7 +701,7 @@ namespace TreeOfLife.UI.Views
             if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(chsName))
             {
                 taxonTitle.Rank = null;
-                taxonTitle.TaxonName = "(未命名)";
+                taxonTitle.TaxonName = "<节点>";
             }
             else
             {
@@ -878,15 +889,18 @@ namespace TreeOfLife.UI.Views
         {
             Taxon currentTaxon = Common.CurrentTaxon;
 
-            grid_Name.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Rank.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_State.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Chron.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Synonyms.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Tags.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Desc.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            grid_Parents.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Collapsed;
-            button_AddParentUplevel.Visibility = !currentTaxon.IsRoot ? Visibility.Visible : Visibility.Hidden;
+            bool isRoot = currentTaxon.IsRoot;
+            bool isNamed = currentTaxon.IsNamed;
+
+            grid_Name.Visibility = !isRoot ? Visibility.Visible : Visibility.Collapsed;
+            grid_Rank.Visibility = !isRoot && isNamed ? Visibility.Visible : Visibility.Collapsed;
+            grid_State.Visibility = !isRoot && (isNamed || currentTaxon.IsExtinct || currentTaxon.IsUndet) ? Visibility.Visible : Visibility.Collapsed;
+            grid_Chron.Visibility = !isRoot && (isNamed || !currentTaxon.Birth.IsEmpty || !currentTaxon.Extinction.IsEmpty) ? Visibility.Visible : Visibility.Collapsed;
+            grid_Synonyms.Visibility = !isRoot && (isNamed || currentTaxon.Synonyms.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+            grid_Tags.Visibility = !isRoot && (isNamed || currentTaxon.Tags.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+            grid_Desc.Visibility = !isRoot && (isNamed || !string.IsNullOrWhiteSpace(currentTaxon.Description)) ? Visibility.Visible : Visibility.Collapsed;
+            grid_Parents.Visibility = !isRoot ? Visibility.Visible : Visibility.Collapsed;
+            button_AddParentUplevel.Visibility = !isRoot ? Visibility.Visible : Visibility.Hidden;
             grid_Children.Visibility = !currentTaxon.IsFinal ? Visibility.Visible : Visibility.Collapsed;
             grid_Excludes.Visibility = currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             grid_ExcludeBy.Visibility = currentTaxon.ExcludeBy.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -928,6 +942,17 @@ namespace TreeOfLife.UI.Views
             warningMessage_SynonymsTagUnique_Synonyms.Visibility = validators.ContainsKey(SynonymsTagUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_TagsUnique.Visibility = validators.ContainsKey(TagsUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_SynonymsTagUnique_Tags.Visibility = validators.ContainsKey(SynonymsTagUniqueValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_NodeInfo_State.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && (currentTaxon.IsExtinct || currentTaxon.IsUndet) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Birth.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && !currentTaxon.Birth.IsEmpty ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Extinction.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && !currentTaxon.Extinction.IsEmpty ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Extinction.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && !currentTaxon.Extinction.IsEmpty ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Synonyms.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && currentTaxon.Synonyms.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Tags.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeInfo_Desc.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && !string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed;
+
+            warningMessage_NodeRef_Excludes.Visibility = validators.ContainsKey(NodeReferenceValidator.Instance) && currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeRef_Includes.Visibility = validators.ContainsKey(NodeReferenceValidator.Instance) && currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void UpdateCurrentTaxonInfo()
@@ -957,38 +982,50 @@ namespace TreeOfLife.UI.Views
             {
                 case Common.EditOperation.ScientificNameUpdated:
                     _UpdateTitle();
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.ChineseNameUpdated:
                     _UpdateTitle();
                     _UpdateRenameAndRerank();
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.RankUpdated:
                     _UpdateTitle();
                     _UpdateRenameAndRerank();
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.IsExtinctUpdated:
                     _UpdateTitle();
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.IsUndetUpdated:
                     _UpdateTitle();
+                    _UpdateVisibility();
                     break;
 
                 case Common.EditOperation.BirthUpdated:
                 case Common.EditOperation.ExtinctionUpdated:
                     _UpdateTitle();
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
                 case Common.EditOperation.SynonymsUpdated:
                 case Common.EditOperation.TagsUpdated:
+                    _UpdateVisibility();
+                    _UpdateWarningMessage();
+                    break;
+
+                case Common.EditOperation.DescriptionUpdated:
+                    _UpdateVisibility();
                     _UpdateWarningMessage();
                     break;
 
@@ -1001,7 +1038,7 @@ namespace TreeOfLife.UI.Views
                         if (Common.CurrentTaxon.InheritFrom(taxon))
                         {
                             _UpdateTitle();
-                            taxonButtonGroup_Children.UpdateContent();
+                            taxonButtonGroup_Children.SyncTaxonUpdation();
                         }
 
                         if (taxon == Common.CurrentTaxon)

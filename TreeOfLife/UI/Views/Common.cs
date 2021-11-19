@@ -57,6 +57,7 @@ namespace TreeOfLife.UI.Views
             ExtinctionUpdated, // { currentTaxon }
             SynonymsUpdated, // { currentTaxon }
             TagsUpdated, // { currentTaxon }
+            DescriptionUpdated, // { currentTaxon }
 
             ParentChanged, // { anyTaxon, oldParent, newParent }
 

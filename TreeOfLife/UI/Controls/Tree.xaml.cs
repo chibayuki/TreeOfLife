@@ -141,13 +141,13 @@ namespace TreeOfLife.UI.Controls
 
             //
 
-            public void UpdateContent()
+            public void SyncTaxonUpdation()
             {
-                _Button.UpdateContent();
+                _Button.SyncTaxonUpdation();
 
                 foreach (var child in _Children)
                 {
-                    child.UpdateContent();
+                    child.SyncTaxonUpdation();
                 }
             }
         }
@@ -241,11 +241,11 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        public void UpdateContent()
+        public void SyncTaxonUpdation()
         {
             if (_RootNode is not null)
             {
-                _RootNode.UpdateContent();
+                _RootNode.SyncTaxonUpdation();
             }
         }
 
