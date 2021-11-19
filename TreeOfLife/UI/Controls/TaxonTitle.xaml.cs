@@ -479,7 +479,7 @@ namespace TreeOfLife.UI.Controls
         private void _UpdateGeoChronText()
         {
             GeoChron birth = _Taxon.Birth;
-            GeoChron extinction = _Taxon.Extinction;
+            GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
 
             if (_Taxon.IsAnonymous || (birth.IsEmpty && (extinction.IsEmpty || extinction.IsPresent)))
             {
@@ -598,7 +598,7 @@ namespace TreeOfLife.UI.Controls
         private void _UpdateGeoChronGraph()
         {
             GeoChron birth = _Taxon.Birth;
-            GeoChron extinction = _Taxon.Extinction;
+            GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
 
             if (_Taxon.IsAnonymous || ((birth.IsEmpty || birth.IsPresent) || extinction.IsEmpty || !(birth <= extinction)))
             {
