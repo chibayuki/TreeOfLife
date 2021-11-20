@@ -134,8 +134,9 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            Common.CurrentTaxon = e.Taxon;
                             Common.CurrentTabPage = Common.TabPage.Evo;
+                            Common.IsEditMode = true;
+                            Common.CurrentTaxon = e.Taxon;
                         }
                     };
 

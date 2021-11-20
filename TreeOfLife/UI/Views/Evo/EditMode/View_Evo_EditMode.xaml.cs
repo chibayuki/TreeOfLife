@@ -22,7 +22,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
@@ -1092,10 +1091,10 @@ namespace TreeOfLife.UI.Views
         {
             ViewModel.LoadFromCurrentTaxon();
 
+            taxonTitle.Taxon = Common.CurrentTaxon;
+
             textBox_Parent.Clear();
             textBox_Children.Clear();
-
-            taxonTitle.Taxon = Common.CurrentTaxon;
 
             _UpdateRenameAndRerank();
             _UpdateParents();

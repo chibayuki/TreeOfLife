@@ -61,10 +61,12 @@ namespace TreeOfLife.UI.Views
 
         private class _StatisticsResultItem
         {
-            private StackPanel _Container = null;
-            private TextBlock _TitleText = null;
-            private TextBlock _TotalCountText = null;
+            private DockPanel _Container = null;
             private Border _TitleBorder = null;
+            private TextBlock _TitleText = null;
+            private Border _TotalBorder = null;
+            private TextBlock _TotalText = null;
+            private TextBlock _TotalCountText = null;
             private List<(Border border, TextBlock rank, TextBlock count)> _DetailText = null;
 
             private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
@@ -73,7 +75,10 @@ namespace TreeOfLife.UI.Views
             private void _UpdateTheme()
             {
                 _TitleBorder.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
-                _TitleText.Foreground = _TotalCountText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
+                _TitleText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
+
+                _TotalBorder.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
+                _TotalText.Foreground = _TotalCountText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
 
                 Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
                 Brush borderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
@@ -95,43 +100,42 @@ namespace TreeOfLife.UI.Views
 
                 _ThemeColor = basicRank.GetThemeColor();
 
-                _Container = new StackPanel();
-
-                Thickness titleTextMargin = new Thickness(10, 4, 10, 4);
-
-                _TitleText = new TextBlock()
-                {
-                    Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
-                    Margin = titleTextMargin
-                };
-
-                _TotalCountText = new TextBlock()
-                {
-                    Text = statisticsResult.TaxonCount.ToString(),
-                    Margin = titleTextMargin,
-                    HorizontalAlignment = HorizontalAlignment.Right
-                };
-
-                Grid titleGrid = new Grid();
-                titleGrid.Children.Add(_TitleText);
-                titleGrid.Children.Add(_TotalCountText);
-
-                _TitleBorder = new Border()
-                {
-                    Child = titleGrid,
-                    CornerRadius = new CornerRadius(3)
-                };
-
-                _Container.Children.Add(_TitleBorder);
-
+                _Container = new DockPanel();
                 _DetailText = new List<(Border border, TextBlock rank, TextBlock count)>();
 
                 if (basicRank.IsPrimaryOrSecondaryRank())
                 {
-                    Thickness detailTextMargin = new Thickness(9, 3, 9, 3);
-
-                    foreach (var detail in statisticsResult.Details)
+                    _TitleText = new TextBlock()
                     {
+                        Text = basicRank.GetChineseName(),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    _TitleBorder = new Border()
+                    {
+                        Child = _TitleText,
+                        CornerRadius = new CornerRadius(3),
+                        Width = 30,
+                        Margin = new Thickness(0, 0, 6, 0)
+                    };
+
+                    _Container.Children.Add(_TitleBorder);
+
+                    //
+
+                    StackPanel detailsStackPanel = new StackPanel();
+
+                    int detailsCount = statisticsResult.Details.Count;
+                    int columnCount = Math.Min(3, detailsCount);
+                    Grid grid = null;
+
+                    Thickness detailTextMargin = new Thickness(6, 3, 6, 3);
+
+                    for (int i = 0; i < detailsCount; i++)
+                    {
+                        StatisticsResultOfRank detail = statisticsResult.Details[i];
+
                         TextBlock rankText = new TextBlock()
                         {
                             Text = detail.Rank.GetChineseName(),
@@ -145,6 +149,11 @@ namespace TreeOfLife.UI.Views
                             HorizontalAlignment = HorizontalAlignment.Right
                         };
 
+                        if (detail.Rank.IsBasicPrimaryRank())
+                        {
+                            rankText.FontWeight = countText.FontWeight = FontWeights.Bold;
+                        }
+
                         Grid detailGrid = new Grid();
                         detailGrid.Children.Add(rankText);
                         detailGrid.Children.Add(countText);
@@ -154,14 +163,122 @@ namespace TreeOfLife.UI.Views
                             Child = detailGrid,
                             CornerRadius = new CornerRadius(3),
                             BorderThickness = new Thickness(1),
-                            Margin = new Thickness(0, 3, 0, 0),
                             SnapsToDevicePixels = true
                         };
 
+                        detailBorder.SetValue(Grid.ColumnProperty, 2 * (i % columnCount));
+
                         _DetailText.Add((detailBorder, rankText, countText));
 
-                        _Container.Children.Add(detailBorder);
+                        if (i % columnCount == 0)
+                        {
+                            grid = new Grid() { Margin = new Thickness(0, i > 0 ? 3 : 0, 0, 0) };
+
+                            if (columnCount > 1)
+                            {
+                                grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                                for (int c = 1; c < columnCount; c++)
+                                {
+                                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(3) });
+                                    grid.ColumnDefinitions.Add(new ColumnDefinition());
+                                }
+                            }
+                        }
+
+                        grid.Children.Add(detailBorder);
+
+                        if (i % columnCount == columnCount - 1 || i == detailsCount - 1)
+                        {
+                            detailsStackPanel.Children.Add(grid);
+                        }
                     }
+
+                    //
+
+                    _TotalText = new TextBlock()
+                    {
+                        Text = "总计:",
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
+
+                    _TotalCountText = new TextBlock() { Text = statisticsResult.TaxonCount.ToString() };
+
+                    StackPanel totalCountStackPanel = new StackPanel()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Margin = new Thickness(0, 4, 7, 4),
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    totalCountStackPanel.Children.Add(_TotalText);
+                    totalCountStackPanel.Children.Add(_TotalCountText);
+
+                    _TotalBorder = new Border()
+                    {
+                        Child = totalCountStackPanel,
+                        BorderThickness = new Thickness(0, 0, 0, 2),
+                        Margin = new Thickness(0, 3, 0, 0),
+                        HorizontalAlignment = HorizontalAlignment.Stretch
+                    };
+
+                    detailsStackPanel.Children.Add(_TotalBorder);
+
+                    _Container.Children.Add(detailsStackPanel);
+                }
+                else
+                {
+                    Grid grid = new Grid();
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(6) });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                    _TitleText = new TextBlock()
+                    {
+                        Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
+                        Margin = new Thickness(9, 0, 9, 0),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    _TitleBorder = new Border()
+                    {
+                        Child = _TitleText,
+                        CornerRadius = new CornerRadius(3)
+                    };
+
+                    grid.Children.Add(_TitleBorder);
+
+                    //
+
+                    _TotalText = new TextBlock()
+                    {
+                        Text = "总计:",
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
+
+                    _TotalCountText = new TextBlock() { Text = statisticsResult.TaxonCount.ToString() };
+
+                    StackPanel totalCountStackPanel = new StackPanel()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        Margin = new Thickness(0, 4, 7, 4),
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    totalCountStackPanel.Children.Add(_TotalText);
+                    totalCountStackPanel.Children.Add(_TotalCountText);
+
+                    _TotalBorder = new Border()
+                    {
+                        Child = totalCountStackPanel,
+                        BorderThickness = new Thickness(0, 0, 0, 2),
+                        Margin = new Thickness(0, 3, 0, 0),
+                        HorizontalAlignment = HorizontalAlignment.Stretch
+                    };
+
+                    _TotalBorder.SetValue(Grid.ColumnProperty, 2);
+
+                    grid.Children.Add(_TotalBorder);
+
+                    _Container.Children.Add(grid);
                 }
 
                 _UpdateTheme();
@@ -219,12 +336,18 @@ namespace TreeOfLife.UI.Views
 
             if (_StatisticsResults.Count > 0)
             {
-                foreach (var result in _StatisticsResults)
-                {
-                    result.Container.Margin = new Thickness(0, 25, 0, 0);
+                StackPanel stackPanel = new StackPanel() { Margin = new Thickness(0, 25, 0, 0) };
 
-                    stackPanel_StatisticsResult.Children.Add(result.Container);
+                for (int i = 0; i < _StatisticsResults.Count; i++)
+                {
+                    _StatisticsResultItem result = _StatisticsResults[i];
+
+                    result.Container.Margin = new Thickness(0, i > 0 ? 6 : 0, 0, 0);
+
+                    stackPanel.Children.Add(result.Container);
                 }
+
+                stackPanel_StatisticsResult.Children.Add(stackPanel);
             }
 
             _UpdateVisibility();

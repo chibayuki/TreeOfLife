@@ -22,7 +22,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.UI.Extensions;
@@ -251,11 +250,11 @@ namespace TreeOfLife.UI.Views
 
             Taxon currentTaxon = Common.CurrentTaxon;
 
+            taxonTitle.Taxon = currentTaxon;
+
             tagGroup_Tags.UpdateContent(currentTaxon.Tags);
             tagGroup_Synonyms.UpdateContent(currentTaxon.Synonyms);
             tagGroup_Synonyms.ThemeColor = currentTaxon.GetThemeColor();
-
-            taxonTitle.Taxon = Common.CurrentTaxon;
 
             _UpdateParents();
             _UpdateChildren();
