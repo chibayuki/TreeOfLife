@@ -65,10 +65,6 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public Action<Taxon> ClickValidateResult { get; set; }
-
-        //
-
         private class _ValidateResultItem
         {
             public string Title { get; set; }
@@ -88,12 +84,14 @@ namespace TreeOfLife.UI.Views
         // 检查并更新结果。
         private async Task _ValidateAndUpdateResultAsync()
         {
+            Taxon taxon = radioButton_Root.IsChecked ?? false ? Entrance.Root : Common.CurrentTaxon;
+
             AsyncMethod.Start();
             await Task.Run(() =>
             {
                 _ValidateResult.Clear();
 
-                IReadOnlyDictionary<IValidator, IReadOnlyCollection<Taxon>> validateResult = Entrance.Root.ValidateChildrenAndGroupByValidator();
+                IReadOnlyDictionary<IValidator, IReadOnlyCollection<Taxon>> validateResult = taxon.ValidateChildrenAndGroupByValidator();
 
                 foreach (var pair in validateResult)
                 {
@@ -136,7 +134,8 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            ClickValidateResult(e.Taxon);
+                            Common.CurrentTaxon = e.Taxon;
+                            Common.CurrentTabPage = Common.TabPage.Evo;
                         }
                     };
 

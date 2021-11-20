@@ -64,7 +64,7 @@ namespace TreeOfLife.UI.Views
                         // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
-                        Common.NotifyEditOperation(Common.EditOperation.ScientificNameUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.ScientificNameUpdated, currentTaxon);
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace TreeOfLife.UI.Views
                         // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
-                        Common.NotifyEditOperation(Common.EditOperation.ChineseNameUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.ChineseNameUpdated, currentTaxon);
                     }
                 }
             }
@@ -124,7 +124,7 @@ namespace TreeOfLife.UI.Views
                         // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
-                        Common.NotifyEditOperation(Common.EditOperation.RankUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.RankUpdated, currentTaxon);
                     }
                 }
             }
@@ -166,7 +166,7 @@ namespace TreeOfLife.UI.Views
                             Extinction = GeoChron.Empty;
                         }
 
-                        Common.NotifyEditOperation(Common.EditOperation.IsExtinctUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.IsExtinctUpdated, currentTaxon);
                     }
                 }
             }
@@ -194,7 +194,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.IsUndet = _IsUndet;
 
-                        Common.NotifyEditOperation(Common.EditOperation.IsUndetUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.IsUndetUpdated, currentTaxon);
                     }
                 }
             }
@@ -222,7 +222,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.Birth = _Birth;
 
-                        Common.NotifyEditOperation(Common.EditOperation.BirthUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.BirthUpdated, currentTaxon);
                     }
                 }
             }
@@ -250,7 +250,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.Extinction = _Extinction;
 
-                        Common.NotifyEditOperation(Common.EditOperation.ExtinctionUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.ExtinctionUpdated, currentTaxon);
                     }
                 }
             }
@@ -295,7 +295,7 @@ namespace TreeOfLife.UI.Views
                             where !string.IsNullOrEmpty(synonym)
                             select synonym);
 
-                        Common.NotifyEditOperation(Common.EditOperation.SynonymsUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.SynonymsUpdated, currentTaxon);
                     }
                 }
             }
@@ -328,7 +328,7 @@ namespace TreeOfLife.UI.Views
                             where !string.IsNullOrEmpty(tag)
                             select tag);
 
-                        Common.NotifyEditOperation(Common.EditOperation.TagsUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.TagsUpdated, currentTaxon);
                     }
                 }
             }
@@ -356,7 +356,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.Description = _Description;
 
-                        Common.NotifyEditOperation(Common.EditOperation.DescriptionUpdated, new object[] { currentTaxon });
+                        Common.NotifyEditOperation(Common.EditOperation.DescriptionUpdated, currentTaxon);
                     }
                 }
             }

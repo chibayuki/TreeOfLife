@@ -30,7 +30,6 @@ using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 
 using ColorX = Com.Chromatics.ColorX;
-using Pages = TreeOfLife.UI.Views.ViewModel_MainWindow.Pages;
 
 namespace TreeOfLife.UI.Views
 {
@@ -57,14 +56,9 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            Common.SetCurrentTaxon = _SetCurrentTaxon;
-            Common.EnterEditMode = () => _SetEditMode(true);
-            Common.ExitEditMode = () => _SetEditMode(false);
-            Common.NotifyEditOperation = (editOperation, args) =>
-            {
-                view_Evo_EditMode.ProcessEditOperationNotification(editOperation, args);
-                view_Tree.ProcessEditOperationNotification(editOperation, args);
-            };
+            Common.IsEditModeChanged += _IsEditModeChanged;
+            Common.CurrentTaxonChanged += _CurrentTaxonChanged;
+            Common.CurrentTabPageChanged += _CurrentTabPageChanged;
 
             bool backgroundTaskIsRunning = false;
             AsyncMethod.Start = () =>
@@ -92,10 +86,6 @@ namespace TreeOfLife.UI.Views
             view_File.SaveAsync = _SaveAsync;
             view_File.SaveAsAsync = _SaveAsAsync;
             view_File.TrySaveAndCloseAsync = _TrySaveAndCloseAsync;
-            view_File.OpenDone = () => _SelectPage(Pages.Evo);
-
-            view_Search.ClickSearchResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
-            view_Validation.ClickValidateResult = (t) => { _SetCurrentTaxon(t); _SelectPage(Pages.Evo); };
 
             //
 
@@ -103,10 +93,10 @@ namespace TreeOfLife.UI.Views
             {
                 Entrance.New();
 
-                _SetCurrentTaxon(Entrance.Root);
-                _SetEditMode(false);
-
-                _SelectPage(Pages.File);
+                Common.CurrentTaxon = Entrance.Root;
+                Common.IsEditMode = false;
+                _IsEditModeChanged(null, Common.IsEditMode);
+                Common.CurrentTabPage = Common.TabPage.File;
             };
 
             this.Closing += (s, e) =>
@@ -117,12 +107,12 @@ namespace TreeOfLife.UI.Views
                 }
             };
 
-            button_File.Click += (s, e) => _SelectPage(Pages.File);
-            button_Evo.Click += (s, e) => _SelectPage(Pages.Evo);
-            button_Search.Click += (s, e) => _SelectPage(Pages.Search);
-            button_Statistics.Click += (s, e) => _SelectPage(Pages.Statistics);
-            button_Validation.Click += (s, e) => _SelectPage(Pages.Validation);
-            button_About.Click += (s, e) => _SelectPage(Pages.About);
+            button_File.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.File;
+            button_Evo.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.Evo;
+            button_Search.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.Search;
+            button_Statistics.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.Statistics;
+            button_Validation.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.Validation;
+            button_About.Click += (s, e) => Common.CurrentTabPage = Common.TabPage.About;
 
             RoutedEventHandler switchThemeMode = (s, e) => Theme.IsDarkTheme = !Theme.IsDarkTheme;
             button_LightTheme.Click += switchThemeMode;
@@ -143,18 +133,87 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        #region 页面切换
+        #region 回调函数
 
-        private void _SelectPage(Pages tabPage)
+        private void _CurrentTabPageChanged(object sender, Common.TabPage tabPage)
         {
-            if (ViewModel.CurrentPage != tabPage)
+            Common.IsEditMode = false;
+
+            //
+
+            ViewModel.TabPageButtonEnabled_File = tabPage != Common.TabPage.File;
+            ViewModel.TabPageButtonEnabled_Evo = tabPage != Common.TabPage.Evo;
+            ViewModel.TabPageButtonEnabled_Search = tabPage != Common.TabPage.Search;
+            ViewModel.TabPageButtonEnabled_Statistics = tabPage != Common.TabPage.Statistics;
+            ViewModel.TabPageButtonEnabled_Validation = tabPage != Common.TabPage.Validation;
+            ViewModel.TabPageButtonEnabled_About = tabPage != Common.TabPage.About;
+
+            ViewModel.TabPageVisibility_File = !ViewModel.TabPageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.TabPageVisibility_Evo = !ViewModel.TabPageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.TabPageVisibility_Search = !ViewModel.TabPageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.TabPageVisibility_Statistics = !ViewModel.TabPageButtonEnabled_Statistics ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.TabPageVisibility_Validation = !ViewModel.TabPageButtonEnabled_Validation ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.TabPageVisibility_About = !ViewModel.TabPageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void _IsEditModeChanged(object sender, bool editMode)
+        {
+            view_Evo_ViewMode.Visibility = !editMode ? Visibility.Visible : Visibility.Collapsed;
+            view_Evo_EditMode.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
+
+            if (editMode)
             {
-                _SetEditMode(false);
+                _Saved = false;
 
                 //
 
-                ViewModel.CurrentPage = tabPage;
+                view_Evo_EditMode.UpdateCurrentTaxonInfo();
+                view_Tree.UpdateSubTree();
             }
+            else
+            {
+                Taxon currentTaxon = Common.CurrentTaxon;
+
+                // 退出编辑模式时，应位于具名类群（或顶级类群）
+                if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous)
+                {
+                    Taxon parent = currentTaxon.GetNamedParent();
+
+                    if (parent is null)
+                    {
+                        parent = currentTaxon.Root;
+                    }
+
+                    Common.CurrentTaxon = parent;
+                }
+                else
+                {
+                    view_Evo_ViewMode.UpdateCurrentTaxonInfo();
+                    view_Tree.UpdateSubTree();
+                }
+            }
+        }
+
+        private void _CurrentTaxonChanged(object sender, Taxon taxon)
+        {
+            // 防止选择已删除的类群。
+            if (taxon.IsRoot && taxon != Entrance.Root)
+            {
+                throw new InvalidOperationException();
+            }
+
+            //
+
+            if (Common.IsEditMode)
+            {
+                view_Evo_EditMode.UpdateCurrentTaxonInfo();
+            }
+            else
+            {
+                view_Evo_ViewMode.UpdateCurrentTaxonInfo();
+            }
+
+            view_Tree.UpdateSubTree();
         }
 
         #endregion
@@ -180,7 +239,7 @@ namespace TreeOfLife.UI.Views
 
             if (result ?? false)
             {
-                _SetCurrentTaxon(Entrance.Root);
+                Common.CurrentTaxon = Entrance.Root;
                 view_Tree.UpdateSubTree();
 
                 _Saved = true;
@@ -340,7 +399,7 @@ namespace TreeOfLife.UI.Views
 
             if (result)
             {
-                _SetCurrentTaxon(Entrance.Root);
+                Common.CurrentTaxon = Entrance.Root;
                 view_Tree.UpdateSubTree();
 
                 _Saved = false;
@@ -363,7 +422,7 @@ namespace TreeOfLife.UI.Views
 
             if (result)
             {
-                _SetCurrentTaxon(Entrance.Root);
+                Common.CurrentTaxon = Entrance.Root;
                 view_Tree.UpdateSubTree();
 
                 _Saved = false;
@@ -551,90 +610,6 @@ namespace TreeOfLife.UI.Views
 
                     default: return false;
                 }
-            }
-        }
-
-        #endregion
-
-        #region 模式切换
-
-        // 进入/退出编辑模式。
-        private void _SetEditMode(bool editMode)
-        {
-            if (Common.EditMode != editMode)
-            {
-                Common.EditMode = editMode;
-
-                //
-
-                view_Evo_ViewMode.Visibility = !editMode ? Visibility.Visible : Visibility.Collapsed;
-                view_Evo_EditMode.Visibility = editMode ? Visibility.Visible : Visibility.Collapsed;
-
-                //
-
-                if (editMode)
-                {
-                    _Saved = false;
-
-                    //
-
-                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
-                    view_Tree.UpdateSubTree();
-                }
-                else
-                {
-                    Taxon currentTaxon = Common.CurrentTaxon;
-
-                    // 退出编辑模式时，应位于具名类群（或顶级类群）
-                    if (!currentTaxon.IsRoot && currentTaxon.IsAnonymous)
-                    {
-                        Taxon parent = currentTaxon.GetNamedParent();
-
-                        if (parent is null)
-                        {
-                            parent = currentTaxon.Root;
-                        }
-
-                        _SetCurrentTaxon(parent);
-                    }
-                    else
-                    {
-                        view_Evo_ViewMode.UpdateCurrentTaxonInfo();
-                        view_Tree.UpdateSubTree();
-                    }
-                }
-            }
-        }
-
-        #endregion
-
-        #region 类群选择
-
-        // 设置当前选择的类群。
-        private void _SetCurrentTaxon(Taxon taxon)
-        {
-            // 防止选择已删除的类群。
-            if (taxon.IsRoot && taxon != Entrance.Root)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //
-
-            if (Common.CurrentTaxon != taxon)
-            {
-                Common.CurrentTaxon = taxon;
-
-                if (Common.EditMode ?? false)
-                {
-                    view_Evo_EditMode.UpdateCurrentTaxonInfo();
-                }
-                else
-                {
-                    view_Evo_ViewMode.UpdateCurrentTaxonInfo();
-                }
-
-                view_Tree.UpdateSubTree();
             }
         }
 

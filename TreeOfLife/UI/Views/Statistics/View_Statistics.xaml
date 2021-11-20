@@ -22,13 +22,20 @@ This file is part of TreeOfLife
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource TabPage.Header.Background}">
-                <Grid Margin="40,25,40,0" Height="25">
+                <Grid Margin="40,25,40,0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="60"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="button_Statistics" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="开始统计"/>
+                    <Label Style="{DynamicResource LabelStyle}" Content="范围:"/>
+                    <RadioButton x:Name="radioButton_Root" Grid.Column="2" Style="{DynamicResource RadioButtonStyle}" Content="整个文件" IsChecked="True"/>
+                    <RadioButton Grid.Column="4" Style="{DynamicResource RadioButtonStyle}" Content="仅限当前类群"/>
+                    <Button x:Name="button_Statistics" Grid.Column="6" Style="{DynamicResource ButtonStyle}" Content="统计"/>
                 </Grid>
                 <Border Height="1" BorderThickness="1" BorderBrush="#40808080" Margin="0,25,0,0" SnapsToDevicePixels="True"/>
             </StackPanel>

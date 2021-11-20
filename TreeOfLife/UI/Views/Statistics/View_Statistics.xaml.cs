@@ -195,6 +195,7 @@ namespace TreeOfLife.UI.Views
         // 统计并更新结果。
         private async Task _ValidateAndUpdateResultAsync()
         {
+            Taxon taxon = radioButton_Root.IsChecked ?? false ? Entrance.Root : Common.CurrentTaxon;
             StatisticsResult statisticsResult = null;
 
             AsyncMethod.Start();
@@ -202,7 +203,7 @@ namespace TreeOfLife.UI.Views
             {
                 _StatisticsResults.Clear();
 
-                statisticsResult = Entrance.Root.Statistics();
+                statisticsResult = taxon.Statistics();
             });
             AsyncMethod.Finish();
 

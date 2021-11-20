@@ -53,8 +53,6 @@ namespace TreeOfLife.UI.Views
         public Func<Task<bool?>> SaveAsAsync { get; set; }
         public Func<Task<bool>> TrySaveAndCloseAsync { get; set; }
 
-        public Action OpenDone { get; set; }
-
         //
 
         #region 回调函数
@@ -73,7 +71,7 @@ namespace TreeOfLife.UI.Views
                     {
                         ViewModel.UpdateFileInfo();
 
-                        OpenDone();
+                        Common.CurrentTabPage = Common.TabPage.Evo;
                     }
                     else
                     {

@@ -41,7 +41,7 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            button_Edit.Click += (s, e) => Common.EnterEditMode();
+            button_Edit.Click += (s, e) => Common.IsEditMode = true;
 
             Action<GetParentsOption> setGetParentsOption = (getParentsOption) =>
             {
@@ -76,9 +76,9 @@ namespace TreeOfLife.UI.Views
                 _UpdateParents();
             };
 
-            taxonButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
-            taxonButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            taxonButtonGroup_Parents.MouseLeftButtonClick += (s, e) => Common.CurrentTaxon = e.Taxon;
+            taxonButtonGroup_Children.MouseLeftButtonClick += (s, e) => Common.CurrentTaxon = e.Taxon;
+            taxonButtonGroup_Excludes.MouseLeftButtonClick += (s, e) => Common.CurrentTaxon = e.Taxon;
 
             //
 

@@ -28,16 +28,77 @@ namespace TreeOfLife.UI.Views
 {
     public static class Common
     {
-        public static bool? EditMode { get; set; } = null; // 是否为编辑模式。
+        public enum TabPage
+        {
+            None = -1,
+            File,
+            Evo,
+            Search,
+            Statistics,
+            Validation,
+            About
+        }
 
-        public static Action EnterEditMode { get; set; }
-        public static Action ExitEditMode { get; set; }
+        private static TabPage _CurrentTabPage = TabPage.None;
+
+        public static EventHandler<TabPage> CurrentTabPageChanged;
+
+        public static TabPage CurrentTabPage
+        {
+            get => _CurrentTabPage;
+
+            set
+            {
+                if (_CurrentTabPage != value)
+                {
+                    _CurrentTabPage = value;
+
+                    CurrentTabPageChanged?.Invoke(null, _CurrentTabPage);
+                }
+            }
+        }
 
         //
 
-        public static Taxon CurrentTaxon { get; set; } = null; // 当前聚焦的类群。
+        private static bool _IsEditMode = false;
 
-        public static Action<Taxon> SetCurrentTaxon { get; set; }
+        public static EventHandler<bool> IsEditModeChanged;
+
+        public static bool IsEditMode
+        {
+            get => _IsEditMode;
+
+            set
+            {
+                if (_IsEditMode != value)
+                {
+                    _IsEditMode = value;
+
+                    IsEditModeChanged?.Invoke(null, _IsEditMode);
+                }
+            }
+        }
+
+        //
+
+        private static Taxon _CurrentTaxon = null;
+
+        public static EventHandler<Taxon> CurrentTaxonChanged;
+
+        public static Taxon CurrentTaxon
+        {
+            get => _CurrentTaxon;
+
+            set
+            {
+                if (_CurrentTaxon != value)
+                {
+                    _CurrentTaxon = value;
+
+                    CurrentTaxonChanged?.Invoke(null, _CurrentTaxon);
+                }
+            }
+        }
 
         //
 
@@ -75,7 +136,9 @@ namespace TreeOfLife.UI.Views
             IncludesRemoved, // { currentTaxon, include }
         }
 
-        public static Action<EditOperation, object[]> NotifyEditOperation { get; set; }
+        public static EventHandler<(EditOperation editOperation, object[] args)> EditOperationOccurred;
+
+        public static void NotifyEditOperation(EditOperation editOperation, params object[] args) => EditOperationOccurred?.Invoke(null, (editOperation, args));
 
         //
 

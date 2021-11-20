@@ -15,7 +15,7 @@ This file is part of TreeOfLife
              xmlns:local="clr-namespace:TreeOfLife.UI.Views"
              xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="2400" d:DesignWidth="400">
+             d:DesignHeight="2200" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_EditMode/>
     </UserControl.DataContext>
@@ -75,7 +75,7 @@ This file is part of TreeOfLife
                                         </Grid.ColumnDefinitions>
                                         <Label Style="{DynamicResource LabelStyle}" Content="建议更新为:" Padding="0"/>
                                         <Label x:Name="label_Rename" Grid.Column="1" Style="{DynamicResource LabelStyle}" Content="Rename" Padding="5,0,5,0"/>
-                                        <Button x:Name="button_Rename" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
+                                        <Button x:Name="button_Rename" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="接受" HorizontalAlignment="Right" Padding="6,3,6,3"/>
                                     </Grid>
                                     <Controls:WarningMessage x:Name="warningMessage_ChineseSuffix" Margin="0,5,0,0"/>
                                 </StackPanel>
@@ -99,7 +99,7 @@ This file is part of TreeOfLife
                                 </Grid.ColumnDefinitions>
                                 <Label Style="{DynamicResource LabelStyle}" Content="建议更新为:" Padding="0"/>
                                 <Label x:Name="label_Rerank" Grid.Column="1" Style="{DynamicResource LabelStyle}" Content="Rerank" Padding="5,0,5,0"/>
-                                <Button x:Name="button_Rerank" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="更新" HorizontalAlignment="Right" Padding="6,3,6,3"/>
+                                <Button x:Name="button_Rerank" Grid.Column="2" Style="{DynamicResource ButtonStyle}" Content="接受" HorizontalAlignment="Right" Padding="6,3,6,3"/>
                             </Grid>
                             <Controls:WarningMessage x:Name="warningMessage_RankMissing" Margin="0,5,0,0"/>
                         </StackPanel>
@@ -120,7 +120,7 @@ This file is part of TreeOfLife
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <CheckBox Style="{DynamicResource CheckBoxStyle}" Content="已灭绝 (†)" IsChecked="{Binding IsExtinct}"/>
-                                <CheckBox Grid.Column="2" Style="{DynamicResource CheckBoxStyle}" Content="分类地位存疑 (?)" IsChecked="{Binding IsUndet}"/>
+                                <CheckBox Grid.Column="2" Style="{DynamicResource CheckBoxStyle}" Content="分类未定/存疑 (?)" IsChecked="{Binding IsUndet}"/>
                             </Grid>
                             <Controls:WarningMessage x:Name="warningMessage_NodeInfo_State" Margin="0,5,0,0"/>
                         </StackPanel>

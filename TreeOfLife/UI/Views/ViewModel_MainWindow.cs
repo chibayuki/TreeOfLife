@@ -19,203 +19,161 @@ namespace TreeOfLife.UI.Views
 {
     public sealed class ViewModel_MainWindow : ViewModel
     {
-        public enum Pages
+        private bool _TabPageButtonEnabled_File;
+        private bool _TabPageButtonEnabled_Evo;
+        private bool _TabPageButtonEnabled_Search;
+        private bool _TabPageButtonEnabled_Statistics;
+        private bool _TabPageButtonEnabled_Validation;
+        private bool _TabPageButtonEnabled_About;
+
+        private Visibility _TabPageVisibility_File;
+        private Visibility _TabPageVisibility_Evo;
+        private Visibility _TabPageVisibility_Search;
+        private Visibility _TabPageVisibility_Statistics;
+        private Visibility _TabPageVisibility_Validation;
+        private Visibility _TabPageVisibility_About;
+
+        public bool TabPageButtonEnabled_File
         {
-            File,
-            Evo,
-            Search,
-            Statistics,
-            Validation,
-            About
-        }
-
-        private Pages? _CurrentPage = null;
-
-        private bool _PageButtonEnabled_File;
-        private bool _PageButtonEnabled_Evo;
-        private bool _PageButtonEnabled_Search;
-        private bool _PageButtonEnabled_Statistics;
-        private bool _PageButtonEnabled_Validation;
-        private bool _PageButtonEnabled_About;
-
-        private Visibility _PageVisibility_File;
-        private Visibility _PageVisibility_Evo;
-        private Visibility _PageVisibility_Search;
-        private Visibility _PageVisibility_Statistics;
-        private Visibility _PageVisibility_Validation;
-        private Visibility _PageVisibility_About;
-
-        // 更新可见性。
-        private void _UpdateVisibility()
-        {
-            PageButtonEnabled_File = !(_CurrentPage.Value == Pages.File);
-            PageButtonEnabled_Evo = !(_CurrentPage.Value == Pages.Evo);
-            PageButtonEnabled_Search = !(_CurrentPage.Value == Pages.Search);
-            PageButtonEnabled_Statistics = !(_CurrentPage.Value == Pages.Statistics);
-            PageButtonEnabled_Validation = !(_CurrentPage.Value == Pages.Validation);
-            PageButtonEnabled_About = !(_CurrentPage.Value == Pages.About);
-
-            PageVisibility_File = !PageButtonEnabled_File ? Visibility.Visible : Visibility.Collapsed;
-            PageVisibility_Evo = !PageButtonEnabled_Evo ? Visibility.Visible : Visibility.Collapsed;
-            PageVisibility_Search = !PageButtonEnabled_Search ? Visibility.Visible : Visibility.Collapsed;
-            PageVisibility_Statistics = !PageButtonEnabled_Statistics ? Visibility.Visible : Visibility.Collapsed;
-            PageVisibility_Validation = !PageButtonEnabled_Validation ? Visibility.Visible : Visibility.Collapsed;
-            PageVisibility_About = !PageButtonEnabled_About ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public Pages? CurrentPage
-        {
-            get => _CurrentPage;
+            get => _TabPageButtonEnabled_File;
 
             set
             {
-                _CurrentPage = value;
+                _TabPageButtonEnabled_File = value;
 
-                _UpdateVisibility();
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_File));
             }
         }
 
-        public bool PageButtonEnabled_File
+        public bool TabPageButtonEnabled_Evo
         {
-            get => _PageButtonEnabled_File;
+            get => _TabPageButtonEnabled_Evo;
 
             set
             {
-                _PageButtonEnabled_File = value;
+                _TabPageButtonEnabled_Evo = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_File));
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_Evo));
             }
         }
 
-        public bool PageButtonEnabled_Evo
+        public bool TabPageButtonEnabled_Search
         {
-            get => _PageButtonEnabled_Evo;
+            get => _TabPageButtonEnabled_Search;
 
             set
             {
-                _PageButtonEnabled_Evo = value;
+                _TabPageButtonEnabled_Search = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_Evo));
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_Search));
             }
         }
 
-        public bool PageButtonEnabled_Search
+        public bool TabPageButtonEnabled_Statistics
         {
-            get => _PageButtonEnabled_Search;
+            get => _TabPageButtonEnabled_Statistics;
 
             set
             {
-                _PageButtonEnabled_Search = value;
+                _TabPageButtonEnabled_Statistics = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_Search));
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_Statistics));
             }
         }
 
-        public bool PageButtonEnabled_Statistics
+        public bool TabPageButtonEnabled_Validation
         {
-            get => _PageButtonEnabled_Statistics;
+            get => _TabPageButtonEnabled_Validation;
 
             set
             {
-                _PageButtonEnabled_Statistics = value;
+                _TabPageButtonEnabled_Validation = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_Statistics));
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_Validation));
             }
         }
 
-        public bool PageButtonEnabled_Validation
+        public bool TabPageButtonEnabled_About
         {
-            get => _PageButtonEnabled_Validation;
+            get => _TabPageButtonEnabled_About;
 
             set
             {
-                _PageButtonEnabled_Validation = value;
+                _TabPageButtonEnabled_About = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_Validation));
+                NotifyPropertyChanged(nameof(TabPageButtonEnabled_About));
             }
         }
 
-        public bool PageButtonEnabled_About
+        public Visibility TabPageVisibility_File
         {
-            get => _PageButtonEnabled_About;
+            get => _TabPageVisibility_File;
 
             set
             {
-                _PageButtonEnabled_About = value;
+                _TabPageVisibility_File = value;
 
-                NotifyPropertyChanged(nameof(PageButtonEnabled_About));
+                NotifyPropertyChanged(nameof(TabPageVisibility_File));
             }
         }
 
-        public Visibility PageVisibility_File
+        public Visibility TabPageVisibility_Evo
         {
-            get => _PageVisibility_File;
+            get => _TabPageVisibility_Evo;
 
             set
             {
-                _PageVisibility_File = value;
+                _TabPageVisibility_Evo = value;
 
-                NotifyPropertyChanged(nameof(PageVisibility_File));
+                NotifyPropertyChanged(nameof(TabPageVisibility_Evo));
             }
         }
 
-        public Visibility PageVisibility_Evo
+        public Visibility TabPageVisibility_Search
         {
-            get => _PageVisibility_Evo;
+            get => _TabPageVisibility_Search;
 
             set
             {
-                _PageVisibility_Evo = value;
+                _TabPageVisibility_Search = value;
 
-                NotifyPropertyChanged(nameof(PageVisibility_Evo));
+                NotifyPropertyChanged(nameof(TabPageVisibility_Search));
             }
         }
 
-        public Visibility PageVisibility_Search
+        public Visibility TabPageVisibility_Statistics
         {
-            get => _PageVisibility_Search;
+            get => _TabPageVisibility_Statistics;
 
             set
             {
-                _PageVisibility_Search = value;
+                _TabPageVisibility_Statistics = value;
 
-                NotifyPropertyChanged(nameof(PageVisibility_Search));
+                NotifyPropertyChanged(nameof(TabPageVisibility_Statistics));
             }
         }
 
-        public Visibility PageVisibility_Statistics
+        public Visibility TabPageVisibility_Validation
         {
-            get => _PageVisibility_Statistics;
+            get => _TabPageVisibility_Validation;
 
             set
             {
-                _PageVisibility_Statistics = value;
+                _TabPageVisibility_Validation = value;
 
-                NotifyPropertyChanged(nameof(PageVisibility_Statistics));
+                NotifyPropertyChanged(nameof(TabPageVisibility_Validation));
             }
         }
 
-        public Visibility PageVisibility_Validation
+        public Visibility TabPageVisibility_About
         {
-            get => _PageVisibility_Validation;
+            get => _TabPageVisibility_About;
 
             set
             {
-                _PageVisibility_Validation = value;
+                _TabPageVisibility_About = value;
 
-                NotifyPropertyChanged(nameof(PageVisibility_Validation));
-            }
-        }
-
-        public Visibility PageVisibility_About
-        {
-            get => _PageVisibility_About;
-
-            set
-            {
-                _PageVisibility_About = value;
-
-                NotifyPropertyChanged(nameof(PageVisibility_About));
+                NotifyPropertyChanged(nameof(TabPageVisibility_About));
             }
         }
     }

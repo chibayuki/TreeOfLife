@@ -478,129 +478,133 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateGeoChronText()
         {
-            GeoChron birth = _Taxon.Birth;
-            GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
-
-            if (_Taxon.IsAnonymous || (birth.IsEmpty && (extinction.IsEmpty || extinction.IsPresent)))
+            if (_Taxon is null || _Taxon.IsAnonymous)
             {
                 grid_Text.Visibility = Visibility.Collapsed;
             }
             else
             {
-                grid_Text.Visibility = Visibility.Visible;
+                GeoChron birth = _Taxon.Birth;
+                GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
 
-                if (birth.IsEmpty)
+                if (birth.IsEmpty && (extinction.IsEmpty || extinction.IsPresent))
                 {
-                    label_BirthPrefix.Content = string.Empty;
-                    label_Birth.Content = "?";
+                    grid_Text.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    GeoChron birthTimespan = birth;
+                    grid_Text.Visibility = Visibility.Visible;
 
-                    if (birthTimespan.IsTimepoint)
+                    if (birth.IsEmpty)
                     {
-                        if (birthTimespan.Superior is null)
+                        label_BirthPrefix.Content = string.Empty;
+                        label_Birth.Content = "?";
+                    }
+                    else
+                    {
+                        GeoChron birthTimespan = birth;
+
+                        if (birthTimespan.IsTimepoint)
+                        {
+                            if (birthTimespan.Superior is null)
+                            {
+                                label_Birth.Content = birthTimespan.GetChineseName();
+                            }
+                            else
+                            {
+                                label_Birth.Content = $"{birthTimespan.GetChineseName()} ({birthTimespan.Superior.GetChineseName()})";
+
+                                birthTimespan = birthTimespan.Superior;
+                            }
+                        }
+                        else
                         {
                             label_Birth.Content = birthTimespan.GetChineseName();
                         }
+
+                        if (birthTimespan.Superior is null)
+                        {
+                            label_BirthPrefix.Content = string.Empty;
+                        }
                         else
                         {
-                            label_Birth.Content = $"{birthTimespan.GetChineseName()} ({birthTimespan.Superior.GetChineseName()})";
+                            GeoChron geoChron = birthTimespan.Superior;
 
-                            birthTimespan = birthTimespan.Superior;
+                            string str = geoChron.GetChineseName();
+
+                            while (geoChron.Superior is not null)
+                            {
+                                geoChron = geoChron.Superior;
+
+                                str = $"{geoChron.GetChineseName()}·{str}";
+                            }
+
+                            label_BirthPrefix.Content = $"({str})";
                         }
                     }
+
+                    if (extinction.IsEmpty)
+                    {
+                        label_ExtinctionPrefix.Content = string.Empty;
+                        label_Extinction.Content = "?";
+                    }
+                    else if (extinction.IsPresent)
+                    {
+                        label_ExtinctionPrefix.Content = string.Empty;
+                        label_Extinction.Content = "至今";
+                    }
                     else
                     {
-                        label_Birth.Content = birthTimespan.GetChineseName();
-                    }
+                        GeoChron extinctionTimespan = extinction;
 
-                    if (birthTimespan.Superior is null)
-                    {
-                        label_BirthPrefix.Content = string.Empty;
-                    }
-                    else
-                    {
-                        GeoChron geoChron = birthTimespan.Superior;
-
-                        string str = geoChron.GetChineseName();
-
-                        while (geoChron.Superior is not null)
+                        if (extinctionTimespan.IsTimepoint)
                         {
-                            geoChron = geoChron.Superior;
+                            if (extinctionTimespan.Superior is null)
+                            {
+                                label_Extinction.Content = extinctionTimespan.GetChineseName();
+                            }
+                            else
+                            {
+                                label_Extinction.Content = $"{extinctionTimespan.GetChineseName()} ({extinctionTimespan.Superior.GetChineseName()})";
 
-                            str = $"{geoChron.GetChineseName()}·{str}";
+                                extinctionTimespan = extinctionTimespan.Superior;
+                            }
                         }
-
-                        label_BirthPrefix.Content = $"({str})";
-                    }
-                }
-
-                if (extinction.IsEmpty)
-                {
-                    label_ExtinctionPrefix.Content = string.Empty;
-                    label_Extinction.Content = "?";
-                }
-                else if (extinction.IsPresent)
-                {
-                    label_ExtinctionPrefix.Content = string.Empty;
-                    label_Extinction.Content = "至今";
-                }
-                else
-                {
-                    GeoChron extinctionTimespan = extinction;
-
-                    if (extinctionTimespan.IsTimepoint)
-                    {
-                        if (extinctionTimespan.Superior is null)
+                        else
                         {
                             label_Extinction.Content = extinctionTimespan.GetChineseName();
                         }
+
+                        if (extinctionTimespan.Superior is null)
+                        {
+                            label_ExtinctionPrefix.Content = string.Empty;
+                        }
                         else
                         {
-                            label_Extinction.Content = $"{extinctionTimespan.GetChineseName()} ({extinctionTimespan.Superior.GetChineseName()})";
+                            GeoChron geoChron = extinctionTimespan.Superior;
 
-                            extinctionTimespan = extinctionTimespan.Superior;
+                            string str = geoChron.GetChineseName();
+
+                            while (geoChron.Superior is not null)
+                            {
+                                geoChron = geoChron.Superior;
+
+                                str = $"{geoChron.GetChineseName()}·{str}";
+                            }
+
+                            label_ExtinctionPrefix.Content = $"({str})";
                         }
                     }
-                    else
-                    {
-                        label_Extinction.Content = extinctionTimespan.GetChineseName();
-                    }
 
-                    if (extinctionTimespan.Superior is null)
-                    {
-                        label_ExtinctionPrefix.Content = string.Empty;
-                    }
-                    else
-                    {
-                        GeoChron geoChron = extinctionTimespan.Superior;
-
-                        string str = geoChron.GetChineseName();
-
-                        while (geoChron.Superior is not null)
-                        {
-                            geoChron = geoChron.Superior;
-
-                            str = $"{geoChron.GetChineseName()}·{str}";
-                        }
-
-                        label_ExtinctionPrefix.Content = $"({str})";
-                    }
+                    label_BirthPrefix.Visibility = !string.IsNullOrWhiteSpace(label_BirthPrefix.Content as string) ? Visibility.Visible : Visibility.Collapsed;
+                    label_ExtinctionPrefix.Visibility = !string.IsNullOrWhiteSpace(label_ExtinctionPrefix.Content as string) ? Visibility.Visible : Visibility.Collapsed;
                 }
-
-                label_BirthPrefix.Visibility = !string.IsNullOrWhiteSpace(label_BirthPrefix.Content as string) ? Visibility.Visible : Visibility.Collapsed;
-                label_ExtinctionPrefix.Visibility = !string.IsNullOrWhiteSpace(label_ExtinctionPrefix.Content as string) ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         private void _UpdateGeoChronGraph()
         {
-            GeoChron birth = _Taxon.Birth;
-            GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
-
-            if (_Taxon.IsAnonymous || ((birth.IsEmpty || birth.IsPresent) || extinction.IsEmpty || !(birth <= extinction)))
+            if (_Taxon is null || _Taxon.IsAnonymous)
             {
                 border_Underline.Visibility = Visibility.Visible;
 
@@ -609,26 +613,39 @@ namespace TreeOfLife.UI.Controls
             }
             else
             {
-                border_Underline.Visibility = Visibility.Collapsed;
+                GeoChron birth = _Taxon.Birth;
+                GeoChron extinction = _Taxon.IsExtinct ? _Taxon.Extinction : GeoChron.Present;
 
-                int columnIndex = _GetColumnIndex(birth);
-                int columnSpan = Math.Max(1, _GetColumnIndex(extinction) - _GetColumnIndex(birth) + 1);
-
-                if (birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
+                if ((birth.IsEmpty || birth.IsPresent) || extinction.IsEmpty || !(birth <= extinction))
                 {
-                    border_PreCambrianMainly.SetValue(Grid.ColumnProperty, columnIndex);
-                    border_PreCambrianMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+                    border_Underline.Visibility = Visibility.Visible;
 
-                    grid_PreCambrianMainly.Visibility = Visibility.Visible;
+                    grid_PreCambrianMainly.Visibility = Visibility.Collapsed;
                     grid_PhanerozoicMainly.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    border_PhanerozoicMainly.SetValue(Grid.ColumnProperty, columnIndex);
-                    border_PhanerozoicMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+                    border_Underline.Visibility = Visibility.Collapsed;
 
-                    grid_PreCambrianMainly.Visibility = Visibility.Collapsed;
-                    grid_PhanerozoicMainly.Visibility = Visibility.Visible;
+                    int columnIndex = _GetColumnIndex(birth);
+                    int columnSpan = Math.Max(1, _GetColumnIndex(extinction) - _GetColumnIndex(birth) + 1);
+
+                    if (birth < GeoChron.GetGeoChron(Eon.Phanerozoic))
+                    {
+                        border_PreCambrianMainly.SetValue(Grid.ColumnProperty, columnIndex);
+                        border_PreCambrianMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+
+                        grid_PreCambrianMainly.Visibility = Visibility.Visible;
+                        grid_PhanerozoicMainly.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        border_PhanerozoicMainly.SetValue(Grid.ColumnProperty, columnIndex);
+                        border_PhanerozoicMainly.SetValue(Grid.ColumnSpanProperty, columnSpan);
+
+                        grid_PreCambrianMainly.Visibility = Visibility.Collapsed;
+                        grid_PhanerozoicMainly.Visibility = Visibility.Visible;
+                    }
                 }
             }
         }
@@ -675,6 +692,8 @@ namespace TreeOfLife.UI.Controls
             this.Loaded += (s, e) =>
             {
                 _UpdateTaxon();
+                _UpdateGeoChronText();
+                _UpdateGeoChronGraph();
                 _UpdateColor();
             };
         }

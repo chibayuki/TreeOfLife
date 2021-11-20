@@ -88,10 +88,6 @@ namespace TreeOfLife.UI.Views
 
         //
 
-        public Action<Taxon> ClickSearchResult { get; set; }
-
-        //
-
         private class _SearchResultItem
         {
             public string Title { get; set; }
@@ -111,6 +107,7 @@ namespace TreeOfLife.UI.Views
         // 搜索并更新结果。
         private async Task _SearchAndUpdateResultAsync()
         {
+            Taxon taxon = radioButton_Root.IsChecked ?? false ? Entrance.Root : Common.CurrentTaxon;
             string keyWord = ViewModel.KeyWord;
 
             AsyncMethod.Start();
@@ -118,7 +115,7 @@ namespace TreeOfLife.UI.Views
             {
                 _SearchResult.Clear();
 
-                IReadOnlyDictionary<MatchLevel, IReadOnlyList<Taxon>> searchResult = Entrance.Root.SearchAndGroupByMatchLevel(keyWord);
+                IReadOnlyDictionary<MatchLevel, IReadOnlyList<Taxon>> searchResult = taxon.SearchAndGroupByMatchLevel(keyWord);
                 IReadOnlyList<Taxon> perfect = searchResult[MatchLevel.Perfect];
                 IReadOnlyList<Taxon> high = searchResult[MatchLevel.High];
                 IReadOnlyList<Taxon> low = searchResult[MatchLevel.Low];
@@ -196,7 +193,8 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            ClickSearchResult(e.Taxon);
+                            Common.CurrentTaxon = e.Taxon;
+                            Common.CurrentTabPage = Common.TabPage.Evo;
                         }
                     };
 

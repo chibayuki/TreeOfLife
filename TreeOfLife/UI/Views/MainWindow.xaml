@@ -27,34 +27,34 @@ This file is part of TreeOfLife
             </Grid.ColumnDefinitions>
             <local:View_Tree x:Name="view_Tree"/>
             <Grid Grid.Column="1" Background="{DynamicResource TabPage.Body.Background}">
-                <Grid Visibility="{Binding PageVisibility_File}">
+                <Grid Visibility="{Binding TabPageVisibility_File}">
                     <local:View_File x:Name="view_File"/>
                 </Grid>
-                <Grid Visibility="{Binding PageVisibility_Evo}">
+                <Grid Visibility="{Binding TabPageVisibility_Evo}">
                     <local:View_Evo_ViewMode x:Name="view_Evo_ViewMode"/>
                     <local:View_Evo_EditMode x:Name="view_Evo_EditMode"/>
                 </Grid>
-                <Grid Visibility="{Binding PageVisibility_Search}">
+                <Grid Visibility="{Binding TabPageVisibility_Search}">
                     <local:View_Search x:Name="view_Search"/>
                 </Grid>
-                <Grid Visibility="{Binding PageVisibility_Statistics}">
+                <Grid Visibility="{Binding TabPageVisibility_Statistics}">
                     <local:View_Statistics x:Name="view_Statistics"/>
                 </Grid>
-                <Grid Visibility="{Binding PageVisibility_Validation}">
+                <Grid Visibility="{Binding TabPageVisibility_Validation}">
                     <local:View_Validation x:Name="view_Validation"/>
                 </Grid>
-                <Grid Visibility="{Binding PageVisibility_About}">
+                <Grid Visibility="{Binding TabPageVisibility_About}">
                     <local:View_About x:Name="view_About"/>
                 </Grid>
                 <Border Width="1" BorderThickness="1" BorderBrush="#40808080" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
             </Grid>
             <DockPanel Grid.Column="2" Background="{DynamicResource TabPage.Side.Background}">
-                <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding PageButtonEnabled_File}"/>
-                <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding PageButtonEnabled_Evo}"/>
-                <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding PageButtonEnabled_Search}"/>
-                <Button x:Name="button_Statistics" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="统&#xD;&#xA;计" IsEnabled="{Binding PageButtonEnabled_Statistics}"/>
-                <Button x:Name="button_Validation" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="校&#xD;&#xA;对" IsEnabled="{Binding PageButtonEnabled_Validation}"/>
-                <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding PageButtonEnabled_About}"/>
+                <Button x:Name="button_File" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="文&#xD;&#xA;件" IsEnabled="{Binding TabPageButtonEnabled_File}"/>
+                <Button x:Name="button_Evo" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="分&#xD;&#xA;类&#xD;&#xA;学" IsEnabled="{Binding TabPageButtonEnabled_Evo}"/>
+                <Button x:Name="button_Search" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="检&#xD;&#xA;索" IsEnabled="{Binding TabPageButtonEnabled_Search}"/>
+                <Button x:Name="button_Statistics" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="统&#xD;&#xA;计" IsEnabled="{Binding TabPageButtonEnabled_Statistics}"/>
+                <Button x:Name="button_Validation" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="校&#xD;&#xA;对" IsEnabled="{Binding TabPageButtonEnabled_Validation}"/>
+                <Button x:Name="button_About" DockPanel.Dock="Top" Style="{DynamicResource TabPageButtonStyle}" Content="关&#xD;&#xA;于" IsEnabled="{Binding TabPageButtonEnabled_About}"/>
                 <Grid>
                     <StackPanel VerticalAlignment="Bottom">
                         <Button x:Name="button_DarkTheme" Style="{DynamicResource TabPageButtonStyle}" BorderThickness="0" Width="35" Height="30" Margin="0,0,-5,0" Padding="0,0,5,0">

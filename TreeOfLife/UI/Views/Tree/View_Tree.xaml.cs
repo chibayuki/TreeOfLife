@@ -46,10 +46,14 @@ namespace TreeOfLife.UI.Views
 
             //
 
-            tree.MouseLeftButtonClick += (s, e) => Common.SetCurrentTaxon(e.Taxon);
+            Common.EditOperationOccurred += (s, e) => _ProcessEditOperationNotification(e.editOperation, e.args);
+
+            //
+
+            tree.MouseLeftButtonClick += (s, e) => Common.CurrentTaxon = e.Taxon;
             tree.MouseRightButtonClick += (s, e) =>
             {
-                if (Common.EditMode ?? false)
+                if (Common.IsEditMode)
                 {
                     Common.RightButtonTaxon = e.Taxon;
                     (_ContextMenu.DataContext as Action)?.Invoke();
@@ -117,7 +121,7 @@ namespace TreeOfLife.UI.Views
 
                 await Common.RightButtonTaxon.SetParentAsync(Common.SelectedTaxon);
 
-                Common.NotifyEditOperation(Common.EditOperation.ParentChanged, new object[] { Common.RightButtonTaxon, oldParent, Common.SelectedTaxon });
+                Common.NotifyEditOperation(Common.EditOperation.ParentChanged, Common.RightButtonTaxon, oldParent, Common.SelectedTaxon);
             };
 
             MenuItem item_ExcludeBy = new MenuItem() { Header = "排除自选择的类群（并系群）" };
@@ -126,7 +130,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddExcludeAsync(Common.RightButtonTaxon);
 
-                Common.NotifyEditOperation(Common.EditOperation.ExcludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
+                Common.NotifyEditOperation(Common.EditOperation.ExcludeByAdded, Common.RightButtonTaxon, Common.SelectedTaxon);
             };
 
             MenuItem item_IncludeBy = new MenuItem() { Header = "包含至选择的类群（复系群）" };
@@ -135,7 +139,7 @@ namespace TreeOfLife.UI.Views
             {
                 await Common.SelectedTaxon.AddIncludeAsync(Common.RightButtonTaxon);
 
-                Common.NotifyEditOperation(Common.EditOperation.IncludeByAdded, new object[] { Common.RightButtonTaxon, Common.SelectedTaxon });
+                Common.NotifyEditOperation(Common.EditOperation.IncludeByAdded, Common.RightButtonTaxon, Common.SelectedTaxon);
             };
 
             MenuItem item_MoveTop = new MenuItem() { Header = "移至最上" };
@@ -146,7 +150,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, 0);
 
-                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, rightButtonTaxon.Parent);
             };
 
             MenuItem item_MoveUp = new MenuItem() { Header = "上移" };
@@ -157,7 +161,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index - 1);
 
-                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, rightButtonTaxon.Parent);
             };
 
             MenuItem item_MoveDown = new MenuItem() { Header = "下移" };
@@ -168,7 +172,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.SwapChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Index + 1);
 
-                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, rightButtonTaxon.Parent);
             };
 
             MenuItem item_MoveBottom = new MenuItem() { Header = "移至最下" };
@@ -179,7 +183,7 @@ namespace TreeOfLife.UI.Views
 
                 await rightButtonTaxon.Parent.MoveChildAsync(rightButtonTaxon.Index, rightButtonTaxon.Parent.Children.Count - 1);
 
-                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, new object[] { rightButtonTaxon.Parent });
+                Common.NotifyEditOperation(Common.EditOperation.ChildrenReordered, rightButtonTaxon.Parent);
             };
 
             MenuItem item_DeleteWithoutChildren = new MenuItem() { Header = "删除 (并且保留下级类群)" };
@@ -202,7 +206,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.SetCurrentTaxon(taxon);
+                    Common.CurrentTaxon = taxon;
                 }
                 else
                 {
@@ -217,7 +221,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
+                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, parent);
                 }
             };
 
@@ -241,7 +245,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.SetCurrentTaxon(taxon);
+                    Common.CurrentTaxon = taxon;
                 }
                 else
                 {
@@ -256,7 +260,7 @@ namespace TreeOfLife.UI.Views
 
                     Common.RightButtonTaxon = null;
 
-                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, new object[] { parent });
+                    Common.NotifyEditOperation(Common.EditOperation.ChildrenRemoved, parent);
                 }
             };
 
@@ -422,14 +426,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTreeForChildren(childNode);
 
-                    if (!(Common.EditMode ?? false))
+                    if (!Common.IsEditMode)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!(Common.EditMode ?? false))
+                if (!Common.IsEditMode)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
@@ -470,14 +474,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTreeForSiblings(childNode);
 
-                    if (!(Common.EditMode ?? false))
+                    if (!Common.IsEditMode)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!(Common.EditMode ?? false))
+                if (!Common.IsEditMode)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
@@ -523,14 +527,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTree(childNode);
 
-                    if (!(Common.EditMode ?? false))
+                    if (!Common.IsEditMode)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!(Common.EditMode ?? false))
+                if (!Common.IsEditMode)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
@@ -559,10 +563,10 @@ namespace TreeOfLife.UI.Views
                     node.IsLast = node.Parent.Children.IndexOf(node) >= node.Parent.Children.Count - 1;
                 }
 
-                node.ShowButton = (Common.EditMode ?? false) ? true : node.Taxon.IsNamed;
+                node.ShowButton = Common.IsEditMode ? true : node.Taxon.IsNamed;
                 node.IsChecked = node.Taxon == Common.CurrentTaxon;
 
-                if (Common.EditMode ?? false)
+                if (Common.IsEditMode)
                 {
                     node.Properties = new (DependencyProperty, object)[] { (FrameworkElement.ContextMenuProperty, _ContextMenu) };
                 }
@@ -632,7 +636,7 @@ namespace TreeOfLife.UI.Views
             tree.UpdateContent(_SubTreeRoot);
         }
 
-        public void ProcessEditOperationNotification(Common.EditOperation editOperation, params object[] args)
+        private void _ProcessEditOperationNotification(Common.EditOperation editOperation, object[] args)
         {
             switch (editOperation)
             {
