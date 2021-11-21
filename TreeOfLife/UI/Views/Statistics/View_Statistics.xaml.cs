@@ -325,18 +325,14 @@ namespace TreeOfLife.UI.Views
 
             if (_StatisticsResults.Count > 0)
             {
-                StackPanel stackPanel = new StackPanel() { Margin = new Thickness(0, 25, 0, 0) };
-
                 for (int i = 0; i < _StatisticsResults.Count; i++)
                 {
                     _StatisticsResultItem result = _StatisticsResults[i];
 
                     result.Container.Margin = new Thickness(0, i > 0 ? 6 : 0, 0, 0);
 
-                    stackPanel.Children.Add(result.Container);
+                    stackPanel_StatisticsResult.Children.Add(result.Container);
                 }
-
-                stackPanel_StatisticsResult.Children.Add(stackPanel);
             }
 
             _UpdateVisibility();

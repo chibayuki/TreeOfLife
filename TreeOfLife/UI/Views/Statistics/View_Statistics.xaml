@@ -57,7 +57,7 @@ This file is part of TreeOfLife
                         <Label x:Name="label_Node" Grid.Row="2" Style="{DynamicResource HorizontalTitleLabelStyle}" Content="所有节点"/>
                         <Label x:Name="label_NodeCount" Grid.Row="2" Grid.Column="2" Style="{DynamicResource LabelStyle}" Content="0"/>
                     </Grid>
-                    <StackPanel x:Name="stackPanel_StatisticsResult"/>
+                    <StackPanel x:Name="stackPanel_StatisticsResult" Margin="0,25,0,0"/>
                 </StackPanel>
             </ScrollViewer>
         </DockPanel>
