@@ -102,27 +102,41 @@ namespace TreeOfLife.UI.Views
                 _Container = new DockPanel();
                 _DetailText = new List<(Border border, TextBlock rank, TextBlock count)>();
 
+                //
+
+                _TitleText = new TextBlock()
+                {
+                    Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
+                    Margin = new Thickness(9, 0, 9, 0),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                _TitleBorder = new Border()
+                {
+                    Child = _TitleText,
+                    CornerRadius = new CornerRadius(3),
+                    Margin = new Thickness(0, 0, 6, 0)
+                };
+
+                _Container.Children.Add(_TitleBorder);
+
+                //
+
+                _TotalText = new TextBlock()
+                {
+                    Text = $"总计:   {statisticsResult.TaxonCount}",
+                    Margin = new Thickness(0, 4, 7, 2),
+                    HorizontalAlignment = HorizontalAlignment.Right
+                };
+
+                _TotalBorder = new Border()
+                {
+                    Child = _TotalText,
+                    BorderThickness = new Thickness(0, 0, 0, 2)
+                };
+
                 if (basicRank.IsPrimaryOrSecondaryRank())
                 {
-                    _TitleText = new TextBlock()
-                    {
-                        Text = basicRank.GetChineseName(),
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
-
-                    _TitleBorder = new Border()
-                    {
-                        Child = _TitleText,
-                        CornerRadius = new CornerRadius(3),
-                        Width = 30,
-                        Margin = new Thickness(0, 0, 6, 0)
-                    };
-
-                    _Container.Children.Add(_TitleBorder);
-
-                    //
-
                     StackPanel detailsStackPanel = new StackPanel();
 
                     int detailsCount = statisticsResult.Details.Count + 1; // 把"总计"放在最后一个
@@ -203,19 +217,6 @@ namespace TreeOfLife.UI.Views
                         }
                         else
                         {
-                            _TotalText = new TextBlock()
-                            {
-                                Text = $"总计:   {statisticsResult.TaxonCount}",
-                                Margin = new Thickness(0, 4, 7, 2),
-                                HorizontalAlignment = HorizontalAlignment.Right
-                            };
-
-                            _TotalBorder = new Border()
-                            {
-                                Child = _TotalText,
-                                BorderThickness = new Thickness(0, 0, 0, 2)
-                            };
-
                             _TotalBorder.SetValue(Grid.ColumnProperty, 2 * columnId);
 
                             grid.Children.Add(_TotalBorder);
@@ -236,37 +237,6 @@ namespace TreeOfLife.UI.Views
                 }
                 else
                 {
-                    _TitleText = new TextBlock()
-                    {
-                        Text = basicRank.IsUnranked() ? "未指定" : basicRank.IsClade() ? "未分级演化支" : basicRank.GetChineseName(),
-                        Margin = new Thickness(9, 0, 9, 0),
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
-
-                    _TitleBorder = new Border()
-                    {
-                        Child = _TitleText,
-                        CornerRadius = new CornerRadius(3),
-                        Margin = new Thickness(0, 0, 6, 0)
-                    };
-
-                    _Container.Children.Add(_TitleBorder);
-
-                    //
-
-                    _TotalText = new TextBlock()
-                    {
-                        Text = $"总计:   {statisticsResult.TaxonCount}",
-                        Margin = new Thickness(0, 4, 7, 2),
-                        HorizontalAlignment = HorizontalAlignment.Right
-                    };
-
-                    _TotalBorder = new Border()
-                    {
-                        Child = _TotalText,
-                        BorderThickness = new Thickness(0, 0, 0, 2)
-                    };
-
                     _Container.Children.Add(_TotalBorder);
                 }
 
