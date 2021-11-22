@@ -69,15 +69,13 @@ namespace TreeOfLife.Core.Taxonomy
 
         public string ScientificName
         {
-            // 确保不为 null 或 WhiteSpace
-            get => _ScientificName ?? string.Empty;
+            get => _ScientificName;
             set => _ScientificName = value?.Trim() ?? string.Empty;
         }
 
         public string ChineseName
         {
-            // 确保不为 null 或 WhiteSpace
-            get => _ChineseName ?? string.Empty;
+            get => _ChineseName;
             set => _ChineseName = value?.Trim() ?? string.Empty;
         }
 
@@ -94,7 +92,7 @@ namespace TreeOfLife.Core.Taxonomy
         public string Description
         {
             get => _Description;
-            set => _Description = value;
+            set => _Description = string.IsNullOrWhiteSpace(value) ? string.Empty : value;
         }
 
         public Rank Rank
@@ -117,15 +115,13 @@ namespace TreeOfLife.Core.Taxonomy
 
         public GeoChron Birth
         {
-            // 确保不为 null
-            get => _Birth ?? GeoChron.Empty;
+            get => _Birth;
             set => _Birth = value ?? GeoChron.Empty;
         }
 
         public GeoChron Extinction
         {
-            // 确保不为 null
-            get => _Extinction ?? GeoChron.Empty;
+            get => _Extinction;
             set => _Extinction = value ?? GeoChron.Empty;
         }
 
