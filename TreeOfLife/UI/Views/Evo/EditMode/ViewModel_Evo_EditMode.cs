@@ -288,12 +288,7 @@ namespace TreeOfLife.UI.Views
 
                     if (!currentTaxon.IsRoot)
                     {
-                        currentTaxon.Synonyms.Clear();
-                        currentTaxon.Synonyms.AddRange(
-                            from s in _Synonyms.Split(Environment.NewLine)
-                            let synonym = s?.Trim()
-                            where !string.IsNullOrEmpty(synonym)
-                            select synonym);
+                        currentTaxon.Synonyms = _Synonyms.Split(Environment.NewLine);
 
                         Common.NotifyEditOperation(Common.EditOperation.SynonymsUpdated, currentTaxon);
                     }
@@ -321,12 +316,7 @@ namespace TreeOfLife.UI.Views
 
                     if (!currentTaxon.IsRoot)
                     {
-                        currentTaxon.Tags.Clear();
-                        currentTaxon.Tags.AddRange(
-                            from s in _Tags.Split(Environment.NewLine)
-                            let tag = s?.Trim()
-                            where !string.IsNullOrEmpty(tag)
-                            select tag);
+                        currentTaxon.Tags = _Tags.Split(Environment.NewLine);
 
                         Common.NotifyEditOperation(Common.EditOperation.TagsUpdated, currentTaxon);
                     }
@@ -385,8 +375,8 @@ namespace TreeOfLife.UI.Views
 
             Visibility_Extinction = IsExtinct ? Visibility.Visible : Visibility.Collapsed;
 
-            Synonyms = string.Join(Environment.NewLine, currentTaxon.Synonyms.ToArray());
-            Tags = string.Join(Environment.NewLine, currentTaxon.Tags.ToArray());
+            Synonyms = string.Join(Environment.NewLine, currentTaxon.Synonyms);
+            Tags = string.Join(Environment.NewLine, currentTaxon.Tags);
             Description = currentTaxon.Description;
 
             //

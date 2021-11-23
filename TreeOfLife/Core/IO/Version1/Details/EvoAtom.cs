@@ -332,7 +332,8 @@ namespace TreeOfLife.Core.IO.Version1.Details
             {
                 ScientificName = _ScientificName,
                 ChineseName = _ChineseName,
-
+                Synonyms = _Synonyms,
+                Tags = _Tags,
                 Description = _Description,
 
                 Rank = _ConvertRank(_Rank),
@@ -340,9 +341,6 @@ namespace TreeOfLife.Core.IO.Version1.Details
                 IsExtinct = _IsExtinct,
                 IsUndet = _IsUndet
             };
-
-            taxon.Synonyms.AddRange(_Synonyms);
-            taxon.Tags.AddRange(_Tags);
 
             // 匿名类群的分类阶元始终为未分级
             if (taxon.IsAnonymous)

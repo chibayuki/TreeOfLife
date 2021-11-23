@@ -85,9 +85,43 @@ namespace TreeOfLife.Core.Taxonomy
         // 判断类群是否具名。
         public bool IsNamed => !string.IsNullOrEmpty(_ScientificName) || !string.IsNullOrEmpty(_ChineseName);
 
-        public List<string> Synonyms => _Synonyms;
+        public IReadOnlyList<string> Synonyms
+        {
+            get => _Synonyms;
 
-        public List<string> Tags => _Tags;
+            set
+            {
+                _Synonyms.Clear();
+
+                if (value is not null)
+                {
+                    _Synonyms.AddRange(
+                        from str in value
+                        let synonym = str?.Trim()
+                        where !string.IsNullOrEmpty(synonym)
+                        select synonym);
+                }
+            }
+        }
+
+        public IReadOnlyList<string> Tags
+        {
+            get => _Tags;
+
+            set
+            {
+                _Tags.Clear();
+
+                if (value is not null)
+                {
+                    _Tags.AddRange(
+                        from str in value
+                        let tag = str?.Trim()
+                        where !string.IsNullOrEmpty(tag)
+                        select tag);
+                }
+            }
+        }
 
         public string Description
         {

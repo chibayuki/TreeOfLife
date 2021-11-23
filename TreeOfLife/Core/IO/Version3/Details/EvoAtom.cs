@@ -313,7 +313,8 @@ namespace TreeOfLife.Core.IO.Version3.Details
             {
                 ScientificName = _ScientificName,
                 ChineseName = _ChineseName,
-
+                Synonyms = _Synonyms,
+                Tags = _Tags,
                 Description = _Description,
 
                 Rank = _ConvertRank(_Rank),
@@ -325,25 +326,22 @@ namespace TreeOfLife.Core.IO.Version3.Details
                 Extinction = _Extinction
             };
 
-            taxon.Synonyms.AddRange(_Synonyms);
-            taxon.Tags.AddRange(_Tags);
-
             // 匿名类群的分类阶元始终为未分级
             if (taxon.IsAnonymous)
             {
                 taxon.Rank = Taxonomy.Rank.Unranked;
             }
 
-            // 未灭绝的类群不应具有有意义的灭绝年代，已灭绝的类群的灭绝年代不应是现代
-            if (!taxon.IsExtinct || taxon.Extinction.IsPresent)
-            {
-                taxon.Extinction = GeoChron.Empty;
-            }
-
             // 类群的诞生年代不应是现代
             if (taxon.Birth.IsPresent)
             {
                 taxon.Birth = GeoChron.Empty;
+            }
+
+            // 未灭绝的类群不应具有有意义的灭绝年代，已灭绝的类群的灭绝年代不应是现代
+            if (!taxon.IsExtinct || taxon.Extinction.IsPresent)
+            {
+                taxon.Extinction = GeoChron.Empty;
             }
 
             return taxon;

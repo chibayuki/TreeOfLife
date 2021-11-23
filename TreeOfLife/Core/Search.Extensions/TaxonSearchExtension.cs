@@ -200,20 +200,17 @@ namespace TreeOfLife.Core.Search.Extensions
             {
                 foreach (var synonym in taxon.Synonyms)
                 {
-                    if (!string.IsNullOrEmpty(synonym))
+                    var mv = _GetMatchValueOfTwoString(str, synonym);
+
+                    if (matchValue < mv.matchValue || (matchValue == mv.matchValue && matchLength < mv.matchLength))
                     {
-                        var mv = _GetMatchValueOfTwoString(str, synonym);
+                        (matchValue, matchLength) = mv;
+                        matchObject = _MatchObject.Synonyms;
+                    }
 
-                        if (matchValue < mv.matchValue || (matchValue == mv.matchValue && matchLength < mv.matchLength))
-                        {
-                            (matchValue, matchLength) = mv;
-                            matchObject = _MatchObject.Synonyms;
-                        }
-
-                        if (matchValue >= 1)
-                        {
-                            break;
-                        }
+                    if (matchValue >= 1)
+                    {
+                        break;
                     }
                 }
             }
@@ -222,20 +219,17 @@ namespace TreeOfLife.Core.Search.Extensions
             {
                 foreach (var tag in taxon.Tags)
                 {
-                    if (!string.IsNullOrEmpty(tag))
+                    var mv = _GetMatchValueOfTwoString(str, tag);
+
+                    if (matchValue < mv.matchValue || (matchValue == mv.matchValue && matchLength < mv.matchLength))
                     {
-                        var mv = _GetMatchValueOfTwoString(str, tag);
+                        (matchValue, matchLength) = mv;
+                        matchObject = _MatchObject.Tags;
+                    }
 
-                        if (matchValue < mv.matchValue || (matchValue == mv.matchValue && matchLength < mv.matchLength))
-                        {
-                            (matchValue, matchLength) = mv;
-                            matchObject = _MatchObject.Tags;
-                        }
-
-                        if (matchValue >= 1)
-                        {
-                            break;
-                        }
+                    if (matchValue >= 1)
+                    {
+                        break;
                     }
                 }
             }
