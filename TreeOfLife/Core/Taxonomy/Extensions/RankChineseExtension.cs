@@ -24,7 +24,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
         private static class _Names
         {
-            public const string Unranked = "未分级";
+            public const string Unranked = "未指定";
 
             public const string Clade = "演化支";
 
@@ -225,8 +225,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
         private static readonly Dictionary<string, Rank> _NameToRankTable = new Dictionary<string, Rank>()
         {
-            { _Names.Unranked, Rank.Unranked }, // 未分级
-            { "未指定", Rank.Unranked }, // 未指定
+            { _Names.Unranked, Rank.Unranked }, // 未指定
 
             { _Names.Clade, Rank.Clade }, // 演化支
             { "分支", Rank.Clade }, // 分支

@@ -305,7 +305,7 @@ namespace TreeOfLife.Core.IO.Version2.Details
                 IsUndet = _IsUndet
             };
 
-            // 匿名类群的分类阶元始终为未分级
+            // 匿名类群的分类阶元始终为未指定
             if (taxon.IsAnonymous)
             {
                 taxon.Rank = Taxonomy.Rank.Unranked;

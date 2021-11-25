@@ -18,7 +18,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
     // 生物分类阶元。
     public enum Rank
     {
-        Unranked = 0, // 未分级。
+        Unranked = 0, // 未指定。
 
         Clade = 1, // 演化支。
 

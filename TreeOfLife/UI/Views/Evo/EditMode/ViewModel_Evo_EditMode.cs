@@ -61,7 +61,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.ScientificName = _Name.Trim();
 
-                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
+                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未指定/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
                         Common.NotifyEditOperation(Common.EditOperation.ScientificNameUpdated, currentTaxon);
@@ -92,7 +92,7 @@ namespace TreeOfLife.UI.Views
                     {
                         currentTaxon.ChineseName = _ChsName.Trim();
 
-                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未分级/UI设置的分级
+                        // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未指定/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
                         Common.NotifyEditOperation(Common.EditOperation.ChineseNameUpdated, currentTaxon);
@@ -121,7 +121,7 @@ namespace TreeOfLife.UI.Views
 
                     if (!currentTaxon.IsRoot)
                     {
-                        // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未分级
+                        // 只对具名类群应用分类阶元，匿名类群的分类阶元始终为未指定
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
 
                         Common.NotifyEditOperation(Common.EditOperation.RankUpdated, currentTaxon);

@@ -409,7 +409,7 @@ namespace TreeOfLife.Core.Search.Extensions
 
             if (string.IsNullOrEmpty(keyWord))
             {
-                return new List<(Taxon, MatchLevel)>();
+                return Array.Empty<(Taxon, MatchLevel)>();
             }
             else
             {

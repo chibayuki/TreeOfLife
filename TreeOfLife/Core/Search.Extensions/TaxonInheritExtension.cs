@@ -28,7 +28,7 @@ namespace TreeOfLife.Core.Search.Extensions
         Anonymous = 0x00000002, // 匹配匿名类群
         NamedOrAnonymous = Named | Anonymous, // 匹配具名或匿名类群
 
-        Unranked = 0x00000004, // 匹配未分级类群
+        Unranked = 0x00000004, // 匹配未指定分级类群
         Clade = 0x00000008, // 匹配演化支类群
         BasicSecondaryRank = 0x00000010, // 匹配基本次要级别类群
         BasicPrimaryRank = 0x00000020, // 匹配基本主要级别类群
@@ -424,7 +424,7 @@ namespace TreeOfLife.Core.Search.Extensions
                         includeTermination: true,
                         skipParaphyly: false));
 
-                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
+                    // 如果上溯到任何未指定分级类群或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
                     if (result.Count > 0)
                     {
                         Taxon parent = result[^1];
@@ -482,7 +482,7 @@ namespace TreeOfLife.Core.Search.Extensions
                         includeTermination: true,
                         skipParaphyly: false));
 
-                    // 如果上溯到任何未分级或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
+                    // 如果上溯到任何未指定分级类群或演化支类群，继续上溯到任何主要或次要分类阶元类群，保留任何具名类群，跳过并系群
                     if (result.Count > 0)
                     {
                         Taxon parent = result[^1];

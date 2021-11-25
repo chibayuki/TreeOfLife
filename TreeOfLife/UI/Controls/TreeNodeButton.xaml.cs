@@ -71,6 +71,17 @@ namespace TreeOfLife.UI.Controls
 
                 //
 
+                if (_Taxon.IsUndet)
+                {
+                    grid_Single_Det.Visibility = grid_First_Det.Visibility = grid_Last_Det.Visibility = grid_Normal_Det.Visibility = Visibility.Collapsed;
+                    grid_Single_Undet.Visibility = grid_First_Undet.Visibility = grid_Last_Undet.Visibility = grid_Normal_Undet.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    grid_Single_Det.Visibility = grid_First_Det.Visibility = grid_Last_Det.Visibility = grid_Normal_Det.Visibility = Visibility.Visible;
+                    grid_Single_Undet.Visibility = grid_First_Undet.Visibility = grid_Last_Undet.Visibility = grid_Normal_Undet.Visibility = Visibility.Collapsed;
+                }
+
                 grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
                 grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
                 grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
