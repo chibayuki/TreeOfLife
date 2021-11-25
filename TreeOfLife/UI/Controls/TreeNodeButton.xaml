@@ -23,7 +23,10 @@ This file is part of TreeOfLife
                         <Border BorderThickness="1" Width="25" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
                     </Grid>
                     <Grid x:Name="grid_Single_Undet">
-                        <Line X1="0" X2="25" StrokeThickness="2" StrokeDashArray="2.4,1.2" Stroke="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="21,0,0,0" SnapsToDevicePixels="True"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="grid_First">
@@ -41,8 +44,11 @@ This file is part of TreeOfLife
                             <RowDefinition Height="2"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Line Grid.Row="1" X1="6" X2="25" StrokeThickness="2" StrokeDashArray="2.4,1.2" Stroke="{DynamicResource TreeNode.BorderBrush}" SnapsToDevicePixels="True"/>
                         <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="2,0,0,0" CornerRadius="3,0,0,0" Width="25" BorderBrush="{DynamicResource TreeNode.BorderBrush}" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="21,0,0,0" SnapsToDevicePixels="True"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="grid_Last">
@@ -60,18 +66,24 @@ This file is part of TreeOfLife
                             <RowDefinition Height="2"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="2,0,0,0" CornerRadius="0,0,0,3" Width="25" BorderBrush="{DynamicResource TreeNode.BorderBrush}" SnapsToDevicePixels="True"/>
-                        <Line Grid.Row="1" X1="6" X2="25" StrokeThickness="2" StrokeDashArray="2.4,1.2" Stroke="{DynamicResource TreeNode.BorderBrush}" SnapsToDevicePixels="True"/>
+                        <Border Grid.RowSpan="2" BorderThickness="2,0,0,0" CornerRadius="0,0,0,3" Width="25" BorderBrush="{DynamicResource TreeNode.BorderBrush}" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border Grid.Row="1" BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="21,0,0,0" SnapsToDevicePixels="True"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="grid_Normal">
                     <Grid x:Name="grid_Normal_Det">
-                        <Border BorderThickness="1" Width="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Stretch" SnapsToDevicePixels="True"/>
                         <Border BorderThickness="1" Width="25" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
                     </Grid>
                     <Grid x:Name="grid_Normal_Undet">
-                        <Border BorderThickness="1" Width="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
-                        <Line X1="0" X2="25" StrokeThickness="2" StrokeDashArray="2.4,1.2" Stroke="{DynamicResource TreeNode.BorderBrush}" VerticalAlignment="Center" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Stretch" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" SnapsToDevicePixels="True"/>
+                        <Border BorderThickness="1" Width="4" Height="2" BorderBrush="{DynamicResource TreeNode.BorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="21,0,0,0" SnapsToDevicePixels="True"/>
                     </Grid>
                 </Grid>
             </Grid>

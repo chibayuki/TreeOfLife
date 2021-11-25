@@ -26,16 +26,22 @@ namespace TreeOfLife.UI.Extensions
     // 生物分类单元（类群）的UI相关扩展方法。
     public static class TaxonUIExtension
     {
-        private static ColorX _DomainColor = ColorX.FromHSL(235, 50, 50);
-        private static ColorX _KingdomColor = ColorX.FromHSL(160, 50, 50);
-        private static ColorX _PhylumColor = ColorX.FromHSL(285, 50, 50);
-        private static ColorX _ClassColor = ColorX.FromHSL(195, 50, 50);
-        private static ColorX _OrderColor = ColorX.FromHSL(350, 50, 50);
-        private static ColorX _FamilyColor = ColorX.FromHSL(50, 50, 50);
-        private static ColorX _GenusColor = ColorX.FromHSL(25, 50, 50);
-        private static ColorX _SpeciesColor = ColorX.FromHSL(90, 50, 50);
-        private static ColorX _SecondaryColor = Color.Black;
-        private static ColorX _OthersColor = Color.Black;
+        private static readonly ColorX _DomainColor = ColorX.FromHSL(235, 50, 50);
+        private static readonly ColorX _KingdomColor = ColorX.FromHSL(165, 50, 50);
+        private static readonly ColorX _PhylumColor = ColorX.FromHSL(285, 50, 50);
+        private static readonly ColorX _ClassColor = ColorX.FromHSL(195, 50, 50);
+        private static readonly ColorX _OrderColor = ColorX.FromHSL(345, 50, 50);
+        private static readonly ColorX _FamilyColor = ColorX.FromHSL(50, 50, 50);
+        private static readonly ColorX _GenusColor = ColorX.FromHSL(15, 50, 50);
+        private static readonly ColorX _SpeciesColor = ColorX.FromHSL(85, 50, 50);
+        private static readonly ColorX _TribeColor = ColorX.FromHSL(260, 15, 50);
+        private static readonly ColorX _CohortColor = ColorX.FromHSL(35, 15, 50);
+        private static readonly ColorX _SectionColor = ColorX.FromHSL(215, 15, 50);
+        private static readonly ColorX _DivisionColor = ColorX.FromHSL(315, 15, 50);
+        private static readonly ColorX _SeriesColor = ColorX.FromHSL(140, 15, 50);
+        private static readonly ColorX _FormColor = ColorX.FromHSL(180, 15, 50);
+        private static readonly ColorX _StrainColor = ColorX.FromHSL(70, 15, 50);
+        private static readonly ColorX _OthersColor = Color.Black;
 
         // 获取分类阶元的主题颜色。
         public static ColorX GetThemeColor(this Rank rank)
@@ -53,7 +59,13 @@ namespace TreeOfLife.UI.Extensions
             }
             else if (rank.IsSecondaryRank())
             {
-                return _SecondaryColor;
+                if (rank.IsTribe()) return _TribeColor;
+                else if (rank.IsCohort()) return _CohortColor;
+                else if (rank.IsSection()) return _SectionColor;
+                else if (rank.IsDivision()) return _DivisionColor;
+                else if (rank.IsSeries()) return _SeriesColor;
+                else if (rank.IsForm()) return _FormColor;
+                else if (rank.IsStrain()) return _StrainColor;
             }
 
             return _OthersColor;

@@ -15,7 +15,7 @@ This file is part of TreeOfLife
              xmlns:local="clr-namespace:TreeOfLife.UI.Views"
              xmlns:Controls="clr-namespace:TreeOfLife.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="2200" d:DesignWidth="400">
+             d:DesignHeight="2300" d:DesignWidth="400">
     <UserControl.DataContext>
         <local:ViewModel_Evo_EditMode/>
     </UserControl.DataContext>

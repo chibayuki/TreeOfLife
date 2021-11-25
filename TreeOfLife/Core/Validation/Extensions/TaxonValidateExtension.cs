@@ -32,6 +32,7 @@ namespace TreeOfLife.Core.Validation.Extensions
             BirthValidator.Instance,
             ExtinctionValidator.Instance,
 #endif
+            NameMissingValidator.Instance,
             NameLengthValidator.Instance,
             NameUppercaseValidator.Instance,
             NameWordCountValidator.Instance,
@@ -40,7 +41,6 @@ namespace TreeOfLife.Core.Validation.Extensions
             TimelineCompletenessValidator.Instance,
             TimelineConsistencyValidator.Instance,
             EvolutionOrderValidator.Instance,
-            NameMissingValidator.Instance,
             RankMissingValidator.Instance,
             ChineseSuffixValidator.Instance,
             SynonymsUniqueValidator.Instance,

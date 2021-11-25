@@ -110,6 +110,18 @@ namespace TreeOfLife.Core.Validation
 
 #endif
 
+    // 学名缺失：不应该仅有中文名而没有学名。
+    public class NameMissingValidator : IValidator
+    {
+        private NameMissingValidator() { }
+
+        public static readonly NameMissingValidator Instance = new NameMissingValidator();
+
+        public override string ToString() => "未设置学名";
+
+        public bool IsValid(Taxon taxon) => !string.IsNullOrEmpty(taxon.ScientificName) || string.IsNullOrEmpty(taxon.ChineseName);
+    }
+
     // 学名长度：学名通常至少包含3个字符。
     public class NameLengthValidator : IValidator
     {
@@ -276,18 +288,6 @@ namespace TreeOfLife.Core.Validation
 
             return true;
         }
-    }
-
-    // 学名缺失：不应该仅有中文名而没有学名。
-    public class NameMissingValidator : IValidator
-    {
-        private NameMissingValidator() { }
-
-        public static readonly NameMissingValidator Instance = new NameMissingValidator();
-
-        public override string ToString() => "未设置学名";
-
-        public bool IsValid(Taxon taxon) => !string.IsNullOrEmpty(taxon.ScientificName) || string.IsNullOrEmpty(taxon.ChineseName);
     }
 
     // 未设置分级：具名类群应该设置分级。
