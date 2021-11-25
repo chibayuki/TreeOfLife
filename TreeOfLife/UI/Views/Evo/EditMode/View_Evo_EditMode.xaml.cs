@@ -112,6 +112,7 @@ namespace TreeOfLife.UI.Views
             //
 
             warningMessage_NodeStructure.Message = NodeStructureValidator.Instance.ToString();
+            warningMessage_Monophyly.Message = MonophylyValidator.Instance.ToString();
 
             warningMessage_NameMissing.Message = NameMissingValidator.Instance.ToString();
             warningMessage_NameLength.Message = NameLengthValidator.Instance.ToString();
@@ -141,8 +142,8 @@ namespace TreeOfLife.UI.Views
             warningMessage_NodeInfo_Tags.Message = NodeInformationValidator.Instance.ToString("标签");
             warningMessage_NodeInfo_Desc.Message = NodeInformationValidator.Instance.ToString("描述");
 
-            warningMessage_NodeRef_Excludes.Message = NodeReferenceValidator.Instance.ToString("并系群");
-            warningMessage_NodeRef_Includes.Message = NodeReferenceValidator.Instance.ToString("复系群");
+            warningMessage_NodeMonophyly_Excludes.Message = NodeMonophylyValidator.Instance.ToString("并系群");
+            warningMessage_NodeMonophyly_Includes.Message = NodeMonophylyValidator.Instance.ToString("复系群");
 
             //
 
@@ -874,6 +875,8 @@ namespace TreeOfLife.UI.Views
             }
 
             warningMessage_NodeStructure.Visibility = validators.ContainsKey(NodeStructureValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_Monophyly.Visibility = validators.ContainsKey(MonophylyValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
+            stackPanel_Node.Visibility = validators.ContainsKey(NodeStructureValidator.Instance) || validators.ContainsKey(MonophylyValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
 
             warningMessage_NameMissing.Visibility = validators.ContainsKey(NameMissingValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_NameLength.Visibility = validators.ContainsKey(NameLengthValidator.Instance) ? Visibility.Visible : Visibility.Collapsed;
@@ -904,8 +907,8 @@ namespace TreeOfLife.UI.Views
             warningMessage_NodeInfo_Tags.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && currentTaxon.Tags.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             warningMessage_NodeInfo_Desc.Visibility = validators.ContainsKey(NodeInformationValidator.Instance) && !string.IsNullOrWhiteSpace(currentTaxon.Description) ? Visibility.Visible : Visibility.Collapsed;
 
-            warningMessage_NodeRef_Excludes.Visibility = validators.ContainsKey(NodeReferenceValidator.Instance) && currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
-            warningMessage_NodeRef_Includes.Visibility = validators.ContainsKey(NodeReferenceValidator.Instance) && currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeMonophyly_Excludes.Visibility = validators.ContainsKey(NodeMonophylyValidator.Instance) && currentTaxon.Excludes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            warningMessage_NodeMonophyly_Includes.Visibility = validators.ContainsKey(NodeMonophylyValidator.Instance) && currentTaxon.Includes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void _ProcessEditOperationNotification(Common.EditOperation editOperation, object[] args)

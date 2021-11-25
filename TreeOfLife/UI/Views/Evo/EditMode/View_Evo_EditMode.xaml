@@ -38,7 +38,10 @@ This file is part of TreeOfLife
             </StackPanel>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="40,0,40,25">
-                    <Controls:WarningMessage x:Name="warningMessage_NodeStructure" Margin="0,25,0,0"/>
+                    <StackPanel x:Name="stackPanel_Node" Margin="0,20,0,0">
+                        <Controls:WarningMessage x:Name="warningMessage_NodeStructure" Margin="0,5,0,0"/>
+                        <Controls:WarningMessage x:Name="warningMessage_Monophyly" Margin="0,5,0,0"/>
+                    </StackPanel>
                     <Grid x:Name="grid_Name" Margin="0,25,0,0">
                         <StackPanel>
                             <Grid>
@@ -263,7 +266,7 @@ This file is part of TreeOfLife
                         <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此并系群排除的类群"/>
                         <StackPanel Grid.Row="2">
                             <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Excludes"/>
-                            <Controls:WarningMessage x:Name="warningMessage_NodeRef_Excludes" Margin="0,5,0,0"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeMonophyly_Excludes" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_ExcludeBy" Margin="0,25,0,0">
@@ -284,7 +287,7 @@ This file is part of TreeOfLife
                         <Label Style="{DynamicResource VerticalTitleLabelStyle}" Content="此复系群包含的类群"/>
                         <StackPanel Grid.Row="2">
                             <Controls:TaxonButtonGroup x:Name="taxonButtonGroup_Includes"/>
-                            <Controls:WarningMessage x:Name="warningMessage_NodeRef_Includes" Margin="0,5,0,0"/>
+                            <Controls:WarningMessage x:Name="warningMessage_NodeMonophyly_Includes" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid x:Name="grid_IncludeBy" Margin="0,25,0,0">

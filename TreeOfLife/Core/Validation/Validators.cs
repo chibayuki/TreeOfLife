@@ -110,7 +110,7 @@ namespace TreeOfLife.Core.Validation
 
 #endif
 
-    // 长度：学名通常至少包含3个字符。
+    // 学名长度：学名通常至少包含3个字符。
     public class NameLengthValidator : IValidator
     {
         private NameLengthValidator() { }
@@ -122,7 +122,7 @@ namespace TreeOfLife.Core.Validation
         public bool IsValid(Taxon taxon) => string.IsNullOrEmpty(taxon.ScientificName) || taxon.ScientificName.Length >= 3;
     }
 
-    // 大小写：学名应该且仅应该首字母大写。
+    // 学名大小写：学名应该且仅应该首字母大写。
     public class NameUppercaseValidator : IValidator
     {
         private NameUppercaseValidator() { }
@@ -134,7 +134,7 @@ namespace TreeOfLife.Core.Validation
         public bool IsValid(Taxon taxon) => string.IsNullOrEmpty(taxon.ScientificName) || (!char.IsLower(taxon.ScientificName[0]) && !taxon.ScientificName[1..].Any((c) => char.IsUpper(c)));
     }
 
-    // 单词数：学名通常是一个单词，种以上（不含）应该是1个单词，种应该是2个单词，亚种应该是3个单词。
+    // 学名单词数：学名通常是一个单词，种以上（不含）应该是1个单词，种应该是2个单词，亚种应该是3个单词。
     public class NameWordCountValidator : IValidator
     {
         private NameWordCountValidator() { }
@@ -167,7 +167,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 字符构成：学名应该仅由拉丁字母、点（.）和空格（ ）组成，种以上（不含）应该仅由拉丁字母组成，种以下（含）还可包含点和空格。
+    // 学名字符构成：学名应该仅由拉丁字母、点（.）和空格（ ）组成，种以上（不含）应该仅由拉丁字母组成，种以下（含）还可包含点和空格。
     public class NameCharacterValidator : IValidator
     {
         private NameCharacterValidator() { }
@@ -187,7 +187,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 分隔符：学名如果包含点（.），那么点只应该出现在每个单词结尾，并且不应该出现在最后一个单词结尾，点后面必须有空格，点和空格不应该连续出现多个。
+    // 学名分隔符：学名如果包含点（.），那么点只应该出现在每个单词结尾，并且不应该出现在最后一个单词结尾，点后面必须有空格，点和空格不应该连续出现多个。
     public class NameSeparatorValidator : IValidator
     {
         private NameSeparatorValidator() { }
@@ -344,7 +344,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 异名唯一：异名不应该存在重复项。
+    // 异名无重复：异名不应该存在重复项。
     public class SynonymsUniqueValidator : IValidator
     {
         private SynonymsUniqueValidator() { }
@@ -369,7 +369,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 标签唯一：标签不应该存在重复项。
+    // 标签无重复：标签不应该存在重复项。
     public class TagsUniqueValidator : IValidator
     {
         private TagsUniqueValidator() { }
@@ -394,7 +394,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 异名标签唯一：异名与标签之间不应该存在重复项。
+    // 异名与标签无重复：异名与标签之间不应该存在重复项。
     public class SynonymsTagUniqueValidator : IValidator
     {
         private SynonymsTagUniqueValidator() { }
@@ -430,7 +430,7 @@ namespace TreeOfLife.Core.Validation
         }
     }
 
-    // 节点完整：匿名类群应该有姊妹群，并且应该有至少2个下级类群（后代）。
+    // 节点结构完整：匿名类群应该有姊妹群，并且应该有至少2个下级类群（后代）。
     public class NodeStructureValidator : IValidator
     {
         private NodeStructureValidator() { }
@@ -442,20 +442,6 @@ namespace TreeOfLife.Core.Validation
         public string ToString(string message) => $"节点缺少{message}";
 
         public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.IsRoot || (taxon.Parent.Children.Count > 1 && taxon.Children.Count > 1);
-    }
-
-    // 节点引用关系：匿名类群不应该是并系群或复系群。
-    public class NodeReferenceValidator : IValidator
-    {
-        private NodeReferenceValidator() { }
-
-        public static readonly NodeReferenceValidator Instance = new NodeReferenceValidator();
-
-        public override string ToString() => "节点不应该是并系群或复系群";
-
-        public string ToString(string message) => $"节点不应该是{message}";
-
-        public bool IsValid(Taxon taxon) => taxon.IsNamed || (taxon.Excludes.Count <= 0 && taxon.Includes.Count <= 0);
     }
 
     // 节点信息冗余：匿名类群不需要设置状态、年代、异名、标签、描述等信息。
@@ -470,5 +456,33 @@ namespace TreeOfLife.Core.Validation
         public string ToString(string message) => $"节点不需要设置{message}";
 
         public bool IsValid(Taxon taxon) => taxon.IsNamed || (!taxon.IsExtinct && !taxon.IsUndet && taxon.Birth.IsEmpty && taxon.Extinction.IsEmpty && taxon.Synonyms.Count <= 0 && taxon.Tags.Count <= 0 && string.IsNullOrWhiteSpace(taxon.Description));
+    }
+
+    // 节点单系：匿名类群不应该是并系群或复系群。
+    public class NodeMonophylyValidator : IValidator
+    {
+        private NodeMonophylyValidator() { }
+
+        public static readonly NodeMonophylyValidator Instance = new NodeMonophylyValidator();
+
+        public override string ToString() => "节点不应该是并系群或复系群";
+
+        public string ToString(string message) => $"节点不应该是{message}";
+
+        public bool IsValid(Taxon taxon) => taxon.IsNamed || taxon.IsMonophyly;
+    }
+
+    // 单系群：科学分类法要求所有类群都应该是单系的。
+    public class MonophylyValidator : IValidator
+    {
+        private MonophylyValidator() { }
+
+        public static readonly MonophylyValidator Instance = new MonophylyValidator();
+
+        public override string ToString() => "不建议使用并系群或复系群";
+
+        public string ToString(string message) => $"不建议使用{message}";
+
+        public bool IsValid(Taxon taxon) => taxon.IsAnonymous || taxon.IsMonophyly;
     }
 }

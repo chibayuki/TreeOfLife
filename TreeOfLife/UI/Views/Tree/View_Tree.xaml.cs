@@ -426,14 +426,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTreeForChildren(childNode);
 
-                    if (!Common.IsEditMode)
+                    if (!Common.IsEditMode && child.IsNamed)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!Common.IsEditMode)
+                if (!Common.IsEditMode && node.Taxon.IsNamed)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
@@ -474,14 +474,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTreeForSiblings(childNode);
 
-                    if (!Common.IsEditMode)
+                    if (!Common.IsEditMode && child.IsNamed)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!Common.IsEditMode)
+                if (!Common.IsEditMode && node.Taxon.IsNamed)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
@@ -527,14 +527,14 @@ namespace TreeOfLife.UI.Views
 
                     _BuildSubTree(childNode);
 
-                    if (!Common.IsEditMode)
+                    if (!Common.IsEditMode && child.IsNamed)
                     {
                         // 若子类群是并系群，添加并系群排除的类群
                         _BuildSubTreeForExcludes(node, child);
                     }
                 }
 
-                if (!Common.IsEditMode)
+                if (!Common.IsEditMode && node.Taxon.IsNamed)
                 {
                     // 若当前类群是复系群，添加复系群包含的类群
                     _BuildSubTreeForIncludes(node);
