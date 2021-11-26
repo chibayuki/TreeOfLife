@@ -584,279 +584,288 @@ namespace TreeOfLife.UI.Controls
         {
             if (oldGeoChron != newGeoChron)
             {
-                if (oldGeoChron.IsTimespan && newGeoChron.IsTimespan)
+                bool oldIsTimespan = oldGeoChron.IsTimespan;
+                bool newIsTimespan = newGeoChron.IsTimespan;
+
+                if (oldIsTimespan || newIsTimespan)
                 {
-                    GeoChronButton button;
-                    IEnumerable<UIElement> elements;
+                    if (oldIsTimespan && newIsTimespan)
+                    {
+                        GeoChronButton button;
+                        IEnumerable<UIElement> elements;
 
-                    //
+                        //
 
-                    // [0..4]=[Age..Eon]
-                    GeoChron[] oldGeoChrons = { null, null, null, null, null };
-                    GeoChron[] newGeoChrons = { null, null, null, null, null };
+                        // [0..4]=[Age..Eon]
+                        GeoChron[] oldGeoChrons = { null, null, null, null, null };
+                        GeoChron[] newGeoChrons = { null, null, null, null, null };
 
-                    if (oldGeoChron is not null)
+                        if (oldGeoChron is not null)
+                        {
+                            switch (oldGeoChron.Type)
+                            {
+                                case GeoChronType.Age: oldGeoChrons[0] = oldGeoChron; break;
+                                case GeoChronType.Epoch: oldGeoChrons[1] = oldGeoChron; break;
+                                case GeoChronType.Period: oldGeoChrons[2] = oldGeoChron; break;
+                                case GeoChronType.Era: oldGeoChrons[3] = oldGeoChron; break;
+                                case GeoChronType.Eon: oldGeoChrons[4] = oldGeoChron; break;
+                            }
+                        }
+
+                        if (newGeoChron is not null)
+                        {
+                            switch (newGeoChron.Type)
+                            {
+                                case GeoChronType.Age: newGeoChrons[0] = newGeoChron; break;
+                                case GeoChronType.Epoch: newGeoChrons[1] = newGeoChron; break;
+                                case GeoChronType.Period: newGeoChrons[2] = newGeoChron; break;
+                                case GeoChronType.Era: newGeoChrons[3] = newGeoChron; break;
+                                case GeoChronType.Eon: newGeoChrons[4] = newGeoChron; break;
+                            }
+                        }
+
+                        for (int i = 1; i < oldGeoChrons.Length; i++)
+                        {
+                            oldGeoChrons[i] ??= oldGeoChrons[i - 1]?.Superior;
+                        }
+
+                        for (int i = 1; i < newGeoChrons.Length; i++)
+                        {
+                            newGeoChrons[i] ??= newGeoChrons[i - 1]?.Superior;
+                        }
+
+                        GeoChron oldPeriod = oldGeoChrons[2];
+                        GeoChron newPeriod = newGeoChrons[2];
+
+                        //
+
+                        if (oldGeoChron is not null && _GeoChronButtons.TryGetValue(oldGeoChron, out button) && button is not null)
+                        {
+                            button.IsChecked = false;
+                        }
+
+                        if (newGeoChron is not null && _GeoChronButtons.TryGetValue(newGeoChron, out button) && button is not null)
+                        {
+                            button.IsChecked = true;
+                        }
+
+                        //
+
+                        for (int i = 0; i < oldGeoChrons.Length; i++)
+                        {
+                            if (oldGeoChrons[i] is not null && oldGeoChrons[i] != oldGeoChron && _GeoChronButtons.TryGetValue(oldGeoChrons[i], out button) && button is not null)
+                            {
+                                button.IsIndirectlyChecked = false;
+                            }
+                        }
+
+                        for (int i = 0; i < newGeoChrons.Length; i++)
+                        {
+                            if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
+                            {
+                                button.IsIndirectlyChecked = true;
+                            }
+                        }
+
+                        //
+
+                        if (oldPeriod is not null && _PeriodElements.TryGetValue(oldPeriod, out elements) && elements is not null)
+                        {
+                            foreach (var element in elements)
+                            {
+                                element.Visibility = Visibility.Collapsed;
+                            }
+                        }
+
+                        if (newPeriod is not null && _PeriodElements.TryGetValue(newPeriod, out elements) && elements is not null)
+                        {
+                            foreach (var element in elements)
+                            {
+                                element.Visibility = Visibility.Visible;
+                            }
+
+                            grid_Periods.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            grid_Periods.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    else if (oldIsTimespan)
+                    {
+                        stackPanel_Timespan.Visibility = Visibility.Collapsed;
+
+                        //
+
+                        foreach (var item in _GeoChronButtons)
+                        {
+                            if (item.Value.IsChecked)
+                            {
+                                item.Value.IsChecked = false;
+                            }
+
+                            if (item.Value.IsIndirectlyChecked)
+                            {
+                                item.Value.IsIndirectlyChecked = false;
+                            }
+                        }
+
+                        foreach (var item in _PeriodElements)
+                        {
+                            foreach (var element in item.Value)
+                            {
+                                element.Visibility = Visibility.Collapsed;
+                            }
+                        }
+
+                        //
+
+                        switch (newGeoChron.Type)
+                        {
+                            case GeoChronType.MaBP:
+                                radioButton_MaBP.IsChecked = true;
+                                stackPanel_MaBP.Visibility = Visibility.Visible;
+
+                                textBox_MaBP.Text = newGeoChron.MaBP.ToString();
+                                textBox_MaBP.Focus();
+                                textBox_MaBP.SelectAll();
+                                break;
+
+                            case GeoChronType.CEYear:
+                                radioButton_CEYear.IsChecked = true;
+                                stackPanel_CEYear.Visibility = Visibility.Visible;
+
+                                BeforeChrist = newGeoChron.CEYear < 0;
+
+                                textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
+                                textBox_CEYear.Focus();
+                                textBox_CEYear.SelectAll();
+                                break;
+
+                            case GeoChronType.Empty:
+                                radioButton_Empty.IsChecked = true;
+                                break;
+                        }
+                    }
+                    else
                     {
                         switch (oldGeoChron.Type)
                         {
-                            case GeoChronType.Age: oldGeoChrons[0] = oldGeoChron; break;
-                            case GeoChronType.Epoch: oldGeoChrons[1] = oldGeoChron; break;
-                            case GeoChronType.Period: oldGeoChrons[2] = oldGeoChron; break;
-                            case GeoChronType.Era: oldGeoChrons[3] = oldGeoChron; break;
-                            case GeoChronType.Eon: oldGeoChrons[4] = oldGeoChron; break;
-                        }
-                    }
+                            case GeoChronType.MaBP:
+                                stackPanel_MaBP.Visibility = Visibility.Collapsed;
+                                break;
 
-                    if (newGeoChron is not null)
-                    {
-                        switch (newGeoChron.Type)
+                            case GeoChronType.CEYear:
+                                stackPanel_CEYear.Visibility = Visibility.Collapsed;
+                                break;
+                        }
+
+                        radioButton_Timespan.IsChecked = true;
+
+                        //
+
+                        GeoChronButton button;
+                        IEnumerable<UIElement> elements;
+
+                        //
+
+                        // [0..4]=[Age..Eon]
+                        GeoChron[] newGeoChrons = { null, null, null, null, null };
+
+                        if (newGeoChron is not null)
                         {
-                            case GeoChronType.Age: newGeoChrons[0] = newGeoChron; break;
-                            case GeoChronType.Epoch: newGeoChrons[1] = newGeoChron; break;
-                            case GeoChronType.Period: newGeoChrons[2] = newGeoChron; break;
-                            case GeoChronType.Era: newGeoChrons[3] = newGeoChron; break;
-                            case GeoChronType.Eon: newGeoChrons[4] = newGeoChron; break;
+                            switch (newGeoChron.Type)
+                            {
+                                case GeoChronType.Age: newGeoChrons[0] = newGeoChron; break;
+                                case GeoChronType.Epoch: newGeoChrons[1] = newGeoChron; break;
+                                case GeoChronType.Period: newGeoChrons[2] = newGeoChron; break;
+                                case GeoChronType.Era: newGeoChrons[3] = newGeoChron; break;
+                                case GeoChronType.Eon: newGeoChrons[4] = newGeoChron; break;
+                            }
                         }
-                    }
 
-                    for (int i = 1; i < oldGeoChrons.Length; i++)
-                    {
-                        oldGeoChrons[i] ??= oldGeoChrons[i - 1]?.Superior;
-                    }
-
-                    for (int i = 1; i < newGeoChrons.Length; i++)
-                    {
-                        newGeoChrons[i] ??= newGeoChrons[i - 1]?.Superior;
-                    }
-
-                    GeoChron oldPeriod = oldGeoChrons[2];
-                    GeoChron newPeriod = newGeoChrons[2];
-
-                    //
-
-                    if (oldGeoChron is not null && _GeoChronButtons.TryGetValue(oldGeoChron, out button) && button is not null)
-                    {
-                        button.IsChecked = false;
-                    }
-
-                    if (newGeoChron is not null && _GeoChronButtons.TryGetValue(newGeoChron, out button) && button is not null)
-                    {
-                        button.IsChecked = true;
-                    }
-
-                    //
-
-                    for (int i = 0; i < oldGeoChrons.Length; i++)
-                    {
-                        if (oldGeoChrons[i] is not null && oldGeoChrons[i] != oldGeoChron && _GeoChronButtons.TryGetValue(oldGeoChrons[i], out button) && button is not null)
+                        for (int i = 1; i < newGeoChrons.Length; i++)
                         {
-                            button.IsIndirectlyChecked = false;
+                            newGeoChrons[i] ??= newGeoChrons[i - 1]?.Superior;
                         }
-                    }
 
-                    for (int i = 0; i < newGeoChrons.Length; i++)
-                    {
-                        if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
+                        GeoChron newPeriod = newGeoChrons[2];
+
+                        //
+
+                        if (newGeoChron is not null && _GeoChronButtons.TryGetValue(newGeoChron, out button) && button is not null)
                         {
-                            button.IsIndirectlyChecked = true;
+                            button.IsChecked = true;
                         }
-                    }
 
-                    //
-
-                    if (oldPeriod is not null && _PeriodElements.TryGetValue(oldPeriod, out elements) && elements is not null)
-                    {
-                        foreach (var element in elements)
+                        for (int i = 0; i < newGeoChrons.Length; i++)
                         {
-                            element.Visibility = Visibility.Collapsed;
+                            if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
+                            {
+                                button.IsIndirectlyChecked = true;
+                            }
                         }
-                    }
 
-                    if (newPeriod is not null && _PeriodElements.TryGetValue(newPeriod, out elements) && elements is not null)
-                    {
-                        foreach (var element in elements)
+                        if (newPeriod is not null && _PeriodElements.TryGetValue(newPeriod, out elements) && elements is not null)
                         {
-                            element.Visibility = Visibility.Visible;
+                            foreach (var element in elements)
+                            {
+                                element.Visibility = Visibility.Visible;
+                            }
+
+                            grid_Periods.Visibility = Visibility.Visible;
                         }
-
-                        grid_Periods.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        grid_Periods.Visibility = Visibility.Collapsed;
-                    }
-                }
-                else if (oldGeoChron.IsTimespan)
-                {
-                    stackPanel_Timespan.Visibility = Visibility.Collapsed;
-
-                    //
-
-                    foreach (var item in _GeoChronButtons)
-                    {
-                        if (item.Value.IsChecked)
+                        else
                         {
-                            item.Value.IsChecked = false;
+                            grid_Periods.Visibility = Visibility.Collapsed;
                         }
 
-                        if (item.Value.IsIndirectlyChecked)
-                        {
-                            item.Value.IsIndirectlyChecked = false;
-                        }
+                        //
+
+                        stackPanel_Timespan.Visibility = Visibility.Visible;
                     }
-
-                    foreach (var item in _PeriodElements)
-                    {
-                        foreach (var element in item.Value)
-                        {
-                            element.Visibility = Visibility.Collapsed;
-                        }
-                    }
-
-                    //
-
-                    switch (newGeoChron.Type)
-                    {
-                        case GeoChronType.MaBP:
-                            radioButton_MaBP.IsChecked = true;
-                            stackPanel_MaBP.Visibility = Visibility.Visible;
-
-                            textBox_MaBP.Text = newGeoChron.MaBP.ToString();
-                            textBox_MaBP.Focus();
-                            textBox_MaBP.SelectAll();
-                            break;
-
-                        case GeoChronType.CEYear:
-                            radioButton_CEYear.IsChecked = true;
-                            stackPanel_CEYear.Visibility = Visibility.Visible;
-
-                            BeforeChrist = newGeoChron.CEYear < 0;
-
-                            textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
-                            textBox_CEYear.Focus();
-                            textBox_CEYear.SelectAll();
-                            break;
-
-                        case GeoChronType.Empty:
-                            radioButton_Empty.IsChecked = true;
-                            break;
-                    }
-                }
-                else if (newGeoChron.IsTimespan)
-                {
-                    switch (oldGeoChron.Type)
-                    {
-                        case GeoChronType.MaBP:
-                            stackPanel_MaBP.Visibility = Visibility.Collapsed;
-                            break;
-
-                        case GeoChronType.CEYear:
-                            stackPanel_CEYear.Visibility = Visibility.Collapsed;
-                            break;
-                    }
-
-                    radioButton_Timespan.IsChecked = true;
-
-                    //
-
-                    GeoChronButton button;
-                    IEnumerable<UIElement> elements;
-
-                    //
-
-                    // [0..4]=[Age..Eon]
-                    GeoChron[] newGeoChrons = { null, null, null, null, null };
-
-                    if (newGeoChron is not null)
-                    {
-                        switch (newGeoChron.Type)
-                        {
-                            case GeoChronType.Age: newGeoChrons[0] = newGeoChron; break;
-                            case GeoChronType.Epoch: newGeoChrons[1] = newGeoChron; break;
-                            case GeoChronType.Period: newGeoChrons[2] = newGeoChron; break;
-                            case GeoChronType.Era: newGeoChrons[3] = newGeoChron; break;
-                            case GeoChronType.Eon: newGeoChrons[4] = newGeoChron; break;
-                        }
-                    }
-
-                    for (int i = 1; i < newGeoChrons.Length; i++)
-                    {
-                        newGeoChrons[i] ??= newGeoChrons[i - 1]?.Superior;
-                    }
-
-                    GeoChron newPeriod = newGeoChrons[2];
-
-                    //
-
-                    if (newGeoChron is not null && _GeoChronButtons.TryGetValue(newGeoChron, out button) && button is not null)
-                    {
-                        button.IsChecked = true;
-                    }
-
-                    for (int i = 0; i < newGeoChrons.Length; i++)
-                    {
-                        if (newGeoChrons[i] is not null && newGeoChrons[i] != newGeoChron && _GeoChronButtons.TryGetValue(newGeoChrons[i], out button) && button is not null)
-                        {
-                            button.IsIndirectlyChecked = true;
-                        }
-                    }
-
-                    if (newPeriod is not null && _PeriodElements.TryGetValue(newPeriod, out elements) && elements is not null)
-                    {
-                        foreach (var element in elements)
-                        {
-                            element.Visibility = Visibility.Visible;
-                        }
-
-                        grid_Periods.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        grid_Periods.Visibility = Visibility.Collapsed;
-                    }
-
-                    //
-
-                    stackPanel_Timespan.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    switch (oldGeoChron.Type)
+                    if (oldGeoChron.Type != newGeoChron.Type)
                     {
-                        case GeoChronType.MaBP:
-                            stackPanel_MaBP.Visibility = Visibility.Collapsed;
-                            break;
+                        switch (oldGeoChron.Type)
+                        {
+                            case GeoChronType.MaBP:
+                                stackPanel_MaBP.Visibility = Visibility.Collapsed;
+                                break;
 
-                        case GeoChronType.CEYear:
-                            stackPanel_CEYear.Visibility = Visibility.Collapsed;
-                            break;
-                    }
+                            case GeoChronType.CEYear:
+                                stackPanel_CEYear.Visibility = Visibility.Collapsed;
+                                break;
+                        }
 
-                    switch (newGeoChron.Type)
-                    {
-                        case GeoChronType.MaBP:
-                            radioButton_MaBP.IsChecked = true;
-                            stackPanel_MaBP.Visibility = Visibility.Visible;
+                        switch (newGeoChron.Type)
+                        {
+                            case GeoChronType.MaBP:
+                                radioButton_MaBP.IsChecked = true;
+                                stackPanel_MaBP.Visibility = Visibility.Visible;
 
-                            textBox_MaBP.Text = newGeoChron.MaBP.ToString();
-                            textBox_MaBP.Focus();
-                            textBox_MaBP.SelectAll();
-                            break;
+                                textBox_MaBP.Text = newGeoChron.MaBP.ToString();
+                                textBox_MaBP.Focus();
+                                textBox_MaBP.SelectAll();
+                                break;
 
-                        case GeoChronType.CEYear:
-                            radioButton_CEYear.IsChecked = true;
-                            stackPanel_CEYear.Visibility = Visibility.Visible;
+                            case GeoChronType.CEYear:
+                                radioButton_CEYear.IsChecked = true;
+                                stackPanel_CEYear.Visibility = Visibility.Visible;
 
-                            BeforeChrist = newGeoChron.CEYear < 0;
+                                BeforeChrist = newGeoChron.CEYear < 0;
 
-                            textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
-                            textBox_CEYear.Focus();
-                            textBox_CEYear.SelectAll();
-                            break;
+                                textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
+                                textBox_CEYear.Focus();
+                                textBox_CEYear.SelectAll();
+                                break;
 
-                        case GeoChronType.Empty:
-                            radioButton_Empty.IsChecked = true;
-                            break;
+                            case GeoChronType.Empty:
+                                radioButton_Empty.IsChecked = true;
+                                break;
+                        }
                     }
                 }
             }
