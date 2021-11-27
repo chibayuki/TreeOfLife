@@ -1022,6 +1022,8 @@ namespace TreeOfLife.UI.Views
                             _UpdateChildrenWithVisibility();
                         }
 
+                        taxonTitle.SyncTaxonUpdation();
+                        _UpdateExcludesWithVisibility();
                         _UpdateWarningMessage();
                     }
                     break;
