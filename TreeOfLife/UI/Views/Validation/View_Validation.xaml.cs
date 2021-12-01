@@ -46,7 +46,7 @@ namespace TreeOfLife.UI.Views
             {
                 if (this.IsVisible)
                 {
-                    _TrimValidationResult();
+                    _TrimAndSync();
                 }
             };
 
@@ -149,8 +149,8 @@ namespace TreeOfLife.UI.Views
             _UpdateVisibility();
         }
 
-        // 裁剪检查结果，去除已被删除的类群。
-        private void _TrimValidationResult()
+        // 去除已被删除的类群，同步类群更新。
+        private void _TrimAndSync()
         {
             if (_ValidateResult.Count > 0)
             {
@@ -168,6 +168,10 @@ namespace TreeOfLife.UI.Views
 
                             result.TaxonButtonGroup.Clear();
                         }
+                    }
+                    else
+                    {
+                        result.TaxonButtonGroup.SyncTaxonUpdation();
                     }
                 }
 

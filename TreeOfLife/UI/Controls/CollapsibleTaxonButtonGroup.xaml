@@ -36,7 +36,7 @@ This file is part of TreeOfLife
                     </Button>
                 </StackPanel>
             </Grid>
-            <local:TaxonButtonGroup x:Name="taxonNameButtonGroup" Margin="0,10,0,0"/>
+            <local:TaxonButtonGroup x:Name="taxonButtonGroup" Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

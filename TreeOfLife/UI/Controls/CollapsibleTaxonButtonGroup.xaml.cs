@@ -43,19 +43,19 @@ namespace TreeOfLife.UI.Controls
                 button_Expand.Visibility = Visibility.Collapsed;
                 button_Collapse.Visibility = Visibility.Visible;
 
-                if (taxonNameButtonGroup.GetGroupCount() <= 0 && _TaxonItems.Count > 0)
+                if (taxonButtonGroup.GetGroupCount() <= 0 && _TaxonItems.Count > 0)
                 {
-                    taxonNameButtonGroup.UpdateContent(_TaxonItems);
+                    taxonButtonGroup.UpdateContent(_TaxonItems);
                 }
 
-                taxonNameButtonGroup.Visibility = Visibility.Visible;
+                taxonButtonGroup.Visibility = Visibility.Visible;
             }
             else
             {
                 button_Expand.Visibility = Visibility.Visible;
                 button_Collapse.Visibility = Visibility.Collapsed;
 
-                taxonNameButtonGroup.Visibility = Visibility.Collapsed;
+                taxonButtonGroup.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -87,8 +87,8 @@ namespace TreeOfLife.UI.Controls
 
         public bool IsDarkTheme
         {
-            get => taxonNameButtonGroup.IsDarkTheme;
-            set => taxonNameButtonGroup.IsDarkTheme = value;
+            get => taxonButtonGroup.IsDarkTheme;
+            set => taxonButtonGroup.IsDarkTheme = value;
         }
 
         public string Title
@@ -127,7 +127,7 @@ namespace TreeOfLife.UI.Controls
 
             _UpdateTitle();
 
-            taxonNameButtonGroup.Clear();
+            taxonButtonGroup.Clear();
         }
 
         public void UpdateContent(IEnumerable<TaxonItem> items)
@@ -140,22 +140,24 @@ namespace TreeOfLife.UI.Controls
 
             if (_Expanded)
             {
-                taxonNameButtonGroup.UpdateContent(_TaxonItems);
+                taxonButtonGroup.UpdateContent(_TaxonItems);
             }
         }
+
+        public void SyncTaxonUpdation() => taxonButtonGroup.SyncTaxonUpdation();
 
         //
 
         public event EventHandler<TaxonButton> MouseLeftButtonClick
         {
-            add => taxonNameButtonGroup.MouseLeftButtonClick += value;
-            remove => taxonNameButtonGroup.MouseLeftButtonClick -= value;
+            add => taxonButtonGroup.MouseLeftButtonClick += value;
+            remove => taxonButtonGroup.MouseLeftButtonClick -= value;
         }
 
         public event EventHandler<TaxonButton> MouseRightButtonClick
         {
-            add => taxonNameButtonGroup.MouseRightButtonClick += value;
-            remove => taxonNameButtonGroup.MouseRightButtonClick -= value;
+            add => taxonButtonGroup.MouseRightButtonClick += value;
+            remove => taxonButtonGroup.MouseRightButtonClick -= value;
         }
     }
 }

@@ -48,6 +48,8 @@ namespace TreeOfLife.UI.Controls
         private Taxon _Taxon = null; // 类群。
         private bool _IsRef = false; // 是否为引用，false：单系群继承关系的类群，true：并系群排除的类群或复系群包含的类群。
 
+        private void _UpdateIsUndet() => grid_Undet.Visibility = !_IsRef && _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+
         private void _UpdateTaxon()
         {
             if (_Taxon is not null)
@@ -105,14 +107,20 @@ namespace TreeOfLife.UI.Controls
 
                 //
 
-                grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+                _UpdateIsUndet();
+
                 grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
                 grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
                 grid_Polyphyly.Visibility = _Taxon.IsNamed && _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
-        private void _UpdateIsRef() => grid_Ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
+        private void _UpdateIsRef()
+        {
+            _UpdateIsUndet();
+
+            grid_Ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         private double _RankNameWidth = 50; // 分类阶元名称宽度。
 
