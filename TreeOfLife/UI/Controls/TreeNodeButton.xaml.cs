@@ -50,7 +50,7 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateIsUndet()
         {
-            if (!_IsRef && _Taxon.IsUndet)
+            if (_Taxon.IsNamed && (_IsRef || _Taxon.IsUndet))
             {
                 grid_Single_Det.Visibility = grid_First_Det.Visibility = grid_Last_Det.Visibility = grid_Normal_Det.Visibility = Visibility.Collapsed;
                 grid_Single_Undet.Visibility = grid_First_Undet.Visibility = grid_Last_Undet.Visibility = grid_Normal_Undet.Visibility = Visibility.Visible;
