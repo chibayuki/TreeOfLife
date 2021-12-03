@@ -257,16 +257,8 @@ namespace TreeOfLife.UI.Views
             {
                 if (File.Exists(Entrance.FileName))
                 {
-                    if (Entrance.IsLatestVersion)
-                    {
-                        // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
-                        result = true;
-                    }
-                    // 如果文件版本不是最新，那么重新保存
-                    else
-                    {
-                        result = await AsyncMethod.SaveAsync();
-                    }
+                    // 当且仅当已经保存且文件存在，才认为不需要（重新）保存且保存成功
+                    result = true;
                 }
                 // 如果文件已经保存，但不存在（被删除/移动存储介质弹出），那么重新保存
                 else
@@ -317,16 +309,8 @@ namespace TreeOfLife.UI.Views
             {
                 if (File.Exists(Entrance.FileName))
                 {
-                    if (Entrance.IsLatestVersion)
-                    {
-                        // 当且仅当（1）已经保存、（2）文件存在、（3）版本最新，才认为不需要（重新）保存且保存成功
-                        result = true;
-                    }
-                    // 如果文件版本不是最新，那么重新保存
-                    else
-                    {
-                        result = Entrance.Save();
-                    }
+                    // 当且仅当已经保存且文件存在，才认为不需要（重新）保存且保存成功
+                    result = true;
                 }
                 // 如果文件已经保存，但不存在（被删除/移动存储介质弹出），那么重新保存
                 else
