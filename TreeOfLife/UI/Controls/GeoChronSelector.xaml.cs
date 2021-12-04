@@ -827,7 +827,22 @@ namespace TreeOfLife.UI.Controls
                 }
                 else
                 {
-                    if (oldGeoChron.Type != newGeoChron.Type)
+                    if (oldGeoChron.Type == newGeoChron.Type)
+                    {
+                        switch (newGeoChron.Type)
+                        {
+                            case GeoChronType.MaBP:
+                                textBox_MaBP.Text = newGeoChron.MaBP.ToString();
+                                break;
+
+                            case GeoChronType.CEYear:
+                                BeforeChrist = newGeoChron.CEYear < 0;
+
+                                textBox_CEYear.Text = Math.Abs(newGeoChron.CEYear.Value).ToString();
+                                break;
+                        }
+                    }
+                    else
                     {
                         switch (oldGeoChron.Type)
                         {
