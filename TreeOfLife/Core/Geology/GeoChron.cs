@@ -244,14 +244,14 @@ namespace TreeOfLife.Core.Geology
                                     BuildSubordinate((int)Age.Asselian, 293.52),
                                     BuildSubordinate((int)Age.Sakmarian, 290.1),
                                     BuildSubordinate((int)Age.Artinskian, 283.5),
-                                    BuildSubordinate((int)Age.Kungurian, 272.95)
+                                    BuildSubordinate((int)Age.Kungurian, 273.01)
                                 }),
                                 // 瓜德鲁普世
                                 BuildSuperior((int)Epoch.Guadalupian, new GeoChron[]
                                 {
-                                    BuildSubordinate((int)Age.Roadian, 268.8),
-                                    BuildSubordinate((int)Age.Wordian, 265.1),
-                                    BuildSubordinate((int)Age.Capitanian, 259.1)
+                                    BuildSubordinate((int)Age.Roadian, 266.9),
+                                    BuildSubordinate((int)Age.Wordian, 264.28),
+                                    BuildSubordinate((int)Age.Capitanian, 259.51)
                                 }),
                                 // 乐平世
                                 BuildSuperior((int)Epoch.Lopingian, new GeoChron[]
