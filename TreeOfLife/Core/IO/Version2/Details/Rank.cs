@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace TreeOfLife.Core.IO.Version2.Details
 {
-    // 生物分类阶元。
+    // 生物分类阶元（Version 1）。
     public enum Rank
     {
         Unranked = 0, // 未指定。

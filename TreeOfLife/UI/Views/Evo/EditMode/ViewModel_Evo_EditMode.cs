@@ -23,7 +23,7 @@ namespace TreeOfLife.UI.Views
     public sealed class ViewModel_Evo_EditMode : ViewModel
     {
         private string _Name;
-        private string _ChsName;
+        private string _ChName;
 
         private Rank _Rank;
 
@@ -70,19 +70,19 @@ namespace TreeOfLife.UI.Views
             }
         }
 
-        public string ChsName
+        public string ChName
         {
-            get => _ChsName;
+            get => _ChName;
 
             set
             {
-                _ChsName = value;
+                _ChName = value;
 
                 //
 
                 if (_LoadingFromTaxon)
                 {
-                    NotifyPropertyChanged(nameof(ChsName));
+                    NotifyPropertyChanged(nameof(ChName));
                 }
                 else
                 {
@@ -90,7 +90,7 @@ namespace TreeOfLife.UI.Views
 
                     if (!currentTaxon.IsRoot)
                     {
-                        currentTaxon.ChineseName = _ChsName.Trim();
+                        currentTaxon.ChineseName = _ChName.Trim();
 
                         // 如果当前操作使类群变为匿名类群/不再为匿名类群，需要更新其分级为未指定/UI设置的分级
                         currentTaxon.Rank = currentTaxon.IsAnonymous ? Rank.Unranked : _Rank;
@@ -363,7 +363,7 @@ namespace TreeOfLife.UI.Views
             Taxon currentTaxon = Common.CurrentTaxon;
 
             Name = currentTaxon.ScientificName;
-            ChsName = currentTaxon.ChineseName;
+            ChName = currentTaxon.ChineseName;
 
             Rank = currentTaxon.Rank;
 

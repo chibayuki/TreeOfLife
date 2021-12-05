@@ -50,7 +50,7 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
         public static bool IsClade(this Rank rank) => rank == Rank.Clade;
 
-        public static bool IsSecondaryRank(this Rank rank) => rank >= Rank.Strain && rank <= Rank.Supertribe;
+        public static bool IsSecondaryRank(this Rank rank) => rank >= Rank.Strain && rank <= Rank.Tribe;
 
         public static bool IsBasicSecondaryRank(this Rank rank) => rank is Rank.Strain or Rank.Form or Rank.Series or Rank.Division or Rank.Section or Rank.Cohort or Rank.Tribe;
 
@@ -60,25 +60,25 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
 
         public static bool IsSeries(this Rank rank) => rank >= Rank.Subseries && rank <= Rank.Series;
 
-        public static bool IsDivision(this Rank rank) => rank >= Rank.Infradivision && rank <= Rank.Superdivision;
+        public static bool IsDivision(this Rank rank) => rank >= Rank.Subdivision && rank <= Rank.Division;
 
-        public static bool IsSection(this Rank rank) => rank >= Rank.Infrasection && rank <= Rank.Supersection;
+        public static bool IsSection(this Rank rank) => rank >= Rank.Subsection && rank <= Rank.Section;
 
         public static bool IsCohort(this Rank rank) => rank >= Rank.Infracohort && rank <= Rank.Megacohort;
 
-        public static bool IsTribe(this Rank rank) => rank >= Rank.Infratribe && rank <= Rank.Supertribe;
+        public static bool IsTribe(this Rank rank) => rank >= Rank.Subtribe && rank <= Rank.Tribe;
 
         public static bool IsPrimaryRank(this Rank rank) => rank >= Rank.Subvariety && rank <= Rank.Superdomain;
 
         public static bool IsBasicPrimaryRank(this Rank rank) => rank is Rank.Species or Rank.Genus or Rank.Family or Rank.Order or Rank.Class or Rank.Phylum or Rank.Kingdom or Rank.Domain;
 
-        public static bool IsSpecies(this Rank rank) => rank >= Rank.Subvariety && rank <= Rank.Superspecies;
+        public static bool IsSpecies(this Rank rank) => rank >= Rank.Subvariety && rank <= Rank.Species;
 
-        public static bool IsGenus(this Rank rank) => rank >= Rank.Infragenus && rank <= Rank.Genus;
+        public static bool IsGenus(this Rank rank) => rank >= Rank.Subgenus && rank <= Rank.Genus;
 
-        public static bool IsFamily(this Rank rank) => rank >= Rank.Infrafamily && rank <= Rank.Gigafamily;
+        public static bool IsFamily(this Rank rank) => rank >= Rank.Subfamily && rank <= Rank.Superfamily;
 
-        public static bool IsOrder(this Rank rank) => rank >= Rank.Parvorder && rank <= Rank.Gigaorder;
+        public static bool IsOrder(this Rank rank) => rank >= Rank.Parvorder && rank <= Rank.Megaorder;
 
         public static bool IsClass(this Rank rank) => rank >= Rank.Parvclass && rank <= Rank.Megaclass;
 

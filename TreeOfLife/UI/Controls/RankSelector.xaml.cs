@@ -116,41 +116,27 @@ namespace TreeOfLife.UI.Controls
                 (Rank.Class, new Rank[] {
                     Rank.Megaclass,
                     Rank.Superclass,
-                    Rank.Grandclass,
-                    Rank.Hyperclass,
                     Rank.Class,
                     Rank.Subclass,
                     Rank.Infraclass,
                     Rank.Parvclass }),
                 (Rank.Order, new Rank[] {
-                    Rank.Gigaorder,
                     Rank.Megaorder,
                     Rank.Superorder,
                     Rank.Grandorder,
-                    Rank.Hyperorder,
+                    Rank.Mirorder,
                     Rank.Order,
-                    Rank.Nanorder,
-                    Rank.Hypoorder,
-                    Rank.Minorder,
                     Rank.Suborder,
                     Rank.Infraorder,
                     Rank.Parvorder }),
                 (Rank.Family, new Rank[] {
-                    Rank.Gigafamily,
-                    Rank.Megafamily,
                     Rank.Superfamily,
-                    Rank.Grandfamily,
-                    Rank.Hyperfamily,
-                    Rank.Epifamily,
                     Rank.Family,
-                    Rank.Subfamily,
-                    Rank.Infrafamily }),
+                    Rank.Subfamily }),
                 (Rank.Genus, new Rank[] {
                     Rank.Genus,
-                    Rank.Subgenus,
-                    Rank.Infragenus }),
+                    Rank.Subgenus }),
                 (Rank.Species, new Rank[] {
-                    Rank.Superspecies,
                     Rank.Species,
                     Rank.Subspecies,
                     Rank.Variety,
@@ -162,10 +148,8 @@ namespace TreeOfLife.UI.Controls
 
             foreach (var (basicRank, Ranks) in new[] {
                 (Rank.Tribe, new Rank[] {
-                    Rank.Supertribe,
                     Rank.Tribe,
-                    Rank.Subtribe,
-                    Rank.Infratribe }),
+                    Rank.Subtribe }),
                 (Rank.Cohort, new Rank[] {
                     Rank.Megacohort,
                     Rank.Supercohort,
@@ -173,15 +157,11 @@ namespace TreeOfLife.UI.Controls
                     Rank.Subcohort,
                     Rank.Infracohort }),
                 (Rank.Section, new Rank[] {
-                    Rank.Supersection,
                     Rank.Section,
-                    Rank.Subsection,
-                    Rank.Infrasection }),
+                    Rank.Subsection }),
                 (Rank.Division, new Rank[] {
-                    Rank.Superdivision,
                     Rank.Division,
-                    Rank.Subdivision,
-                    Rank.Infradivision }),
+                    Rank.Subdivision }),
                 (Rank.Series, new Rank[] {
                     Rank.Series,
                     Rank.Subseries }),

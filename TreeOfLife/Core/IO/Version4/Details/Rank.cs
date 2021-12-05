@@ -13,9 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeOfLife.Core.IO.Version3.Details
+namespace TreeOfLife.Core.IO.Version4.Details
 {
-    // 生物分类阶元（Version 1）。
+    // 生物分类阶元（Version 2）。
     public enum Rank
     {
         Unranked = 0, // 未指定。
@@ -32,15 +32,11 @@ namespace TreeOfLife.Core.IO.Version3.Details
         Subseries = 8, // 亚系。
         Series, // 系。
 
-        Infradivision = 16, // 下类。
-        Subdivision, // 亚类。
+        Subdivision = 16, // 亚类。
         Division, // 类。
-        Superdivision, // 总类。
 
-        Infrasection = 32, // 下派。
-        Subsection, // 亚派/亚组/亚节。
+        Subsection = 32, // 亚派/亚组/亚节。
         Section, // 派/组/节。
-        Supersection, // 总派。
 
         Infracohort = 64, // 下群。
         Subcohort, // 亚群。
@@ -48,10 +44,8 @@ namespace TreeOfLife.Core.IO.Version3.Details
         Supercohort, // 总群。
         Megacohort, // 高群。
 
-        Infratribe = 128, // 下族。
-        Subtribe, // 亚族。
+        Subtribe = 128, // 亚族。
         Tribe, // 族。
-        Supertribe, // 总族/超族。
 
         // 主要分类阶元：
 
@@ -59,41 +53,27 @@ namespace TreeOfLife.Core.IO.Version3.Details
         Variety, // 变种。
         Subspecies, // 亚种。
         Species, // 种。
-        Superspecies, // 种团。
 
-        Infragenus = 512, // 下属。
-        Subgenus, // 亚属。
+        Subgenus = 512, // 亚属。
         Genus, // 属。
 
-        Infrafamily = 1024, // 下科。
-        Subfamily, // 亚科。
+        Subfamily = 1024, // 亚科。
         Family, // 科。
-        Epifamily, // 领科。
-        Hyperfamily, // 上科。
-        Grandfamily, // 大科。
         Superfamily, // 总科/超科。
-        Megafamily, // 高科。
-        Gigafamily, // 宏科。
 
         Parvorder = 2048, // 小目。
         Infraorder, // 下目。
         Suborder, // 亚目。
-        Minorder, // 若目。
-        Hypoorder, // 次目。
-        Nanorder, // 从目。
         Order, // 目。
-        Hyperorder, // 上目。
+        Mirorder, // 上目。
         Grandorder, // 大目。
         Superorder, // 总目/超目。
         Megaorder, // 高目。
-        Gigaorder, // 宏目。
 
         Parvclass = 4096, // 小纲。
         Infraclass, // 下纲。
         Subclass, // 亚纲。
         Class, // 纲。
-        Hyperclass, // 上纲。
-        Grandclass, // 大纲。
         Superclass, // 总纲/超纲。
         Megaclass, // 高纲。
 

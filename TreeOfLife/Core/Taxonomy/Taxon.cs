@@ -333,7 +333,7 @@ namespace TreeOfLife.Core.Taxonomy
             {
                 // 变更继承关系后，任何并系群不能出现（参见 CanAddExclude）：
                 // （4） 排除不继承自身的类群
-                //    -> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群不继承任一并系群
+                //    --> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群不继承任一并系群
                 foreach (var excludeBy in _ExcludeBy)
                 {
                     if (!taxon.InheritFrom(excludeBy))
@@ -343,7 +343,7 @@ namespace TreeOfLife.Core.Taxonomy
                 }
 
                 // （5） 排除与已排除的类群具有继承关系的类群
-                //    -> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群（或其父类群）也被任一并系群排除
+                //    --> 意味着：该类群被并系群排除，试图继承一个类群，但试图继承的类群（或其父类群）也被任一并系群排除
                 foreach (var excludeBy in _ExcludeBy)
                 {
                     foreach (var exclude in excludeBy._Excludes)
@@ -357,14 +357,14 @@ namespace TreeOfLife.Core.Taxonomy
 
                 // 任何复系群不能出现（参见 CanAddInclude）：
                 // （6） 包含继承自身的类群
-                //    -> 意味着：试图继承一个复系群，但该类群已经被该复系群包含
+                //    --> 意味着：试图继承一个复系群，但该类群已经被该复系群包含
                 if (taxon._Includes.Contains(this))
                 {
                     return false;
                 }
 
                 // （7） 包含不继承自身父类群的类群
-                //    -> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群不继承任一复系群的父类群
+                //    --> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群不继承任一复系群的父类群
                 foreach (var includeBy in _IncludeBy)
                 {
                     if (!taxon.InheritFrom(includeBy._Parent))
@@ -374,7 +374,7 @@ namespace TreeOfLife.Core.Taxonomy
                 }
 
                 // （8） 包含与已包含的类群具有继承关系的类群
-                //    -> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群（或其父类群）也被任一复系群包含
+                //    --> 意味着：该类群被复系群包含，试图继承一个类群，但试图继承的类群（或其父类群）也被任一复系群包含
                 foreach (var includeBy in _IncludeBy)
                 {
                     foreach (var include in includeBy._Includes)

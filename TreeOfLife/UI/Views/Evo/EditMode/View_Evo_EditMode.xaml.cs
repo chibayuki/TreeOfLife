@@ -60,7 +60,7 @@ namespace TreeOfLife.UI.Views
                 (_ContextMenu_Current.DataContext as Action)?.Invoke();
             };
 
-            button_Rename.Click += (s, e) => textBox_ChsName.Text = _ChsRename;
+            button_Rename.Click += (s, e) => textBox_ChName.Text = _ChsRename;
             button_Rerank.Click += (s, e) => rankSelector.Rank = _Rerank;
 
             button_AddParentUplevel.Click += Button_AddParentUplevel_Click;
@@ -701,25 +701,25 @@ namespace TreeOfLife.UI.Views
             {
                 if (!ChineseSuffixValidator.Instance.IsValid(currentTaxon))
                 {
-                    (string chsNameWithoutRank, _, Rank? rank) = RankChineseExtension.SplitChineseName(ViewModel.ChsName);
+                    (string chNameWithoutRank, _, Rank? rank) = RankChineseExtension.SplitChineseName(ViewModel.ChName);
 
                     _Rerank = rank ?? Rank.Unranked;
 
                     if (ViewModel.Rank.IsUnranked())
                     {
-                        _ChsRename = chsNameWithoutRank;
+                        _ChsRename = chNameWithoutRank;
                     }
                     else if (ViewModel.Rank.IsClade())
                     {
-                        _ChsRename = chsNameWithoutRank + "类";
+                        _ChsRename = chNameWithoutRank + "类";
                     }
                     else if (ViewModel.Rank.IsSpecies())
                     {
-                        _ChsRename = chsNameWithoutRank;
+                        _ChsRename = chNameWithoutRank;
                     }
                     else
                     {
-                        _ChsRename = chsNameWithoutRank + ViewModel.Rank.GetChineseName();
+                        _ChsRename = chNameWithoutRank + ViewModel.Rank.GetChineseName();
                     }
 
                     label_Rename.Content = _ChsRename;

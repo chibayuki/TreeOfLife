@@ -317,10 +317,10 @@ namespace TreeOfLife.Core.Search.Extensions
                     {
                         if (!string.IsNullOrEmpty(taxon.ChineseName))
                         {
-                            string chsNameWithoutRank = _GetChineseNameWithoutRank(taxon);
+                            string chNameWithoutRank = _GetChineseNameWithoutRank(taxon);
                             string keyWordWithoutRank = taxon.Rank.IsClade() ? _KeyWordWithoutRankAsClade : _KeyWordWithoutRank;
 
-                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutRank, chsNameWithoutRank);
+                            (result.MatchValue, result.MatchLength) = _GetMatchValueOfTwoString(keyWordWithoutRank, chNameWithoutRank);
                             result.MatchObject = _MatchObject.ChineseNameWithoutRank;
                         }
                     }

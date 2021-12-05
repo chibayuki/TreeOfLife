@@ -18,7 +18,7 @@ using System.Text.Json.Serialization;
 using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Taxonomy;
 
-namespace TreeOfLife.Core.IO.Version3.Details
+namespace TreeOfLife.Core.IO.Version4.Details
 {
     // 系统发生树展开的表示演化关系的原子数据结构，表示一个类群。
     public sealed class EvoAtom
@@ -70,7 +70,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
                 Taxonomy.Rank.Infraorder => Rank.Infraorder,
                 Taxonomy.Rank.Suborder => Rank.Suborder,
                 Taxonomy.Rank.Order => Rank.Order,
-                Taxonomy.Rank.Mirorder => Rank.Hyperorder,
+                Taxonomy.Rank.Mirorder => Rank.Mirorder,
                 Taxonomy.Rank.Grandorder => Rank.Grandorder,
                 Taxonomy.Rank.Superorder => Rank.Superorder,
                 Taxonomy.Rank.Megaorder => Rank.Megaorder,
@@ -147,7 +147,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
                 Rank.Infraorder => Taxonomy.Rank.Infraorder,
                 Rank.Suborder => Taxonomy.Rank.Suborder,
                 Rank.Order => Taxonomy.Rank.Order,
-                Rank.Hyperorder => Taxonomy.Rank.Mirorder,
+                Rank.Mirorder => Taxonomy.Rank.Mirorder,
                 Rank.Grandorder => Taxonomy.Rank.Grandorder,
                 Rank.Superorder => Taxonomy.Rank.Superorder,
                 Rank.Megaorder => Taxonomy.Rank.Megaorder,
@@ -213,7 +213,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
             set => _ScientificName = value;
         }
 
-        [JsonPropertyName("ChsName")]
+        [JsonPropertyName("ChName")]
         public string ChineseName
         {
             get => _ChineseName;
@@ -255,7 +255,7 @@ namespace TreeOfLife.Core.IO.Version3.Details
             set => _IsExtinct = Convert.ToBoolean(value);
         }
 
-        [JsonPropertyName("Unsure")]
+        [JsonPropertyName("Undet")]
         public int IsUndet
         {
             get => Convert.ToInt32(_IsUndet);

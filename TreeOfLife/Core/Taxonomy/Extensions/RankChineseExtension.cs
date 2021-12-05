@@ -36,15 +36,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             public const string Subseries = "亚系";
             public const string Series = "系";
 
-            public const string Infrasection = "下派";
-            public const string Subsection = "亚派";
-            public const string Section = "派";
-            public const string Supersection = "总派";
-
-            public const string Infradivision = "下类";
             public const string Subdivision = "亚类";
             public const string Division = "类";
-            public const string Superdivision = "总类";
+
+            public const string Subsection = "亚派";
+            public const string Section = "派";
 
             public const string Infracohort = "下群";
             public const string Subcohort = "亚群";
@@ -52,50 +48,34 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             public const string Supercohort = "总群";
             public const string Megacohort = "高群";
 
-            public const string Infratribe = "下族";
             public const string Subtribe = "亚族";
             public const string Tribe = "族";
-            public const string Supertribe = "总族";
 
             public const string Subvariety = "亚变种";
             public const string Variety = "变种";
             public const string Subspecies = "亚种";
             public const string Species = "种";
-            public const string Superspecies = "种团";
 
-            public const string Infragenus = "下属";
             public const string Subgenus = "亚属";
             public const string Genus = "属";
 
-            public const string Infrafamily = "下科";
             public const string Subfamily = "亚科";
             public const string Family = "科";
-            public const string Epifamily = "领科";
-            public const string Hyperfamily = "上科";
-            public const string Grandfamily = "大科";
             public const string Superfamily = "总科";
-            public const string Megafamily = "高科";
-            public const string Gigafamily = "宏科";
 
             public const string Parvorder = "小目";
             public const string Infraorder = "下目";
             public const string Suborder = "亚目";
-            public const string Minorder = "若目";
-            public const string Hypoorder = "次目";
-            public const string Nanorder = "从目";
             public const string Order = "目";
-            public const string Hyperorder = "上目";
+            public const string Mirorder = "上目";
             public const string Grandorder = "大目";
             public const string Superorder = "总目";
             public const string Megaorder = "高目";
-            public const string Gigaorder = "宏目";
 
             public const string Parvclass = "小纲";
             public const string Infraclass = "下纲";
             public const string Subclass = "亚纲";
             public const string Class = "纲";
-            public const string Hyperclass = "上纲";
-            public const string Grandclass = "大纲";
             public const string Superclass = "总纲";
             public const string Megaclass = "高纲";
 
@@ -105,10 +85,10 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             public const string Phylum = "门";
             public const string Superphylum = "总门";
 
-            public const string Kingdom = "界";
-            public const string Superkingdom = "总界";
             public const string Infrakingdom = "下界";
             public const string Subkingdom = "亚界";
+            public const string Kingdom = "界";
+            public const string Superkingdom = "总界";
 
             public const string Domain = "域";
             public const string Superdomain = "总域";
@@ -130,15 +110,11 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             { Rank.Subseries, _Names.Subseries },
             { Rank.Series, _Names.Series },
 
-            { Rank.Infradivision, _Names.Infradivision },
             { Rank.Subdivision, _Names.Subdivision },
             { Rank.Division, _Names.Division },
-            { Rank.Superdivision, _Names.Superdivision },
 
-            { Rank.Infrasection, _Names.Infrasection },
             { Rank.Subsection, _Names.Subsection },
             { Rank.Section, _Names.Section },
-            { Rank.Supersection, _Names.Supersection },
 
             { Rank.Infracohort, _Names.Infracohort },
             { Rank.Subcohort, _Names.Subcohort },
@@ -146,50 +122,34 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             { Rank.Supercohort, _Names.Supercohort },
             { Rank.Megacohort, _Names.Megacohort },
 
-            { Rank.Infratribe, _Names.Infratribe },
             { Rank.Subtribe, _Names.Subtribe },
             { Rank.Tribe, _Names.Tribe },
-            { Rank.Supertribe, _Names.Supertribe },
 
             { Rank.Subvariety, _Names.Subvariety },
             { Rank.Variety, _Names.Variety },
             { Rank.Subspecies, _Names.Subspecies },
             { Rank.Species, _Names.Species },
-            { Rank.Superspecies, _Names.Superspecies },
 
-            { Rank.Infragenus, _Names.Infragenus },
             { Rank.Subgenus, _Names.Subgenus },
             { Rank.Genus, _Names.Genus },
 
-            { Rank.Infrafamily, _Names.Infrafamily },
             { Rank.Subfamily, _Names.Subfamily },
             { Rank.Family, _Names.Family },
-            { Rank.Epifamily, _Names.Epifamily },
-            { Rank.Hyperfamily, _Names.Hyperfamily },
-            { Rank.Grandfamily, _Names.Grandfamily },
             { Rank.Superfamily, _Names.Superfamily },
-            { Rank.Megafamily, _Names.Megafamily },
-            { Rank.Gigafamily, _Names.Gigafamily },
 
             { Rank.Parvorder, _Names.Parvorder },
             { Rank.Infraorder, _Names.Infraorder },
             { Rank.Suborder, _Names.Suborder },
-            { Rank.Minorder, _Names.Minorder },
-            { Rank.Hypoorder, _Names.Hypoorder },
-            { Rank.Nanorder, _Names.Nanorder },
             { Rank.Order, _Names.Order },
-            { Rank.Hyperorder, _Names.Hyperorder },
+            { Rank.Mirorder, _Names.Mirorder },
             { Rank.Grandorder, _Names.Grandorder },
             { Rank.Superorder, _Names.Superorder },
             { Rank.Megaorder, _Names.Megaorder },
-            { Rank.Gigaorder, _Names.Gigaorder },
 
             { Rank.Parvclass, _Names.Parvclass },
             { Rank.Infraclass, _Names.Infraclass },
             { Rank.Subclass, _Names.Subclass },
             { Rank.Class, _Names.Class },
-            { Rank.Hyperclass, _Names.Hyperclass },
-            { Rank.Grandclass, _Names.Grandclass },
             { Rank.Superclass, _Names.Superclass },
             { Rank.Megaclass, _Names.Megaclass },
 
@@ -239,20 +199,16 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             { _Names.Subseries, Rank.Subseries },
             { _Names.Series, Rank.Series },
 
-            { _Names.Infrasection, Rank.Infrasection },
+            { _Names.Subdivision, Rank.Subdivision },
+            { _Names.Division,  Rank.Division },
+            // { "类", TaxonomicRank.Clade }, // "类"虽然一般指演化支，但将其匹配为演化支会导致检索问题，仅在有匹配为演化支的需求处做特殊处理即可
+
             { _Names.Subsection, Rank.Subsection }, // 亚派
             { "亚组", Rank.Subsection }, // 亚组
             { "亚节", Rank.Subsection }, // 亚节
             { _Names.Section, Rank.Section }, // 派
             { "组", Rank.Section }, // 组
             { "节", Rank.Section }, // 节
-            { _Names.Supersection, Rank.Supersection },
-
-            { _Names.Infradivision, Rank.Infradivision },
-            { _Names.Subdivision, Rank.Subdivision },
-            { _Names.Division,  Rank.Division },
-            // { "类", TaxonomicRank.Clade }, // "类"虽然一般指演化支，但将其匹配为演化支会导致检索问题，仅在有匹配为演化支的需求处做特殊处理即可
-            { _Names.Superdivision, Rank.Superdivision },
 
             { _Names.Infracohort, Rank.Infracohort },
             { _Names.Subcohort, Rank.Subcohort },
@@ -260,54 +216,37 @@ namespace TreeOfLife.Core.Taxonomy.Extensions
             { _Names.Supercohort, Rank.Supercohort },
             { _Names.Megacohort, Rank.Megacohort },
 
-            { _Names.Infratribe, Rank.Infratribe },
             { _Names.Subtribe, Rank.Subtribe },
+            { _Names.Tribe, Rank.Tribe }, // 族
             { "世系", Rank.Tribe }, // 世系
-            { _Names.Tribe, Rank.Tribe },
-            { _Names.Supertribe, Rank.Supertribe }, // 总族
-            { "超族", Rank.Supertribe }, // 超族
 
             { _Names.Subvariety, Rank.Subvariety },
             { _Names.Variety, Rank.Variety },
             { _Names.Subspecies, Rank.Subspecies },
             { _Names.Species, Rank.Species },
-            { _Names.Superspecies, Rank.Superspecies },
 
-            { _Names.Infragenus, Rank.Infragenus },
             { _Names.Subgenus, Rank.Subgenus },
             { _Names.Genus, Rank.Genus },
 
-            { _Names.Infrafamily, Rank.Infrafamily },
             { _Names.Subfamily, Rank.Subfamily },
             { _Names.Family, Rank.Family },
-            { _Names.Epifamily, Rank.Epifamily },
-            { _Names.Hyperfamily, Rank.Hyperfamily },
-            { _Names.Grandfamily, Rank.Grandfamily },
             { _Names.Superfamily, Rank.Superfamily }, // 总科
             { "超科", Rank.Superfamily }, // 超科
-            { _Names.Megafamily, Rank.Megafamily },
-            { _Names.Gigafamily, Rank.Gigafamily },
 
             { _Names.Parvorder, Rank.Parvorder },
             { _Names.Infraorder, Rank.Infraorder },
             { _Names.Suborder, Rank.Suborder },
-            { _Names.Minorder, Rank.Minorder },
-            { _Names.Hypoorder, Rank.Hypoorder },
-            { _Names.Nanorder, Rank.Nanorder },
             { _Names.Order, Rank.Order },
-            { _Names.Hyperorder, Rank.Hyperorder },
+            { _Names.Mirorder, Rank.Mirorder },
             { _Names.Grandorder, Rank.Grandorder },
             { _Names.Superorder, Rank.Superorder }, // 总目
             { "超目", Rank.Superorder }, // 超目
             { _Names.Megaorder, Rank.Megaorder },
-            { _Names.Gigaorder, Rank.Gigaorder },
 
             { _Names.Parvclass, Rank.Parvclass },
             { _Names.Infraclass, Rank.Infraclass },
             { _Names.Subclass, Rank.Subclass },
             { _Names.Class, Rank.Class },
-            { _Names.Hyperclass, Rank.Hyperclass },
-            { _Names.Grandclass, Rank.Grandclass },
             { _Names.Superclass, Rank.Superclass }, // 总纲
             { "超纲", Rank.Superclass }, // 超纲
             { _Names.Megaclass, Rank.Megaclass },

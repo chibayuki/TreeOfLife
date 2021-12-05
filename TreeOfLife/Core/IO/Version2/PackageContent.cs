@@ -7,6 +7,9 @@ Version 1.0.1322.1000.M13.210925-1400
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// 版本2：
+// 新增支持并系群与复系群。
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

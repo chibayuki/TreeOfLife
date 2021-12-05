@@ -48,6 +48,9 @@ namespace TreeOfLife.Core.Geology
 
                 GeoChron startTimepoint = null, endTimepoint = new GeoChron(_AgeOfEarth);
 
+                // 构建叶节点
+                // 每个叶节点起始于上一个叶节点的结束时刻，所以应确保全局所有叶节点按顺序调用
+                // 第一个叶节点起始于地球年龄，最后一个叶节点结束于现代
                 Func<int, double, GeoChron> BuildSubordinate = (enumValue, endMaBP) =>
                 {
                     startTimepoint = endTimepoint;
@@ -61,7 +64,9 @@ namespace TreeOfLife.Core.Geology
                     return geoChron;
                 };
 
-                Func<int, GeoChron[], GeoChron> BuildSuperior = (enumValue, subordinates) =>
+                // 构建非叶节点
+                // 应确保子节点符合先后顺序、层级顺序
+                Func<int, IReadOnlyList<GeoChron>, GeoChron> BuildSuperior = (enumValue, subordinates) =>
                 {
                     GeoChron geoChron = new GeoChron(enumValue, subordinates);
 
@@ -412,7 +417,7 @@ namespace TreeOfLife.Core.Geology
                     })
                 };
 
-                // 当某些地质年代（例如寒武纪第二世）正式命名后，在此处添加对旧名称的兼容：
+                // 当某些地质年代（例如"寒武纪第二世"）正式命名后，在此处添加对旧名称的兼容：
                 // _StringToGeoChronTable.Add(旧名称.ToUpperInvariant(), _EnumValueToGeoChronTable[枚举]);
 
                 _GeoChronTreeIsReady = true;

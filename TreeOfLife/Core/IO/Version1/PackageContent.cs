@@ -7,6 +7,9 @@ Version 1.0.1322.1000.M13.210925-1400
 This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// 版本1：
+// 首个文件封装版本，支持单系群。
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

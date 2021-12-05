@@ -46,7 +46,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Organism.otd">
+    <None Update="Organism_v3.otd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Organism_v4.otd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
