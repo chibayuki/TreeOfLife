@@ -1,5 +1,5 @@
 ﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2021 chibayuki@foxmail.com
+Copyright © 2022 chibayuki@foxmail.com
 
 TreeOfLife
 Version 1.0.1470.1000.M14.211205-1900
@@ -25,11 +25,11 @@ This file is part of TreeOfLife
                     <Image Width="128" Height="128" Source="{Binding AppLogo, Mode=OneWay}"/>
                     <StackPanel Margin="30,0,0,0" VerticalAlignment="Center">
                         <Label Style="{DynamicResource LabelStyle}" Content="Tree of Life" FontSize="24"/>
-                        <Label Style="{DynamicResource LabelStyle}" Content="1.0 Milestone 14" FontSize="16"/>
+                        <Label Style="{DynamicResource LabelStyle}" Content="1.0 Milestone 15" FontSize="16"/>
                     </StackPanel>
                 </StackPanel>
                 <Label Style="{DynamicResource LabelStyle}" Content="{Binding AppVersion}"/>
-                <Label Style="{DynamicResource LabelStyle}" Content="Copyright © 2021 chibayuki@foxmail.com"/>
+                <Label Style="{DynamicResource LabelStyle}" Content="Copyright © 2022 chibayuki@foxmail.com"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

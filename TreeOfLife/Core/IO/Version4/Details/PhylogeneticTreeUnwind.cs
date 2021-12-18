@@ -1,5 +1,5 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Copyright © 2021 chibayuki@foxmail.com
+Copyright © 2022 chibayuki@foxmail.com
 
 TreeOfLife
 Version 1.0.1470.1000.M14.211205-1900
