@@ -8,7 +8,6 @@ This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // 版本4：
-// 使用第二版Core.Taxonomy.Rank枚举，删除部分从未使用的生物分类阶元；
 // 修改部分Json属性名，ChsName-->ChName，Unsure-->Undet。
 
 using System;

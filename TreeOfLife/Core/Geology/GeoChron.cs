@@ -418,7 +418,7 @@ namespace TreeOfLife.Core.Geology
                 };
 
                 // 当某些地质年代（例如"寒武纪第二世"）正式命名后，在此处添加对旧名称的兼容：
-                // _StringToGeoChronTable.Add(旧名称.ToUpperInvariant(), _EnumValueToGeoChronTable[枚举]);
+                // _StringToGeoChronTable.Add("旧名称".ToUpperInvariant(), _EnumValueToGeoChronTable[枚举]);
 
                 _GeoChronTreeIsReady = true;
             }

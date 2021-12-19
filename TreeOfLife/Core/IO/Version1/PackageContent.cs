@@ -8,7 +8,7 @@ This file is part of TreeOfLife
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // 版本1：
-// 首个文件封装版本，支持单系群。
+// 首个文件封装版本，仅支持单系群。
 
 using System;
 using System.Collections.Generic;

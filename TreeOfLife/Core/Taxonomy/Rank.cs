@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace TreeOfLife.Core.Taxonomy
 {
-    // 生物分类阶元（Version 2）。
+    // 生物分类阶元（如果有成员发生重命名，需要在RankParseExtension中添加对旧名称的兼容）。
     public enum Rank
     {
         Unranked = 0, // 未指定。
