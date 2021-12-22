@@ -240,7 +240,6 @@ namespace TreeOfLife.UI.Views
             if (result ?? false)
             {
                 Common.CurrentTaxon = Entrance.Root;
-                view_Tree.UpdateSubTree();
 
                 _Saved = true;
             }
@@ -384,7 +383,6 @@ namespace TreeOfLife.UI.Views
             if (result)
             {
                 Common.CurrentTaxon = Entrance.Root;
-                view_Tree.UpdateSubTree();
 
                 _Saved = false;
             }
@@ -407,7 +405,6 @@ namespace TreeOfLife.UI.Views
             if (result)
             {
                 Common.CurrentTaxon = Entrance.Root;
-                view_Tree.UpdateSubTree();
 
                 _Saved = false;
             }
