@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ShowAllFiles>false</ShowAllFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UI\Controls\RankSelector.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\RankButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\TagGroup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\TaxonButtonGroup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\TaxonTitle.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\Tree.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Controls\TreeNodeButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\About\View_About.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\Evo\EditMode\View_Evo_EditMode.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\Evo\ViewMode\View_Evo_ViewMode.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\File\View_File.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\Search\View_Search.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\Tree\View_Tree.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="UI\Resource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\ControlStyles\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\CheckBoxStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\ContextMenuStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\Misc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\RadioButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\ScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\TextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\ControlStyles\LabelStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\RankSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\RankButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\WarningMessage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\TagGroup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\CollapsibleTaxonButtonGroup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\TaxonTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\Tree.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\TreeNodeButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Controls\TaxonButtonGroup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\About\View_About.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Evo\EditMode\View_Evo_EditMode.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Evo\ViewMode\View_Evo_ViewMode.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\File\View_File.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Search\View_Search.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Tree\View_Tree.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Statistics\View_Statistics.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\Views\Validation\View_Validation.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

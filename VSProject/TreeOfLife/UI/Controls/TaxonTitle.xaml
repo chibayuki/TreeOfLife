@@ -1,0 +1,70 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2022 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1470.1000.M14.211205-1900
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Controls.TaxonTitle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="border_RankName" BorderThickness="0,0,2,0" BorderBrush="#FF808080" SnapsToDevicePixels="True">
+                    <TextBlock x:Name="textBlock_RankName" Text="RankName" VerticalAlignment="Center" Margin="6,0,6,0" FontSize="14"/>
+                </Border>
+                <DockPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0,6,0">
+                    <Grid x:Name="grid_Undet" DockPanel.Dock="Left" Margin="0,0,6,0">
+                        <TextBlock x:Name="textBlock_Undet" Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,-6,0,-6"/>
+                    </Grid>
+                    <Grid x:Name="grid_Ex" DockPanel.Dock="Left" Width="11" Height="15" Margin="0,0,6,0">
+                        <Border x:Name="border_Ex_Part1" Height="3" BorderThickness="2" BorderBrush="#FF808080" VerticalAlignment="Top" Margin="0,4,0,0" SnapsToDevicePixels="True"/>
+                        <Border x:Name="border_Ex_Part2" Width="3" BorderThickness="2" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
+                    </Grid>
+                    <Grid x:Name="grid_Polyphyly" DockPanel.Dock="Right" Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Top">
+                        <Path x:Name="path_Polyphyly" Data="M 1,0 0,1.732 2,1.732 z" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" Margin="0.5"/>
+                    </Grid>
+                    <Grid x:Name="grid_Paraphyly" DockPanel.Dock="Right" Width="12" Height="12" Margin="6,0,0,0" VerticalAlignment="Top">
+                        <Path x:Name="path_Paraphyly_Part1" Data="M 0,0 0,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" HorizontalAlignment="Center"/>
+                        <Path x:Name="path_Paraphyly_Part2" Data="M 0,0 1.732,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+                        <Path x:Name="path_Paraphyly_Part3" Data="M 1.732,0 0,1" Stretch="Uniform" Stroke="#FF808080" StrokeThickness="2" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+                    </Grid>
+                    <TextBlock x:Name="textBlock_TaxonName" Text="TaxonName" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
+                </DockPanel>
+            </Grid>
+            <Grid x:Name="grid_Graph" Margin="0,10,0,0">
+                <Border x:Name="border_Underline" SnapsToDevicePixels="True"/>
+                <Grid x:Name="grid_PreCambrianMainly"/>
+                <Grid x:Name="grid_PhanerozoicMainly"/>
+            </Grid>
+            <Grid x:Name="grid_Text" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="label_Birth" Content="Birth" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right" Padding="0,3,0,3"/>
+                <Label x:Name="label_BirthPrefix" Grid.Row="1" Content="(BirthPrefix)" FontSize="11" HorizontalAlignment="Right" Padding="0"/>
+                <Border x:Name="border_GeoChron" Grid.Column="1" BorderThickness="1" Height="2" Width="30" Margin="6,0,6,0" BorderBrush="#FF808080" SnapsToDevicePixels="True"/>
+                <Label x:Name="label_Extinction" Grid.Column="2" Content="Extinction" FontSize="12" FontWeight="Bold" Padding="0,3,0,3"/>
+                <Label x:Name="label_ExtinctionPrefix" Grid.Column="2" Grid.Row="1" Content="(ExtinctionPrefix)" FontSize="11" Padding="0"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
