@@ -48,6 +48,11 @@ namespace TreeOfLife.UI.Controls
         private Taxon _Taxon = null; // 类群。
         private bool _IsRef = false; // 是否为引用，false：单系群继承关系的类群，true：并系群排除的类群或复系群包含的类群。
 
+        private ExSymbol exSymbol = null;
+        private ParaphylySymbol paraphylySymbol = null;
+        private PolyphylySymbol polyphylySymbol = null;
+        private RefSymbol refSymbol = null;
+
         private void _UpdateIsUndet()
         {
             if (_Taxon.IsNamed && (_IsRef || _Taxon.IsUndet))
@@ -89,9 +94,73 @@ namespace TreeOfLife.UI.Controls
 
                 _UpdateIsUndet();
 
-                grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
-                grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
-                grid_Polyphyly.Visibility = _Taxon.IsNamed && _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;
+                if (_Taxon.IsNamed && _Taxon.IsExtinct)
+                {
+                    if (exSymbol is null)
+                    {
+                        exSymbol = new ExSymbol() { Margin = new Thickness(0, 0, 3, 0) };
+                        panel_State.Children.Add(exSymbol);
+                    }
+                    else
+                    {
+                        exSymbol.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (exSymbol is not null)
+                    {
+                        exSymbol.Visibility = Visibility.Collapsed;
+                    }
+                }
+
+                if (_Taxon.IsNamed && _Taxon.IsParaphyly)
+                {
+                    if (paraphylySymbol is null)
+                    {
+                        paraphylySymbol = new ParaphylySymbol()
+                        {
+                            Margin = new Thickness(3, 0, 0, 0),
+                            VerticalAlignment = VerticalAlignment.Top
+                        };
+                        grid_PolyOrPara.Children.Add(paraphylySymbol);
+                    }
+                    else
+                    {
+                        paraphylySymbol.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (paraphylySymbol is not null)
+                    {
+                        paraphylySymbol.Visibility = Visibility.Collapsed;
+                    }
+                }
+
+                if (_Taxon.IsNamed && _Taxon.IsPolyphyly)
+                {
+                    if (polyphylySymbol is null)
+                    {
+                        polyphylySymbol = new PolyphylySymbol()
+                        {
+                            Margin = new Thickness(3, 0, 0, 0),
+                            VerticalAlignment = VerticalAlignment.Top
+                        };
+                        grid_PolyOrPara.Children.Add(polyphylySymbol);
+                    }
+                    else
+                    {
+                        polyphylySymbol.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (polyphylySymbol is not null)
+                    {
+                        polyphylySymbol.Visibility = Visibility.Collapsed;
+                    }
+                }
             }
         }
 
@@ -99,7 +168,25 @@ namespace TreeOfLife.UI.Controls
         {
             _UpdateIsUndet();
 
-            grid_Ref.Visibility = _IsRef ? Visibility.Visible : Visibility.Collapsed;
+            if (_IsRef)
+            {
+                if (refSymbol is null)
+                {
+                    refSymbol = new RefSymbol() { Margin = new Thickness(6, 0, 0, 0) };
+                    grid_Ref.Children.Add(refSymbol);
+                }
+                else
+                {
+                    refSymbol.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (refSymbol is not null)
+                {
+                    refSymbol.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         private bool _IsRoot = false;
@@ -210,10 +297,26 @@ namespace TreeOfLife.UI.Controls
             textBlock_TaxonName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
 
             textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            border_Ex_Part1.BorderBrush = border_Ex_Part2.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            path_Paraphyly_Part1.Stroke = path_Paraphyly_Part2.Stroke = path_Paraphyly_Part3.Stroke = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            path_Polyphyly.Stroke = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            path_Ref_Part1.Stroke = path_Ref_Part2.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+
+            if (exSymbol is not null)
+            {
+                exSymbol.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            }
+
+            if (paraphylySymbol is not null)
+            {
+                paraphylySymbol.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            }
+
+            if (polyphylySymbol is not null)
+            {
+                polyphylySymbol.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            }
+
+            if (refSymbol is not null)
+            {
+                refSymbol.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            }
         }
 
         //

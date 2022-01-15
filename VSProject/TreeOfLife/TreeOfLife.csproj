@@ -19,22 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="UI\Controls\CollapsibleTaxonButtonGroup.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UI\Controls\WarningMessage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="UI\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-    <Compile Update="UI\Views\Statistics\View_Statistics.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UI\Views\Validation\View_Validation.xaml.cs">
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
@@ -49,25 +37,6 @@
     <None Update="Organism.otd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="UI\Controls\CollapsibleTaxonButtonGroup.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UI\Controls\WarningMessage.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UI\Views\Statistics\View_Statistics.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UI\Views\Validation\View_Validation.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
 </Project>

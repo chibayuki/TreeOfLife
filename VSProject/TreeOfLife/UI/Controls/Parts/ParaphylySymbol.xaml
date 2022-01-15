@@ -1,0 +1,26 @@
+﻿<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Copyright © 2022 chibayuki@foxmail.com
+
+TreeOfLife
+Version 1.0.1470.1000.M14.211205-1900
+
+This file is part of TreeOfLife
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<UserControl x:Class="TreeOfLife.UI.Controls.ParaphylySymbol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TreeOfLife.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="8" d:DesignWidth="8"
+             Foreground="#FF808080">
+    <Grid>
+        <Grid Width="8" Height="8">
+            <Path x:Name="path_Paraphyly_Part1" Data="M 0,0 0,1" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ParaphylySymbol}}}" StrokeThickness="1" HorizontalAlignment="Center"/>
+            <Path x:Name="path_Paraphyly_Part2" Data="M 0,0 1.732,1" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ParaphylySymbol}}}" StrokeThickness="1" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+            <Path x:Name="path_Paraphyly_Part3" Data="M 1.732,0 0,1" Stretch="Uniform" Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ParaphylySymbol}}}" StrokeThickness="1" VerticalAlignment="Center" Margin="0.5,0,0.5,0"/>
+        </Grid>
+    </Grid>
+</UserControl>
