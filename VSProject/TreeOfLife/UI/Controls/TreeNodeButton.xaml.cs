@@ -53,18 +53,207 @@ namespace TreeOfLife.UI.Controls
         private PolyphylySymbol polyphylySymbol = null;
         private RefSymbol refSymbol = null;
 
-        private void _UpdateIsUndet()
+        private SingleLine singleLine = null;
+        private UndetSingleLine undetSingleLine = null;
+        private FirstLine firstLine = null;
+        private UndetFirstLine undetFirstLine = null;
+        private LastLine lastLine = null;
+        private UndetLastLine undetLastLine = null;
+        private NormalLine normalLine = null;
+        private UndetNormalLine undetNormalLine = null;
+
+        private SingleLine rightLine = null;
+
+        private enum _EntranceTypes
         {
-            if (_Taxon.IsNamed && (_IsRef || _Taxon.IsUndet))
+            None = -1,
+            Single,
+            First,
+            Last,
+            Normal
+        }
+
+        private _EntranceTypes _EntranceType = _EntranceTypes.None;
+
+        private void _UpdateEntranceLineVisibility()
+        {
+            bool isUndet = _Taxon.IsNamed && (_IsRef || _Taxon.IsUndet);
+            bool isSingle = _EntranceType == _EntranceTypes.Single;
+            bool isFirst = _EntranceType == _EntranceTypes.First;
+            bool isLast = _EntranceType == _EntranceTypes.Last;
+            bool isNormal = _EntranceType == _EntranceTypes.Normal;
+
+            if (!isUndet && isSingle)
             {
-                grid_Single_Det.Visibility = grid_First_Det.Visibility = grid_Last_Det.Visibility = grid_Normal_Det.Visibility = Visibility.Collapsed;
-                grid_Single_Undet.Visibility = grid_First_Undet.Visibility = grid_Last_Undet.Visibility = grid_Normal_Undet.Visibility = Visibility.Visible;
+                if (singleLine is null)
+                {
+                    singleLine = new SingleLine();
+                    grid_LeftPart.Children.Add(singleLine);
+                }
+                else
+                {
+                    singleLine.Visibility = Visibility.Visible;
+                }
             }
             else
             {
-                grid_Single_Det.Visibility = grid_First_Det.Visibility = grid_Last_Det.Visibility = grid_Normal_Det.Visibility = Visibility.Visible;
-                grid_Single_Undet.Visibility = grid_First_Undet.Visibility = grid_Last_Undet.Visibility = grid_Normal_Undet.Visibility = Visibility.Collapsed;
+                if (singleLine is not null)
+                {
+                    singleLine.Visibility = Visibility.Collapsed;
+                }
             }
+
+            if (isUndet && isSingle)
+            {
+                if (undetSingleLine is null)
+                {
+                    undetSingleLine = new UndetSingleLine();
+                    grid_LeftPart.Children.Add(undetSingleLine);
+                }
+                else
+                {
+                    undetSingleLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (undetSingleLine is not null)
+                {
+                    undetSingleLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (!isUndet && isFirst)
+            {
+                if (firstLine is null)
+                {
+                    firstLine = new FirstLine();
+                    grid_LeftPart.Children.Add(firstLine);
+                }
+                else
+                {
+                    firstLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (firstLine is not null)
+                {
+                    firstLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (isUndet && isFirst)
+            {
+                if (undetFirstLine is null)
+                {
+                    undetFirstLine = new UndetFirstLine();
+                    grid_LeftPart.Children.Add(undetFirstLine);
+                }
+                else
+                {
+                    undetFirstLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (undetFirstLine is not null)
+                {
+                    undetFirstLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (!isUndet && isLast)
+            {
+                if (lastLine is null)
+                {
+                    lastLine = new LastLine();
+                    grid_LeftPart.Children.Add(lastLine);
+                }
+                else
+                {
+                    lastLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (lastLine is not null)
+                {
+                    lastLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (isUndet && isLast)
+            {
+                if (undetLastLine is null)
+                {
+                    undetLastLine = new UndetLastLine();
+                    grid_LeftPart.Children.Add(undetLastLine);
+                }
+                else
+                {
+                    undetLastLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (undetLastLine is not null)
+                {
+                    undetLastLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (!isUndet && isNormal)
+            {
+                if (normalLine is null)
+                {
+                    normalLine = new NormalLine();
+                    grid_LeftPart.Children.Add(normalLine);
+                }
+                else
+                {
+                    normalLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (normalLine is not null)
+                {
+                    normalLine.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (isUndet && isNormal)
+            {
+                if (undetNormalLine is null)
+                {
+                    undetNormalLine = new UndetNormalLine();
+                    grid_LeftPart.Children.Add(undetNormalLine);
+                }
+                else
+                {
+                    undetNormalLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (undetNormalLine is not null)
+                {
+                    undetNormalLine.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void _UpdateEntranceType(_EntranceTypes entranceType)
+        {
+            _EntranceType = entranceType;
+
+            _UpdateEntranceLineVisibility();
+        }
+
+        private void _UpdateIsUndet()
+        {
+            _UpdateEntranceLineVisibility();
 
             grid_Undet.Visibility = !_IsRef && _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -195,62 +384,13 @@ namespace TreeOfLife.UI.Controls
         private bool _IsLast = false;
         private bool _ShowButton = false;
 
-        private enum _NodeEntranceType
-        {
-            Single,
-            First,
-            Last,
-            Normal
-        }
-
-        private void _SetEntranceType(_NodeEntranceType entranceType)
-        {
-            switch (entranceType)
-            {
-                case _NodeEntranceType.Single:
-                    grid_Single.Visibility = Visibility.Visible;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Collapsed;
-                    break;
-
-                case _NodeEntranceType.First:
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Visible;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Collapsed;
-                    break;
-
-                case _NodeEntranceType.Last:
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Visible;
-                    grid_Normal.Visibility = Visibility.Collapsed;
-                    break;
-
-                case _NodeEntranceType.Normal:
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Visible;
-                    break;
-
-                default:
-                    grid_Single.Visibility = Visibility.Collapsed;
-                    grid_First.Visibility = Visibility.Collapsed;
-                    grid_Last.Visibility = Visibility.Collapsed;
-                    grid_Normal.Visibility = Visibility.Collapsed;
-                    break;
-            }
-        }
-
         private void _UpdateAttributes()
         {
             if (_IsRoot)
             {
                 if (_ShowButton)
                 {
-                    _SetEntranceType(_NodeEntranceType.Single);
+                    _UpdateEntranceType(_EntranceTypes.Single);
 
                     grid_LeftPart.Visibility = Visibility.Visible;
                 }
@@ -258,18 +398,30 @@ namespace TreeOfLife.UI.Controls
                 {
                     grid_LeftPart.Visibility = Visibility.Collapsed;
                 }
-
-                grid_RightPart.Visibility = !_IsFinal ? Visibility.Visible : Visibility.Collapsed;
             }
             else
             {
-                if (_IsFirst && _IsLast) _SetEntranceType(_NodeEntranceType.Single);
-                else if (_IsFirst) _SetEntranceType(_NodeEntranceType.First);
-                else if (_IsLast) _SetEntranceType(_NodeEntranceType.Last);
-                else _SetEntranceType(_NodeEntranceType.Normal);
+                if (_IsFirst && _IsLast) _UpdateEntranceType(_EntranceTypes.Single);
+                else if (_IsFirst) _UpdateEntranceType(_EntranceTypes.First);
+                else if (_IsLast) _UpdateEntranceType(_EntranceTypes.Last);
+                else _UpdateEntranceType(_EntranceTypes.Normal);
 
                 grid_LeftPart.Visibility = Visibility.Visible;
-                grid_RightPart.Visibility = !_IsFinal && _ShowButton ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            if ((_IsRoot && !_IsFinal) || (!_IsFinal && _ShowButton))
+            {
+                if (rightLine is null)
+                {
+                    rightLine = new SingleLine();
+                    grid_RightPart.Children.Add(rightLine);
+                }
+
+                grid_RightPart.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grid_RightPart.Visibility = Visibility.Collapsed;
             }
 
             if (_ShowButton && _Taxon is not null)
