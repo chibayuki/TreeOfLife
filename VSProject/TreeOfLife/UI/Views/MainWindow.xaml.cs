@@ -387,6 +387,10 @@ namespace TreeOfLife.UI.Views
                 _Saved = false;
             }
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
             return result;
         }
 
