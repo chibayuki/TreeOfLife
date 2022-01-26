@@ -5,14 +5,17 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.1470.1000</AssemblyVersion>
-    <FileVersion>1.0.1470.1000</FileVersion>
+    <AssemblyVersion>1.0.1500.1000</AssemblyVersion>
+    <FileVersion>1.0.1500.1000</FileVersion>
     <Copyright>Copyright © 2022 chibayuki@foxmail.com</Copyright>
     <Authors>chibayuki@foxmail.com</Authors>
     <Company>https://github.com/chibayuki</Company>
-    <Version>1.0.1470.1000</Version>
+    <Version>1.0.1500.1000</Version>
     <ApplicationIcon>UI\Resources\AppLogo_256.ico</ApplicationIcon>
     <StartupObject>TreeOfLife.App</StartupObject>
+    <BaseOutputPath>..\..\Temp\bin</BaseOutputPath>
+    <BaseIntermediateOutputPath>..\..\Temp\obj</BaseIntermediateOutputPath>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
