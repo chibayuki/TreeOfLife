@@ -13,9 +13,10 @@
     <Version>1.0.1500.1000</Version>
     <ApplicationIcon>UI\Resources\AppLogo_256.ico</ApplicationIcon>
     <StartupObject>TreeOfLife.App</StartupObject>
-    <BaseOutputPath>..\..\Temp\bin</BaseOutputPath>
-    <BaseIntermediateOutputPath>..\..\Temp\obj</BaseIntermediateOutputPath>
+    <BaseOutputPath>..\..\Temp\Bin</BaseOutputPath>
+    <BaseIntermediateOutputPath>..\..\Temp\Obj</BaseIntermediateOutputPath>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,12 +36,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Organism.otd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
