@@ -24,11 +24,12 @@ using System.Windows.Shapes;
 
 using System.Windows.Media.Effects;
 
+using ColorX = Com.Chromatics.ColorX;
+using Com.Chromatics.Extensions;
+
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
@@ -59,15 +60,15 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateEffect() => border_Background.Effect = !_IsChecked && _IsMouseOver ? _DropShadowEffect : null;
 
-        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private void _UpdateColor()
         {
-            border_Background.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
-            border_Background.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-            path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLightness_LAB(_IsDarkTheme ? 40 : 60).ToWpfColor() : Colors.Transparent);
-            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            border_Background.Background = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? _ThemeColor.AtLabLightness(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtHslLightness(_IsDarkTheme ? 12.5 : 87.5));
+            border_Background.BorderBrush = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLabLightness(_IsDarkTheme ? 40 : 60) : _ThemeColor.AtHslLightness(_IsDarkTheme ? 20 : 80));
+            path_IndirectlyChecked.Fill = Theme.GetSolidColorBrush(_IsChecked || _IsIndirectlyChecked || _IsMouseOver ? _ThemeColor.AtLabLightness(_IsDarkTheme ? 40 : 60).ToWpfColor() : Colors.Transparent);
+            textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_IsChecked || _IsMouseOver ? (_IsDarkTheme ? Colors.Black : Colors.White) : _ThemeColor.AtLabLightness(50).ToWpfColor());
         }
 
         //

@@ -22,13 +22,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using ColorX = Com.Chromatics.ColorX;
+using Com.Chromatics.Extensions;
+
 using TreeOfLife.Core.Geology;
 using TreeOfLife.Core.Geology.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Controls
 {
@@ -39,13 +40,13 @@ namespace TreeOfLife.UI.Controls
             private Border _Container = null;
             private TextBlock _SymbolText = null;
 
-            private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
+            private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128);
             private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private void _UpdateColor()
             {
-                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
-                _SymbolText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 12.5 : 87.5));
+                _SymbolText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
             }
 
             //
@@ -650,7 +651,7 @@ namespace TreeOfLife.UI.Controls
             }
         }
 
-        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private void _UpdateTheme()
@@ -663,20 +664,20 @@ namespace TreeOfLife.UI.Controls
 
         private void _UpdateColor()
         {
-            textBlock_TaxonName.Foreground = textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
-            border_RankName.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
+            textBlock_TaxonName.Foreground = textBlock_RankName.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
+            border_RankName.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 30 : 70));
 
-            textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            border_Ex_Part1.BorderBrush = border_Ex_Part2.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            path_Paraphyly_Part1.Stroke = path_Paraphyly_Part2.Stroke = path_Paraphyly_Part3.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
-            path_Polyphyly.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50).ToWpfColor());
+            textBlock_Undet.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50).ToWpfColor());
+            border_Ex_Part1.BorderBrush = border_Ex_Part2.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50).ToWpfColor());
+            path_Paraphyly_Part1.Stroke = path_Paraphyly_Part2.Stroke = path_Paraphyly_Part3.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50).ToWpfColor());
+            path_Polyphyly.Stroke = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50).ToWpfColor());
 
-            border_Underline.Background = border_PreCambrianMainly_FullWidth.Background = border_PhanerozoicMainly_FullWidth.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 15 : 85));
-            border_Underline.BorderBrush = border_PreCambrianMainly_FullWidth.BorderBrush = border_PhanerozoicMainly_FullWidth.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
-            border_PreCambrianMainly.BorderBrush = border_PhanerozoicMainly.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(50));
+            border_Underline.Background = border_PreCambrianMainly_FullWidth.Background = border_PhanerozoicMainly_FullWidth.Background = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 15 : 85));
+            border_Underline.BorderBrush = border_PreCambrianMainly_FullWidth.BorderBrush = border_PhanerozoicMainly_FullWidth.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 30 : 70));
+            border_PreCambrianMainly.BorderBrush = border_PhanerozoicMainly.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(50));
 
-            label_Birth.Foreground = label_BirthPrefix.Foreground = label_Extinction.Foreground = label_ExtinctionPrefix.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
-            border_GeoChron.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 30 : 70));
+            label_Birth.Foreground = label_BirthPrefix.Foreground = label_Extinction.Foreground = label_ExtinctionPrefix.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
+            border_GeoChron.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 30 : 70));
         }
 
         //

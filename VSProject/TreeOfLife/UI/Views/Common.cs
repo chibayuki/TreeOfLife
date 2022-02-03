@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
+using ColorX = Com.Chromatics.ColorX;
+
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Controls;
 using TreeOfLife.UI.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Views
 {

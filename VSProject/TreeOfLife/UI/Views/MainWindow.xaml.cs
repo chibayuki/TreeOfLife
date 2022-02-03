@@ -25,11 +25,11 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
 
+using ColorX = Com.Chromatics.ColorX;
+
 using TreeOfLife.Core;
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Views
 {
@@ -127,7 +127,7 @@ namespace TreeOfLife.UI.Views
             //
 
             Random random = new Random(Environment.TickCount);
-            Theme.ThemeColor = ColorX.FromHSL(random.Next(360), random.Next(20, 60), 50);
+            Theme.ThemeColor = ColorX.FromHsl(random.Next(360), random.Next(20, 60), 50);
             Theme.IsDarkTheme = false;
         }
 

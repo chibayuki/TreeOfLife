@@ -13,35 +13,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Drawing;
+using System.Windows.Media;
+
+using ColorX = Com.Chromatics.ColorX;
 
 using TreeOfLife.Core.Search.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Extensions
 {
     // 生物分类单元（类群）的UI相关扩展方法。
     public static class TaxonUIExtension
     {
-        private static readonly ColorX _DomainColor = ColorX.FromHSL(235, 50, 50);
-        private static readonly ColorX _KingdomColor = ColorX.FromHSL(165, 50, 50);
-        private static readonly ColorX _PhylumColor = ColorX.FromHSL(285, 50, 50);
-        private static readonly ColorX _ClassColor = ColorX.FromHSL(195, 50, 50);
-        private static readonly ColorX _OrderColor = ColorX.FromHSL(345, 50, 50);
-        private static readonly ColorX _FamilyColor = ColorX.FromHSL(50, 50, 50);
-        private static readonly ColorX _GenusColor = ColorX.FromHSL(15, 50, 50);
-        private static readonly ColorX _SpeciesColor = ColorX.FromHSL(85, 50, 50);
-        private static readonly ColorX _TribeColor = ColorX.FromHSL(260, 15, 50);
-        private static readonly ColorX _CohortColor = ColorX.FromHSL(35, 15, 50);
-        private static readonly ColorX _SectionColor = ColorX.FromHSL(215, 15, 50);
-        private static readonly ColorX _DivisionColor = ColorX.FromHSL(315, 15, 50);
-        private static readonly ColorX _SeriesColor = ColorX.FromHSL(140, 15, 50);
-        private static readonly ColorX _FormColor = ColorX.FromHSL(180, 15, 50);
-        private static readonly ColorX _StrainColor = ColorX.FromHSL(70, 15, 50);
-        private static readonly ColorX _OthersColor = Color.Black;
+        private static readonly ColorX _DomainColor = ColorX.FromHsl(235, 50, 50);
+        private static readonly ColorX _KingdomColor = ColorX.FromHsl(165, 50, 50);
+        private static readonly ColorX _PhylumColor = ColorX.FromHsl(285, 50, 50);
+        private static readonly ColorX _ClassColor = ColorX.FromHsl(195, 50, 50);
+        private static readonly ColorX _OrderColor = ColorX.FromHsl(345, 50, 50);
+        private static readonly ColorX _FamilyColor = ColorX.FromHsl(50, 50, 50);
+        private static readonly ColorX _GenusColor = ColorX.FromHsl(15, 50, 50);
+        private static readonly ColorX _SpeciesColor = ColorX.FromHsl(85, 50, 50);
+        private static readonly ColorX _TribeColor = ColorX.FromHsl(260, 15, 50);
+        private static readonly ColorX _CohortColor = ColorX.FromHsl(35, 15, 50);
+        private static readonly ColorX _SectionColor = ColorX.FromHsl(215, 15, 50);
+        private static readonly ColorX _DivisionColor = ColorX.FromHsl(315, 15, 50);
+        private static readonly ColorX _SeriesColor = ColorX.FromHsl(140, 15, 50);
+        private static readonly ColorX _FormColor = ColorX.FromHsl(180, 15, 50);
+        private static readonly ColorX _StrainColor = ColorX.FromHsl(70, 15, 50);
+        private static readonly ColorX _OthersColor = Colors.Black.ToColorX();
 
         // 获取分类阶元的主题颜色。
         public static ColorX GetThemeColor(this Rank rank)

@@ -22,9 +22,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using TreeOfLife.Core.Taxonomy;
-
 using ColorX = Com.Chromatics.ColorX;
+using Com.Chromatics.Extensions;
+
+using TreeOfLife.Core.Taxonomy;
 
 namespace TreeOfLife.UI.Controls
 {
@@ -66,12 +67,12 @@ namespace TreeOfLife.UI.Controls
                 }
             }
 
-            private ColorX _GroupNameColor = ColorX.FromRGB(128, 128, 128);
+            private ColorX _GroupNameColor = ColorX.FromRgb(128, 128, 128);
             private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private void _UpdateGroupNameColor()
             {
-                _NameBorder.Background = Theme.GetSolidColorBrush(_GroupNameColor.AtLightness_LAB(50));
+                _NameBorder.Background = Theme.GetSolidColorBrush(_GroupNameColor.AtLabLightness(50));
                 _NameText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
             }
 

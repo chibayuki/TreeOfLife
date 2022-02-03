@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com" Version="20.12.25.2000" />
+    <PackageReference Include="Com.Chromatics" Version="22.2.2.2" />
   </ItemGroup>
 
   <ItemGroup>

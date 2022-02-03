@@ -23,6 +23,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using ColorX = Com.Chromatics.ColorX;
+using Com.Chromatics.Extensions;
 
 namespace TreeOfLife.UI.Controls
 {
@@ -33,13 +34,13 @@ namespace TreeOfLife.UI.Controls
             private Border _Container = null;
             private TextBlock _TagText = null;
 
-            private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
+            private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128);
             private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private void _UpdateColor()
             {
-                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 10 : 90));
-                _TagText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                _Container.Background = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 10 : 90));
+                _TagText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
             }
 
             //
@@ -101,7 +102,7 @@ namespace TreeOfLife.UI.Controls
 
         List<_Tag> _Tags = new List<_Tag>();
 
-        private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128); // 主题颜色。
+        private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128); // 主题颜色。
         private bool _IsDarkTheme = false; // 是否为暗色主题。
 
         private void _UpdateColor()

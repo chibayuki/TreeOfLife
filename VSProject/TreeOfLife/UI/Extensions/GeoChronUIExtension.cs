@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Drawing;
-
-using TreeOfLife.Core.Geology;
+using System.Windows.Media;
 
 using ColorX = Com.Chromatics.ColorX;
+
+using TreeOfLife.Core.Geology;
 
 namespace TreeOfLife.UI.Extensions
 {
@@ -26,133 +26,133 @@ namespace TreeOfLife.UI.Extensions
     {
         private static class _Colors
         {
-            public static readonly ColorX Empty = Color.Black;
+            public static readonly ColorX Empty = Colors.Black.ToColorX();
 
-            public static readonly ColorX Hadean = ColorX.FromHSL(260, 40, 50);
-            public static readonly ColorX Archean = ColorX.FromHSL(295, 40, 50);
-            public static readonly ColorX Proterozoic = ColorX.FromHSL(352.5, 40, 50);
-            public static readonly ColorX Phanerozoic = ColorX.FromHSL(190, 40, 50);
+            public static readonly ColorX Hadean = ColorX.FromHsl(260, 40, 50);
+            public static readonly ColorX Archean = ColorX.FromHsl(295, 40, 50);
+            public static readonly ColorX Proterozoic = ColorX.FromHsl(352.5, 40, 50);
+            public static readonly ColorX Phanerozoic = ColorX.FromHsl(190, 40, 50);
 
             // 太古宙
-            public static readonly ColorX Eoarchean = ColorX.FromHSL(280, 40, 50);
-            public static readonly ColorX Paleoarchean = ColorX.FromHSL(290, 40, 50);
-            public static readonly ColorX Mesoarchean = ColorX.FromHSL(300, 40, 50);
-            public static readonly ColorX Neoarchean = ColorX.FromHSL(310, 40, 50);
+            public static readonly ColorX Eoarchean = ColorX.FromHsl(280, 40, 50);
+            public static readonly ColorX Paleoarchean = ColorX.FromHsl(290, 40, 50);
+            public static readonly ColorX Mesoarchean = ColorX.FromHsl(300, 40, 50);
+            public static readonly ColorX Neoarchean = ColorX.FromHsl(310, 40, 50);
 
             // 元古宙
-            public static readonly ColorX Paleoproterozoic = ColorX.FromHSL(332.5, 40, 50);
-            public static readonly ColorX Mesoproterozoic = ColorX.FromHSL(355, 40, 50);
-            public static readonly ColorX Neoproterozoic = ColorX.FromHSL(15, 40, 50);
+            public static readonly ColorX Paleoproterozoic = ColorX.FromHsl(332.5, 40, 50);
+            public static readonly ColorX Mesoproterozoic = ColorX.FromHsl(355, 40, 50);
+            public static readonly ColorX Neoproterozoic = ColorX.FromHsl(15, 40, 50);
 
             // 显生宙
-            public static readonly ColorX Paleozoic = ColorX.FromHSL(120, 40, 50);
-            public static readonly ColorX Mesozoic = ColorX.FromHSL(210, 40, 50);
-            public static readonly ColorX Cenozoic = ColorX.FromHSL(50, 40, 50);
+            public static readonly ColorX Paleozoic = ColorX.FromHsl(120, 40, 50);
+            public static readonly ColorX Mesozoic = ColorX.FromHsl(210, 40, 50);
+            public static readonly ColorX Cenozoic = ColorX.FromHsl(50, 40, 50);
 
             // 元古宙：
 
             // 古元古代
-            public static readonly ColorX Siderian = ColorX.FromHSL(325, 40, 50);
-            public static readonly ColorX Rhyacian = ColorX.FromHSL(330, 40, 50);
-            public static readonly ColorX Orosirian = ColorX.FromHSL(335, 40, 50);
-            public static readonly ColorX Statherian = ColorX.FromHSL(340, 40, 50);
+            public static readonly ColorX Siderian = ColorX.FromHsl(325, 40, 50);
+            public static readonly ColorX Rhyacian = ColorX.FromHsl(330, 40, 50);
+            public static readonly ColorX Orosirian = ColorX.FromHsl(335, 40, 50);
+            public static readonly ColorX Statherian = ColorX.FromHsl(340, 40, 50);
 
             // 中元古代
-            public static readonly ColorX Calymmian = ColorX.FromHSL(350, 40, 50);
-            public static readonly ColorX Ectasian = ColorX.FromHSL(355, 40, 50);
-            public static readonly ColorX Stenian = ColorX.FromHSL(0, 40, 50);
+            public static readonly ColorX Calymmian = ColorX.FromHsl(350, 40, 50);
+            public static readonly ColorX Ectasian = ColorX.FromHsl(355, 40, 50);
+            public static readonly ColorX Stenian = ColorX.FromHsl(0, 40, 50);
 
             // 新元古代
-            public static readonly ColorX Tonian = ColorX.FromHSL(10, 40, 50);
-            public static readonly ColorX Cryogenian = ColorX.FromHSL(15, 40, 50);
-            public static readonly ColorX Ediacaran = ColorX.FromHSL(20, 40, 50);
+            public static readonly ColorX Tonian = ColorX.FromHsl(10, 40, 50);
+            public static readonly ColorX Cryogenian = ColorX.FromHsl(15, 40, 50);
+            public static readonly ColorX Ediacaran = ColorX.FromHsl(20, 40, 50);
 
             // 显生宙：
 
             // 古生代
-            public static readonly ColorX Cambrian = ColorX.FromHSL(110, 30, 50);
-            public static readonly ColorX Ordovician = ColorX.FromHSL(170, 60, 50);
-            public static readonly ColorX Silurian = ColorX.FromHSL(140, 30, 50);
-            public static readonly ColorX Devonian = ColorX.FromHSL(35, 30, 50);
-            public static readonly ColorX Carboniferous = ColorX.FromHSL(180, 40, 50);
-            public static readonly ColorX Permian = ColorX.FromHSL(5, 60, 50);
+            public static readonly ColorX Cambrian = ColorX.FromHsl(110, 30, 50);
+            public static readonly ColorX Ordovician = ColorX.FromHsl(170, 60, 50);
+            public static readonly ColorX Silurian = ColorX.FromHsl(140, 30, 50);
+            public static readonly ColorX Devonian = ColorX.FromHsl(35, 30, 50);
+            public static readonly ColorX Carboniferous = ColorX.FromHsl(180, 40, 50);
+            public static readonly ColorX Permian = ColorX.FromHsl(5, 60, 50);
 
             // 中生代
-            public static readonly ColorX Triassic = ColorX.FromHSL(260, 50, 50);
-            public static readonly ColorX Jurassic = ColorX.FromHSL(190, 70, 50);
-            public static readonly ColorX Cretaceous = ColorX.FromHSL(90, 50, 50);
+            public static readonly ColorX Triassic = ColorX.FromHsl(260, 50, 50);
+            public static readonly ColorX Jurassic = ColorX.FromHsl(190, 70, 50);
+            public static readonly ColorX Cretaceous = ColorX.FromHsl(90, 50, 50);
 
             // 新生代
-            public static readonly ColorX Paleogene = ColorX.FromHSL(20, 60, 50);
-            public static readonly ColorX Neogene = ColorX.FromHSL(45, 70, 50);
-            public static readonly ColorX Quaternary = ColorX.FromHSL(55, 80, 50);
+            public static readonly ColorX Paleogene = ColorX.FromHsl(20, 60, 50);
+            public static readonly ColorX Neogene = ColorX.FromHsl(45, 70, 50);
+            public static readonly ColorX Quaternary = ColorX.FromHsl(55, 80, 50);
 
             // 古生代：
 
             // 寒武纪
-            public static readonly ColorX Terreneuvian = ColorX.FromHSL(110, 45, 50);
-            public static readonly ColorX CambrianSeries2 = ColorX.FromHSL(110, 35, 50);
-            public static readonly ColorX Miaolingian = ColorX.FromHSL(110, 25, 50);
-            public static readonly ColorX Furongian = ColorX.FromHSL(110, 15, 50);
+            public static readonly ColorX Terreneuvian = ColorX.FromHsl(110, 45, 50);
+            public static readonly ColorX CambrianSeries2 = ColorX.FromHsl(110, 35, 50);
+            public static readonly ColorX Miaolingian = ColorX.FromHsl(110, 25, 50);
+            public static readonly ColorX Furongian = ColorX.FromHsl(110, 15, 50);
 
             // 奥陶纪
-            public static readonly ColorX LowerOrdovician = ColorX.FromHSL(170, 70, 50);
-            public static readonly ColorX MiddleOrdovician = ColorX.FromHSL(170, 60, 50);
-            public static readonly ColorX UpperOrdovician = ColorX.FromHSL(170, 50, 50);
+            public static readonly ColorX LowerOrdovician = ColorX.FromHsl(170, 70, 50);
+            public static readonly ColorX MiddleOrdovician = ColorX.FromHsl(170, 60, 50);
+            public static readonly ColorX UpperOrdovician = ColorX.FromHsl(170, 50, 50);
 
             // 志留纪
-            public static readonly ColorX Llandovery = ColorX.FromHSL(140, 45, 50);
-            public static readonly ColorX Wenlock = ColorX.FromHSL(140, 35, 50);
-            public static readonly ColorX Ludlow = ColorX.FromHSL(140, 25, 50);
-            public static readonly ColorX Pridoli = ColorX.FromHSL(140, 15, 50);
+            public static readonly ColorX Llandovery = ColorX.FromHsl(140, 45, 50);
+            public static readonly ColorX Wenlock = ColorX.FromHsl(140, 35, 50);
+            public static readonly ColorX Ludlow = ColorX.FromHsl(140, 25, 50);
+            public static readonly ColorX Pridoli = ColorX.FromHsl(140, 15, 50);
 
             // 泥盆纪
-            public static readonly ColorX LowerDevonian = ColorX.FromHSL(35, 40, 50);
-            public static readonly ColorX MiddleDevonian = ColorX.FromHSL(35, 30, 50);
-            public static readonly ColorX UpperDevonian = ColorX.FromHSL(35, 20, 50);
+            public static readonly ColorX LowerDevonian = ColorX.FromHsl(35, 40, 50);
+            public static readonly ColorX MiddleDevonian = ColorX.FromHsl(35, 30, 50);
+            public static readonly ColorX UpperDevonian = ColorX.FromHsl(35, 20, 50);
 
             // 石炭纪
-            public static readonly ColorX Mississippian = ColorX.FromHSL(160, 40, 50);
-            public static readonly ColorX Pennsylvanian = ColorX.FromHSL(180, 40, 50);
+            public static readonly ColorX Mississippian = ColorX.FromHsl(160, 40, 50);
+            public static readonly ColorX Pennsylvanian = ColorX.FromHsl(180, 40, 50);
 
             // 二叠纪
-            public static readonly ColorX Cisuralian = ColorX.FromHSL(5, 70, 50);
-            public static readonly ColorX Guadalupian = ColorX.FromHSL(5, 60, 50);
-            public static readonly ColorX Lopingian = ColorX.FromHSL(5, 50, 50);
+            public static readonly ColorX Cisuralian = ColorX.FromHsl(5, 70, 50);
+            public static readonly ColorX Guadalupian = ColorX.FromHsl(5, 60, 50);
+            public static readonly ColorX Lopingian = ColorX.FromHsl(5, 50, 50);
 
             // 中生代：
 
             // 三叠纪
-            public static readonly ColorX LowerTriassic = ColorX.FromHSL(260, 60, 50);
-            public static readonly ColorX MiddleTriassic = ColorX.FromHSL(260, 50, 50);
-            public static readonly ColorX UpperTriassic = ColorX.FromHSL(260, 40, 50);
+            public static readonly ColorX LowerTriassic = ColorX.FromHsl(260, 60, 50);
+            public static readonly ColorX MiddleTriassic = ColorX.FromHsl(260, 50, 50);
+            public static readonly ColorX UpperTriassic = ColorX.FromHsl(260, 40, 50);
 
             // 侏罗纪
-            public static readonly ColorX LowerJurassic = ColorX.FromHSL(190, 80, 50);
-            public static readonly ColorX MiddleJurassic = ColorX.FromHSL(190, 70, 50);
-            public static readonly ColorX UpperJurassic = ColorX.FromHSL(190, 60, 50);
+            public static readonly ColorX LowerJurassic = ColorX.FromHsl(190, 80, 50);
+            public static readonly ColorX MiddleJurassic = ColorX.FromHsl(190, 70, 50);
+            public static readonly ColorX UpperJurassic = ColorX.FromHsl(190, 60, 50);
 
             // 白垩纪
-            public static readonly ColorX LowerCretaceous = ColorX.FromHSL(90, 55, 50);
-            public static readonly ColorX UpperCretaceous = ColorX.FromHSL(90, 45, 50);
+            public static readonly ColorX LowerCretaceous = ColorX.FromHsl(90, 55, 50);
+            public static readonly ColorX UpperCretaceous = ColorX.FromHsl(90, 45, 50);
 
             // 新生代：
 
             // 古近纪
-            public static readonly ColorX Paleocene = ColorX.FromHSL(20, 70, 50);
-            public static readonly ColorX Eocene = ColorX.FromHSL(20, 60, 50);
-            public static readonly ColorX Oligocene = ColorX.FromHSL(20, 50, 50);
+            public static readonly ColorX Paleocene = ColorX.FromHsl(20, 70, 50);
+            public static readonly ColorX Eocene = ColorX.FromHsl(20, 60, 50);
+            public static readonly ColorX Oligocene = ColorX.FromHsl(20, 50, 50);
 
             // 新近纪
-            public static readonly ColorX Miocene = ColorX.FromHSL(45, 75, 50);
-            public static readonly ColorX Pliocene = ColorX.FromHSL(45, 65, 50);
+            public static readonly ColorX Miocene = ColorX.FromHsl(45, 75, 50);
+            public static readonly ColorX Pliocene = ColorX.FromHsl(45, 65, 50);
 
             // 第四纪
-            public static readonly ColorX Pleistocene = ColorX.FromHSL(55, 85, 50);
-            public static readonly ColorX Holocene = ColorX.FromHSL(55, 75, 50);
+            public static readonly ColorX Pleistocene = ColorX.FromHsl(55, 85, 50);
+            public static readonly ColorX Holocene = ColorX.FromHsl(55, 75, 50);
             // public static readonly ColorX Anthropocene = Color.White;
 
-            public static readonly ColorX Present = Color.Black;
+            public static readonly ColorX Present = Colors.Black.ToColorX();
         }
 
         private static readonly Dictionary<int, ColorX> _EnumValueToColorTable = new Dictionary<int, ColorX>()
@@ -307,7 +307,7 @@ namespace TreeOfLife.UI.Extensions
             }
             else
             {
-                return Color.Black;
+                return Colors.Black.ToColorX();
             }
         }
     }

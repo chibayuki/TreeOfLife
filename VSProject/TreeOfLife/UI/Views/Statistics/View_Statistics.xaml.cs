@@ -22,13 +22,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using ColorX = Com.Chromatics.ColorX;
+using Com.Chromatics.Extensions;
+
 using TreeOfLife.Core;
 using TreeOfLife.Core.Statistics.Extensions;
 using TreeOfLife.Core.Taxonomy;
 using TreeOfLife.Core.Taxonomy.Extensions;
 using TreeOfLife.UI.Extensions;
-
-using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Views
 {
@@ -68,20 +69,20 @@ namespace TreeOfLife.UI.Views
             private TextBlock _TotalText = null;
             private List<(Border border, TextBlock rank, TextBlock count)> _DetailText = null;
 
-            private ColorX _ThemeColor = ColorX.FromRGB(128, 128, 128);
+            private ColorX _ThemeColor = ColorX.FromRgb(128, 128, 128);
             private bool _IsDarkTheme = false; // 是否为暗色主题。
 
             private void _UpdateTheme()
             {
-                _TitleBorder.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                _TitleBorder.Background = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
                 _TitleText.Foreground = _IsDarkTheme ? Brushes.Black : Brushes.White;
 
-                _TotalBorder.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-                _TotalText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                _TotalBorder.BorderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 20 : 80));
+                _TotalText.Foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
 
-                Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 12.5 : 87.5));
-                Brush borderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_HSL(_IsDarkTheme ? 20 : 80));
-                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLightness_LAB(50));
+                Brush background = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 12.5 : 87.5));
+                Brush borderBrush = Theme.GetSolidColorBrush(_ThemeColor.AtHslLightness(_IsDarkTheme ? 20 : 80));
+                Brush foreground = Theme.GetSolidColorBrush(_ThemeColor.AtLabLightness(50));
 
                 foreach ((Border border, TextBlock rank, TextBlock count) in _DetailText)
                 {

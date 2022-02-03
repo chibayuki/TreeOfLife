@@ -24,6 +24,8 @@ using System.Windows.Shapes;
 
 using System.Text.RegularExpressions;
 
+using Com.Chromatics.Extensions;
+
 using TreeOfLife.Core.Geology;
 using TreeOfLife.UI.Extensions;
 
@@ -278,7 +280,7 @@ namespace TreeOfLife.UI.Controls
                                                 new Point(4, 0.5),
                                                 new Point(8, 4.5)
                                             }),
-                                            Stroke = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
+                                            Stroke = Theme.GetSolidColorBrush(period.GetThemeColor().AtLabLightness(50).AtOpacity(50)),
                                             HorizontalAlignment = HorizontalAlignment.Center,
                                             VerticalAlignment = VerticalAlignment.Top
                                         };
@@ -290,7 +292,7 @@ namespace TreeOfLife.UI.Controls
                                         {
                                             BorderThickness = new Thickness(1),
                                             Height = 1,
-                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
+                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLabLightness(50).AtOpacity(50)),
                                             VerticalAlignment = VerticalAlignment.Center,
                                             SnapsToDevicePixels = true
                                         };
@@ -302,7 +304,7 @@ namespace TreeOfLife.UI.Controls
                                         {
                                             BorderThickness = new Thickness(1),
                                             Height = 1,
-                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
+                                            BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLabLightness(50).AtOpacity(50)),
                                             VerticalAlignment = VerticalAlignment.Center,
                                             SnapsToDevicePixels = true
                                         };
@@ -324,7 +326,7 @@ namespace TreeOfLife.UI.Controls
                                             {
                                                 BorderThickness = new Thickness(1),
                                                 Height = 1,
-                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
+                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLabLightness(50).AtOpacity(50)),
                                                 VerticalAlignment = VerticalAlignment.Center,
                                                 SnapsToDevicePixels = true,
                                                 Visibility = Visibility.Collapsed
@@ -345,7 +347,7 @@ namespace TreeOfLife.UI.Controls
                                             {
                                                 BorderThickness = new Thickness(1),
                                                 Height = 1,
-                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLightness_LAB(50).AtOpacity(50)),
+                                                BorderBrush = Theme.GetSolidColorBrush(period.GetThemeColor().AtLabLightness(50).AtOpacity(50)),
                                                 VerticalAlignment = VerticalAlignment.Center,
                                                 SnapsToDevicePixels = true,
                                                 Visibility = Visibility.Collapsed

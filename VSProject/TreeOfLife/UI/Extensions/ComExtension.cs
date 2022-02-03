@@ -19,9 +19,11 @@ using ColorX = Com.Chromatics.ColorX;
 
 namespace TreeOfLife.UI.Extensions
 {
-    // Com.dll 扩展（临时）
+    // Com类库的扩展方法
     public static class ComExtension
     {
-        public static Color ToWpfColor(this ColorX colorX) => Color.FromArgb((byte)(int)Math.Round(colorX.Alpha), (byte)(int)Math.Round(colorX.Red), (byte)(int)Math.Round(colorX.Green), (byte)(int)Math.Round(colorX.Blue));
+        public static Color ToWpfColor(this ColorX color) => Color.FromArgb((byte)(int)Math.Round(color.Alpha), (byte)(int)Math.Round(color.RgbRed), (byte)(int)Math.Round(color.RgbGreen), (byte)(int)Math.Round(color.RgbBlue));
+
+        public static ColorX ToColorX(this Color color) => ColorX.FromRgb(color.A, color.R, color.G, color.B);
     }
 }
