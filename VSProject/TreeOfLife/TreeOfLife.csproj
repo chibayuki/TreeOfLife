@@ -16,7 +16,7 @@
     <BaseOutputPath>..\..\Temp\Bin</BaseOutputPath>
     <BaseIntermediateOutputPath>..\..\Temp\Obj</BaseIntermediateOutputPath>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <DebugType>embedded</DebugType>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
