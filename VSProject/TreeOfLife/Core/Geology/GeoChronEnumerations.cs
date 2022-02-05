@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 地质年代的划分与英文名采用国际年代地层表（英文版）v2021/10版本
 namespace TreeOfLife.Core.Geology
 {
     // 地质年代类型。所有枚举用于计算 GeoChron 的哈希值，需要确保唯一性，下同。

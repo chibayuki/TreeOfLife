@@ -470,7 +470,8 @@ namespace TreeOfLife.UI.Controls
 
                 border_RankName.Visibility = !string.IsNullOrEmpty(textBlock_RankName.Text) ? Visibility.Visible : Visibility.Collapsed;
 
-                grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+                // grid_Undet.Visibility = _Taxon.IsNamed && _Taxon.IsUndet ? Visibility.Visible : Visibility.Collapsed;
+                grid_Undet.Visibility = Visibility.Collapsed; // 标题没有必要显示分类未定标志
                 grid_Ex.Visibility = _Taxon.IsNamed && _Taxon.IsExtinct ? Visibility.Visible : Visibility.Collapsed;
                 grid_Paraphyly.Visibility = _Taxon.IsNamed && _Taxon.IsParaphyly ? Visibility.Visible : Visibility.Collapsed;
                 grid_Polyphyly.Visibility = _Taxon.IsNamed && _Taxon.IsPolyphyly ? Visibility.Visible : Visibility.Collapsed;

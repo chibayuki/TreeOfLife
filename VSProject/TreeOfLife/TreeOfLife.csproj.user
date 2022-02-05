@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>E:\#V_开发\vNext\VS 2012-2019 - C#\TreeOfLife\M15\1.0.1512.1000.M15.220204-0000\VSProject\TreeOfLife\Properties\PublishProfiles\AnyCPU.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>E:\#V_开发\vNext\VS 2012-2019 - C#\TreeOfLife\M15\1.0.1513.1000.M15.220205-0000\VSProject\TreeOfLife\Properties\PublishProfiles\WinX64%28R2R%29.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">

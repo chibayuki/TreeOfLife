@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 地质年代的中文名采用国际年代地层表（中文版）v2021/05版本
 namespace TreeOfLife.Core.Geology.Extensions
 {
     // 地质年代的中文相关扩展方法。
